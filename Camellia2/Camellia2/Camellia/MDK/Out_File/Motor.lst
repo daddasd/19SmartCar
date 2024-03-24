@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              24/03/24  10:06:23  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              24/03/24  14:08:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
    55   2        }
    56   1        else{
-C251 COMPILER V5.60.0,  Motor                                                              24/03/24  10:06:23  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              24/03/24  14:08:12  PAGE 2   
 
    57   2          MOTOR_L_DIR=0;
    58   2          pwm_duty(MOTOR_L_PWM,L_PWM);
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
   121   1        MOTOR_PWM += Motor_pid.Motor_Out_Value;
   122   1        MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
-C251 COMPILER V5.60.0,  Motor                                                              24/03/24  10:06:23  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              24/03/24  14:08:12  PAGE 3   
 
   123   1        return (int)MOTOR_PWM;
   124   1      }

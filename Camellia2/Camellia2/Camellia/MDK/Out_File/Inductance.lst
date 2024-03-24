@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  10:06:23  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    52          uint16 adc_mean_filter(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
    53          {
    54   1        uint8 i;
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  10:06:23  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 2   
 
    55   1        uint16 adc_value = 0;
    56   1        for (i = 0;i < count;i++)
@@ -134,7 +134,7 @@ stmt  level    source
   118          //--
   119          void SaoMiao_Track(void)
   120          {
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  10:06:23  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 3   
 
   121   1      
   122   1        Read_adValue();
@@ -202,7 +202,7 @@ stmt  level    source
   183   1        Left_Val=sqrt(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
   184   1        Right_Val=sqrt(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
   185   1        ad_sum=Left_Val+Right_Val;
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  10:06:23  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 4   
 
   186   1        ad_diff=Left_Val-Right_Val;
   187   1        if(ad_sum>35)
@@ -271,7 +271,7 @@ Module Information          Static   Overlayable
   xdata-const size     =    ------     ------
   edata size           =       298     ------
   bit size             =    ------     ------
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  10:06:23  PAGE 5   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 5   
 
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

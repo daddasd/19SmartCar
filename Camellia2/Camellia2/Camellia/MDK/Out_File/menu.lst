@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 1   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE menu
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        while(1)
    55   1        {
    56   2          if(key3==0) // 下一项
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 2   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 2   
 
    57   2          {
    58   3            delay_ms(10);
@@ -134,7 +134,7 @@ stmt  level    source
   120   4              oled_p6x8str(0,1,"   "); 
   121   4              oled_p6x8str(0,2,"   ");
   122   4              oled_p6x8str(0,3,"-->");
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 3   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 3   
 
   123   4              oled_p6x8str(0,4,"   ");
   124   4              oled_p6x8str(0,5,"   ");
@@ -202,7 +202,7 @@ stmt  level    source
   186   3                  delay_ms(10);
   187   3                  while (key2 == 0);
   188   3                  delay_ms(10);
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 4   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 4   
 
   189   3                  Order++;
   190   3                  if(Order == 5){
@@ -270,7 +270,7 @@ stmt  level    source
   249   3                  delay_ms(10);
   250   3                  flag++;
   251   3                  if (flag == 5) flag = 1;
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 5   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 5   
 
   252   3              }
   253   2              if (key1 == 0) // 上一项
@@ -338,7 +338,7 @@ stmt  level    source
   315   6                              Val_add_lose = 1;
   316   6                              count = 0;
   317   6                          }
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 6   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 6   
 
   318   5                      }
   319   4                      if (flag == 4)
@@ -406,7 +406,7 @@ stmt  level    source
   379   3                oled_printf_float_px8(45, 6, Wh_D, 3, 2); // 外环D
   380   3              } else if (page == 2) {
   381   3                  if(page1==2)
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 7   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 7   
 
   382   3                  {
   383   4                    oled_fill(0x00);
@@ -475,7 +475,7 @@ Module Information          Static   Overlayable
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
-C251 COMPILER V5.60.0,  menu                                                               24/03/24  10:06:24  PAGE 8   
+C251 COMPILER V5.60.0,  menu                                                               24/03/24  14:08:12  PAGE 8   
 
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------

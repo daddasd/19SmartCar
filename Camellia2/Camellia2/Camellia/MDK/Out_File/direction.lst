@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          24/03/24  10:06:24  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          24/03/24  14:08:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -66,7 +66,7 @@ stmt  level    source
    54   1          static float last_error = 0;
    55   1          float Output;
    56   1          float error_derivative;
-C251 COMPILER V5.60.0,  direction                                                          24/03/24  10:06:24  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          24/03/24  14:08:12  PAGE 2   
 
    57   1          // 计算位置误差
    58   1          error = err-mpu6050_gyro_z*0.75;
@@ -134,7 +134,7 @@ stmt  level    source
   120          
   121          /**
   122           * @brief  方向环方案二，陀螺仪作为d项抑制
-C251 COMPILER V5.60.0,  direction                                                          24/03/24  10:06:24  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          24/03/24  14:08:12  PAGE 3   
 
   123           * 
   124           * @param chazhi  

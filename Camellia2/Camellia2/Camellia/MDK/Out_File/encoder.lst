@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  10:06:23  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  10:06:23  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        Roundabout();
 *** WARNING C96 IN LINE 120 OF ..\USER\Hardware\encoder.c: 'Roundabout': too few actual parameters
   121   1        if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  10:06:23  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 3   
 
   122   1          Tracking(105);//正常循迹 105 为速度，speed_chang 为速度规划的速度
   123   1        ctimer_count_clean(Encoder_L);
