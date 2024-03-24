@@ -54,7 +54,6 @@ void main()
 //			if(menu == 2) Second_Motor_menu();
 //			if(menu == 3) Second__NWHuan_menu();
 			//if(menu == 1)
-			
 			 if(flag==0)
 			 {
 			 	SaoMiao_Track();
@@ -67,9 +66,7 @@ void main()
 			 		Encoder_Time_Init();
 			 	flag=1;
 			 	show_val();  
-
 			 }
-			 dasd1
 		}
 }
 
