@@ -1,0 +1,11 @@
+#ifndef _MPU6050_H
+#define _MPU6050_H
+
+extern int16  Angle;//мсбщрг╫г╤х
+float gyro_zero_wander(void);
+int medianFilter1(int window[]);
+double lowPassFilter(double current, double previous, float alpha);
+double Get_Angle();
+
+#endif
+ 
