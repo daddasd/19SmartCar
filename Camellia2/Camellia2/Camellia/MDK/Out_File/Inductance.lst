@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  18:20:21  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    52          uint16 adc_mean_filter(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
    53          {
    54   1        uint8 i;
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  18:20:21  PAGE 2   
 
    55   1        uint16 adc_value = 0;
    56   1        for (i = 0;i < count;i++)
@@ -90,12 +90,12 @@ stmt  level    source
    74   1        uint16 ad_valu1[6] = {0};
    75   1        for(i=0;i<5;i++)  //读取五次电感
    76   1        {
-   77   2          ad_value[0][i]=adc_once(ADC_P03,ADC_10BIT);
-   78   2          ad_value[1][i]=adc_once(ADC_P02,ADC_10BIT);
-   79   2          ad_value[2][i]=adc_once(ADC_P01,ADC_10BIT);
-   80   2          ad_value[3][i]=adc_once(ADC_P11,ADC_10BIT);
-   81   2          ad_value[4][i]=adc_once(ADC_P10,ADC_10BIT);
-   82   2          ad_value[5][i]=adc_once(ADC_P06,ADC_10BIT);
+   77   2          ad_value[0][i]=adc_once(ADC_P11,ADC_10BIT);
+   78   2          ad_value[1][i]=adc_once(ADC_P10,ADC_10BIT);
+   79   2          ad_value[2][i]=adc_once(ADC_P06,ADC_10BIT);
+   80   2          ad_value[3][i]=adc_once(ADC_P02,ADC_10BIT);
+   81   2          ad_value[4][i]=adc_once(ADC_P03,ADC_10BIT);
+   82   2          ad_value[5][i]=adc_once(ADC_P01,ADC_10BIT);
    83   2        }
    84   1      /*=========================冒泡排序升序==========================*///舍弃最大值和最小值
    85   1         for(i=0;i<6;i++)
@@ -134,7 +134,7 @@ stmt  level    source
   118          //--
   119          void SaoMiao_Track(void)
   120          {
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  18:20:21  PAGE 3   
 
   121   1      
   122   1        Read_adValue();
@@ -202,7 +202,7 @@ stmt  level    source
   183   1        Left_Val=sqrt(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
   184   1        Right_Val=sqrt(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
   185   1        ad_sum=Left_Val+Right_Val;
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  18:20:21  PAGE 4   
 
   186   1        ad_diff=Left_Val-Right_Val;
   187   1        if(ad_sum>35)
@@ -271,7 +271,7 @@ Module Information          Static   Overlayable
   xdata-const size     =    ------     ------
   edata size           =       298     ------
   bit size             =    ------     ------
-C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  14:08:12  PAGE 5   
+C251 COMPILER V5.60.0,  Inductance                                                         24/03/24  18:20:21  PAGE 5   
 
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

@@ -48,25 +48,19 @@ void main()
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
-//			mpu6050_get_gyro();
-//			menu = First_menu();
-//			if(menu == 1) Second_Element_menu();
-//			if(menu == 2) Second_Motor_menu();
-//			if(menu == 3) Second__NWHuan_menu();
-			//if(menu == 1)
-			 if(flag==0)
-			 {
-			 	SaoMiao_Track();
-			 	NORMALIZATION_TRACKING_ADC(1.2,1.5);
-			 	show_val();//显示测得数据 
-			 }
-			 if(P45==0||flag==1)
-			 {
-			 	if(flag==0)
-			 		Encoder_Time_Init();
-			 	flag=1;
-			 	show_val();  
-			 }
+			mpu6050_get_gyro();
+			menu = First_menu();
+			if(menu == 1) Second_Element_menu();
+			if(menu == 2) Second_Motor_menu();
+			if(menu == 3) Second__NWHuan_menu();
+			if(menu == 4) Second__Speed_menu();
+			if(menu == 5) Show_Val_Menu();
+			if(menu == 6){
+				flag=CarStart_Menu();
+				menu = 0;
+			}
+			if(flag==1)
+				Encoder_Time_Init();
 		}
 }
 

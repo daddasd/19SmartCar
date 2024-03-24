@@ -3,6 +3,7 @@
     "files.associations": {
         "motor.h": "c",
         "myconfig.h": "c",
-        "headfile.h": "c"
+        "headfile.h": "c",
+        "zf_gpio.h": "c"
     }
 }

@@ -4,7 +4,7 @@
 int dir_out=0,nh_out=0;
 int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
 double angle1=0.0;
-
+int speed = 105;
 
 //--
 //  @brief    	±àÂëÆ÷³õÊ¼»¯

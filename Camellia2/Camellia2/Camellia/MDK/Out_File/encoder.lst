@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -16,7 +16,7 @@ stmt  level    source
     4          int dir_out=0,nh_out=0;
     5          int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
     6          double angle1=0.0;
-    7          
+    7          int speed = 105;
     8          
     9          //--
    10          //  @brief      编码器初始化
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        Roundabout();
 *** WARNING C96 IN LINE 120 OF ..\USER\Hardware\encoder.c: 'Roundabout': too few actual parameters
   121   1        if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  14:08:12  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 3   
 
   122   1          Tracking(105);//正常循迹 105 为速度，speed_chang 为速度规划的速度
   123   1        ctimer_count_clean(Encoder_L);
@@ -152,7 +152,7 @@ Module Information          Static   Overlayable
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        28     ------
+  edata size           =        30     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -160,7 +160,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        56     ------
+  hconst size          =        62     ------
 End of Module Information.
 
 

@@ -353,40 +353,17 @@ int Second_Motor_menu(void)
 
 int Second__NWHuan_menu(void)
 {
-    int flag = 1, i = 0;
+    int flag = 1, i = 0,count=0,Val_add_lose=1;
+    float x =1,x1=0.005;
+    uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
-	  int page1 = 1;
+	int page1 = 1;
     if(page == 1)
-		{
-			 oled_fill(0x00);
-		}
+    {
+            oled_fill(0x00);
+    }
     while (1)
     {
-        if (page == 1) {
-					if(page1==1)
-					{
-						oled_fill(0x00);
-						page1=2;
-					}
-					oled_p8x16str(22, 0, "N_P");  
-					oled_printf_float_px8(45, 0, Nh_P, 2, 3); // 内环P
-					oled_p8x16str(22, 2, "N_D");  
-					oled_printf_float_px8(45, 2, Nh_D, 2, 3); // 内环D
-					oled_p8x16str(22, 4, "W_P");  
-					oled_printf_float_px8(45, 4, Wh_P, 3, 2); // 外环P
-					oled_p8x16str(22, 6, "W_D");  
-					oled_printf_float_px8(45, 6, Wh_D, 3, 2); // 外环D
-        } else if (page == 2) {
-						if(page1==2)
-						{
-							oled_fill(0x00);
-							page1=1;							
-						}
-            oled_p8x16str(22, 0, "Add");
-            oled_p8x16str(22, 2, "W_Val");
-            oled_p8x16str(22, 4, "N_Val");
-        }
-        
         // 监听按键操作
         if (key3 == 0) // 下一项
         {
@@ -417,14 +394,237 @@ int Second__NWHuan_menu(void)
                 page = 1; // 切换到第一页
             }
         }	
-        
+        //----------------------一二页区---------------------------//
+        if (page == 1)  //第一页
+        {
+            if(page1==1)
+            {
+                oled_fill(0x00);
+                page1=2;
+                oled_p8x16str(22, 0, "N_P");  
+                oled_printf_float_px8(45, 0, Nh_P, 2, 3); // 内环P
+                oled_p8x16str(22, 2, "N_D");  
+                oled_printf_float_px8(45, 2, Nh_D, 2, 3); // 内环D
+                oled_p8x16str(22, 4, "W_P");  
+                oled_printf_float_px8(45, 4, Wh_P, 3, 2); // 外环P
+                oled_p8x16str(22, 6, "W_D");  
+                oled_printf_float_px8(45, 6, Wh_D, 3, 2); // 外环D
+            }
+        } 
+        else if (page == 2) //第二页
+        {
+            if(page1==2)
+            {
+                oled_fill(0x00);
+                page1=1;	
+                oled_p8x16str(22, 0, "Add");
+                oled_p8x16str(22, 2, "W_Val");
+                oled_p8x16str(22, 4, "N_Val");						
+            }
+        }
+//----------------------一二页区---------------------------//
+        if (key2 == 0&&page==1) // 确定并且在第一页
+        {
+            delay_ms(10);
+            long_press_delay = 0;
+            while (key2 == 0)
+            {
+                delay_ms(10);
+                long_press_delay += 10;
+                if (long_press_delay >= INTERVAL_TIME - pree_delay)
+                {
+                    if (flag == 1) {
+                        oled_printf_float_px8(45, 0, Nh_P, 2, 3);
+                        Nh_P = Nh_P + x1 * Val_add_lose;
+                    } else if (flag == 2) {
+                        oled_printf_float_px8(45, 2, Nh_D, 2, 3);
+                        Nh_D = Nh_D + x1 * Val_add_lose;
+                    } else if (flag == 3) {
+                        Wh_P = Wh_P + x* Val_add_lose;
+                        oled_printf_float_px8(45, 4, Wh_P, 3, 2);
+                    } else if (flag == 4) {
+                        Wh_D = Wh_D + x * Val_add_lose;
+                        oled_printf_float_px8(45, 6, Wh_D, 3, 2);
+                    }
+                    pree_delay += 150;
+                    if (pree_delay > 1000) pree_delay = 1000;
+                    long_press_delay = 0;
+                }
+            }
+            delay_ms(10);
+            if (long_press_delay < 800)
+            {
+                pree_delay = 0;
+                switch(flag)
+                {
+                    case 1:
+                    {
+                        oled_printf_float_px8(45, 0, Nh_P, 2, 3);
+                        Nh_P = Nh_P + x1 * Val_add_lose;
+                    }break;
+                    case 2:
+                    {
+                        oled_printf_float_px8(45, 2, Nh_D, 2, 3);
+                        Nh_D = Nh_D + x1 * Val_add_lose;
+                    }break;
+                    case 3:
+                    {
+                        Wh_P = Wh_P + x * Val_add_lose;
+                        oled_printf_float_px8(45, 4, Wh_P, 3, 2);
+                    }break;
+                    case 4:
+                    {
+                        Wh_D = Wh_D + x * Val_add_lose;
+                        oled_printf_float_px8(45, 6, Wh_D, 3, 2);
+                    }break;
+                }   
+
+            }
+        }	
+        if (key2 == 0&&page==2) // 确定并且在第一页
+        {
+            delay_ms(10);
+            while(key2==0);
+            delay_ms(10);
+            if (flag == 1)//并且在第二页 第一列add与lose
+            {
+                if (count == 0)
+                {
+                    oled_p8x16str(22, 0, "    ");   // 减值
+                    oled_p8x16str(22, 0, "Lose");   // 减值
+                    Val_add_lose = -1;
+                    count = 1;
+                }
+                else if (count == 1)
+                {
+                    oled_p8x16str(22, 0, "    ");   // 加值
+                    oled_p8x16str(22, 0, "Add");    // 加值
+                    Val_add_lose = 1;
+                    count = 0;
+                }
+            }
+            if (flag == 2)
+            {
+                x = x + 0.5 * Val_add_lose;
+                oled_printf_float_px8(50, 2, x, 3, 1);
+            }
+            if(flag==3)
+            {
+                x1 = x1 + 0.005 * Val_add_lose;
+                oled_printf_float_px8(50, 4, x1, 1, 3);                    
+            }
+        }
+        if (key4 == 0)  // 返回
+        {
+            delay_ms(10);
+            while (key4 == 0);
+            delay_ms(10);
+            oled_fill(0x00); // 清屏
+            return 0; // 返回选择的选项
+        }
         // 更新光标位置
         for (i = 0; i < MENU_SIZE; i++)
         {
             if (i + 1 == flag)
                 oled_p8x16str(0, i * 2, "->");  // 光标指示当前选中项
             else
-                oled_p8x16str(0, i * 2, "   ");
+                oled_p8x16str(0, i * 2, "  ");
+        } 
+    }
+}
+
+
+//--
+//  @brief      二级调节速度菜单
+//  @param      void    
+//  @return     0 退出二级菜单    
+//--
+
+int Second__Speed_menu(void)
+{
+    oled_fill(0x00);
+    oled_p8x16str(0, 0, "Speed");
+    oled_uint16_px8(45,0, speed); 
+    while(1)
+    {
+        if(key2==0)
+        {
+            delay_ms(10);
+            while(key2==0);
+            delay_ms(10);
+            speed=speed+1;
+            oled_uint16_px8(45,0, speed); 
+        } 
+        if(key3==0)
+        {
+            delay_ms(10);
+            while(key3==0);
+            delay_ms(10);
+            speed=speed-1;
+            oled_uint16_px8(45,0, speed); 
+        }
+        if (key4 == 0)  // 返回
+        {
+            delay_ms(10);
+            while (key4 == 0);
+            delay_ms(10);
+            oled_fill(0x00); // 清屏
+            return 0; // 返回选择的选项
+        }
+    }
+}
+
+
+//--
+//  @brief      二级显示数据菜单
+//  @param      void    
+//  @return     0 退出二级菜单    
+//--
+
+int Show_Val_Menu(void)
+{
+    while(1)
+    {
+        show_val();
+        SaoMiao_Track();
+	    NORMALIZATION_TRACKING_ADC(1.2,1.5);
+        if (key4 == 0)  // 返回
+        {
+            delay_ms(10);
+            while (key4 == 0);
+            delay_ms(10);
+            oled_fill(0x00); // 清屏
+            return 0; // 返回选择的选项
+        }
+    }
+}
+//--
+//  @brief      二级启动菜单
+//  @param      void    
+//  @return     0 退出二级菜单    
+//--
+
+int CarStart_Menu(void)
+{
+    while(1)
+    {
+        oled_p8x16str(0, 0, "Car_Start");
+        if(key2==0)
+        {
+            delay_ms(10);
+            while (key2==0)
+            {
+                delay_ms(10);
+                return 1;// 小车启动
+            }
+        }      
+        if (key4 == 0)  // 返回
+        {
+            delay_ms(10);
+            while (key4 == 0);
+            delay_ms(10);
+            oled_fill(0x00); // 清屏
+            return 0; // 返回选择的选项
         } 
     }
 }

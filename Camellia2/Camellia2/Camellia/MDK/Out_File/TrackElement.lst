@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  14:08:12  PAGE 1   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  18:20:22  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          Track_flag=0;
    55   2          bmq_jifen+=(R_Pulse+L_Pulse)/2;
    56   2          if(bmq_jifen>524)
-C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  14:08:12  PAGE 2   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  18:20:22  PAGE 2   
 
    57   2          {
    58   3            bmq_jifen=0;
@@ -134,7 +134,7 @@ stmt  level    source
   120   4            }
   121   3          }
   122   2          else if(status==3) //出环岛
-C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  14:08:12  PAGE 3   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  18:20:22  PAGE 3   
 
   123   2          {
   124   3            if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//出六边环岛
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  14:08:12  PAGE 4   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/03/24  18:20:22  PAGE 4   
 
   edata size           =        90     ------
   bit size             =    ------     ------

@@ -10,8 +10,10 @@ extern float out_dir_p;
 extern float out_dir_d;
 
 int  Show_AllVal(int flag1);
-void First_Show(void);
 int First_menu(void);
 int Second_Element_menu(void);
 int Second__NWHuan_menu(void);
+int Second__Speed_menu(void);
+int Show_Val_Menu(void);
+int CarStart_Menu(void);
 #endif

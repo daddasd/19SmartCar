@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               24/03/24  14:08:19  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               24/03/24  18:24:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -59,40 +59,51 @@ stmt  level    source
    48   1          // 此处编写用户代码 例如外设初始化代码等
    49   1          while(1)
    50   1          {
-   51   2      //      mpu6050_get_gyro();
-   52   2      //      menu = First_menu();
-   53   2      //      if(menu == 1) Second_Element_menu();
-   54   2      //      if(menu == 2) Second_Motor_menu();
-   55   2      //      if(menu == 3) Second__NWHuan_menu();
-   56   2            //if(menu == 1)
-   57   2            dsa1
-C251 COMPILER V5.60.0,  main                                                               24/03/24  14:08:19  PAGE 2   
+   51   2            mpu6050_get_gyro();
+   52   2            menu = First_menu();
+   53   2            if(menu == 1) Second_Element_menu();
+   54   2            if(menu == 2) Second_Motor_menu();
+*** WARNING C140 IN LINE 54 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+             -()'
+   55   2            if(menu == 3) Second__NWHuan_menu();
+C251 COMPILER V5.60.0,  main                                                               24/03/24  18:24:11  PAGE 2   
 
-   58   2             if(flag==0)
-*** ERROR C67 IN LINE 58 OF ..\USER\src\main.c: 'dsa1': undefined identifier
-*** ERROR C25 IN LINE 58 OF ..\USER\src\main.c: syntax error near 'if'
-   59   2             {
-   60   3              SaoMiao_Track();
-   61   3              NORMALIZATION_TRACKING_ADC(1.2,1.5);
-   62   3              show_val();//显示测得数据 
-   63   3             }
-   64   2             if(P45==0||flag==1)
-   65   2             {
-   66   3              if(flag==0)
-   67   3                Encoder_Time_Init();
-   68   3              flag=1;
-   69   3              show_val();  
-   70   3              //dasd      
-   71   3             }
-   72   2             dasd1
-   73   2          }
-*** ERROR C67 IN LINE 72 OF ..\USER\src\main.c: 'dasd1': undefined identifier
-*** ERROR C25 IN LINE 73 OF ..\USER\src\main.c: syntax error near '}'
-   74   2      }
-   75   2      
-   76   2      
-   77   2      //调不动就回家
-   78   2      
-   79   2                                           
+   56   2            if(menu == 4) Second__Speed_menu();
+   57   2            if(menu == 5) Show_Val_Menu();
+   58   2            if(menu == 6){
+   59   3              flag=CarStart_Menu();
+   60   3              menu = 0;
+   61   3            }
+   62   2            if(flag==1)
+   63   2              Encoder_Time_Init();
+   64   2          }
+   65   1      }
+   66          
+   67          
+   68          //调不动就回家
+   69          
+   70                                               
 
-C251 COMPILATION COMPLETE.  0 WARNING(S),  4 ERROR(S)
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       211     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =         6     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        12     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
