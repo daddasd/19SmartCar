@@ -225,7 +225,6 @@ int Second_Element_menu(void)
 //  @return     0 退出二级菜单    
 //--
 
-
 int Second_Motor_menu(void)
 {
     int flag = 0, Val_add_lose = 1, i = 0, count = 0;

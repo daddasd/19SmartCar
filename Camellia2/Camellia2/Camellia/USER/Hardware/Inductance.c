@@ -74,12 +74,12 @@ void Read_adValue(void)
 	uint16 ad_valu1[6] = {0};
 	for(i=0;i<5;i++)  //读取五次电感
 	{
-		ad_value[0][i]=adc_once(ADC_P03,ADC_10BIT);
-		ad_value[1][i]=adc_once(ADC_P02,ADC_10BIT);
-		ad_value[2][i]=adc_once(ADC_P01,ADC_10BIT);
-		ad_value[3][i]=adc_once(ADC_P11,ADC_10BIT);
-		ad_value[4][i]=adc_once(ADC_P10,ADC_10BIT);
-		ad_value[5][i]=adc_once(ADC_P06,ADC_10BIT);
+		ad_value[0][i]=adc_once(ADC_P11,ADC_10BIT);
+		ad_value[1][i]=adc_once(ADC_P10,ADC_10BIT);
+		ad_value[2][i]=adc_once(ADC_P06,ADC_10BIT);
+		ad_value[3][i]=adc_once(ADC_P02,ADC_10BIT);
+		ad_value[4][i]=adc_once(ADC_P03,ADC_10BIT);
+		ad_value[5][i]=adc_once(ADC_P01,ADC_10BIT);
 	}
 /*=========================冒泡排序升序==========================*///舍弃最大值和最小值
 	 for(i=0;i<6;i++)
