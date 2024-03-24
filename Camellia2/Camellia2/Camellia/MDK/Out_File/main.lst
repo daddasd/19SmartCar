@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               23/03/24  20:14:30  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               24/03/24  11:14:33  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -59,42 +59,39 @@ stmt  level    source
    48   1          // 此处编写用户代码 例如外设初始化代码等
    49   1          while(1)
    50   1          {
-   51   2            mpu6050_get_gyro();
-   52   2            menu = First_menu();
-   53   2            if(menu == 1) Second_Element_menu();
-   54   2            if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 54 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
-             -()'
-   55   2            if(menu == 3) Second__NWHuan_menu();
-C251 COMPILER V5.60.0,  main                                                               23/03/24  20:14:30  PAGE 2   
-
+   51   2      //      mpu6050_get_gyro();
+   52   2      //      menu = First_menu();
+   53   2      //      if(menu == 1) Second_Element_menu();
+   54   2      //      if(menu == 2) Second_Motor_menu();
+   55   2      //      if(menu == 3) Second__NWHuan_menu();
    56   2            //if(menu == 1)
-   57   2            // if(flag==0)
-   58   2            // {
-   59   2            //  SaoMiao_Track();
-   60   2            //  Key_choose();
-   61   2            //  NORMALIZATION_TRACKING_ADC(1.2,1.5);
-   62   2            //  show_val();//显示测得数据 
-   63   2            // }
-   64   2            // if(P45==0||flag==1)
-   65   2            // {
-   66   2            //  if(flag==0)
-   67   2            //    Encoder_Time_Init();
-   68   2            //  flag=1;
-   69   2            //  show_val();        
-   70   2            // }
-   71   2          }
-   72   1      }
+   57   2             if(flag==0)
+C251 COMPILER V5.60.0,  main                                                               24/03/24  11:14:33  PAGE 2   
+
+   58   2             {
+   59   3              SaoMiao_Track();
+   60   3              NORMALIZATION_TRACKING_ADC(1.2,1.5);
+   61   3              show_val();//显示测得数据 
+   62   3             }
+   63   2             if(P45==0||flag==1)
+   64   2             {
+   65   3              if(flag==0)
+   66   3                Encoder_Time_Init();
+   67   3              flag=1;
+   68   3              show_val();        
+   69   3             }
+   70   2          }
+   71   1      }
+   72          
    73          
-   74          
-   75          //调不动就回家
-   76          
-   77                                               
+   74          //调不动就回家
+   75          
+   76                                               
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       141     ------
+  code size            =       164     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -113,4 +110,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
