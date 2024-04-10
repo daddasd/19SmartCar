@@ -8,21 +8,21 @@
 #include "myconfig.h"
 
 
-#define WINDOW_SIZE 5
 #define filter_n 9//Êý×é³¤¶È
 
-int16 adc_buf[6][filter_n + 1]={0};
-uint16 adc_buf_flag[6] = {0};
+
 uint16 Left_Val=0,Right_Val=0;
 int16 ad_sum=0;
 int16 ad_diff=0;
-uint16 ad_value[6][5]={0};
-uint16 R1,R2,R3,L1,L2,L3;//ÂË²¨Ö®ºóµÄµç¸ÐÖµ
-uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_ADC=0;
+uint16 ad_value[7][10]={0};//Ô­Ê¼Êý¾Ý
+uint16 R1,R2,R3,L1,L2,L3,M1;//ÂË²¨Ö®ºóµÄµç¸ÐÖµ
+uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_ADC=0,M1_NOR_ADC=0;
+float NOR_VAL[7]={0};
+float AD_NOR_VAL[7]={0}; //¹éÒ»»¯Öµ
 int16 Inductance_Error=0; //µç¸ÐÎó²î
-uint16 ADC_MAX[6]={0,0,0,0,0,0};
-uint16 ADC_MIN[6]={4096,4096,4096,4096,4096,4096}; //²â³öµÄµç¸Ð×î´ó£¬Óë×îÐ¡Öµ´Ó×óµ½ÓÒ
-
+uint16 ADC_MIN[7]={158,158,158,158,158,158,158};
+uint16 ADC_MAX[7]={2100,2100,2100,2150,2100,2100,2100}; //²â³öµÄµç¸Ð×î´ó£¬Óë×îÐ¡Öµ´Ó×óµ½ÓÒ
+int bug=0;
 /**
 *  @brief      ADC²É¼¯³õÊ¼»¯
 *  @param      void
@@ -31,125 +31,16 @@ uint16 ADC_MIN[6]={4096,4096,4096,4096,4096,4096}; //²â³öµÄµç¸Ð×î´ó£¬Óë×îÐ¡Öµ´Ó×
 
 void Inductance_Init(void)
 {
+	  adc_init(ADC_P11, ADC_SYSclk_DIV_2);
+	  adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+	  adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
+    adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
 		adc_init(ADC_P03, ADC_SYSclk_DIV_2);
-    adc_init(ADC_P02, ADC_SYSclk_DIV_2);	
-    adc_init(ADC_P01, ADC_SYSclk_DIV_2);	
-    adc_init(ADC_P11, ADC_SYSclk_DIV_2);	
-    adc_init(ADC_P10, ADC_SYSclk_DIV_2);	
-    adc_init(ADC_P06, ADC_SYSclk_DIV_2);	
-    adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-    adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+	  adc_init(ADC_P02, ADC_SYSclk_DIV_2);
+    adc_init(ADC_P00, ADC_SYSclk_DIV_2);
 }
 
-//-------------------------------------------------------------------------------------------------------------------
-//  @brief      ADC¾ùÖµÂË²¨
-//  @param      adcn            Ñ¡ÔñADCÍ¨µÀ
-//  @param      count      		²É¼¯´ÎÊý
-//  @param      resolution      ·Ö±æÂÊ		
-//  @return     void
-//  Sample usage:               adc_mean_filter(ADC_P10, 10,ADC_10BIT);
-//-------------------------------------------------------------------------------------------------------------------
-uint16 adc_mean_filter(ADCN_enum adcn, uint8 count,ADCRES_enum resolution)
-{
-	uint8 i;
-	uint16 adc_value = 0;
-	for (i = 0;i < count;i++)
-	{	
-		adc_value += adc_once(adcn,resolution);
-	}
-	adc_value = adc_value / count;
-	return (uint16)adc_value;
-}
- 
 
-//--
-//  @brief    	¶ÁÈ¡Óë´¦Àíµç¸ÐÖµ
-//  @param      void
-//  @return     void         
-//--
-void Read_adValue(void)
-{
-	int i = 0 , j = 0 , k = 0,temp = 0;
-	int ad_sum[6] = {0};
-	uint16 ad_valu1[6] = {0};
-	for(i=0;i<5;i++)  //¶ÁÈ¡Îå´Îµç¸Ð
-	{
-		ad_value[0][i]=adc_once(ADC_P11,ADC_10BIT);
-		ad_value[1][i]=adc_once(ADC_P10,ADC_10BIT);
-		ad_value[2][i]=adc_once(ADC_P06,ADC_10BIT);
-		ad_value[3][i]=adc_once(ADC_P02,ADC_10BIT);
-		ad_value[4][i]=adc_once(ADC_P03,ADC_10BIT);
-		ad_value[5][i]=adc_once(ADC_P01,ADC_10BIT);
-	}
-/*=========================Ã°ÅÝÅÅÐòÉýÐò==========================*///ÉáÆú×î´óÖµºÍ×îÐ¡Öµ
-	 for(i=0;i<6;i++)
-	 {
-			for(j=0;j<6;j++)
-			{
-				 for(k=0;k<6-j;k++)
-				 {
-						if(ad_value[i][k] > ad_value[i][k+1])        //Ç°ÃæµÄ±ÈºóÃæµÄ´ó  Ôò½øÐÐ½»»»
-						{
-							 temp = ad_value[i][k+1];
-							 ad_value[i][k+1] = ad_value[i][k];
-							 ad_value[i][k] = temp;
-						}
-				 }
-			}
-	 }	
-/*===========================ÖÐÖµÂË²¨=================================*/
-     for(i=0;i<6;i++)    //ÇóÖÐ¼äÈýÏîµÄºÍ
-     {
-        ad_sum[i] = ad_value[i][1] + ad_value[i][2] + ad_value[i][3];
-        ad_valu1[i] = ad_sum[i] / 3;
-     }
-/*=========================¸³Öµ¸÷¸öµç¸Ð==============================*/
-		 L1=ad_valu1[0];
-		 L2=ad_valu1[1];
-		 L3=ad_valu1[2];
-		 R1=ad_valu1[3];
-		 R2=ad_valu1[4];
-		 R3=ad_valu1[5];
-}
-//--
-//  @brief    	É¨ÃèÈüµÀÇó³öµç¸ÐµÄ×î´óÖµÓë×îÐ¡Öµ
-//  @param      void
-//  @return     void         
-//--
-void SaoMiao_Track(void)
-{
-
-	Read_adValue();
-	if(L1>ADC_MAX[0]) //×ó1µç¸Ð
-		ADC_MAX[0]=L1;
-	if(L1<ADC_MIN[0])
-		ADC_MIN[0]=L1;
-	if(L2>ADC_MAX[1]) //×ó2µç¸Ð
-		ADC_MAX[1]=L2;
-	if(L2<ADC_MIN[1])
-		ADC_MIN[1]=L2;
-
-	if(L3>ADC_MAX[2]) //×ó3µç¸Ð
-		ADC_MAX[2]=L3;
-	if(L3<ADC_MIN[2])
-		ADC_MIN[2]=L3;
-
-	if(R3>ADC_MAX[3]) //ÓÒ3µç¸Ð
-		ADC_MAX[3]=R3;
-	if(R3<ADC_MIN[3])
-		ADC_MIN[3]=R3;
-
-	if(R2>ADC_MAX[4]) //ÓÒ2µç¸Ð
-		ADC_MAX[4]=R2;
-	if(R2<ADC_MIN[4])
-		ADC_MIN[4]=R2;
-
-	if(R1>ADC_MAX[5]) //ÓÒ1µç¸Ð
-		ADC_MAX[5]=R1;
-	if(R1<ADC_MIN[5])
-		ADC_MIN[5]=R1;	
-		
-}
 
 /**
 *  @brief      ¹éÒ»»¯´¦Àíµç¸ÐÖµ²¢Ñ­¼£¿ØÖÆ
@@ -158,23 +49,90 @@ void SaoMiao_Track(void)
 **/
 int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)  
 {
-//	ADC_MAX[0]=4010;ADC_MAX[1]=1120;ADC_MAX[2]=1125;ADC_MAX[3]=1125;ADC_MAX[4]=1120;ADC_MAX[5]=1110;//´ò¿ª´Ë´úÂë·ÅÆúÈüµÀÉ¨Ãè
-//	ADC_MIN[0]=0;ADC_MIN[1]=0;ADC_MIN[2]=0;ADC_MIN[3]=0;ADC_MIN[4]=0;ADC_MIN[5]=0;//´ò¿ª´Ë´úÂë·ÅÆúÈüµÀÉ¨Ãè
-	Read_adValue();
+	int i = 0, j = 0, k = 0, temp = 0;
+	int ad_sum1[7] = {0};
+	uint16 ad_valu1[7] = {0};
+	for (i = 0; i < 10; i++) // ¶ÁÈ¡Ê®´Îµç¸Ð
+	{
+			ad_value[0][i] = adc_once(ADC_P11, ADC_12BIT);
+			ad_value[1][i] = adc_once(ADC_P10, ADC_12BIT);
+			ad_value[2][i] = adc_once(ADC_P06, ADC_12BIT);
+			ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
+			ad_value[4][i] = adc_once(ADC_P04, ADC_12BIT);
+			ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
+		  ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
+		  bug=adc_once(ADC_P00, ADC_12BIT);
+	}
+
+	/*=========================Ã°ÅÝÅÅÐòÉýÐò==========================*/
+	for (i = 0; i < 7; i++)
+	{
+			for (j = 0; j < 10 - 1; j++)
+			{
+					for (k = 0; k < 10 - 1 - j; k++)
+					{
+							if (ad_value[i][k] > ad_value[i][k + 1]) // Ç°ÃæµÄ±ÈºóÃæµÄ´ó£¬Ôò½øÐÐ½»»»
+							{
+									temp = ad_value[i][k + 1];
+									ad_value[i][k + 1] = ad_value[i][k];
+									ad_value[i][k] = temp;
+							}
+					}
+			}
+	}
+
+	/*===========================ÖÐÖµÂË²¨=================================*/
+	for (i = 0; i < 7; i++) // ÇóÖÐ¼ä°ËÏîµÄºÍ
+	{
+			for (k = 0; k < 9; k++) // ÉáÆú×î´óÖµºÍ×îÐ¡Öµ£¬Ö»È¡ÖÐ¼ä8Ïî
+			{
+					ad_sum1[i] += ad_value[i][k];
+			}
+			ad_valu1[i] = ad_sum1[i] / 8;
+	}
+
+	/*=========================¸³Öµ¸÷¸öµç¸Ð==============================*/
+	L1 = ad_valu1[0];
+	L2 = ad_valu1[1];
+	L3 = ad_valu1[2];
+	M1 = ad_valu1[3];
+	R3 = ad_valu1[4];
+	R2 = ad_valu1[5];
+	R1 = ad_valu1[6];
+  
+
 	
-	L1_NOR_ADC=(L1-ADC_MIN[0])*100/(ADC_MAX[0]-ADC_MIN[0]);
-	L2_NOR_ADC=(L2-ADC_MIN[1])*100/(ADC_MAX[1]-ADC_MIN[1]);
-	L3_NOR_ADC=(L3-ADC_MIN[2])*100/(ADC_MAX[2]-ADC_MIN[2]);
-	R3_NOR_ADC=(R3-ADC_MIN[3])*100/(ADC_MAX[3]-ADC_MIN[3]);
-	R2_NOR_ADC=(R2-ADC_MIN[4])*100/(ADC_MAX[4]-ADC_MIN[4]);
-	R1_NOR_ADC=(R1-ADC_MIN[5])*100/(ADC_MAX[5]-ADC_MIN[5]);
-//--------µç¸ÐÏÞ·ùµ½100ÒÔÄÚ--------------//
-	L1_NOR_ADC = (L1_NOR_ADC > 100) ? 100 : L1_NOR_ADC;
-	L2_NOR_ADC = (L2_NOR_ADC > 100) ? 100 : L2_NOR_ADC;
-	L3_NOR_ADC = (L3_NOR_ADC > 100) ? 100 : L3_NOR_ADC;
-	R3_NOR_ADC = (R3_NOR_ADC > 100) ? 100 : R3_NOR_ADC;
-	R2_NOR_ADC = (R2_NOR_ADC > 100) ? 100 : R2_NOR_ADC;
-	R1_NOR_ADC = (R1_NOR_ADC > 100) ? 100 : R1_NOR_ADC;
+	
+
+	NOR_VAL[0]=(float)(L1-ADC_MIN[0])/(float)(ADC_MAX[0]-ADC_MIN[0]);
+	NOR_VAL[1]=(float)(L2-ADC_MIN[1])/(float)(ADC_MAX[1]-ADC_MIN[1]);
+	NOR_VAL[2]=(float)(L3-ADC_MIN[2])/(float)(ADC_MAX[2]-ADC_MIN[2]);
+	NOR_VAL[3]=(float)(M1-ADC_MIN[3])/(float)(ADC_MAX[3]-ADC_MIN[3]);
+	NOR_VAL[4]=(float)(R3-ADC_MIN[4])/(float)(ADC_MAX[4]-ADC_MIN[4]);
+	NOR_VAL[5]=(float)(R2-ADC_MIN[5])/(float)(ADC_MAX[5]-ADC_MIN[5]);
+	NOR_VAL[6]=(float)(R1-ADC_MIN[6])/(float)(ADC_MAX[6]-ADC_MIN[6]);
+	
+	for(i = 0 ; i<7;i++)
+	{
+		if(NOR_VAL[i]<=0.0)
+		{
+			NOR_VAL[i]=0.001;
+		}
+		if(NOR_VAL[i]>1.0)
+		{
+			NOR_VAL[i]=1.0;
+		}		
+		AD_NOR_VAL[i]=NOR_VAL[i]*100;
+	}
+	
+	
+	L1_NOR_ADC=AD_NOR_VAL[0];
+	L2_NOR_ADC=AD_NOR_VAL[1];
+	L3_NOR_ADC=AD_NOR_VAL[2];
+	M1_NOR_ADC=AD_NOR_VAL[3];
+	R3_NOR_ADC=AD_NOR_VAL[4];
+	R2_NOR_ADC=AD_NOR_VAL[5];
+	R1_NOR_ADC=AD_NOR_VAL[6];
 	
 	L1_NOR_ADC=I1*L1_NOR_ADC;
 	R1_NOR_ADC=I1*R1_NOR_ADC; //¸øÓÒÒ»µÄÈ¨ÖØ´óÓÚ×ó±ß
@@ -184,7 +142,7 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	Right_Val=sqrt(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
 	ad_sum=Left_Val+Right_Val;
 	ad_diff=Left_Val-Right_Val;
-	if(ad_sum>35)
+	if(ad_sum>15)
 	{
 		Inductance_Error=(ad_diff <<7)/(ad_sum+1);
 	}
@@ -220,15 +178,18 @@ void show_val(void)
 	oled_uint16(85,2,R3_NOR_ADC);
 
 	oled_p6x8str(0,3,"Err:");
-	oled_int16(35,3,Inductance_Error);
+	oled_int16(20,3,Inductance_Error);
+	
+	oled_p6x8str(70,3,"M1:");
+	oled_uint16(85,3,bug);
 ////-----------------ÍÓÂÝÒÇ½ÇËÙ¶È------------------------//
 
 	oled_p6x8str(0,4,"gyro_z:");
-	oled_printf_float(45,4,angle1,5,6);
+	oled_printf_float(45,4,Get_Angle(),5,6);
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
 	oled_int16(0,6,dir_out);
-	//oled_int16(60,6,nh_out);
+	oled_int16(60,6,nh_out);
 //-----------------TOF¾àÀë------------------------//
 //	if(dl1a_finsh_flag)
 //	{

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -129,14 +129,13 @@ stmt  level    source
   115   1        static int count=0;
   116   1        L_Pulse=L_Encoder_Pulse();
   117   1        R_Pulse=R_Encoder_Pulse();
-  118   1        NORMALIZATION_TRACKING_ADC(1.5,1);
-  119   1        //Crossroad();
-  120   1        Roundabout();
-*** WARNING C96 IN LINE 120 OF ..\USER\Hardware\encoder.c: 'Roundabout': too few actual parameters
-  121   1        if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            24/03/24  18:20:21  PAGE 3   
+  118   1        NORMALIZATION_TRACKING_ADC(1,1);
+  119   1      //  //Crossroad();
+  120   1      //  Roundabout();
+  121   1      //  if(Track_flag)
+  122   1          Tracking(105);
+C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 3   
 
-  122   1          Tracking(105);//正常循迹 105 为速度，speed_chang 为速度规划的速度
   123   1        ctimer_count_clean(Encoder_L);
   124   1        ctimer_count_clean(Encoder_R);
   125   1        TIM4_CLEAR_FLAG; //清除中断标志
@@ -145,7 +144,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       378     ------
+  code size            =       365     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -164,4 +163,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

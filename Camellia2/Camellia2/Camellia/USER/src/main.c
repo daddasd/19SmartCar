@@ -56,11 +56,15 @@ void main()
 			if(menu == 4) Second__Speed_menu();
 			if(menu == 5) Show_Val_Menu();
 			if(menu == 6){
-				flag=CarStart_Menu();
+				flag=1;
+			  oled_printf_float(45,4,angle1,5,6);
+				if(flag == 1)
+				{
+					Encoder_Time_Init();
+					flag = 0;
+				}
 				menu = 0;
 			}
-			if(flag==1)
-				Encoder_Time_Init();
 		}
 }
 

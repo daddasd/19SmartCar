@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  mpu6050                                                            24/03/24  18:20:22  PAGE 1   
+C251 COMPILER V5.60.0,  mpu6050                                                            07/04/24  19:47:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE mpu6050
@@ -66,7 +66,7 @@ stmt  level    source
    54   1          static int index = 0;
    55   1          float filtered_angle;
    56   1          int i = 0;
-C251 COMPILER V5.60.0,  mpu6050                                                            24/03/24  18:20:22  PAGE 2   
+C251 COMPILER V5.60.0,  mpu6050                                                            07/04/24  19:47:35  PAGE 2   
 
    57   1          int window[WINDOW_SIZE];
    58   1          double gyro_z = mpu6050_gyro_z - gyro_zero_wander();

@@ -20,7 +20,6 @@ int Show_AllVal(int flag1)
     int flag = flag1;
     while (flag == 0)
     {
-        SaoMiao_Track();  // 扫描赛道
         NORMALIZATION_TRACKING_ADC(1.2, 1.5);
         show_val();  // 显示测得数据 
         
@@ -353,11 +352,11 @@ int Second_Motor_menu(void)
 
 int Second__NWHuan_menu(void)
 {
-    int flag = 1, i = 0,count=0,Val_add_lose=1;
+    int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
     float x =1,x1=0.005;
     uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
-	int page1 = 1;
+	  int page1 = 1;
     if(page == 1)
     {
             oled_fill(0x00);
@@ -417,7 +416,7 @@ int Second__NWHuan_menu(void)
             {
                 oled_fill(0x00);
                 page1=1;	
-                oled_p8x16str(22, 0, "Add");
+               // oled_p8x16str(22, 0, "Add");
                 oled_p8x16str(22, 2, "W_Val");
                 oled_p8x16str(22, 4, "N_Val");						
             }
@@ -488,20 +487,22 @@ int Second__NWHuan_menu(void)
             delay_ms(10);
             if (flag == 1)//并且在第二页 第一列add与lose
             {
+							  count ++;
+								if(count==3)count=0;
                 if (count == 0)
                 {
                     oled_p8x16str(22, 0, "    ");   // 减值
                     oled_p8x16str(22, 0, "Lose");   // 减值
                     Val_add_lose = -1;
-                    count = 1;
+									  flag1++;
                 }
                 else if (count == 1)
                 {
                     oled_p8x16str(22, 0, "    ");   // 加值
                     oled_p8x16str(22, 0, "Add");    // 加值
                     Val_add_lose = 1;
-                    count = 0;
                 }
+								
             }
             if (flag == 2)
             {
@@ -585,9 +586,9 @@ int Show_Val_Menu(void)
 {
     while(1)
     {
-        show_val();
-        SaoMiao_Track();
-	    NORMALIZATION_TRACKING_ADC(1.2,1.5);
+	      NORMALIZATION_TRACKING_ADC(1,1);
+			  show_val();
+				mpu6050_get_gyro();
         if (key4 == 0)  // 返回
         {
             delay_ms(10);

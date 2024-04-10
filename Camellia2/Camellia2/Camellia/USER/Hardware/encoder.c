@@ -115,11 +115,11 @@ void TM4_Isr() interrupt 20
 	static int count=0;
 	L_Pulse=L_Encoder_Pulse();
 	R_Pulse=R_Encoder_Pulse();
-	NORMALIZATION_TRACKING_ADC(1.5,1);
-	//Crossroad();
-	Roundabout();
-	if(Track_flag)
-		Tracking(105);//正常循迹 105 为速度，speed_chang 为速度规划的速度
+	NORMALIZATION_TRACKING_ADC(1,1);
+//	//Crossroad();
+//	Roundabout();
+//	if(Track_flag)
+		Tracking(105);
 	ctimer_count_clean(Encoder_L);
 	ctimer_count_clean(Encoder_R);
 	TIM4_CLEAR_FLAG; //清除中断标志

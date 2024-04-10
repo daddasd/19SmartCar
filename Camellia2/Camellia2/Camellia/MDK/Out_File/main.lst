@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               24/03/24  18:24:11  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               07/04/24  19:47:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -66,28 +66,32 @@ stmt  level    source
 *** WARNING C140 IN LINE 54 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
    55   2            if(menu == 3) Second__NWHuan_menu();
-C251 COMPILER V5.60.0,  main                                                               24/03/24  18:24:11  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               07/04/24  19:47:35  PAGE 2   
 
    56   2            if(menu == 4) Second__Speed_menu();
    57   2            if(menu == 5) Show_Val_Menu();
    58   2            if(menu == 6){
-   59   3              flag=CarStart_Menu();
-   60   3              menu = 0;
-   61   3            }
-   62   2            if(flag==1)
-   63   2              Encoder_Time_Init();
-   64   2          }
-   65   1      }
-   66          
-   67          
-   68          //调不动就回家
-   69          
-   70                                               
+   59   3              flag=1;
+   60   3              oled_printf_float(45,4,angle1,5,6);
+   61   3              if(flag == 1)
+   62   3              {
+   63   4                Encoder_Time_Init();
+   64   4                flag = 0;
+   65   4              }
+   66   3              menu = 0;
+   67   3            }
+   68   2          }
+   69   1      }
+   70          
+   71          
+   72          //调不动就回家
+   73          
+   74                                               
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       211     ------
+  code size            =       242     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
