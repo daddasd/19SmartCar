@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            10/04/24  21:46:51  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -19,7 +19,7 @@ stmt  level    source
     7          int speed = 105;
     8          
     9          //--
-   10          //  @brief      ±àÂëÆ÷³õÊ¼»¯
+   10          //  @brief      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
    11          //  @param      void
    12          //  @return     void         
    13          //--
@@ -31,13 +31,13 @@ stmt  level    source
    19   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
    20   1          ctimer_count_init(Encoder_L);
    21   1          ctimer_count_init(Encoder_R);
-   22   1          EnableGlobalIRQ();  //¿ªÆô×ÜÖÐ¶Ï
+   22   1          EnableGlobalIRQ();  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
    23   1      }
    24          
    25          //--
-   26          //  @brief      ×ó±àÂëÆ÷¶ÁÈ¡Âö³å
+   26          //  @brief      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
    27          //  @param      void
-   28          //  @return     return : Âö³åÖµ         
+   28          //  @return     return : ï¿½ï¿½ï¿½ï¿½Öµ         
    29          //--
    30          
    31          int L_Encoder_Pulse(void)
@@ -54,9 +54,9 @@ stmt  level    source
    42   1      }
    43          
    44          //--
-   45          //  @brief      ÓÒ±àÂëÆ÷¶ÁÈ¡Âö³å
+   45          //  @brief      ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
    46          //  @param      void
-   47          //  @return     return : Âö³åÖµ         
+   47          //  @return     return : ï¿½ï¿½ï¿½ï¿½Öµ         
    48          //--
    49          int R_Encoder_Pulse(void)
    50          {
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            10/04/24  21:46:51  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -75,7 +75,7 @@ stmt  level    source
    61   1      }
    62          
    63          //--
-   64          //  @brief      ±àÂëÆ÷¶ÁÖµ
+   64          //  @brief      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
    65          //  @param      void
    66          //  @return     void        
    67          //--
@@ -85,8 +85,8 @@ stmt  level    source
    71   1        R_Encoder_Pulse();
    72   1      }
    73          //--
-   74          //  @brief      ×ó±àÂëÆ÷»ý·Ö
-   75          //  @param      L_cont£¬R_cont»ý·ÖµÄÄ¿±êÖµ
+   74          //  @brief      ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   75          //  @param      L_contï¿½ï¿½R_contï¿½ï¿½ï¿½Öµï¿½Ä¿ï¿½ï¿½Öµ
    76          //  @return     void        
    77          //--
    78          int L_Enc_integral(int L_target)
@@ -133,18 +133,19 @@ stmt  level    source
   119   1      //  //Crossroad();
   120   1      //  Roundabout();
   121   1      //  if(Track_flag)
-  122   1          Tracking(105);
-C251 COMPILER V5.60.0,  encoder                                                            07/04/24  19:47:35  PAGE 3   
+  122   1        Right_Angle();
+C251 COMPILER V5.60.0,  encoder                                                            10/04/24  21:46:51  PAGE 3   
 
-  123   1        ctimer_count_clean(Encoder_L);
-  124   1        ctimer_count_clean(Encoder_R);
-  125   1        TIM4_CLEAR_FLAG; //Çå³ýÖÐ¶Ï±êÖ¾
-  126   1      }
+  123   1        Tracking(speed);
+  124   1        ctimer_count_clean(Encoder_L);
+  125   1        ctimer_count_clean(Encoder_R);
+  126   1        TIM4_CLEAR_FLAG; //ï¿½ï¿½ï¿½ï¿½Ð¶Ï±ï¿½Ö¾
+  127   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       365     ------
+  code size            =       368     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

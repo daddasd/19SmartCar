@@ -34,7 +34,7 @@ void Motor_Init(void)
 		gpio_mode(P4_2, GPO_PP);
 		gpio_mode(P5_2, GPO_PP);
 		//gpio_pull_set(P0_0,NOPULL);
-		//gpio_mode(P0_0, GPO_PP);
+		gpio_mode(P1_3, GPO_PP);
     pwm_init(MOTOR_L_PWM, 17000,0);
     pwm_init(MOTOR_R_PWM, 17000,0);
 }

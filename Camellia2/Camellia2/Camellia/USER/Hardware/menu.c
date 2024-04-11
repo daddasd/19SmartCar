@@ -9,7 +9,6 @@
 //位置环外环
 
 
-
 //--
 //  @brief      起始菜单显示一些初始值
 //  @param      void    
@@ -52,6 +51,7 @@ int First_menu(void)
 	oled_p6x8str(25,5,"Car_Star"); //小车启动
 	while(1)
 	{
+		P13=0;
 		if(key3==0) // 下一项
 		{
 			delay_ms(10);

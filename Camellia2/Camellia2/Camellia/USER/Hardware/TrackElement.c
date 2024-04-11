@@ -26,6 +26,8 @@ double Angle4=0;  //角度积分
 int DISTANCE_FLAG=0;//距离积分标志
 long Distance=0;//距离积分
 
+int RAngle_Flag = 0; //90度标志位
+
 /*外环与电机pid与速度改变的参数*/
 
 double Sub_wh_p = 20;
@@ -33,6 +35,10 @@ double Sub_wh_d = 10;
 double Sub_motor_p = 0;
 double Sub_motor_i = 0;
 int    Sub_speed = -10;
+/*角度环参数*/
+float Angle_P = 70;
+float Angle_I = 0.4;
+float Angle_D = 40;
 
 void Distace(int flag)
 {
@@ -63,6 +69,24 @@ void Crossroad(void)
    else
 		 Track_flag=1;//正常循迹
 }
+
+void Right_Angle(void)
+{
+	if (L2_NOR_ADC > 90 && L1_NOR_ADC < 30 && L3_NOR_ADC > 75 && R3_NOR_ADC < 20 && R2_NOR_ADC < 20 && R1_NOR_ADC < 30 && RAngle_Flag==0) // 左转
+	{
+		Motor_PWM(3500, 3500);
+		Angle_Ring(90, angle1,Angle_P, Angle_I, Angle_D);
+		RAngle_Flag = 1; //清除标志位
+	}
+	else if (R2_NOR_ADC > 90 && R1_NOR_ADC < 30 && R3_NOR_ADC > 75 && L3_NOR_ADC < 20 && L2_NOR_ADC < 20 && L1_NOR_ADC < 30 && RAngle_Flag == 1)//右转
+	{
+		Motor_PWM(3500, 3500);
+		Angle_Ring(-90, angle1, Angle_P, Angle_I, Angle_D);
+		RAngle_Flag = 1; // 清除标志位
+	}
+}
+
+
 /**
 *  @brief      六边环岛
 *  @param      角度
@@ -92,7 +116,7 @@ void Roundabout(float angle)
 		{	
 			if(angle_flag2==2&&angle_flag==0)//转40度
 			{
-				if(Angle_Ring(45,angle1,70,0.4,40))
+				if (Angle_Ring(45, angle1, Angle_P, Angle_I, Angle_D))
 				{
 					angle1=0;  //角度积分清零
 					yu_flag=3;//编码器开启积分

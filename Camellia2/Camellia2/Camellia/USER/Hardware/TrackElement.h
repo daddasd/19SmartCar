@@ -8,6 +8,7 @@ extern Element_Order[4];
 void Distace(int flag);
 void Sub_Pid(float error);
 void Crossroad(void);
+void Right_Angle(void);
 void Roundabout(float angle);
 void Tracking(int Ser_speed);
 #endif

@@ -12,7 +12,7 @@
 *@Pin TOF  IIC SDA: P15 SCL 33 24 51
 *@Pin mpu6050 SCL P40 SDA P41
 *@Pin обть: UART1_RX_P30, UART1_TX_P31
-*@Pin Buzzer: P00
+*@Pin Buzzer: P13
 *@Pin RGB: P26
 **/  
 

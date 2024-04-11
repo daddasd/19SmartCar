@@ -12,8 +12,8 @@
 
 float Nh_P = 0.7;
 float Nh_D = 0.8;
-float Wh_P = 80;
-float Wh_D = 240;
+float Wh_P = 100;
+float Wh_D = 185;
 
 //--
 //@brief      方向环(外环) 位置式

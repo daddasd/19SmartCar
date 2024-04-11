@@ -7,7 +7,7 @@ double angle1=0.0;
 int speed = 105;
 
 //--
-//  @brief    	±àÂëÆ÷³õÊ¼»¯
+//  @brief    	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 //  @param      void
 //  @return     void         
 //--
@@ -19,13 +19,13 @@ void Encoder_Time_Init(void)
     gpio_mode(Encoder_R, GPI_IMPEDANCE);
     ctimer_count_init(Encoder_L);
     ctimer_count_init(Encoder_R);
-		EnableGlobalIRQ();	//¿ªÆô×ÜÖÐ¶Ï
+    EnableGlobalIRQ();	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 }
 
 //--
-//  @brief    	×ó±àÂëÆ÷¶ÁÈ¡Âö³å
+//  @brief    	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 //  @param      void
-//  @return     return : Âö³åÖµ         
+//  @return     return : ï¿½ï¿½ï¿½ï¿½Öµ         
 //--
 
 int L_Encoder_Pulse(void)
@@ -42,9 +42,9 @@ int L_Encoder_Pulse(void)
 }
 
 //--
-//  @brief    	ÓÒ±àÂëÆ÷¶ÁÈ¡Âö³å
+//  @brief    	ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 //  @param      void
-//  @return     return : Âö³åÖµ         
+//  @return     return : ï¿½ï¿½ï¿½ï¿½Öµ         
 //--
 int R_Encoder_Pulse(void)
 {
@@ -61,7 +61,7 @@ int R_Encoder_Pulse(void)
 }
 
 //--
-//  @brief    	±àÂëÆ÷¶ÁÖµ
+//  @brief    	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 //  @param      void
 //  @return     void        
 //--
@@ -71,8 +71,8 @@ void Encoder_Read_Pulse(void)
 	R_Encoder_Pulse();
 }
 //--
-//  @brief    	×ó±àÂëÆ÷»ý·Ö
-//  @param      L_cont£¬R_cont»ý·ÖµÄÄ¿±êÖµ
+//  @brief    	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//  @param      L_contï¿½ï¿½R_contï¿½ï¿½ï¿½Öµï¿½Ä¿ï¿½ï¿½Öµ
 //  @return     void        
 //--
 int L_Enc_integral(int L_target)
@@ -119,8 +119,9 @@ void TM4_Isr() interrupt 20
 //	//Crossroad();
 //	Roundabout();
 //	if(Track_flag)
-		Tracking(105);
+	Right_Angle();
+	Tracking(speed);
 	ctimer_count_clean(Encoder_L);
 	ctimer_count_clean(Encoder_R);
-	TIM4_CLEAR_FLAG; //Çå³ýÖÐ¶Ï±êÖ¾
+	TIM4_CLEAR_FLAG; //ï¿½ï¿½ï¿½ï¿½Ð¶Ï±ï¿½Ö¾
 }

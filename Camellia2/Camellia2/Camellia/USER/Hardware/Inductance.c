@@ -21,7 +21,7 @@ float NOR_VAL[7]={0};
 float AD_NOR_VAL[7]={0}; //归一化值
 int16 Inductance_Error=0; //电感误差
 uint16 ADC_MIN[7]={158,158,158,158,158,158,158};
-uint16 ADC_MAX[7]={2100,2100,2100,2150,2100,2100,2100}; //测出的电感最大，与最小值从左到右
+uint16 ADC_MAX[7]={2400,2400,2400,2450,2400,2400,2400}; //测出的电感最大，与最小值从左到右
 int bug=0;
 /**
 *  @brief      ADC采集初始化
@@ -31,12 +31,12 @@ int bug=0;
 
 void Inductance_Init(void)
 {
-	  adc_init(ADC_P11, ADC_SYSclk_DIV_2);
-	  adc_init(ADC_P10, ADC_SYSclk_DIV_2);
-	  adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
+	adc_init(ADC_P11, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
     adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
-		adc_init(ADC_P03, ADC_SYSclk_DIV_2);
-	  adc_init(ADC_P02, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P02, ADC_SYSclk_DIV_2);
     adc_init(ADC_P00, ADC_SYSclk_DIV_2);
 }
 
@@ -138,11 +138,12 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	R1_NOR_ADC=I1*R1_NOR_ADC; //给右一的权重大于左边
 	L2_NOR_ADC=I2*L2_NOR_ADC;
 	R2_NOR_ADC=I2*R2_NOR_ADC;
+
 	Left_Val=sqrt(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
 	Right_Val=sqrt(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
 	ad_sum=Left_Val+Right_Val;
 	ad_diff=Left_Val-Right_Val;
-	if(ad_sum>15)
+	if(ad_sum>35)
 	{
 		Inductance_Error=(ad_diff <<7)/(ad_sum+1);
 	}
