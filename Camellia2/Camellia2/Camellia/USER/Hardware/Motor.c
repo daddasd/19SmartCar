@@ -35,6 +35,7 @@ void Motor_Init(void)
 		gpio_mode(P5_2, GPO_PP);
 		//gpio_pull_set(P0_0,NOPULL);
 		gpio_mode(P1_3, GPO_PP);
+		P13=0;
     pwm_init(MOTOR_L_PWM, 17000,0);
     pwm_init(MOTOR_R_PWM, 17000,0);
 }
@@ -89,6 +90,35 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 	Motor_pid.Motor_integral=0;
 }
 
+/*入口：NEW_DATA 新采样值
+       OLD_DATA 上次滤波结果
+       k        滤波系数(0~255)(代表在滤波结果中的权重)
+  出口：         本次滤波结果
+ */
+ char filter_1(char NEW_DATA,char OLD_DATA,char k)
+{
+    int result;
+    if(NEW_DATA<OLD_DATA)
+    {
+        result=OLD_DATA-NEW_DATA;
+        result=result*k;
+        result=result+128;//+128是为了四色五入
+        result=result/256;
+        result=OLD_DATA-result;
+    }
+    else if(NEW_DATA>OLD_DATA)
+    {
+        result=NEW_DATA-OLD_DATA;
+        result=result*k;
+        result=result+128;//+128是为了四色五入
+        result=result/256;
+        result=OLD_DATA-result;
+    }
+    else result=OLD_DATA;
+    return((char)result);
+}
+
+
 //--
 //  @brief      速度环
 //  @param      Target_Value: 目标速度
@@ -98,10 +128,11 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 int Speed_pid_Out(int Target_Value,int Actual_Value)
 {
 	float Kp_Value=0;
-	
+	int   Target_LBVal=0;//滤波之后的值
 	static float Ki_Value=0,Kd_Value=0;
 	float MOTOR_PWM = 0;
 	//1.计算偏差
+	Target_LBVal= filter_1(Target_Value,Target_LBVal,0.89); //编码器滤波
 	Motor_pid.Motor_err=Target_Value-Actual_Value;
 	if(abs(Motor_pid.Motor_err)<3)  //PID死区
 	{

@@ -16,7 +16,7 @@ extern int16 Inductance_Error;       //µç¸ÐÎó²î
 extern uint16 L1_NOR_ADC,R1_NOR_ADC,L2_NOR_ADC,R2_NOR_ADC,L3_NOR_ADC,R3_NOR_ADC,M1_NOR_ADC;
 
 void Inductance_Init(void);
-uint16 value_change(uint16 distance,uint16 val_max,uint16 val_min);
+float sq(float number);
 void show_val(void);
 int16 NORMALIZATION_TRACKING_ADC(float I1,float I2);
 

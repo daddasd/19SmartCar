@@ -20,8 +20,8 @@ uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_A
 float NOR_VAL[7]={0};
 float AD_NOR_VAL[7]={0}; //归一化值
 int16 Inductance_Error=0; //电感误差
-uint16 ADC_MIN[7]={158,158,158,158,158,158,158};
-uint16 ADC_MAX[7]={2400,2400,2400,2450,2400,2400,2400}; //测出的电感最大，与最小值从左到右
+uint16 ADC_MIN[7]={156,252,160,150,153,180,149};
+uint16 ADC_MAX[7]={2620,2620,2620,2620,2600,2600,2600}; //测出的电感最大，与最小值从左到右
 int bug=0;
 /**
 *  @brief      ADC采集初始化
@@ -34,10 +34,32 @@ void Inductance_Init(void)
 	adc_init(ADC_P11, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P10, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
-    adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
+  adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
 	adc_init(ADC_P03, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-    adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+  adc_init(ADC_P01, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+}
+/**
+ * @brief 快速开方
+ * 
+ * @param f 被开方数
+ * @return float 
+ */
+float sq(float number)
+{  
+	long i;
+	float x, y;
+	const float f = 1.5F;
+	
+	x = number * 0.5F;
+	y = number;
+	i = * ( long * ) &y;
+	i = 0x5f3759df - ( i >> 1 );
+	y = * ( float * ) &i;
+	y = y * ( f - ( x * y * y ) );
+	y = y * ( f - ( x * y * y ) );
+	return number * y;
 }
 
 
@@ -139,8 +161,8 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	L2_NOR_ADC=I2*L2_NOR_ADC;
 	R2_NOR_ADC=I2*R2_NOR_ADC;
 
-	Left_Val=sqrt(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
-	Right_Val=sqrt(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
+	Left_Val=sq(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
+	Right_Val=sq(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
 	ad_sum=Left_Val+Right_Val;
 	ad_diff=Left_Val-Right_Val;
 	if(ad_sum>35)
@@ -182,7 +204,7 @@ void show_val(void)
 	oled_int16(20,3,Inductance_Error);
 	
 	oled_p6x8str(70,3,"M1:");
-	oled_uint16(85,3,bug);
+	oled_uint16(85,3,M1_NOR_ADC);
 ////-----------------陀螺仪角速度------------------------//
 
 	oled_p6x8str(0,4,"gyro_z:");

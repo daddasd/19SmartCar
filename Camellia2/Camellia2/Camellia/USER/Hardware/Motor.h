@@ -48,6 +48,7 @@ extern  float Motor_I;
 void Motor_Init(void);
 void Motor_PWM(int L_PWM,int R_PWM);
 int16 limit(int16 In,int16 limit);
+ char filter_1(char NEW_DATA,char OLD_DATA,char k);
 void Motor_SET_PID(float Kp,float Ki,float Kd);
 int Speed_pid_Out(int Target_Value,int Actual_Value);
 void Buzzer(int time);

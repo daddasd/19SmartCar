@@ -72,17 +72,25 @@ void Crossroad(void)
 
 void Right_Angle(void)
 {
-	if (L2_NOR_ADC > 90 && L1_NOR_ADC < 30 && L3_NOR_ADC > 75 && R3_NOR_ADC < 20 && R2_NOR_ADC < 20 && R1_NOR_ADC < 30 && RAngle_Flag==0) // 左转
+	if (L2_NOR_ADC > 75  && L3_NOR_ADC > 65 && R3_NOR_ADC < 25 && R2_NOR_ADC < 25  ) // 左转
 	{
-		Motor_PWM(3500, 3500);
+		P13=1; //蜂鸣器
+		Motor_PWM(0, 0);
 		Angle_Ring(90, angle1,Angle_P, Angle_I, Angle_D);
-		RAngle_Flag = 1; //清除标志位
+		//RAngle_Flag = 1; //清除标志位
+		
 	}
-	else if (R2_NOR_ADC > 90 && R1_NOR_ADC < 30 && R3_NOR_ADC > 75 && L3_NOR_ADC < 20 && L2_NOR_ADC < 20 && L1_NOR_ADC < 30 && RAngle_Flag == 1)//右转
+	else if (R2_NOR_ADC > 75  && R3_NOR_ADC > 65 && L3_NOR_ADC < 25 && L2_NOR_ADC < 25)//右转
 	{
-		Motor_PWM(3500, 3500);
+		P13=1;
+		Motor_PWM(0, 0);
 		Angle_Ring(-90, angle1, Angle_P, Angle_I, Angle_D);
-		RAngle_Flag = 1; // 清除标志位
+		//RAngle_Flag = 1; // 清除标志位
+		//P13=0;
+	}
+	else
+	{
+		P13=0;
 	}
 }
 
