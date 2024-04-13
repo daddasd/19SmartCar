@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  direction                                                          12/04/24  19:47:19  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          12/04/24  21:17:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
 OBJECT MODULE PLACED IN .\Out_File\direction.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
                     -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
                     -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
                     -ile\direction.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        float error_derivative;
    55   1        // 计算位置误差
    56   1        error = err - Get_Angle() * 0.0075;
-C251 COMPILER V5.60.0,  direction                                                          12/04/24  19:47:19  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          12/04/24  21:17:47  PAGE 2   
 
    57   1        // 计算位置误差变化率
    58   1        error_derivative = error - last_error;
@@ -134,7 +134,7 @@ stmt  level    source
   120          /**
   121           * @brief  方向环方案二，陀螺仪作为d项抑制
   122           *
-C251 COMPILER V5.60.0,  direction                                                          12/04/24  19:47:19  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          12/04/24  21:17:47  PAGE 3   
 
   123           * @param chazhi
   124           * @param dir_p

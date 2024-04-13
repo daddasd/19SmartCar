@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  18:31:26  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  21:17:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
 OBJECT MODULE PLACED IN .\Out_File\Inductance.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
                     -D) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\COD
                     -E;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Inductance.lst) TABS(2) OBJECT(.\Out
                     -_File\Inductance.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        
    55   1        x = number * 0.5F;
    56   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  18:31:26  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  21:17:47  PAGE 2   
 
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
   122   1        R2 = ad_valu1[5];
-C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  18:31:26  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  21:17:47  PAGE 3   
 
   123   1        R1 = ad_valu1[6];
   124   1        
@@ -172,9 +172,9 @@ stmt  level    source
   156   1        R2_NOR_ADC=AD_NOR_VAL[5];
   157   1        R1_NOR_ADC=AD_NOR_VAL[6];
   158   1        
-  159   1        L1_NOR_ADC=I1*L1_NOR_ADC;
-  160   1        R1_NOR_ADC=I1*R1_NOR_ADC; //给右一的权重大于左边
-  161   1        L2_NOR_ADC=I2*L2_NOR_ADC;
+  159   1        L1_NOR_ADC=0.78*L1_NOR_ADC;
+  160   1        R1_NOR_ADC=I1*R1_NOR_ADC; 
+  161   1        L2_NOR_ADC=0.78*L2_NOR_ADC;
   162   1        R2_NOR_ADC=I2*R2_NOR_ADC;
   163   1      
   164   1        Left_Val=sq(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
@@ -202,7 +202,7 @@ stmt  level    source
   186   1        oled_uint16(15,0,L1_NOR_ADC);
   187   1      
   188   1        oled_p6x8str(70,0,"R1:");
-C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  18:31:26  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         12/04/24  21:17:47  PAGE 4   
 
   189   1        oled_uint16(85,0,R1_NOR_ADC);
   190   1      
@@ -243,7 +243,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2167     ------
+  code size            =      2175     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

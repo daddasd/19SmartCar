@@ -116,11 +116,10 @@ void TM4_Isr() interrupt 20
 	L_Pulse=L_Encoder_Pulse();
 	R_Pulse=R_Encoder_Pulse();
 	NORMALIZATION_TRACKING_ADC(1,1);
-//	//Crossroad();
 //	Roundabout();
 //	if(Track_flag)
-	Right_Angle();
-	Tracking(speed);
+//	Right_Angle();
+	Tracking(speed+Speed_Plan1);
 	ctimer_count_clean(Encoder_L);
 	ctimer_count_clean(Encoder_R);
 	TIM4_CLEAR_FLAG; //����жϱ�־

@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  19:37:43  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  19:37:43  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -130,22 +130,21 @@ stmt  level    source
   116   1        L_Pulse=L_Encoder_Pulse();
   117   1        R_Pulse=R_Encoder_Pulse();
   118   1        NORMALIZATION_TRACKING_ADC(1,1);
-  119   1      //  //Crossroad();
-  120   1      //  Roundabout();
-  121   1      //  if(Track_flag)
-  122   1        Right_Angle();
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  19:37:43  PAGE 3   
+  119   1      //  Roundabout();
+  120   1      //  if(Track_flag)
+  121   1      //  Right_Angle();
+  122   1        Tracking(speed+Speed_Plan1);
+C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 3   
 
-  123   1        Tracking(speed);
-  124   1        ctimer_count_clean(Encoder_L);
-  125   1        ctimer_count_clean(Encoder_R);
-  126   1        TIM4_CLEAR_FLAG; //����жϱ�־
-  127   1      }
+  123   1        ctimer_count_clean(Encoder_L);
+  124   1        ctimer_count_clean(Encoder_R);
+  125   1        TIM4_CLEAR_FLAG; //����жϱ�־
+  126   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       368     ------
+  code size            =       371     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

@@ -40,6 +40,9 @@ float Angle_P = 70;
 float Angle_I = 0.4;
 float Angle_D = 40;
 
+/*不同元素速度控制*/
+int Speed_Plan1 = 0;
+
 void Distace(int flag)
 {
 	DISTANCE_FLAG=flag;
@@ -72,19 +75,21 @@ void Crossroad(void)
 
 void Right_Angle(void)
 {
-	if (L2_NOR_ADC > 75  && L3_NOR_ADC > 65 && R3_NOR_ADC < 25 && R2_NOR_ADC < 25  ) // 左转
+	if (L2_NOR_ADC > 65  && L3_NOR_ADC > 65 && R3_NOR_ADC < 30 && R2_NOR_ADC < 25  ) // 左转
 	{
 		P13=1; //蜂鸣器
-		Motor_PWM(0, 0);
+		Motor_PWM(-2000, -2000);
 		Angle_Ring(90, angle1,Angle_P, Angle_I, Angle_D);
+		Inductance_Error = 0;//误差清零
 		//RAngle_Flag = 1; //清除标志位
 		
 	}
-	else if (R2_NOR_ADC > 75  && R3_NOR_ADC > 65 && L3_NOR_ADC < 25 && L2_NOR_ADC < 25)//右转
+	else if (R2_NOR_ADC > 65  && R3_NOR_ADC > 65 && L3_NOR_ADC < 30 && L2_NOR_ADC < 25)//右转
 	{
 		P13=1;
-		Motor_PWM(0, 0);
+		Motor_PWM(-2000, -2000);
 		Angle_Ring(-90, angle1, Angle_P, Angle_I, Angle_D);
+		Inductance_Error = 0;//误差清零
 		//RAngle_Flag = 1; // 清除标志位
 		//P13=0;
 	}
@@ -173,6 +178,34 @@ void Roundabout(float angle)
 	 }
 	 else 
 		 Track_flag=1;
+}
+/**
+ * @brief 根据标志位给不同速度
+ * 
+ * @param speed_flag 
+ */
+void Speed_Plan(int speed_flag)
+{
+	switch (speed_flag)
+	{
+	case 1:
+		Speed_Plan1 = 0;  //正常循迹速度
+		break;
+	case 2:
+		Speed_Plan1 = -speed; //直角后速度清零
+		break;
+	case 3:
+		Speed_Plan1 = -speed*0.30; // 环岛内速度，为正常速度的百分之70
+		break;
+	case 4:
+		Speed_Plan1 = -speed * 0.5; // 预进圆环，为正常速度的百分之50;
+		break;
+	case 5:
+		Speed_Plan1 = speed * 0.4; // 直道加速 ，大于正常速度的百分之40;
+		break;
+	default:
+		break;
+	}
 }
 
 void Sub_Pid(float error)
