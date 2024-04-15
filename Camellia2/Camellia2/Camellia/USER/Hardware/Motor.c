@@ -10,7 +10,7 @@
 
 
 
-#define MOTOR_MAX  10000
+#define MOTOR_MAX  7000
 
 float Motor_P = 12.3085;
 float Motor_I = 0.019;
@@ -51,6 +51,10 @@ void Motor_Init(void)
 void Motor_PWM(int L_PWM,int R_PWM)
 {
 
+	if(L_PWM<0)
+			L_PWM=L_PWM*1.7;
+	else if(R_PWM<0)
+			R_PWM=R_PWM*1.7;
 	if(L_PWM<0)
 	{
 		MOTOR_L_DIR=1;
@@ -133,7 +137,7 @@ int Speed_pid_Out(int Target_Value,int Actual_Value)
 	static float Ki_Value=0,Kd_Value=0;
 	float MOTOR_PWM = 0;
 	//1.¼ÆËãÆ«²î
-	Target_LBVal= filter_1(Target_Value,Target_LBVal,0.89); //±àÂëÆ÷ÂË²¨
+	//Target_LBVal= filter_1(Target_Value,Target_LBVal,0.89); //±àÂëÆ÷ÂË²¨
 	Motor_pid.Motor_err=Target_Value-Actual_Value;
 	if(abs(Motor_pid.Motor_err)<3)  //PIDËÀÇø
 	{
@@ -151,7 +155,7 @@ int Speed_pid_Out(int Target_Value,int Actual_Value)
 	Motor_pid.Motor_err_last=Motor_pid.Motor_err;
 	//7.Êä³öµç»úÖ´ÐÐÁ¿
 	Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
-	MOTOR_PWM += Motor_pid.Motor_Out_Value;
+	MOTOR_PWM = Motor_pid.Motor_Out_Value;
 	MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
 	return (int)MOTOR_PWM;
 }

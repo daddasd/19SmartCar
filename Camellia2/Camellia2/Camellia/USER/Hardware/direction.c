@@ -10,10 +10,10 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 0.75;
-float Nh_D = 0.8;
-float Wh_P = 80;
-float Wh_D = 220;
+float Nh_P = 0.849;
+float Nh_D = 1.119;
+float Wh_P = 90;
+float Wh_D = 320;
 
 //--
 //@brief      方向环(外环) 位置式

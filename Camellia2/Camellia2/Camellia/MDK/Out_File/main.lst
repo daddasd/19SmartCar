@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               12/04/24  21:17:46  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               14/04/24  18:41:00  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -56,37 +56,41 @@ stmt  level    source
    45   1        Inductance_Init(); //adc采集初始化
    46   1        Motor_Init();      //电机初始化
    47   1        Motor_SET_PID(Motor_P,Motor_I,0);
-   48   1          // 此处编写用户代码 例如外设初始化代码等
-   49   1          while(1)
-   50   1          {
-   51   2            mpu6050_get_gyro();
-   52   2            menu = First_menu();
-   53   2            if(menu == 1) Second_Element_menu();
-   54   2            if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 54 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
-             -()'
-   55   2            if(menu == 3) Second__NWHuan_menu();
-C251 COMPILER V5.60.0,  main                                                               12/04/24  21:17:46  PAGE 2   
+   48   1      
+   49   1        
+   50   1        
+   51   1          // 此处编写用户代码 例如外设初始化代码等
+   52   1          while(1)
+   53   1          {
+   54   2            mpu6050_get_gyro();
+   55   2            menu = First_menu();
+   56   2      
+   57   2            if(menu == 1) Second_Element_menu();
+C251 COMPILER V5.60.0,  main                                                               14/04/24  18:41:00  PAGE 2   
 
-   56   2            if(menu == 4) Second__Speed_menu();
-   57   2            if(menu == 5) Show_Val_Menu();
-   58   2            if(menu == 6){
-   59   3              flag=1;
-   60   3              oled_printf_float(45,4,angle1,5,6);
-   61   3              if(flag == 1)
-   62   3              {
-   63   4                Encoder_Time_Init();
-   64   4                flag = 0;
-   65   4              }
-   66   3              menu = 0;
-   67   3            }
-   68   2          }
-   69   1      }
-   70          
-   71          
-   72          //调不动就回家
-   73          
-   74                                               
+   58   2            if(menu == 2) Second_Motor_menu();
+*** WARNING C140 IN LINE 58 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+             -()'
+   59   2            if(menu == 3) Second__NWHuan_menu();
+   60   2            if(menu == 4) Second__Speed_menu();
+   61   2            if(menu == 5) Show_Val_Menu();
+   62   2            if(menu == 6){
+   63   3              flag=1;
+   64   3              oled_printf_float(45,4,angle1,5,6);
+   65   3              if(flag == 1)
+   66   3              {
+   67   4                Encoder_Time_Init();
+   68   4                flag = 0;
+   69   4              }
+   70   3              menu = 0;
+   71   3            }
+   72   2          }
+   73   1      }
+   74          
+   75          
+   76          //调不动就回家
+   77          
+   78                                               
 
 
 Module Information          Static   Overlayable

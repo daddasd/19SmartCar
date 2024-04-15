@@ -26,30 +26,32 @@ char DataToSend[128];
     DataToSend[_cnt++]=BYTE2(_a);
     DataToSend[_cnt++]=BYTE3(_a);
 
-		DataToSend[_cnt++]=BYTE0(_b);
-		DataToSend[_cnt++]=BYTE1(_b);
-		DataToSend[_cnt++]=BYTE2(_b);
-		DataToSend[_cnt++]=BYTE3(_b);
-		 
-		DataToSend[_cnt++]=BYTE0(_c);
-		DataToSend[_cnt++]=BYTE1(_c);
-		DataToSend[_cnt++]=BYTE2(_c);
-		DataToSend[_cnt++]=BYTE3(_c);
-		 
-		DataToSend[_cnt++]=BYTE0(_d);
-		DataToSend[_cnt++]=BYTE1(_d);
-		DataToSend[_cnt++]=BYTE2(_d);
-		DataToSend[_cnt++]=BYTE3(_d);
-		
-		DataToSend[_cnt++]=BYTE0(_e);
-		DataToSend[_cnt++]=BYTE1(_e);
-		DataToSend[_cnt++]=BYTE2(_e);
-		DataToSend[_cnt++]=BYTE3(_e);
-		 
-		DataToSend[_cnt++]=BYTE0(_f);
-		DataToSend[_cnt++]=BYTE1(_f);
-		DataToSend[_cnt++]=BYTE2(_f);
-		DataToSend[_cnt++]=BYTE3(_f);
+	 
+	 
+//		DataToSend[_cnt++]=BYTE0(_b);
+//		DataToSend[_cnt++]=BYTE1(_b);
+//		DataToSend[_cnt++]=BYTE2(_b);
+//		DataToSend[_cnt++]=BYTE3(_b);
+//		 
+//		DataToSend[_cnt++]=BYTE0(_c);
+//		DataToSend[_cnt++]=BYTE1(_c);
+//		DataToSend[_cnt++]=BYTE2(_c);
+//		DataToSend[_cnt++]=BYTE3(_c);
+//		 
+//		DataToSend[_cnt++]=BYTE0(_d);
+//		DataToSend[_cnt++]=BYTE1(_d);
+//		DataToSend[_cnt++]=BYTE2(_d);
+//		DataToSend[_cnt++]=BYTE3(_d);
+//		
+//		DataToSend[_cnt++]=BYTE0(_e);
+//		DataToSend[_cnt++]=BYTE1(_e);
+//		DataToSend[_cnt++]=BYTE2(_e);
+//		DataToSend[_cnt++]=BYTE3(_e);
+//		 
+//		DataToSend[_cnt++]=BYTE0(_f);
+//		DataToSend[_cnt++]=BYTE1(_f);
+//		DataToSend[_cnt++]=BYTE2(_f);
+//		DataToSend[_cnt++]=BYTE3(_f);
 		 
   for(i = 0;i < _cnt;i++)
   {

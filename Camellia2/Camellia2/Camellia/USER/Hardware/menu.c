@@ -6,6 +6,8 @@
 
 #define MENU_SIZE 4
 #define INTERVAL_TIME 500
+
+
 //位置环外环
 
 
@@ -19,7 +21,7 @@ int Show_AllVal(int flag1)
     int flag = flag1;
     while (flag == 0)
     {
-        NORMALIZATION_TRACKING_ADC(1.2, 1.5);
+        NORMALIZATION_TRACKING_ADC(1,1);
         show_val();  // 显示测得数据 
         
         if (key2 == 0) // 按下跳转到一级菜单
@@ -43,6 +45,7 @@ int Show_AllVal(int flag1)
 int First_menu(void)
 {
 	int flag = 1;
+	int c,a=0;
 	oled_p6x8str(25,0,"Set_Element"); //调整元素
 	oled_p6x8str(25,1,"Set_Motor_PI"); //设置电机pi
 	oled_p6x8str(25,2,"Set_Wh_Nh_PD"); //设置内外环pd
@@ -229,7 +232,7 @@ int Second_Motor_menu(void)
     int flag = 0, Val_add_lose = 1, i = 0, count = 0;
     int16 long_press_delay = 0;
     int pree_delay = 0;
-    float x = 0.005;
+    double x = 0.0001;
     
     oled_p8x16str(20, 0, "M_P"); 
     oled_printf_float_px8(50, 0, Motor_P, 2, 4); // 电机P
@@ -316,7 +319,7 @@ int Second_Motor_menu(void)
                 }
                 if (flag == 4)
                 {
-                    x = x + 0.001 * Val_add_lose;
+                    x = x + 0.0001 * Val_add_lose;
                     oled_printf_float_px8(50, 6, x, 1, 4);
                 }
             }

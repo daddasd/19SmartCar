@@ -21,7 +21,7 @@ float NOR_VAL[7]={0};
 float AD_NOR_VAL[7]={0}; //归一化值
 int16 Inductance_Error=0; //电感误差
 uint16 ADC_MIN[7]={156,252,160,150,153,180,149};
-uint16 ADC_MAX[7]={2620,2620,2620,2620,2600,2600,2600}; //测出的电感最大，与最小值从左到右
+uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //测出的电感最大，与最小值从左到右
 int bug=0;
 /**
 *  @brief      ADC采集初始化
@@ -156,10 +156,10 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	R2_NOR_ADC=AD_NOR_VAL[5];
 	R1_NOR_ADC=AD_NOR_VAL[6];
 	
-	L1_NOR_ADC=0.78*L1_NOR_ADC;
+	L1_NOR_ADC=L1_NOR_ADC;
 	R1_NOR_ADC=I1*R1_NOR_ADC; 
-	L2_NOR_ADC=0.78*L2_NOR_ADC;
-	R2_NOR_ADC=I2*R2_NOR_ADC;
+	L2_NOR_ADC=0.65*L2_NOR_ADC;
+	R2_NOR_ADC=1.25*R2_NOR_ADC;
 
 	Left_Val=sq(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
 	Right_Val=sq(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
@@ -168,6 +168,10 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	if(ad_sum>35)
 	{
 		Inductance_Error=(ad_diff <<7)/(ad_sum+1);
+		if(Inductance_Error<40)	
+			Inductance_Error = Inductance_Error * 0.78;
+		else if(Inductance_Error > 75)
+			Inductance_Error = Inductance_Error * 1.2;
 	}
 	//Inductance_Error=ad_diff;
 	return Inductance_Error; //放大128倍

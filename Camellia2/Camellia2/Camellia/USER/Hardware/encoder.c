@@ -119,7 +119,8 @@ void TM4_Isr() interrupt 20
 //	Roundabout();
 //	if(Track_flag)
 //	Right_Angle();
-	Tracking(speed+Speed_Plan1);
+	Error_Speed();
+	Tracking(speed+Err_speed);
 	ctimer_count_clean(Encoder_L);
 	ctimer_count_clean(Encoder_R);
 	TIM4_CLEAR_FLAG; //����жϱ�־

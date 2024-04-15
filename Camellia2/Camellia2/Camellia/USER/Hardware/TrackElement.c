@@ -43,6 +43,8 @@ float Angle_D = 40;
 /*不同元素速度控制*/
 int Speed_Plan1 = 0;
 
+int Err_speed = 0;
+
 void Distace(int flag)
 {
 	DISTANCE_FLAG=flag;
@@ -237,6 +239,23 @@ void Tracking(int Set_speed)
 		pwm=Speed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
 		count=0;
 	}
-	Motor_PWM(pwm-dir_out,pwm+dir_out);
+		
+		Motor_PWM(pwm-dir_out,pwm+dir_out);
 }
-
+/**
+ * @brief 根据不同速度给标志位
+ * 
+ */
+void Error_Speed(void)
+{
+	if(Inductance_Error<40)
+		Err_speed = speed * 0.10; //提百分之30的速度
+	else if(Inductance_Error >=40 && Inductance_Error <=55)
+		Err_speed = speed * 0.15 ;//提百分之20的速度
+	else if(Inductance_Error > 55 && Inductance_Error <=65)
+		Err_speed = -speed * 0.65;//降低百分之45的速度
+	else if(Inductance_Error > 65 && Inductance_Error <=75)
+		Err_speed = -speed * 0.75;//降低百分之55的速度
+	else if(Inductance_Error >75)
+		Err_speed = -speed * 0.77;//降低百分之百的速度
+}

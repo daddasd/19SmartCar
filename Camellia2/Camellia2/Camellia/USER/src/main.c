@@ -45,11 +45,15 @@ void main()
  	Inductance_Init(); //adc采集初始化
 	Motor_Init();			 //电机初始化
 	Motor_SET_PID(Motor_P,Motor_I,0);
+
+	
+	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
 			mpu6050_get_gyro();
 			menu = First_menu();
+
 			if(menu == 1) Second_Element_menu();
 			if(menu == 2) Second_Motor_menu();
 			if(menu == 3) Second__NWHuan_menu();

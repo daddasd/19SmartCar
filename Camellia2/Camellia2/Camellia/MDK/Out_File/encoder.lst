@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -133,18 +133,20 @@ stmt  level    source
   119   1      //  Roundabout();
   120   1      //  if(Track_flag)
   121   1      //  Right_Angle();
-  122   1        Tracking(speed+Speed_Plan1);
-C251 COMPILER V5.60.0,  encoder                                                            12/04/24  21:27:07  PAGE 3   
+  122   1        Error_Speed();
+C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 3   
 
-  123   1        ctimer_count_clean(Encoder_L);
-  124   1        ctimer_count_clean(Encoder_R);
-  125   1        TIM4_CLEAR_FLAG; //����жϱ�־
-  126   1      }
+*** WARNING C140 IN LINE 122 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
+  123   1        Tracking(speed+Err_speed);
+  124   1        ctimer_count_clean(Encoder_L);
+  125   1        ctimer_count_clean(Encoder_R);
+  126   1        TIM4_CLEAR_FLAG; //����жϱ�־
+  127   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       371     ------
+  code size            =       374     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -163,4 +165,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

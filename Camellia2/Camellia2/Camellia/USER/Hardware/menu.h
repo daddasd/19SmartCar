@@ -8,7 +8,8 @@
 
 extern float out_dir_p;
 extern float out_dir_d;
-
+extern float Mot_P;
+extern float Mot_D;
 
 
 int  Show_AllVal(int flag1);
