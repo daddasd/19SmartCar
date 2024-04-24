@@ -591,7 +591,6 @@ int Show_Val_Menu(void)
     {
 	      NORMALIZATION_TRACKING_ADC(1,1);
 			  show_val();
-				mpu6050_get_gyro();
         if (key4 == 0)  // ·µ»Ø
         {
             delay_ms(10);

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         14/04/24  18:41:00  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         16/04/24  13:16:25  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        
    55   1        x = number * 0.5F;
    56   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         14/04/24  18:41:00  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         16/04/24  13:16:25  PAGE 2   
 
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
   122   1        R2 = ad_valu1[5];
-C251 COMPILER V5.60.0,  Inductance                                                         14/04/24  18:41:00  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         16/04/24  13:16:25  PAGE 3   
 
   123   1        R1 = ad_valu1[6];
   124   1        
@@ -175,7 +175,7 @@ stmt  level    source
   159   1        L1_NOR_ADC=L1_NOR_ADC;
 *** WARNING C138 IN LINE 159 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
   160   1        R1_NOR_ADC=I1*R1_NOR_ADC; 
-  161   1        L2_NOR_ADC=0.65*L2_NOR_ADC;
+  161   1        L2_NOR_ADC=0.75*L2_NOR_ADC;
   162   1        R2_NOR_ADC=1.25*R2_NOR_ADC;
   163   1      
   164   1        Left_Val=sq(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
@@ -185,71 +185,67 @@ stmt  level    source
   168   1        if(ad_sum>35)
   169   1        {
   170   2          Inductance_Error=(ad_diff <<7)/(ad_sum+1);
-  171   2          if(Inductance_Error<40) 
-  172   2            Inductance_Error = Inductance_Error * 0.78;
-  173   2          else if(Inductance_Error > 75)
-  174   2            Inductance_Error = Inductance_Error * 1.2;
-  175   2        }
-  176   1        //Inductance_Error=ad_diff;
-  177   1        return Inductance_Error; //放大128倍
-  178   1      }
+  171   2        }
+  172   1        //Inductance_Error=ad_diff;
+  173   1        return Inductance_Error; //放大128倍
+  174   1      }
 *** WARNING C47 IN LINE 72 OF ..\USER\Hardware\Inductance.c: 'I2': unreferenced parameter
-  179          
-  180          /**
-  181          *  @brief      显示测量值
-  182          *  @param      void
-  183          *  @return     void         
-  184          **/
-  185          
-  186          void show_val(void)
-C251 COMPILER V5.60.0,  Inductance                                                         14/04/24  18:41:00  PAGE 4   
+  175          
+  176          /**
+  177          *  @brief      显示测量值
+  178          *  @param      void
+  179          *  @return     void         
+  180          **/
+  181          
+  182          void show_val(void)
+  183          {
+  184   1      //-----------------oled显示电感值----------------------//
+  185   1        oled_p6x8str(0,0,"L1:");
+  186   1        oled_uint16(15,0,L1_NOR_ADC);
+C251 COMPILER V5.60.0,  Inductance                                                         16/04/24  13:16:25  PAGE 4   
 
-  187          {
-  188   1      //-----------------oled显示电感值----------------------//
-  189   1        oled_p6x8str(0,0,"L1:");
-  190   1        oled_uint16(15,0,L1_NOR_ADC);
-  191   1      
-  192   1        oled_p6x8str(70,0,"R1:");
-  193   1        oled_uint16(85,0,R1_NOR_ADC);
-  194   1      
-  195   1        oled_p6x8str(0,1,"L2:");
-  196   1        oled_uint16(15,1,L2_NOR_ADC);
-  197   1      
-  198   1        oled_p6x8str(70,1,"R2:");
-  199   1        oled_uint16(85,1,R2_NOR_ADC);
-  200   1      
-  201   1        oled_p6x8str(0,2,"L3:");
-  202   1        oled_uint16(15,2,L3_NOR_ADC);
-  203   1      
-  204   1        oled_p6x8str(70,2,"R3:");
-  205   1        oled_uint16(85,2,R3_NOR_ADC);
-  206   1      
-  207   1        oled_p6x8str(0,3,"Err:");
-  208   1        oled_int16(20,3,Inductance_Error);
-  209   1        
-  210   1        oled_p6x8str(70,3,"M1:");
-  211   1        oled_uint16(85,3,M1_NOR_ADC);
-  212   1      ////-----------------陀螺仪角速度------------------------//
-  213   1      
-  214   1        oled_p6x8str(0,4,"gyro_z:");
-  215   1        oled_printf_float(45,4,Get_Angle(),5,6);
-  216   1        oled_int16(0,5,L_Pulse);
-  217   1        oled_int16(60,5,R_Pulse);
-  218   1        oled_int16(0,6,dir_out);
-  219   1        oled_int16(60,6,nh_out);
-  220   1      //-----------------TOF距离------------------------//
-  221   1      //  if(dl1a_finsh_flag)
-  222   1      //  {
-  223   1      //    dl1a_finsh_flag = 0;
-  224   1      //    oled_int16(60,6,dl1a_distance_mm);
-  225   1      //  }
-  226   1      
-  227   1      }
+  187   1      
+  188   1        oled_p6x8str(70,0,"R1:");
+  189   1        oled_uint16(85,0,R1_NOR_ADC);
+  190   1      
+  191   1        oled_p6x8str(0,1,"L2:");
+  192   1        oled_uint16(15,1,L2_NOR_ADC);
+  193   1      
+  194   1        oled_p6x8str(70,1,"R2:");
+  195   1        oled_uint16(85,1,R2_NOR_ADC);
+  196   1      
+  197   1        oled_p6x8str(0,2,"L3:");
+  198   1        oled_uint16(15,2,L3_NOR_ADC);
+  199   1      
+  200   1        oled_p6x8str(70,2,"R3:");
+  201   1        oled_uint16(85,2,R3_NOR_ADC);
+  202   1      
+  203   1        oled_p6x8str(0,3,"Err:");
+  204   1        oled_int16(20,3,Inductance_Error);
+  205   1        
+  206   1        oled_p6x8str(70,3,"M1:");
+  207   1        oled_uint16(85,3,M1_NOR_ADC);
+  208   1      ////-----------------陀螺仪角速度------------------------//
+  209   1      
+  210   1        oled_p6x8str(0,4,"gyro_z:");
+  211   1        oled_int16(45,4,imu660ra_gyro_z);
+  212   1        oled_int16(0,5,L_Pulse);
+  213   1        oled_int16(60,5,R_Pulse);
+  214   1        oled_int16(0,6,dir_out);
+  215   1        oled_int16(60,6,nh_out);
+  216   1      //-----------------TOF距离------------------------//
+  217   1      //  if(dl1a_finsh_flag)
+  218   1      //  {
+  219   1      //    dl1a_finsh_flag = 0;
+  220   1      //    oled_int16(60,6,dl1a_distance_mm);
+  221   1      //  }
+  222   1      
+  223   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2225     ------
+  code size            =      2131     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

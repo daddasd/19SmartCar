@@ -10,10 +10,10 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 0.849;
-float Nh_D = 1.119;
-float Wh_P = 90;
-float Wh_D = 320;
+float Nh_P = 0.550;
+float Nh_D = 1.75;
+float Wh_P = 22;
+float Wh_D = 10;
 
 //--
 //@brief      方向环(外环) 位置式
@@ -52,16 +52,18 @@ int nh_Turn_Out(int err, float dir_p, float dir_d)
   static float last_error = 0;
   float Output;
   float error_derivative;
+	static float I_out;
   // 计算位置误差
-  error = err - Get_Angle() * 0.0075;
+  error = err - imu660ra_gyro_z/65.6;
   // 计算位置误差变化率
+	
   error_derivative = error - last_error;
-  // 计算PD控制器的输出
-  Output = (int)(error * dir_p + error_derivative * dir_d);
+  Output += (int)(error * dir_p+error_derivative*dir_d);
   // 更新上一时刻的位置误差
   last_error = error;
   // 对输出进行限幅
-  Output = limit(Output, out_max);
+	nh_out = limit(Output, out_max);
+  Output = nh_out;
   return (int)Output;
 }
 

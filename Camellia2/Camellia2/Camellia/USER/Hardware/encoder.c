@@ -4,7 +4,7 @@
 int dir_out=0,nh_out=0;
 int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
 double angle1=0.0;
-int speed = 105;
+int speed = 75;
 
 //--
 //  @brief    	��������ʼ��
@@ -116,6 +116,7 @@ void TM4_Isr() interrupt 20
 	L_Pulse=L_Encoder_Pulse();
 	R_Pulse=R_Encoder_Pulse();
 	NORMALIZATION_TRACKING_ADC(1,1);
+//	imu660ra_get_gyro();
 //	Roundabout();
 //	if(Track_flag)
 //	Right_Angle();

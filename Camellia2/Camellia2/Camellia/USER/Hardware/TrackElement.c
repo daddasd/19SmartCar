@@ -249,13 +249,11 @@ void Tracking(int Set_speed)
 void Error_Speed(void)
 {
 	if(Inductance_Error<40)
-		Err_speed = speed * 0.10; //提百分之30的速度
+		Err_speed = speed * 010; //提百分之30的速度
 	else if(Inductance_Error >=40 && Inductance_Error <=55)
-		Err_speed = speed * 0.15 ;//提百分之20的速度
-	else if(Inductance_Error > 55 && Inductance_Error <=65)
-		Err_speed = -speed * 0.65;//降低百分之45的速度
+		Err_speed = speed * 0.05 ;//提百分之10的速度
 	else if(Inductance_Error > 65 && Inductance_Error <=75)
-		Err_speed = -speed * 0.75;//降低百分之55的速度
+		Err_speed = -speed * 0.50;//降低百分之55的速度
 	else if(Inductance_Error >75)
-		Err_speed = -speed * 0.77;//降低百分之百的速度
+		Err_speed = -speed * 0.60;//降低百分之百的速度
 }

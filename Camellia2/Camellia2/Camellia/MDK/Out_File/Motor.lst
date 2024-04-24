@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              15/04/24  09:54:27  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              17/04/24  12:58:50  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -22,10 +22,10 @@ stmt  level    source
    10          
    11          
    12          
-   13          #define MOTOR_MAX  7000
+   13          #define MOTOR_MAX  8000
    14          
-   15          float Motor_P = 12.3085;
-   16          float Motor_I = 0.019;
+   15          float Motor_P = 12.55;
+   16          float Motor_I = 0.0003;
    17          
    18          Motor_PID_InitTypedef Motor_pid;
    19          
@@ -53,91 +53,91 @@ stmt  level    source
    41   1          pwm_init(MOTOR_R_PWM, 17000,0);
    42   1      }
    43          
-   44          //--
-   45          //  @brief      输出pwm
-   46          //  @param      L_PWM:左电机pwm
-   47          //  @param      R_PWM:右电机pwm
-   48          //  @return     void         
-   49          //--
-   50          
-   51          void Motor_PWM(int L_PWM,int R_PWM)
-   52          {
-   53   1      
-   54   1        if(L_PWM<0)
-   55   1            L_PWM=L_PWM*1.7;
-   56   1        else if(R_PWM<0)
-C251 COMPILER V5.60.0,  Motor                                                              15/04/24  09:54:27  PAGE 2   
+   44          
+   45          
+   46          //--
+   47          //  @brief      输出pwm
+   48          //  @param      L_PWM:左电机pwm
+   49          //  @param      R_PWM:右电机pwm
+   50          //  @return     void         
+   51          //--
+   52          
+   53          void Motor_PWM(int L_PWM,int R_PWM)
+   54          {
+   55   1        if(L_PWM<0)
+   56   1        {
+C251 COMPILER V5.60.0,  Motor                                                              17/04/24  12:58:50  PAGE 2   
 
-   57   1            R_PWM=R_PWM*1.7;
-   58   1        if(L_PWM<0)
-   59   1        {
-   60   2          MOTOR_L_DIR=1;
-   61   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
-   62   2        }
-   63   1        else{
-   64   2          MOTOR_L_DIR=0;
-   65   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-   66   2        }
-   67   1        if(R_PWM<0)
-   68   1        {
-   69   2          MOTOR_R_DIR=1;
-   70   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
-   71   2        }
-   72   1        else{
-   73   2          MOTOR_R_DIR=0;
-   74   2          pwm_duty(MOTOR_R_PWM,R_PWM);
-   75   2        }
-   76   1      }
-   77          
-   78          //--
-   79          //  @brief      电机pid调节
-   80          //  @param      kp,ki.kd
-   81          //  @return     void         
-   82          //--
-   83          
-   84          void Motor_SET_PID(float Kp,float Ki,float Kd)
-   85          {
-   86   1        Motor_pid.Motor_Target_Value=0;
-   87   1        Motor_pid.Motor_Actual_Value=0;
-   88   1        Motor_pid.Motor_err=0;
-   89   1        Motor_pid.Motor_err_last=0;
-   90   1        Motor_pid.Motor_err_last2=0;
-   91   1        Motor_pid.Motor_Kp=Kp;
-   92   1        Motor_pid.Motor_Ki=Ki;
-   93   1        Motor_pid.Motor_Kd=Kd;
-   94   1        Motor_pid.Motor_Out_Value=0;
-   95   1        Motor_pid.Motor_integral=0;
-   96   1      }
-   97          
-   98          /*入口：NEW_DATA 新采样值
-   99                 OLD_DATA 上次滤波结果
-  100                 k        滤波系数(0~255)(代表在滤波结果中的权重)
-  101            出口：         本次滤波结果
-  102           */
-  103           char filter_1(char NEW_DATA,char OLD_DATA,char k)
-  104          {
-  105   1          int result;
-  106   1          if(NEW_DATA<OLD_DATA)
-  107   1          {
-  108   2              result=OLD_DATA-NEW_DATA;
-  109   2              result=result*k;
-  110   2              result=result+128;//+128是为了四色五入
-  111   2              result=result/256;
-  112   2              result=OLD_DATA-result;
-  113   2          }
-  114   1          else if(NEW_DATA>OLD_DATA)
-  115   1          {
-  116   2              result=NEW_DATA-OLD_DATA;
-  117   2              result=result*k;
-  118   2              result=result+128;//+128是为了四色五入
-  119   2              result=result/256;
-  120   2              result=OLD_DATA-result;
-  121   2          }
-  122   1          else result=OLD_DATA;
-C251 COMPILER V5.60.0,  Motor                                                              15/04/24  09:54:27  PAGE 3   
+   57   2          MOTOR_L_DIR=1;
+   58   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
+   59   2        }
+   60   1        else{
+   61   2          MOTOR_L_DIR=0;
+   62   2          pwm_duty(MOTOR_L_PWM,L_PWM);
+   63   2        }
+   64   1        if(R_PWM<0)
+   65   1        {
+   66   2          MOTOR_R_DIR=1;
+   67   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
+   68   2        }
+   69   1        else{
+   70   2          MOTOR_R_DIR=0;
+   71   2          pwm_duty(MOTOR_R_PWM,R_PWM);
+   72   2        }
+   73   1      }
+   74          
+   75          
+   76          
+   77          //--
+   78          //  @brief      电机pid调节
+   79          //  @param      kp,ki.kd
+   80          //  @return     void         
+   81          //--
+   82          
+   83          void Motor_SET_PID(float Kp,float Ki,float Kd)
+   84          {
+   85   1        Motor_pid.Motor_Target_Value=0;
+   86   1        Motor_pid.Motor_Actual_Value=0;
+   87   1        Motor_pid.Motor_err=0;
+   88   1        Motor_pid.Motor_err_last=0;
+   89   1        Motor_pid.Motor_err_last2=0;
+   90   1        Motor_pid.Motor_Kp=Kp;
+   91   1        Motor_pid.Motor_Ki=Ki;
+   92   1        Motor_pid.Motor_Kd=Kd;
+   93   1        Motor_pid.Motor_Out_Value=0;
+   94   1        Motor_pid.Motor_integral=0;
+   95   1      }
+   96          
+   97          /*入口：NEW_DATA 新采样值
+   98                 OLD_DATA 上次滤波结果
+   99                 k        滤波系数(0~255)(代表在滤波结果中的权重)
+  100            出口：         本次滤波结果
+  101           */
+  102           char filter_1(char NEW_DATA,char OLD_DATA,char k)
+  103          {
+  104   1          int result;
+  105   1          if(NEW_DATA<OLD_DATA)
+  106   1          {
+  107   2              result=OLD_DATA-NEW_DATA;
+  108   2              result=result*k;
+  109   2              result=result+128;//+128是为了四色五入
+  110   2              result=result/256;
+  111   2              result=OLD_DATA-result;
+  112   2          }
+  113   1          else if(NEW_DATA>OLD_DATA)
+  114   1          {
+  115   2              result=NEW_DATA-OLD_DATA;
+  116   2              result=result*k;
+  117   2              result=result+128;//  +128是为了四色五入
+  118   2              result=result/256;
+  119   2              result=OLD_DATA-result;
+  120   2          }
+  121   1          else result=OLD_DATA;
+  122   1          return((char)result);
+C251 COMPILER V5.60.0,  Motor                                                              17/04/24  12:58:50  PAGE 3   
 
-  123   1          return((char)result);
-  124   1      }
+  123   1      }
+  124          
   125          
   126          
   127          //--
@@ -188,7 +188,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       858     ------
+  code size            =       782     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              15/04/24  09:54:27  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              17/04/24  12:58:50  PAGE 4   
 
   hconst size          =        32     ------
 End of Module Information.

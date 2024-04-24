@@ -55,7 +55,7 @@ double Get_Angle() {
     float filtered_angle;
     int i = 0;
     int window[WINDOW_SIZE];
-    double gyro_z = mpu6050_gyro_z - gyro_zero_wander();
+    double gyro_z = imu660ra_gyro_z - gyro_zero_wander();
 
     // µÍÍ¨ÂË²¨
     gyro_z = lowPassFilter(gyro_z, gyro_z_values[index], LOW_PASS_ALPHA);

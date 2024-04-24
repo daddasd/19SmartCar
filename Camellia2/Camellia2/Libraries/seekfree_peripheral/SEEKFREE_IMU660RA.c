@@ -55,7 +55,7 @@ int16 imu660ra_acc_x = 0, imu660ra_acc_y = 0, imu660ra_acc_z = 0;               
 
 #if IMU660RA_USE_SOFT_IIC
 
-#define GET_IMU660RA_SDA   		 		IMU660RA_SDA_PIN
+#define GET_IMU660RA_SDA   		 		    IMU660RA_SDA_PIN
 #define IMU660RA_SCL_LOW()          	IMU660RA_SCL_PIN = 0		//IO口输出低电平
 #define IMU660RA_SCL_HIGH()         	IMU660RA_SCL_PIN = 1		//IO口输出高电平
 #define IMU660RA_SDA_LOW()          	IMU660RA_SDA_PIN = 0		//IO口输出低电平

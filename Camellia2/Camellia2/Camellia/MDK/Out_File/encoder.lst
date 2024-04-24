@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            17/04/24  15:48:18  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -16,7 +16,7 @@ stmt  level    source
     4          int dir_out=0,nh_out=0;
     5          int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
     6          double angle1=0.0;
-    7          int speed = 105;
+    7          int speed = 75;
     8          
     9          //--
    10          //  @brief      ��������ʼ��
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            17/04/24  15:48:18  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -130,18 +130,19 @@ stmt  level    source
   116   1        L_Pulse=L_Encoder_Pulse();
   117   1        R_Pulse=R_Encoder_Pulse();
   118   1        NORMALIZATION_TRACKING_ADC(1,1);
-  119   1      //  Roundabout();
-  120   1      //  if(Track_flag)
-  121   1      //  Right_Angle();
-  122   1        Error_Speed();
-C251 COMPILER V5.60.0,  encoder                                                            14/04/24  20:17:21  PAGE 3   
+  119   1      //  imu660ra_get_gyro();
+  120   1      //  Roundabout();
+  121   1      //  if(Track_flag)
+  122   1      //  Right_Angle();
+C251 COMPILER V5.60.0,  encoder                                                            17/04/24  15:48:18  PAGE 3   
 
-*** WARNING C140 IN LINE 122 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
-  123   1        Tracking(speed+Err_speed);
-  124   1        ctimer_count_clean(Encoder_L);
-  125   1        ctimer_count_clean(Encoder_R);
-  126   1        TIM4_CLEAR_FLAG; //����жϱ�־
-  127   1      }
+  123   1        Error_Speed();
+*** WARNING C140 IN LINE 123 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
+  124   1        Tracking(speed+Err_speed);
+  125   1        ctimer_count_clean(Encoder_L);
+  126   1        ctimer_count_clean(Encoder_R);
+  127   1        TIM4_CLEAR_FLAG; //����жϱ�־
+  128   1      }
 
 
 Module Information          Static   Overlayable

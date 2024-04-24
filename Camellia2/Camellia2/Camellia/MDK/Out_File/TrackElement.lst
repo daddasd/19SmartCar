@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  TrackElement                                                       15/04/24  09:54:28  PAGE 1   
+C251 COMPILER V5.60.0,  TrackElement                                                       17/04/24  15:41:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
@@ -66,7 +66,7 @@ stmt  level    source
    54          
    55          /**
    56          *  @brief      十字路口
-C251 COMPILER V5.60.0,  TrackElement                                                       15/04/24  09:54:28  PAGE 2   
+C251 COMPILER V5.60.0,  TrackElement                                                       17/04/24  15:41:29  PAGE 2   
 
    57          *  @param      void
    58          *  @return     void
@@ -134,7 +134,7 @@ stmt  level    source
   120   3              ring_flag=0;
   121   3              Track_flag=0;
   122   3            }
-C251 COMPILER V5.60.0,  TrackElement                                                       15/04/24  09:54:28  PAGE 3   
+C251 COMPILER V5.60.0,  TrackElement                                                       17/04/24  15:41:29  PAGE 3   
 
   123   2            else
   124   2            {
@@ -202,7 +202,7 @@ stmt  level    source
   185           * @brief 根据标志位给不同速度
   186           * 
   187           * @param speed_flag 
-C251 COMPILER V5.60.0,  TrackElement                                                       15/04/24  09:54:28  PAGE 4   
+C251 COMPILER V5.60.0,  TrackElement                                                       17/04/24  15:41:29  PAGE 4   
 
   188           */
   189          void Speed_Plan(int speed_flag)
@@ -268,23 +268,21 @@ stmt  level    source
   249          void Error_Speed(void)
   250          {
   251   1        if(Inductance_Error<40)
-  252   1          Err_speed = speed * 0.10; //提百分之30的速度
+  252   1          Err_speed = speed * 010; //提百分之30的速度
   253   1        else if(Inductance_Error >=40 && Inductance_Error <=55)
-C251 COMPILER V5.60.0,  TrackElement                                                       15/04/24  09:54:28  PAGE 5   
+C251 COMPILER V5.60.0,  TrackElement                                                       17/04/24  15:41:29  PAGE 5   
 
-  254   1          Err_speed = speed * 0.15 ;//提百分之20的速度
-  255   1        else if(Inductance_Error > 55 && Inductance_Error <=65)
-  256   1          Err_speed = -speed * 0.65;//降低百分之45的速度
-  257   1        else if(Inductance_Error > 65 && Inductance_Error <=75)
-  258   1          Err_speed = -speed * 0.75;//降低百分之55的速度
-  259   1        else if(Inductance_Error >75)
-  260   1          Err_speed = -speed * 0.77;//降低百分之百的速度
-  261   1      }
+  254   1          Err_speed = speed * 0.05 ;//提百分之10的速度
+  255   1        else if(Inductance_Error > 65 && Inductance_Error <=75)
+  256   1          Err_speed = -speed * 0.50;//降低百分之55的速度
+  257   1        else if(Inductance_Error >75)
+  258   1          Err_speed = -speed * 0.60;//降低百分之百的速度
+  259   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1650     ------
+  code size            =      1579     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

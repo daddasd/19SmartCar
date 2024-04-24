@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               14/04/24  18:41:00  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               17/04/24  16:55:45  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -47,7 +47,7 @@ stmt  level    source
    36   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
    37   1        board_init();         // 初始化寄存器,勿删除此句代码。
    38   1        // 此处编写用户代码 例如外设初始化代码等
-   39   1        mpu6050_init();//陀螺仪初始化
+   39   1        imu660ra_init();        //六轴陀螺仪初始化
    40   1        uart_init(UART_1,UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2); 
    41   1        //ips114_init();
    42   1        oled_init();     
@@ -57,45 +57,41 @@ stmt  level    source
    46   1        Motor_Init();      //电机初始化
    47   1        Motor_SET_PID(Motor_P,Motor_I,0);
    48   1      
-   49   1        
-   50   1        
-   51   1          // 此处编写用户代码 例如外设初始化代码等
-   52   1          while(1)
-   53   1          {
-   54   2            mpu6050_get_gyro();
-   55   2            menu = First_menu();
-   56   2      
-   57   2            if(menu == 1) Second_Element_menu();
-C251 COMPILER V5.60.0,  main                                                               14/04/24  18:41:00  PAGE 2   
-
-   58   2            if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 58 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+   49   1          // 此处编写用户代码 例如外设初始化代码等
+   50   1          while(1)
+   51   1          { 
+   52   2            imu660ra_get_gyro();
+   53   2            menu = First_menu();
+   54   2            if(menu == 1) Second_Element_menu();
+   55   2            if(menu == 2) Second_Motor_menu();
+*** WARNING C140 IN LINE 55 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
-   59   2            if(menu == 3) Second__NWHuan_menu();
-   60   2            if(menu == 4) Second__Speed_menu();
-   61   2            if(menu == 5) Show_Val_Menu();
-   62   2            if(menu == 6){
-   63   3              flag=1;
-   64   3              oled_printf_float(45,4,angle1,5,6);
-   65   3              if(flag == 1)
-   66   3              {
-   67   4                Encoder_Time_Init();
-   68   4                flag = 0;
-   69   4              }
-   70   3              menu = 0;
-   71   3            }
-   72   2          }
-   73   1      }
-   74          
-   75          
-   76          //调不动就回家
-   77          
-   78                                               
+C251 COMPILER V5.60.0,  main                                                               17/04/24  16:55:45  PAGE 2   
+
+   56   2            if(menu == 3) Second__NWHuan_menu();
+   57   2            if(menu == 4) Second__Speed_menu();
+   58   2            if(menu == 5) Show_Val_Menu();
+   59   2            if(menu == 6){
+   60   3              flag=1;
+   61   3              if(flag == 1)
+   62   3              {
+   63   4                Encoder_Time_Init();
+   64   4                flag = 0;
+   65   4              }
+   66   3              menu = 0;
+   67   3            }
+   68   2          }
+   69   1      }
+   70          
+   71          
+   72          //调不动就回家
+   73          
+   74                                               
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       242     ------
+  code size            =       219     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

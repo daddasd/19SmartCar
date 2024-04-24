@@ -10,10 +10,10 @@
 
 
 
-#define MOTOR_MAX  7000
+#define MOTOR_MAX  8000
 
-float Motor_P = 12.3085;
-float Motor_I = 0.019;
+float Motor_P = 12.55;
+float Motor_I = 0.0003;
 
 Motor_PID_InitTypedef Motor_pid;
 
@@ -41,6 +41,8 @@ void Motor_Init(void)
     pwm_init(MOTOR_R_PWM, 17000,0);
 }
 
+
+
 //--
 //  @brief      输出pwm
 //  @param      L_PWM:左电机pwm
@@ -50,11 +52,6 @@ void Motor_Init(void)
 
 void Motor_PWM(int L_PWM,int R_PWM)
 {
-
-	if(L_PWM<0)
-			L_PWM=L_PWM*1.7;
-	else if(R_PWM<0)
-			R_PWM=R_PWM*1.7;
 	if(L_PWM<0)
 	{
 		MOTOR_L_DIR=1;
@@ -74,6 +71,8 @@ void Motor_PWM(int L_PWM,int R_PWM)
 		pwm_duty(MOTOR_R_PWM,R_PWM);
 	}
 }
+
+
 
 //--
 //  @brief      电机pid调节
@@ -115,13 +114,14 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
     {
         result=NEW_DATA-OLD_DATA;
         result=result*k;
-        result=result+128;//+128是为了四色五入
+        result=result+128;//  +128是为了四色五入
         result=result/256;
         result=OLD_DATA-result;
     }
     else result=OLD_DATA;
     return((char)result);
 }
+
 
 
 //--
