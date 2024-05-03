@@ -1,0 +1,11 @@
+Build target 'STC32F12K'
+linking...
+*** WARNING L25: DATA TYPES DIFFERENT
+    SYMBOL:  Error_Speed
+    MODULE:  .\Out_File\encoder.obj (encoder)
+   DEFINED:  .\Out_File\TrackElement.obj (TrackElement)
+
+Program Size: data=8.0 edata+hdata=4008 xdata=0 const=1535 code=36490
+creating hex file from ".\Out_File\SEEKFREE"...
+".\Out_File\SEEKFREE" - 0 Error(s), 1 Warning(s).
+Build Time Elapsed:  00:00:01

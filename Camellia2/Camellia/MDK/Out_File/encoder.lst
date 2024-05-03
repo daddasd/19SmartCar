@@ -1,0 +1,168 @@
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
+OBJECT MODULE PLACED IN .\Out_File\encoder.obj
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
+                    -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
+                    -encoder.obj) 
+
+stmt  level    source
+
+    1          #include "myconfig.h"
+    2          
+    3          
+    4          int dir_out=0,nh_out=0;
+    5          int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
+    6          double angle1=0.0;
+    7          int speed = 105;
+    8          
+    9          //--
+   10          //  @brief      ��������ʼ��
+   11          //  @param      void
+   12          //  @return     void         
+   13          //--
+   14          
+   15          void Encoder_Time_Init(void)
+   16          {
+   17   1          pit_timer_ms(TIM_4,2); 
+   18   1          gpio_mode(Encoder_L, GPI_IMPEDANCE);
+   19   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
+   20   1          ctimer_count_init(Encoder_L);
+   21   1          ctimer_count_init(Encoder_R);
+   22   1          EnableGlobalIRQ();  //�������ж�
+   23   1      }
+   24          
+   25          //--
+   26          //  @brief      ���������ȡ����
+   27          //  @param      void
+   28          //  @return     return : ����ֵ         
+   29          //--
+   30          
+   31          int L_Encoder_Pulse(void)
+   32          {
+   33   1          if(DIL == 1)
+   34   1          {
+   35   2            L_Pulse = ctimer_count_read(Encoder_L);
+   36   2          }
+   37   1          else
+   38   1          {
+   39   2            L_Pulse = ctimer_count_read(Encoder_L);
+   40   2          }
+   41   1          return L_Pulse;  
+   42   1      }
+   43          
+   44          //--
+   45          //  @brief      �ұ�������ȡ����
+   46          //  @param      void
+   47          //  @return     return : ����ֵ         
+   48          //--
+   49          int R_Encoder_Pulse(void)
+   50          {
+   51   1          if(DIR == 0)
+   52   1          {
+   53   2            R_Pulse = ctimer_count_read(Encoder_R);
+   54   2      
+   55   2          }
+   56   1          else
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 2   
+
+   57   1          {
+   58   2            R_Pulse = ctimer_count_read(Encoder_R);
+   59   2          }
+   60   1           return R_Pulse;  
+   61   1      }
+   62          
+   63          //--
+   64          //  @brief      ��������ֵ
+   65          //  @param      void
+   66          //  @return     void        
+   67          //--
+   68          void Encoder_Read_Pulse(void)
+   69          {
+   70   1        L_Encoder_Pulse();
+   71   1        R_Encoder_Pulse();
+   72   1      }
+   73          //--
+   74          //  @brief      �����������
+   75          //  @param      L_cont��R_cont���ֵ�Ŀ��ֵ
+   76          //  @return     void        
+   77          //--
+   78          int L_Enc_integral(int L_target)
+   79          {
+   80   1         static int L=0,L_flag;
+   81   1          L+=L_Encoder_Pulse();
+   82   1         if(L>L_target)
+   83   1         {
+   84   2            L_flag=1;
+   85   2         }
+   86   1         if(L_flag==1)
+   87   1         {
+   88   2           L=0;
+   89   2           L_flag=0;
+   90   2           return 0;
+   91   2         }
+   92   1         return 1;
+   93   1      }
+   94          
+   95          
+   96          int R_Enc_integral(int R_target)
+   97          {
+   98   1         static int R=0,R_flag;
+   99   1         R+=R_Encoder_Pulse();
+  100   1         if(R>R_target)
+  101   1         {
+  102   2            R_flag=1;
+  103   2         }
+  104   1         if(R_flag==1)
+  105   1         {
+  106   2           R_flag=0;
+  107   2           R=0;
+  108   2           return 0;
+  109   2         }
+  110   1         return 1;
+  111   1      }
+  112          
+  113          void TM4_Isr() interrupt 20
+  114          {
+  115   1        static int count=0;
+  116   1        L_Pulse=L_Encoder_Pulse();
+  117   1        R_Pulse=R_Encoder_Pulse();
+  118   1        NORMALIZATION_TRACKING_ADC(1,1);
+  119   1      //  Roundabout();
+  120   1      //  if(Track_flag)
+  121   1      //  Right_Angle();
+  122   1        Error_Speed();
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 3   
+
+*** WARNING C140 IN LINE 122 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
+  123   1        Tracking(speed+Err_speed);
+  124   1        ctimer_count_clean(Encoder_L);
+  125   1        ctimer_count_clean(Encoder_R);
+  126   1        TIM4_CLEAR_FLAG; //����жϱ�־
+  127   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       374     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        30     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        62     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

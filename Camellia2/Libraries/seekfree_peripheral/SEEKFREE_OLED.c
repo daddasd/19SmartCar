@@ -260,7 +260,7 @@ void oled_putpixel(uint8 x,uint8 y,uint8 data1)
 void oled_clrpixel(uint8 x,uint8 y)
 {
 	oled_set_pos(x,y);
-    oled_wrcmd((uint8)(0xb0+y));
+  oled_wrcmd((uint8)(0xb0+y));
 	oled_wrcmd((uint8)(((x&0xf0)>>4)|0x10));
 	oled_wrcmd((uint8)((x&0x0f)|0x00));
 	oled_wrdat(0x00);
@@ -317,6 +317,25 @@ void oled_p8x16str(uint8 x,uint8 y,const int8 ch[])
 	  	x+=8;
 	  	j++;
 	}
+}
+
+//-------------------------------------------------------------------------------------------------------------------
+//  @brief      OLED显示无符号数(8*16字体)
+//  @param      x			x轴坐标设置0-127
+//  @param      y           y轴坐标设置0-7
+//  @param      num         无符号数
+//  @return     void
+//  @since      v1.0
+//  Sample usage:			
+//-------------------------------------------------------------------------------------------------------------------
+void oled_uint16_px8(uint8 x, uint8 y, uint16 num)
+{
+	int8 ch[7];
+	
+	oled_hexascii(num,ch);
+    
+    //oled_p6x8str(x, y, &ch[1]);	    //显示数字  6*8字体
+    oled_p8x16str(x, y, &ch[1]);	//显示数字  8*16字体
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -393,6 +412,55 @@ void oled_printf_int32(uint16 x,uint16 y,int32 dat,uint8 num)
     
     oled_p6x8str((uint8)x, (uint8)y, (int *)buff);	//显示数字
 }
+
+//-------------------------------------------------------------------------------------------------------------------
+//  @brief      OLED显示浮点数(去除整数部分无效的0)
+//  @param      x			x轴坐标设置0-127
+//  @param      y           y轴坐标设置0-7
+//  @param      dat       	需要显示的变量，数据类型float或double
+//  @param      num         整数位显示长度   最高10位  
+//  @param      pointnum    小数位显示长度   最高6位
+//  @return     void
+//  @since      v1.0
+//  Sample usage:           oled_printf_float(0,0,x,2,3);//显示浮点数   整数显示2位   小数显示三位
+//  @note                   特别注意当发现小数部分显示的值与你写入的值不一样的时候，
+//                          可能是由于浮点数精度丢失问题导致的，这并不是显示函数的问题，
+//                          有关问题的详情，请自行百度学习   浮点数精度丢失问题。
+//                          负数会显示一个 ‘-’号   正数显示一个空格
+//-------------------------------------------------------------------------------------------------------------------
+void oled_printf_float_px8(uint16 x,uint16 y,double dat,uint8 num,uint8 pointnum)
+{
+    uint8   length;
+	int8    buff[34];
+	int8    start,end,point;
+
+	if(6<pointnum)  pointnum = 6;
+    if(10<num)      num = 10;
+        
+    if(0>dat)   length = zf_sprintf( &buff[0],"%f",dat);//负数
+    else
+    {
+        length = zf_sprintf( &buff[1],"%f",dat);
+        length++;
+    }
+    point = length - 7;         //计算小数点位置
+    start = point - num - 1;    //计算起始位
+    end = point + pointnum + 1; //计算结束位
+    while(0>start)//整数位不够  末尾应该填充空格
+    {
+        buff[end] = ' ';
+        end++;
+        start++;
+    }
+    
+    if(0>dat)   buff[start] = '-';
+    else        buff[start] = ' ';
+    
+    buff[end] = '\0';
+    
+    oled_p8x16str((uint8)x, (uint8)y, (int8 *)buff);	//显示数字
+}
+
 
 //-------------------------------------------------------------------------------------------------------------------
 //  @brief      OLED显示浮点数(去除整数部分无效的0)

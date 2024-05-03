@@ -2,29 +2,6 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "motor.h": "c",
-        "myconfig.h": "c",
-        "headfile.h": "c",
-        "zf_gpio.h": "c"
-    },
-    "MicroPython.executeButton": [
-        {
-            "text": "▶",
-            "tooltip": "运行",
-            "alignment": "left",
-            "command": "extension.executeFile",
-            "priority": 3.5
-        }
-    ],
-    "MicroPython.syncButton": [
-        {
-            "text": "$(sync)",
-            "tooltip": "同步",
-            "alignment": "left",
-            "command": "extension.execute",
-            "priority": 4
-        }
-    ],
-    "code-runner.runInTerminal": true,
-    "code-runner.saveAllFilesBeforeRun": true,
-    "code-runner.saveFileBeforeRun": true
+        "myconfig.h": "c"
+    }
 }
