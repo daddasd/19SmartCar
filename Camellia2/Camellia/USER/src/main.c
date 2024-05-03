@@ -29,7 +29,7 @@
 // 如果需要使用P54引脚,可以在board.c文件中的board_init()函数中删除SET_P54_RESRT即可
 
 int flag=0;
-int menu=0;
+int menu = 0;
 void main()
 {
 	int i=0;
