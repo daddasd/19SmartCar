@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              03/05/24  10:26:02  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              03/05/24  16:21:03  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        if(L_PWM<0)
    55   1            L_PWM=L_PWM*1.7;
    56   1        else if(R_PWM<0)
-C251 COMPILER V5.60.0,  Motor                                                              03/05/24  10:26:02  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              03/05/24  16:21:03  PAGE 2   
 
    57   1            R_PWM=R_PWM*1.7;
    58   1        if(L_PWM<0)
@@ -134,7 +134,7 @@ stmt  level    source
   120   2              result=OLD_DATA-result;
   121   2          }
   122   1          else result=OLD_DATA;
-C251 COMPILER V5.60.0,  Motor                                                              03/05/24  10:26:02  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              03/05/24  16:21:03  PAGE 3   
 
   123   1          return((char)result);
   124   1      }
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              03/05/24  10:26:02  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              03/05/24  16:21:03  PAGE 4   
 
   hconst size          =        32     ------
 End of Module Information.

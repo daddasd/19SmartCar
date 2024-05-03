@@ -36,8 +36,8 @@ void main()
 	clock_init(SYSTEM_CLOCK_56M);	// 初始化系统频率,勿删除此句代码。
 	board_init();					// 初始化寄存器,勿删除此句代码。
   // 此处编写用户代码 例如外设初始化代码等
-	mpu6050_init();//陀螺仪初始化
-	uart_init(UART_1,UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2); 
+	imu660ra_init(); // 陀螺仪初始化
+	uart_init(UART_1,UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2);
 	//ips114_init();
 	oled_init();     
 	oled_fill(0x00);  
@@ -46,28 +46,32 @@ void main()
 	Motor_Init();			 //电机初始化
 	Motor_SET_PID(Motor_P,Motor_I,0);
 
-	
-	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
-			mpu6050_get_gyro();
-			menu = First_menu();
+		imu660ra_get_gyro();
+		menu = First_menu();
 
-			if(menu == 1) Second_Element_menu();
-			if(menu == 2) Second_Motor_menu();
-			if(menu == 3) Second__NWHuan_menu();
-			if(menu == 4) Second__Speed_menu();
-			if(menu == 5) Show_Val_Menu();
-			if(menu == 6){
-				flag=1;
-			  oled_printf_float(45,4,angle1,5,6);
-				if(flag == 1)
-				{
-					Encoder_Time_Init();
-					flag = 0;
-				}
-				menu = 0;
+		if (menu == 1)
+			Second_Element_menu();
+		if (menu == 2)
+			Second_Motor_menu();
+		if (menu == 3)
+			Second__NWHuan_menu();
+		if (menu == 4)
+			Second__Speed_menu();
+		if (menu == 5)
+			Show_Val_Menu();
+		if (menu == 6)
+		{
+			flag = 1;
+			oled_printf_float(45, 4, angle1, 5, 6);
+			if (flag == 1)
+			{
+				Encoder_Time_Init();
+				flag = 0;
+			}
+			menu = 0;
 			}
 		}
 }

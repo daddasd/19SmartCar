@@ -590,15 +590,16 @@ int Show_Val_Menu(void)
     while(1)
     {
 	      NORMALIZATION_TRACKING_ADC(1,1);
-			  show_val();
-				mpu6050_get_gyro();
-        if (key4 == 0)  // 返回
-        {
-            delay_ms(10);
-            while (key4 == 0);
-            delay_ms(10);
-            oled_fill(0x00); // 清屏
-            return 0; // 返回选择的选项
+		  show_val();
+          imu660ra_get_gyro();
+          if (key4 == 0) // 返回
+          {
+              delay_ms(10);
+              while (key4 == 0)
+                  ;
+              delay_ms(10);
+              oled_fill(0x00); // 清屏
+              return 0;        // 返回选择的选项
         }
     }
 }

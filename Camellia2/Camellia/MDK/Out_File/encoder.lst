@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -134,7 +134,7 @@ stmt  level    source
   120   1      //  if(Track_flag)
   121   1      //  Right_Angle();
   122   1        Error_Speed();
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  10:26:03  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 3   
 
 *** WARNING C140 IN LINE 122 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
   123   1        Tracking(speed+Err_speed);
