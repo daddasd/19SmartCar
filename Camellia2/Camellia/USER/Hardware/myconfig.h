@@ -17,5 +17,7 @@
 #include "math.h"
 #include "TrackElement.h"
 #include "menu.h"
+#include "RGB.h"
+#include "ALLInit.h"
 
 #endif

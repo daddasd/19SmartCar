@@ -1,0 +1,236 @@
+C251 COMPILER V5.60.0,  RGB                                                                04/05/24  21:50:49  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE RGB
+OBJECT MODULE PLACED IN .\Out_File\RGB.obj
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\RGB.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROW
+                    -SE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\US
+                    -ER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\RGB.lst) TABS(2) OBJECT(.\Out_File\RGB.obj)
+                    - 
+
+stmt  level    source
+
+    1          #include "myconfig.h"
+    2          
+    3          
+    4          
+    5          /**
+    6           * @brief 阿斌该死的RGB灯（亮瞎狗眼）
+    7           * @param R 
+    8           * @param G 
+    9           * @param B 
+   10           */
+   11          void WS2812_SendData(unsigned char R, unsigned char G, unsigned char B)
+   12          {
+   13   1          unsigned char i, j, temp[3];
+   14   1          temp[0] = G;
+   15   1          temp[1] = R;
+   16   1          temp[2] = B;
+   17   1          for (j = 0; j < 3; i++)
+   18   1          {
+   19   2              for (i = 0; i < 8; i++)
+   20   2              {
+   21   3                  if (temp[j] & (0x80 >> i)) // 发送1
+   22   3                  {
+   23   4      
+   24   4                  }
+   25   3                  else // 发送0
+   26   3                  {
+   27   4      
+   28   4                  }
+   29   3              }
+   30   2          }
+   31   1      }
+   32          
+   33          void WS2812_bit(bit data_bit)
+   34          {
+   35   1          if (data_bit)
+   36   1          {
+   37   2              RGB = 1;
+   38   2              _nop_();
+   39   2              _nop_();
+   40   2              _nop_();
+   41   2              _nop_();
+   42   2              _nop_();
+   43   2              _nop_();
+   44   2              _nop_();
+   45   2              _nop_();
+   46   2              _nop_();
+   47   2              _nop_();
+   48   2              _nop_();
+   49   2              _nop_();
+   50   2              _nop_();
+   51   2              _nop_();
+   52   2              _nop_();
+   53   2              _nop_();
+   54   2              _nop_();
+   55   2              _nop_();
+   56   2              _nop_();
+C251 COMPILER V5.60.0,  RGB                                                                04/05/24  21:50:49  PAGE 2   
+
+   57   2              _nop_();
+   58   2              _nop_();
+   59   2              _nop_();
+   60   2              _nop_();
+   61   2              _nop_();
+   62   2              _nop_();
+   63   2              _nop_();
+   64   2              _nop_();
+   65   2              _nop_();
+   66   2              _nop_();
+   67   2              _nop_();
+   68   2              _nop_();
+   69   2              _nop_();
+   70   2              _nop_(); //_nop_();    delay 23ns
+   71   2              _nop_();
+   72   2              _nop_();
+   73   2              _nop_();
+   74   2              RGB = 0;
+   75   2              _nop_();
+   76   2              _nop_();
+   77   2              _nop_();
+   78   2              _nop_();
+   79   2              _nop_();
+   80   2              _nop_();
+   81   2              _nop_();
+   82   2              _nop_();
+   83   2              _nop_();
+   84   2              _nop_();
+   85   2              _nop_();
+   86   2              _nop_();
+   87   2              _nop_();
+   88   2          }
+   89   1          else
+   90   1          {
+   91   2              RGB = 1;
+   92   2              _nop_();
+   93   2              _nop_();
+   94   2              _nop_();
+   95   2              _nop_();
+   96   2              _nop_();
+   97   2              _nop_();
+   98   2              _nop_();
+   99   2              _nop_();
+  100   2              _nop_();
+  101   2              _nop_();
+  102   2              _nop_();
+  103   2              RGB = 0;
+  104   2              _nop_();
+  105   2              _nop_();
+  106   2              _nop_();
+  107   2              _nop_();
+  108   2              _nop_();
+  109   2              _nop_();
+  110   2              _nop_();
+  111   2              _nop_();
+  112   2              _nop_();
+  113   2              _nop_();
+  114   2              _nop_();
+  115   2              _nop_();
+  116   2              _nop_();
+  117   2              _nop_();
+  118   2              _nop_();
+  119   2              _nop_();
+  120   2              _nop_();
+  121   2              _nop_();
+  122   2              _nop_();
+C251 COMPILER V5.60.0,  RGB                                                                04/05/24  21:50:49  PAGE 3   
+
+  123   2              _nop_();
+  124   2              _nop_();
+  125   2              _nop_();
+  126   2              _nop_();
+  127   2              _nop_();
+  128   2              _nop_();
+  129   2              _nop_();
+  130   2              _nop_();
+  131   2              _nop_();
+  132   2              _nop_();
+  133   2              _nop_();
+  134   2              _nop_();
+  135   2              _nop_();
+  136   2              _nop_(); //_nop_();    delay 17ns
+  137   2              _nop_();
+  138   2              _nop_();
+  139   2              _nop_();
+  140   2              _nop_();
+  141   2              _nop_();
+  142   2              _nop_();
+  143   2              _nop_();
+  144   2              _nop_();
+  145   2              _nop_();
+  146   2          }
+  147   1      }
+  148          
+  149          void RGB_Color(unsigned char R, unsigned char G, unsigned char B)
+  150          {
+  151   1          WS2812_bit(G & 0X80);
+  152   1          WS2812_bit(G & 0X40);
+  153   1          WS2812_bit(G & 0X20);
+  154   1          WS2812_bit(G & 0X10);
+  155   1          WS2812_bit(G & 0X08);
+  156   1          WS2812_bit(G & 0X04);
+  157   1          WS2812_bit(G & 0X02);
+  158   1          WS2812_bit(G & 0X01);
+  159   1      
+  160   1          WS2812_bit(R & 0X80);
+  161   1          WS2812_bit(R & 0X40);
+  162   1          WS2812_bit(R & 0X20);
+  163   1          WS2812_bit(R & 0X10);
+  164   1          WS2812_bit(R & 0X08);
+  165   1          WS2812_bit(R & 0X04);
+  166   1          WS2812_bit(R & 0X02);
+  167   1          WS2812_bit(R & 0X01);
+  168   1      
+  169   1          WS2812_bit(B & 0X80);
+  170   1          WS2812_bit(B & 0X40);
+  171   1          WS2812_bit(B & 0X20);
+  172   1          WS2812_bit(B & 0X10);
+  173   1          WS2812_bit(B & 0X08);
+  174   1          WS2812_bit(B & 0X04);
+  175   1          WS2812_bit(B & 0X02);
+  176   1          WS2812_bit(B & 0X01);
+  177   1      }
+  178          
+  179          void RGB_Show(void)
+  180          {
+  181   1          unsigned char i = 0, j = 0, k = 0;
+  182   1      
+  183   1          // 递增遍历所有颜色值
+  184   1          for (i = 0; i < 254; i++)
+  185   1          {
+  186   2              for (j = 0; j < 254; j++)
+  187   2              {
+  188   3                  for (k = 0; k < 254; k++)
+C251 COMPILER V5.60.0,  RGB                                                                04/05/24  21:50:49  PAGE 4   
+
+  189   3                  {
+  190   4                      RGB_Color(i, j, k);
+  191   4                  }
+  192   3              }
+  193   2          }
+  194   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       759     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        14     ------
+  bit size             =         1     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

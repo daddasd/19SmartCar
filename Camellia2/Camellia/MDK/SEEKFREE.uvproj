@@ -799,6 +799,26 @@
               <FileType>5</FileType>
               <FilePath>..\USER\Hardware\menu.h</FilePath>
             </File>
+            <File>
+              <FileName>ALLInit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\Hardware\ALLInit.c</FilePath>
+            </File>
+            <File>
+              <FileName>ALLInit.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USER\Hardware\ALLInit.h</FilePath>
+            </File>
+            <File>
+              <FileName>RGB.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USER\Hardware\RGB.c</FilePath>
+            </File>
+            <File>
+              <FileName>RGB.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USER\Hardware\RGB.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

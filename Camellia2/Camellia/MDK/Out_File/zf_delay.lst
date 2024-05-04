@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  zf_delay                                                           03/05/24  10:26:00  PAGE 1   
+C251 COMPILER V5.60.0,  zf_delay                                                           04/05/24  20:36:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_delay
@@ -66,7 +66,7 @@ stmt  level    source
    48   1        vuint16 i;
    49   1        do {
    50   2            i = zf_delay_ms;
-C251 COMPILER V5.60.0,  zf_delay                                                           03/05/24  10:26:00  PAGE 2   
+C251 COMPILER V5.60.0,  zf_delay                                                           04/05/24  20:36:12  PAGE 2   
 
    51   2            while(--i);
    52   2           }while(--ms);
@@ -88,18 +88,24 @@ stmt  level    source
    66   2            while(--i);
    67   2           }while(--us);
    68   1      }
+   69          
+   70          void delay_ns(unsigned int ns)
+   71          {
+*** WARNING C57 IN LINE 71 OF ..\..\Libraries\seekfree_libraries\zf_delay.c: parameter 1: different from declaration
+   72   1        unsigned int cycles = ns * 56 / 10; // 根据 56MHz 主频计算循环次数
+   73   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       139     ------
+  code size            =       164     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        14     ------
+  edata size           =        18     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -111,4 +117,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

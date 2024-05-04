@@ -66,3 +66,8 @@ void delay_us(uint32 us)
 			while(--i);
 	   }while(--us);
 }
+
+void delay_ns(unsigned int ns)
+{
+	unsigned int cycles = ns * 56 / 10; // 根据 56MHz 主频计算循环次数
+}

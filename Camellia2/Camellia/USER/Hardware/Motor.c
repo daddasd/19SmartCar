@@ -31,12 +31,6 @@ int16 limit(int16 In,int16 limit)
 
 void Motor_Init(void)
 {
-		gpio_mode(P4_2, GPO_PP);
-		gpio_mode(P5_2, GPO_PP);
-		//gpio_pull_set(P0_0,NOPULL);
-		gpio_mode(P1_3, GPO_PP);
-	  gpio_mode(P2_6, GPO_PP);
-		P13=0;
     pwm_init(MOTOR_L_PWM, 17000,0);
     pwm_init(MOTOR_R_PWM, 17000,0);
 }
@@ -50,11 +44,6 @@ void Motor_Init(void)
 
 void Motor_PWM(int L_PWM,int R_PWM)
 {
-
-	if(L_PWM<0)
-			L_PWM=L_PWM*1.7;
-	else if(R_PWM<0)
-			R_PWM=R_PWM*1.7;
 	if(L_PWM<0)
 	{
 		MOTOR_L_DIR=1;
