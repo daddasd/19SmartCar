@@ -20,4 +20,7 @@
 #include "RGB.h"
 #include "ALLInit.h"
 
+extern int Car_Start_Flag;
+extern int Car_Stop_Flag;
+
 #endif
