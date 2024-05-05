@@ -46,23 +46,17 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 //@return     void
 //--
 
-int nh_Turn_Out(int err, float dir_p, float dir_d)
+int nh_Turn_Out(int err, float dir_p, float dir_i)
 {
-  float error;
-  static float last_error = 0;
-  float Output;
-  float error_derivative;
-  // 计算位置误差
-  error = err - Get_Angle() * 0.0075;
-  // 计算位置误差变化率
-  error_derivative = error - last_error;
-  // 计算PD控制器的输出
-  Output = (int)(error * dir_p + error_derivative * dir_d);
-  // 更新上一时刻的位置误差
-  last_error = error;
-  // 对输出进行限幅
-  Output = limit(Output, out_max);
-  return (int)Output;
+  int error1 = 0;
+  static last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
+  error1 = err - Get_Angle();
+  P_out = dir_p * last_err;
+  I_out = dir_i * error1;
+  nh_out += P_out + I_out;
+  last_err = error1;
+  limit(nh_out, 8000);
+  return (int)nh_out;
 }
 
 //--

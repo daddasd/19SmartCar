@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  direction                                                          03/05/24  16:21:03  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  direction                                                          05/05/24  11:33:25  PAGE 1   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  direction                                                          05/05/24  20:02:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -62,129 +58,115 @@ stmt  level    source
    46          //@return     void
    47          //--
    48          
-   49          int nh_Turn_Out(int err, float dir_p, float dir_d)
+   49          int nh_Turn_Out(int err, float dir_p, float dir_i)
    50          {
-   51   1        float error;
-   52   1        static float last_error = 0;
-   53   1        float Output;
-   54   1        float error_derivative;
-   55   1        // 计算位置误差
-   56   1        error = err - Get_Angle() * 0.0075;
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  direction                                                          03/05/24  16:21:03  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  direction                                                          05/05/24  11:33:25  PAGE 2   
->>>>>>> Menu
+   51   1        int error1 = 0;
+   52   1        static last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
+   53   1        error1 = err - Get_Angle();
+   54   1        P_out = dir_p * last_err;
+   55   1        I_out = dir_i * error1;
+   56   1        nh_out += P_out + I_out;
+C251 COMPILER V5.60.0,  direction                                                          05/05/24  20:02:06  PAGE 2   
 
-   57   1        // 计算位置误差变化率
-   58   1        error_derivative = error - last_error;
-   59   1        // 计算PD控制器的输出
-   60   1        Output = (int)(error * dir_p + error_derivative * dir_d);
-   61   1        // 更新上一时刻的位置误差
-   62   1        last_error = error;
-   63   1        // 对输出进行限幅
-   64   1        Output = limit(Output, out_max);
-   65   1        return (int)Output;
-   66   1      }
-   67          
-   68          //--
-   69          //@brief      方向环控制（内环1ms外环3ms）
-   70          //@param      void
-   71          //@return     方向环输出
-   72          //-
-   73          int DirControl(void)
-   74          {
-   75   1        static int count = 0;
-   76   1        static int wh_out = 0;
-   77   1        if (count == 3)
-   78   1        {
-   79   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
-   80   2          count = 0;
-   81   2        }
-   82   1        count++;
-   83   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
-   84   1      }
-   85          /**
-   86           * @brief 角度环
-   87           *
-   88           * @param target 目标角度
-   89           * @param actual 实际角度
-   90           */
-   91          int Angle_Ring(double target, double actual, float p, float i, float d)
-   92          {
-   93   1        float error;
-   94   1        static float last_error = 0, Ki_val = 0;
-   95   1        int Output;
-   96   1        float error_derivative;
-   97   1        // 计算位置误差
-   98   1        error = target - actual;
-   99   1        Ki_val += error;
-  100   1        if (Ki_val > 1000)
-  101   1          Ki_val = 1000;
-  102   1        if (Ki_val < -1000)
-  103   1          Ki_val = -1000;
-  104   1        // 计算位置误差变化率
-  105   1        error_derivative = error - last_error;
-  106   1        // 计算PD控制器的输出
-  107   1        Output = (int)error * p + error_derivative * d + Ki_val * i;
-  108   1        // 更新上一时刻的位置误差
-  109   1        last_error = error;
-  110   1        // 对输出进行限幅
-  111   1        Output = limit(Output, Angle_MAX);
-  112   1        Motor_PWM(-Output, +Output);
-  113   1        if (abs(error) < 5) // 如果误差小于5度代表到达目标角度
-  114   1        {
-  115   2          return 1;
-  116   2        }
-  117   1        return 0;
-  118   1      }
-  119          
-  120          /**
-  121           * @brief  方向环方案二，陀螺仪作为d项抑制
-  122           *
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  direction                                                          03/05/24  16:21:03  PAGE 3   
-=======
-C251 COMPILER V5.60.0,  direction                                                          05/05/24  11:33:25  PAGE 3   
->>>>>>> Menu
+   57   1        last_err = error1;
+   58   1        limit(nh_out, 8000);
+   59   1        return (int)nh_out;
+   60   1      }
+   61          
+   62          //--
+   63          //@brief      方向环控制（内环1ms外环3ms）
+   64          //@param      void
+   65          //@return     方向环输出
+   66          //-
+   67          int DirControl(void)
+   68          {
+   69   1        static int count = 0;
+   70   1        static int wh_out = 0;
+   71   1        if (count == 3)
+   72   1        {
+   73   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+   74   2          count = 0;
+   75   2        }
+   76   1        count++;
+   77   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+   78   1      }
+   79          /**
+   80           * @brief 角度环
+   81           *
+   82           * @param target 目标角度
+   83           * @param actual 实际角度
+   84           */
+   85          int Angle_Ring(double target, double actual, float p, float i, float d)
+   86          {
+   87   1        float error;
+   88   1        static float last_error = 0, Ki_val = 0;
+   89   1        int Output;
+   90   1        float error_derivative;
+   91   1        // 计算位置误差
+   92   1        error = target - actual;
+   93   1        Ki_val += error;
+   94   1        if (Ki_val > 1000)
+   95   1          Ki_val = 1000;
+   96   1        if (Ki_val < -1000)
+   97   1          Ki_val = -1000;
+   98   1        // 计算位置误差变化率
+   99   1        error_derivative = error - last_error;
+  100   1        // 计算PD控制器的输出
+  101   1        Output = (int)error * p + error_derivative * d + Ki_val * i;
+  102   1        // 更新上一时刻的位置误差
+  103   1        last_error = error;
+  104   1        // 对输出进行限幅
+  105   1        Output = limit(Output, Angle_MAX);
+  106   1        Motor_PWM(-Output, +Output);
+  107   1        if (abs(error) < 5) // 如果误差小于5度代表到达目标角度
+  108   1        {
+  109   2          return 1;
+  110   2        }
+  111   1        return 0;
+  112   1      }
+  113          
+  114          /**
+  115           * @brief  方向环方案二，陀螺仪作为d项抑制
+  116           *
+  117           * @param chazhi
+  118           * @param dir_p
+  119           * @param dir_d
+  120           * @param dir_d2
+  121           * @return int
+  122           */
+C251 COMPILER V5.60.0,  direction                                                          05/05/24  20:02:06  PAGE 3   
 
-  123           * @param chazhi
-  124           * @param dir_p
-  125           * @param dir_d
-  126           * @param dir_d2
-  127           * @return int
-  128           */
-  129          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
-  130          {
-*** WARNING C57 IN LINE 130 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
-  131   1        float error;
-  132   1        static float last_error = 0;
-  133   1        float Output;
-  134   1        float error_derivative;
-  135   1        // 计算位置误差
-  136   1        error = chazhi;
-  137   1        // 计算位置误差变化率
-  138   1        error_derivative = error - last_error;
-  139   1        // 计算PD控制器的输出
-  140   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
-  141   1        // 更新上一时刻的位置误差
-  142   1        last_error = error;
-  143   1        // 对输出进行限幅
-  144   1        Output = limit(Output, out_max);
-  145   1        return (int)Output;
-  146   1      }
+  123          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
+  124          {
+*** WARNING C57 IN LINE 124 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
+  125   1        float error;
+  126   1        static float last_error = 0;
+  127   1        float Output;
+  128   1        float error_derivative;
+  129   1        // 计算位置误差
+  130   1        error = chazhi;
+  131   1        // 计算位置误差变化率
+  132   1        error_derivative = error - last_error;
+  133   1        // 计算PD控制器的输出
+  134   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
+  135   1        // 更新上一时刻的位置误差
+  136   1        last_error = error;
+  137   1        // 对输出进行限幅
+  138   1        Output = limit(Output, out_max);
+  139   1        return (int)Output;
+  140   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       694     ------
+  code size            =       687     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       140     ------
+  edata size           =       134     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -192,7 +174,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        84     ------
+  hconst size          =       100     ------
 End of Module Information.
 
 

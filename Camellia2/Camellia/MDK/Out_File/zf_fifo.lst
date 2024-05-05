@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  zf_fifo                                                            03/05/24  16:19:53  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  11:03:45  PAGE 1   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  20:02:05  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_fifo
@@ -70,11 +66,7 @@ stmt  level    source
    50   1          fifo->max       = size;
    51   1          return FIFO_SUCCESS;
    52   1      }
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  zf_fifo                                                            03/05/24  16:19:53  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  11:03:45  PAGE 2   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  20:02:05  PAGE 2   
 
    53          
    54          //-------------------------------------------------------------------------------------------------------
@@ -142,11 +134,7 @@ stmt  level    source
              -------------
   107          uint32 fifo_used (fifo_struct *fifo)
   108          {
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  zf_fifo                                                            03/05/24  16:19:53  PAGE 3   
-=======
-C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  11:03:45  PAGE 3   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  20:02:05  PAGE 3   
 
   109   1          return (fifo->max - fifo->size);
   110   1      }
@@ -214,11 +202,7 @@ stmt  level    source
   163   1          uint8 data_check = 0;
   164   1          uint32 temp_length;
   165   1      
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  zf_fifo                                                            03/05/24  16:19:53  PAGE 4   
-=======
-C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  11:03:45  PAGE 4   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  zf_fifo                                                            05/05/24  20:02:05  PAGE 4   
 
   166   1          if(*length > fifo_used(fifo))
   167   1          {

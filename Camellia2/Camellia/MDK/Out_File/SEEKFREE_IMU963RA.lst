@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 1   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_IMU963RA
@@ -70,11 +66,7 @@ stmt  level    source
    52          int16 imu963ra_acc_x = 0,  imu963ra_acc_y = 0,  imu963ra_acc_z = 0;
    53          int16 imu963ra_mag_x = 0,  imu963ra_mag_y = 0,  imu963ra_mag_z = 0;
    54          
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 2   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 2   
 
    55          #if IMU963RA_USE_SOFT_IIC
                
@@ -142,11 +134,7 @@ stmt  level    source
                }
                
                
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 3   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 3   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 3   
 
                static int imu963ra_sccb_waitack(void)
                {
@@ -214,11 +202,7 @@ stmt  level    source
                        {
                            c+=1;   //读数据位，将接收的数据存c
                        }
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 4   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 4   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 4   
 
                    }
                
@@ -286,11 +270,7 @@ stmt  level    source
                //  @brief      模拟IIC从设备寄存器读取数据
                //  @param      dev_add     设备地址(低七位地址)
                //  @param      reg       寄存器地址
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 5   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 5   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 5   
 
                //  @return     uint8     返回寄存器的数据      
                //  @since      v1.0
@@ -358,11 +338,7 @@ stmt  level    source
              -------------
                #define imu963ra_write_acc_gyro_register(reg,dat)       (imu963ra_simiic_write_reg(IMU963RA_DEV_ADDR,reg,
              -dat))
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 6   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 6   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 6   
 
                
                //-------------------------------------------------------------------------------------------------------
@@ -430,11 +406,7 @@ stmt  level    source
   361          //-------------------------------------------------------------------------------------------------------
              -------------
   362          //  @brief      将val写入cmd对应的寄存器地址,同时返回status字节
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 7   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 7   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 7   
 
   363          //  @param      cmd         命令字
   364          //  @param      val         待写入寄存器的数值
@@ -502,11 +474,7 @@ stmt  level    source
   420          //  @since      v1.0
   421          //  Sample usage:
   422          //-------------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 8   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 8   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 8   
 
              -------------
   423          static void imu963ra_simspi_r_reg_bytes(uint8 cmd, uint8 *val, uint32 num)
@@ -574,11 +542,7 @@ stmt  level    source
   479          {
   480   1          IMU963RA_CS(0);
   481   1          imu963ra_simspi_r_reg_bytes( reg | IMU963RA_SPI_R, dat, len);
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 9   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 9   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 9   
 
   482   1      
   483   1          IMU963RA_CS(1);
@@ -646,11 +610,7 @@ stmt  level    source
   536   1          imu963ra_write_acc_gyro_register(IMU963RA_SLV0_CONFIG, 0x01);    
   537   1          imu963ra_write_acc_gyro_register(IMU963RA_MASTER_CONFIG, 0x4C);             // 仅在第一个周期�
              -��用通讯 开启上拉 I2C主机使能
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 10  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 10  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 10  
 
   538   1          
   539   1          // 等待通讯成功
@@ -718,11 +678,7 @@ stmt  level    source
   593   2          }
   594   1          return return_state;
   595   1      }
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 11  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 11  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 11  
 
   596          
   597          //-------------------------------------------------------------------------------------------------------
@@ -790,11 +746,7 @@ stmt  level    source
   653   1          imu963ra_gyro_x = (int16)(((uint16)dat[1]<<8 | dat[0]));
   654   1          imu963ra_gyro_y = (int16)(((uint16)dat[3]<<8 | dat[2]));
   655   1          imu963ra_gyro_z = (int16)(((uint16)dat[5]<<8 | dat[4]));
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 12  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 12  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 12  
 
   656   1      }
   657          
@@ -862,11 +814,7 @@ stmt  level    source
   710          //-------------------------------------------------------------------------------------------------------
              -------------
   711          float imu963ra_gyro_transition (int16 gyro_value)
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 13  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 13  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 13  
 
   712          {
   713   1          float gyro_dat = 0;
@@ -934,11 +882,7 @@ stmt  level    source
              -SDO_PIN, SPI_CS_NULL);
   762   1      //    gpio_init(IMU963RA_CS_PIN, GPO, GPIO_LOW, GPO_PUSH_PULL);
   763   1      //#endif
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 14  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 14  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 14  
 
   764   1      
   765   1          do
@@ -1006,11 +950,7 @@ stmt  level    source
   807   2      
   808   2              imu963ra_write_acc_gyro_register(IMU963RA_FUNC_CFG_ACCESS, 0x40);       // 开启HUB寄存器访�
              -�� 用于配置地磁计
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  03/05/24  16:19:54  PAGE 15  
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  11:03:45  PAGE 15  
->>>>>>> Menu
+C251 COMPILER V5.60.0,  SEEKFREE_IMU963RA                                                  05/05/24  20:02:06  PAGE 15  
 
   809   2              imu963ra_write_acc_gyro_register(IMU963RA_MASTER_CONFIG, 0x80);         // 复位I2C主机
   810   2              delay_ms(2);                             

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  main                                                               03/05/24  16:21:03  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  main                                                               05/05/24  11:48:16  PAGE 1   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  main                                                               05/05/24  20:02:06  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -45,63 +41,6 @@ stmt  level    source
    30          
    31          int flag=0;
    32          int menu = 0;
-<<<<<<< HEAD
-   33          void main()
-   34          {
-   35   1        int i=0;
-   36   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
-   37   1        board_init();         // 初始化寄存器,勿删除此句代码。
-   38   1        // 此处编写用户代码 例如外设初始化代码等
-   39   1        imu660ra_init(); // 陀螺仪初始化
-   40   1        uart_init(UART_1,UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2); 
-   41   1        //ips114_init();
-   42   1        oled_init();     
-   43   1        oled_fill(0x00);  
-   44   1        delay_init();
-   45   1        Inductance_Init(); //adc采集初始化
-   46   1        Motor_Init();      //电机初始化
-   47   1        Motor_SET_PID(Motor_P,Motor_I,0);
-   48   1      
-   49   1        
-   50   1        
-   51   1          // 此处编写用户代码 例如外设初始化代码等
-   52   1          while(1)
-   53   1          {
-   54   2          imu660ra_get_gyro();
-   55   2          menu = First_menu();
-   56   2      
-   57   2          if (menu == 1)
-C251 COMPILER V5.60.0,  main                                                               03/05/24  16:21:03  PAGE 2   
-
-   58   2            Second_Element_menu();
-   59   2          if (menu == 2)
-   60   2            Second_Motor_menu();
-*** WARNING C140 IN LINE 60 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
-             -()'
-   61   2          if (menu == 3)
-   62   2            Second__NWHuan_menu();
-   63   2          if (menu == 4)
-   64   2            Second__Speed_menu();
-   65   2          if (menu == 5)
-   66   2            Show_Val_Menu();
-   67   2          if (menu == 6)
-   68   2          {
-   69   3            flag = 1;
-   70   3            oled_printf_float(45, 4, angle1, 5, 6);
-   71   3            if (flag == 1)
-   72   3            {
-   73   4              Encoder_Time_Init();
-   74   4              flag = 0;
-   75   4            }
-   76   3            menu = 0;
-   77   3            }
-   78   2          }
-   79   1      }
-   80          
-   81          
-   82          
-   83                                               
-=======
    33          
    34          int Car_Start_Flag = 0;
    35          int Car_Stop_Flag = 0;
@@ -127,7 +66,7 @@ stmt  level    source
    53   2          if(menu == 3) Second__NWHuan_menu();
    54   2          if(menu == 4) Second__Speed_menu();
    55   2          if(menu == 5) Show_Val_Menu();
-C251 COMPILER V5.60.0,  main                                                               05/05/24  11:48:16  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               05/05/24  20:02:06  PAGE 2   
 
    56   2          if(menu == 6){
    57   3            Car_Start_Flag = 1;
@@ -138,7 +77,6 @@ stmt  level    source
    62          
    63          
    64                                               
->>>>>>> Menu
 
 
 Module Information          Static   Overlayable
