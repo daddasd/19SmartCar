@@ -25,7 +25,6 @@
 void delay_init();
 void delay_ms(uint16 x);
 void delay_us(uint32 us);
-
-
+void delay_ns(uint32 ns);
 
 #endif

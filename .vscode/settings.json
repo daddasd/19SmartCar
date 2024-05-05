@@ -17,5 +17,15 @@
             "command": "extension.execute",
             "priority": 4
         }
-    ]
+    ],
+    "files.associations": {
+        "myconfig.h": "c",
+        "vofa.h": "c",
+        "mpu6050.h": "c",
+        "allinit.h": "c",
+        "zf_delay.h": "c",
+        "board.h": "c",
+        "INTRINS.H": "cpp",
+        "trackelement.h": "c"
+    }
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 1   
+>>>>>>> Menu
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE board
@@ -66,7 +70,11 @@ stmt  level    source
    50   2              _nop_();
    51   2              _nop_();
    52   2              _nop_();
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 2   
+>>>>>>> Menu
 
    53   2              CLKDIV = 48;
    54   2          temp_sys_clk = clock;
@@ -134,7 +142,11 @@ stmt  level    source
   116   2      
   117   2          case SYSTEM_CLOCK_12M:
   118   2              //选择12MHz
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 3   
+>>>>>>> Menu
 
   119   2              CLKDIV = 0x04;
   120   2              IRTRIM = T24M_ADDR;
@@ -202,7 +214,11 @@ stmt  level    source
   182   2              IRCBAND = IRCBAND_44M;
   183   2              WTST = 0;       //设置程序读取等待控制寄存器
   184   2          _nop_();
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 4   
+>>>>>>> Menu
 
   185   2          _nop_();
   186   2          _nop_();
@@ -270,7 +286,11 @@ stmt  level    source
   248   2              CLKDIV = 1;
   249   2          temp_sys_clk = clock;
   250   2              break;
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 5   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 5   
+>>>>>>> Menu
 
   251   2      
   252   2          case SYSTEM_CLOCK_52M:
@@ -338,7 +358,11 @@ stmt  level    source
   314   2          _nop_();
   315   2          _nop_();
   316   2          _nop_();
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 6   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 6   
+>>>>>>> Menu
 
   317   2          _nop_();
   318   2              CLKDIV = 1;
@@ -406,7 +430,11 @@ stmt  level    source
   380   1        _nop_();
   381   1        EA = 1;
   382   1      }
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 7   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 7   
+>>>>>>> Menu
 
   383          
   384          
@@ -474,7 +502,11 @@ stmt  level    source
                  CLKDIV = 0x00;      //时钟不分频
                  CLKSEL = 0x01;      //选择外部晶振
                }
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  board                                                              03/05/24  16:19:52  PAGE 8   
+=======
+C251 COMPILER V5.60.0,  board                                                              05/05/24  11:03:44  PAGE 8   
+>>>>>>> Menu
 
                
                #endif

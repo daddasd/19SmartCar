@@ -1,4 +1,5 @@
 Build target 'STC32F12K'
+<<<<<<< HEAD
 compiling main.c...
 ..\USER\src\main.c(60): warning C140: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu()'
 compiling Inductance.c...
@@ -27,13 +28,23 @@ compiling menu.c...
 ..\USER\Hardware\menu.c(340): warning C188: 'parameter 2': value truncated
 ..\USER\Hardware\menu.c(533): warning C188: 'parameter 2': value truncated
 ..\USER\Hardware\menu.c(535): warning C188: 'parameter 2': value truncated
+=======
+compiling mpu6050.c...
+>>>>>>> Menu
 linking...
 *** WARNING L25: DATA TYPES DIFFERENT
     SYMBOL:  Error_Speed
     MODULE:  .\Out_File\encoder.obj (encoder)
    DEFINED:  .\Out_File\TrackElement.obj (TrackElement)
 
+<<<<<<< HEAD
 Program Size: data=8.0 edata+hdata=3997 xdata=0 const=1535 code=36719
 creating hex file from ".\Out_File\SEEKFREE"...
 ".\Out_File\SEEKFREE" - 0 Error(s), 20 Warning(s).
 Build Time Elapsed:  00:00:01
+=======
+Program Size: data=8.1 edata+hdata=3972 xdata=0 const=1511 code=36037
+creating hex file from ".\Out_File\SEEKFREE"...
+".\Out_File\SEEKFREE" - 0 Error(s), 1 Warning(s).
+Build Time Elapsed:  00:00:00
+>>>>>>> Menu

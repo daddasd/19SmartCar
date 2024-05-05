@@ -21,7 +21,8 @@
 #define   MOTOR_R_DIR P52
 #define   MOTOR_L_PWM PWMA_CH3P_P14
 #define   MOTOR_R_PWM PWMA_CH4N_P17
-#define   RGB					PWMA_CH4P_P26
+
+
 
 #define Buzzer_ON    P00=1
 #define Buzzer_OFF   P00=0
@@ -48,7 +49,6 @@ extern  float Motor_I;
 void Motor_Init(void);
 void Motor_PWM(int L_PWM,int R_PWM);
 int16 limit(int16 In,int16 limit);
-float lowPassFilter1(float input, float prevOutput, float alpha);
 void Motor_SET_PID(float Kp,float Ki,float Kd);
 int Speed_pid_Out(int Target_Value,int Actual_Value);
 void Buzzer(int time);

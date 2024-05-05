@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Inductance                                                         03/05/24  16:21:03  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  Inductance                                                         05/05/24  11:33:25  PAGE 1   
+>>>>>>> Menu
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -46,10 +50,10 @@ stmt  level    source
    34   1        adc_init(ADC_P11, ADC_SYSclk_DIV_2);
    35   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
    36   1        adc_init(ADC_P06, ADC_SYSclk_DIV_2);        
-   37   1        adc_init(ADC_P04, ADC_SYSclk_DIV_2);    
+   37   1          adc_init(ADC_P04, ADC_SYSclk_DIV_2);    
    38   1        adc_init(ADC_P03, ADC_SYSclk_DIV_2);
    39   1        adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-   40   1        adc_init(ADC_P01, ADC_SYSclk_DIV_2);
+   40   1          adc_init(ADC_P01, ADC_SYSclk_DIV_2);
    41   1        adc_init(ADC_P00, ADC_SYSclk_DIV_2);
    42   1      }
    43          /**
@@ -66,7 +70,11 @@ stmt  level    source
    54   1        
    55   1        x = number * 0.5F;
    56   1        y = number;
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Inductance                                                         03/05/24  16:21:03  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  Inductance                                                         05/05/24  11:33:25  PAGE 2   
+>>>>>>> Menu
 
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
@@ -134,7 +142,11 @@ stmt  level    source
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
   122   1        R2 = ad_valu1[5];
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Inductance                                                         03/05/24  16:21:03  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  Inductance                                                         05/05/24  11:33:25  PAGE 3   
+>>>>>>> Menu
 
   123   1        R1 = ad_valu1[6];
   124   1        
@@ -202,7 +214,11 @@ stmt  level    source
   184          **/
   185          
   186          void show_val(void)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Inductance                                                         03/05/24  16:21:03  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  Inductance                                                         05/05/24  11:33:25  PAGE 4   
+>>>>>>> Menu
 
   187          {
   188   1      //-----------------oled显示电感值----------------------//

@@ -34,10 +34,10 @@ void Inductance_Init(void)
 	adc_init(ADC_P11, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P10, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
-  adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
+  	adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
 	adc_init(ADC_P03, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-  adc_init(ADC_P01, ADC_SYSclk_DIV_2);
+  	adc_init(ADC_P01, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P00, ADC_SYSclk_DIV_2);
 }
 /**

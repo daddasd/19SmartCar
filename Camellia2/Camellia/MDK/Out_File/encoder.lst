@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 1   
+>>>>>>> Menu
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -19,7 +23,7 @@ stmt  level    source
     7          int speed = 105;
     8          
     9          //--
-   10          //  @brief      ��������ʼ��
+   10          //  @brief      ???????????
    11          //  @param      void
    12          //  @return     void         
    13          //--
@@ -31,13 +35,13 @@ stmt  level    source
    19   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
    20   1          ctimer_count_init(Encoder_L);
    21   1          ctimer_count_init(Encoder_R);
-   22   1          EnableGlobalIRQ();  //�������ж�
+   22   1          EnableGlobalIRQ();  //???????��?
    23   1      }
    24          
    25          //--
-   26          //  @brief      ���������ȡ����
+   26          //  @brief      ??????????????
    27          //  @param      void
-   28          //  @return     return : ����ֵ         
+   28          //  @return     return : ?????         
    29          //--
    30          
    31          int L_Encoder_Pulse(void)
@@ -54,9 +58,9 @@ stmt  level    source
    42   1      }
    43          
    44          //--
-   45          //  @brief      �ұ�������ȡ����
+   45          //  @brief      ??????????????
    46          //  @param      void
-   47          //  @return     return : ����ֵ         
+   47          //  @return     return : ?????         
    48          //--
    49          int R_Encoder_Pulse(void)
    50          {
@@ -66,7 +70,11 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 2   
+>>>>>>> Menu
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -75,7 +83,7 @@ stmt  level    source
    61   1      }
    62          
    63          //--
-   64          //  @brief      ��������ֵ
+   64          //  @brief      ?????????
    65          //  @param      void
    66          //  @return     void        
    67          //--
@@ -85,8 +93,8 @@ stmt  level    source
    71   1        R_Encoder_Pulse();
    72   1      }
    73          //--
-   74          //  @brief      �����������
-   75          //  @param      L_cont��R_cont���ֵ�Ŀ��ֵ
+   74          //  @brief      ???????????
+   75          //  @param      L_cont??R_cont?????????
    76          //  @return     void        
    77          //--
    78          int L_Enc_integral(int L_target)
@@ -126,6 +134,7 @@ stmt  level    source
   112          
   113          void TM4_Isr() interrupt 20
   114          {
+<<<<<<< HEAD
   115   1        static int count=0;
   116   1        L_Pulse=L_Encoder_Pulse();
   117   1        R_Pulse=R_Encoder_Pulse();
@@ -135,18 +144,32 @@ stmt  level    source
   121   1      //  Right_Angle();
   122   1        Error_Speed();
 C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 3   
+=======
+  115   1        static int count = 0;
+  116   1        if(Car_Start_Flag)
+  117   1        {
+  118   2          L_Pulse=L_Encoder_Pulse();
+  119   2          R_Pulse=R_Encoder_Pulse();
+  120   2          NORMALIZATION_TRACKING_ADC(1,1);
+  121   2        //  Roundabout();
+  122   2        //  if(Track_flag)
+C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 3   
+>>>>>>> Menu
 
-*** WARNING C140 IN LINE 122 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
-  123   1        Tracking(speed+Err_speed);
-  124   1        ctimer_count_clean(Encoder_L);
-  125   1        ctimer_count_clean(Encoder_R);
-  126   1        TIM4_CLEAR_FLAG; //����жϱ�־
-  127   1      }
+  123   2        //  Right_Angle();
+  124   2          Error_Speed();
+*** WARNING C140 IN LINE 124 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
+  125   2          Tracking(speed+Err_speed);
+  126   2          ctimer_count_clean(Encoder_L);
+  127   2          ctimer_count_clean(Encoder_R);
+  128   2          TIM4_CLEAR_FLAG; //????��???
+  129   2        }
+  130   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       374     ------
+  code size            =       384     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

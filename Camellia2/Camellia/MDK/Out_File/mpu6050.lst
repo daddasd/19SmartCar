@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  mpu6050                                                            03/05/24  16:21:04  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  mpu6050                                                            05/05/24  11:50:26  PAGE 1   
+>>>>>>> Menu
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE mpu6050
@@ -29,6 +33,7 @@ stmt  level    source
    17   1          int i=0;
    18   1          if (flag == 1) {
    19   2              for (i = 0; i < 100; i++) {
+<<<<<<< HEAD
    20   3                  sum = sum + mpu6050_gyro_z;
    21   3              }
    22   2              flag = 0;
@@ -67,36 +72,57 @@ stmt  level    source
    55   1          float filtered_angle;
    56   1          int i = 0;
 C251 COMPILER V5.60.0,  mpu6050                                                            03/05/24  16:21:04  PAGE 2   
+=======
+   20   3                  mpu6050_get_gyro();
+   21   3                  sum = sum + mpu6050_gyro_z;
+   22   3              }
+   23   2              flag = 0;
+   24   2              return sum / 100;
+   25   2          }
+   26   1          return sum / 100;
+   27   1      }
+   28          
+   29          double Gyro_filter(double val)
+   30          {
+   31   1          int i = 0;
+   32   1          float sum = 0;
+   33   1          for (i = 0; i < 10; i++)
+   34   1          {
+   35   2              sum += val-Gyro_Diff;
+   36   2          }
+   37   1          sum = sum / 10;
+   38   1          return sum;
+   39   1      }
+   40          
+   41          double lowPassFilter(double current, double previous, float alpha)
+   42          {
+   43   1          // 低通滤波器
+   44   1          return alpha * current + (1 - alpha) * previous;
+   45   1      }
+   46          
+   47          double Get_Angle() {
+   48   1          // 假设 mpu6050_gyro_z 是一个全局变量，表示陀螺仪的 z 轴角速度
+   49   1          static int last_Val = 0;
+   50   1          double groy_z = 0;
+   51   1          groy_z = Gyro_filter(mpu6050_gyro_z);
+   52   1          // 返回经过低通滤波和中值滤波后的角度值
+   53   1          return groy_z;
+   54   1      }
+>>>>>>> Menu
 
-   57   1          int window[WINDOW_SIZE];
-   58   1          double gyro_z = mpu6050_gyro_z - gyro_zero_wander();
-   59   1      
-   60   1          // 低通滤波
-   61   1          gyro_z = lowPassFilter(gyro_z, gyro_z_values[index], LOW_PASS_ALPHA);
-   62   1      
-   63   1          gyro_z_values[index] = gyro_z;
-   64   1          index = (index + 1) % WINDOW_SIZE;
-   65   1          for (i = 0; i < WINDOW_SIZE; i++) {
-   66   2              window[i] = gyro_z_values[(index + i) % WINDOW_SIZE];
-   67   2          }
-   68   1      
-   69   1          filtered_angle = medianFilter1(window);
-   70   1      
-   71   1          // 返回经过低通滤波和中值滤波后的角度值
-   72   1          return filtered_angle;
-   73   1      }
 
+C251 COMPILER V5.60.0,  mpu6050                                                            05/05/24  11:50:26  PAGE 2   
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       599     ------
+  code size            =       274     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       102     ------
+  edata size           =        36     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -104,7 +130,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        64     ------
+  hconst size          =        20     ------
 End of Module Information.
 
 

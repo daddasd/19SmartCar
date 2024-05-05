@@ -7,7 +7,7 @@ double angle1=0.0;
 int speed = 105;
 
 //--
-//  @brief    	��������ʼ��
+//  @brief    	???????????
 //  @param      void
 //  @return     void         
 //--
@@ -19,13 +19,13 @@ void Encoder_Time_Init(void)
     gpio_mode(Encoder_R, GPI_IMPEDANCE);
     ctimer_count_init(Encoder_L);
     ctimer_count_init(Encoder_R);
-    EnableGlobalIRQ();	//�������ж�
+    EnableGlobalIRQ();	//???????��?
 }
 
 //--
-//  @brief    	���������ȡ����
+//  @brief    	??????????????
 //  @param      void
-//  @return     return : ����ֵ         
+//  @return     return : ?????         
 //--
 
 int L_Encoder_Pulse(void)
@@ -42,9 +42,9 @@ int L_Encoder_Pulse(void)
 }
 
 //--
-//  @brief    	�ұ�������ȡ����
+//  @brief    	??????????????
 //  @param      void
-//  @return     return : ����ֵ         
+//  @return     return : ?????         
 //--
 int R_Encoder_Pulse(void)
 {
@@ -61,7 +61,7 @@ int R_Encoder_Pulse(void)
 }
 
 //--
-//  @brief    	��������ֵ
+//  @brief    	?????????
 //  @param      void
 //  @return     void        
 //--
@@ -71,8 +71,8 @@ void Encoder_Read_Pulse(void)
 	R_Encoder_Pulse();
 }
 //--
-//  @brief    	�����������
-//  @param      L_cont��R_cont���ֵ�Ŀ��ֵ
+//  @brief    	???????????
+//  @param      L_cont??R_cont?????????
 //  @return     void        
 //--
 int L_Enc_integral(int L_target)
@@ -112,16 +112,19 @@ int R_Enc_integral(int R_target)
 
 void TM4_Isr() interrupt 20
 {
-	static int count=0;
-	L_Pulse=L_Encoder_Pulse();
-	R_Pulse=R_Encoder_Pulse();
-	NORMALIZATION_TRACKING_ADC(1,1);
-//	Roundabout();
-//	if(Track_flag)
-//	Right_Angle();
-	Error_Speed();
-	Tracking(speed+Err_speed);
-	ctimer_count_clean(Encoder_L);
-	ctimer_count_clean(Encoder_R);
-	TIM4_CLEAR_FLAG; //����жϱ�־
+	static int count = 0;
+	if(Car_Start_Flag)
+	{
+		L_Pulse=L_Encoder_Pulse();
+		R_Pulse=R_Encoder_Pulse();
+		NORMALIZATION_TRACKING_ADC(1,1);
+	//	Roundabout();
+	//	if(Track_flag)
+	//	Right_Angle();
+		Error_Speed();
+		Tracking(speed+Err_speed);
+		ctimer_count_clean(Encoder_L);
+		ctimer_count_clean(Encoder_R);
+		TIM4_CLEAR_FLAG; //????��???
+	}
 }

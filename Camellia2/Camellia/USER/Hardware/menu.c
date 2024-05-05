@@ -54,8 +54,8 @@ int First_menu(void)
 	oled_p6x8str(25,5,"Car_Star"); //小车启动
 	while(1)
 	{
-		//P26=1;
-		if(key3==0) // 下一项
+        mpu6050_get_gyro();
+        if(key3==0) // 下一项
 		{
 			delay_ms(10);
 			while(key3==0);
@@ -589,17 +589,16 @@ int Show_Val_Menu(void)
 {
     while(1)
     {
-	      NORMALIZATION_TRACKING_ADC(1,1);
-		  show_val();
-          imu660ra_get_gyro();
-          if (key4 == 0) // 返回
-          {
-              delay_ms(10);
-              while (key4 == 0)
-                  ;
-              delay_ms(10);
-              oled_fill(0x00); // 清屏
-              return 0;        // 返回选择的选项
+	    NORMALIZATION_TRACKING_ADC(1,1);
+		show_val();
+		mpu6050_get_gyro();
+        if (key4 == 0)  // 返回
+        {
+            delay_ms(10);
+            while (key4 == 0);
+            delay_ms(10);
+            oled_fill(0x00); // 清屏
+            return 0; // 返回选择的选项
         }
     }
 }

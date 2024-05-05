@@ -17,5 +17,11 @@
 #include "math.h"
 #include "TrackElement.h"
 #include "menu.h"
+#include "RGB.h"
+#include "ALLInit.h"
+
+extern int Car_Start_Flag;
+extern int Car_Stop_Flag;
+extern float Gyro_Diff;
 
 #endif

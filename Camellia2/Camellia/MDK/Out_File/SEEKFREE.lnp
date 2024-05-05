@@ -38,7 +38,9 @@
 ".\Out_File\vofa.obj",
 ".\Out_File\mpu6050.obj",
 ".\Out_File\TrackElement.obj",
-".\Out_File\menu.obj" 
+".\Out_File\menu.obj",
+".\Out_File\ALLInit.obj",
+".\Out_File\RGB.obj" 
 TO ".\Out_File\SEEKFREE" 
 PRINT(".\Out_File\SEEKFREE.map") CASE DISABLEWARNING (16,57) 
 REMOVEUNUSED 

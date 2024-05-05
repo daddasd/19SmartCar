@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 1   
+>>>>>>> Menu
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE menu
@@ -66,10 +70,14 @@ stmt  level    source
    54   1        oled_p6x8str(25,5,"Car_Star"); //小车启动
    55   1        while(1)
    56   1        {
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 2   
+>>>>>>> Menu
 
-   57   2          //P26=1;
-   58   2          if(key3==0) // 下一项
+   57   2              mpu6050_get_gyro();
+   58   2              if(key3==0) // 下一项
    59   2          {
    60   3            delay_ms(10);
    61   3            while(key3==0);
@@ -134,7 +142,11 @@ stmt  level    source
   120   3            {
   121   4              oled_p6x8str(0,0,"   "); 
   122   4              oled_p6x8str(0,1,"   "); 
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 3   
+>>>>>>> Menu
 
   123   4              oled_p6x8str(0,2,"   ");
   124   4              oled_p6x8str(0,3,"-->");
@@ -202,7 +214,11 @@ stmt  level    source
   185   3              }
   186   2              if (key2 == 0) // 确定
   187   2              {
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 4   
+>>>>>>> Menu
 
   188   3                  delay_ms(10);
   189   3                  while (key2 == 0);
@@ -270,7 +286,11 @@ stmt  level    source
   248   3                  delay_ms(10);
   249   3                  while (key3 == 0);
   250   3                  delay_ms(10);
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 5   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 5   
+>>>>>>> Menu
 
   251   3                  flag++;
   252   3                  if (flag == 5) flag = 1;
@@ -338,7 +358,11 @@ stmt  level    source
   314   6                              oled_p8x16str(20, 4, "    ");   // 加值
   315   6                              oled_p8x16str(20, 4, "Add");    // 加值
   316   6                              Val_add_lose = 1;
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 6   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 6   
+>>>>>>> Menu
 
   317   6                              count = 0;
   318   6                          }
@@ -406,7 +430,11 @@ stmt  level    source
   378   4                      flag = 1; // 重置指针
   379   4                      page = (page == 1) ? 2 : 1; // 切换到下一页
   380   4                  }
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 7   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 7   
+>>>>>>> Menu
 
   381   3              }
   382   2              if (key1 == 0) // 上一项
@@ -474,7 +502,11 @@ stmt  level    source
   444   6                          } else if (flag == 3) {
   445   6                              Wh_P = Wh_P + x* Val_add_lose;
   446   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 8   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 8   
+>>>>>>> Menu
 
   447   6                          } else if (flag == 4) {
   448   6                              Wh_D = Wh_D + x * Val_add_lose;
@@ -542,7 +574,11 @@ stmt  level    source
   510   3                  if (flag == 2)
   511   3                  {
   512   4                      x = x + 0.5 * Val_add_lose;
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 9   
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 9   
+>>>>>>> Menu
 
   513   4                      oled_printf_float_px8(50, 2, x, 3, 1);
   514   4                  }
@@ -610,7 +646,11 @@ stmt  level    source
   574   3                  delay_ms(10);
   575   3                  oled_fill(0x00); // 清屏
   576   3                  return 0; // 返回选择的选项
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 10  
+=======
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 10  
+>>>>>>> Menu
 
   577   3              }
   578   2          }
@@ -627,6 +667,7 @@ stmt  level    source
   589          {
   590   1          while(1)
   591   1          {
+<<<<<<< HEAD
   592   2              NORMALIZATION_TRACKING_ADC(1,1);
   593   2            show_val();
   594   2                imu660ra_get_gyro();
@@ -671,15 +712,65 @@ stmt  level    source
   633   3              } 
   634   2          }
   635   1      }
+=======
+  592   2            NORMALIZATION_TRACKING_ADC(1,1);
+  593   2          show_val();
+  594   2          mpu6050_get_gyro();
+  595   2              if (key4 == 0)  // 返回
+  596   2              {
+  597   3                  delay_ms(10);
+  598   3                  while (key4 == 0);
+  599   3                  delay_ms(10);
+  600   3                  oled_fill(0x00); // 清屏
+  601   3                  return 0; // 返回选择的选项
+  602   3              }
+  603   2          }
+  604   1      }
+  605          //--
+  606          //  @brief      二级启动菜单
+  607          //  @param      void    
+  608          //  @return     0 退出二级菜单    
+  609          //--
+  610          
+  611          int CarStart_Menu(void)
+  612          {
+  613   1          while(1)
+  614   1          {
+  615   2              oled_p8x16str(0, 0, "Car_Start");
+  616   2              if(key2==0)
+  617   2              {
+  618   3                  delay_ms(10);
+  619   3                  while (key2==0)
+  620   3                  {
+  621   4                      delay_ms(10);
+  622   4                      return 1;// 小车启动
+  623   4                  }
+  624   3              }      
+  625   2              if (key4 == 0)  // 返回
+  626   2              {
+  627   3                  delay_ms(10);
+  628   3                  while (key4 == 0);
+  629   3                  delay_ms(10);
+  630   3                  oled_fill(0x00); // 清屏
+  631   3                  return 0; // 返回选择的选项
+  632   3              } 
+  633   2          }
+  634   1      }
+>>>>>>> Menu
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      4687     ------
+  code size            =      4690     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  menu                                                               03/05/24  16:21:04  PAGE 11  
+=======
+  pdata size           =    ------     ------
+C251 COMPILER V5.60.0,  menu                                                               05/05/24  11:49:25  PAGE 11  
+>>>>>>> Menu
 
   pdata size           =    ------     ------
   xdata size           =    ------     ------
