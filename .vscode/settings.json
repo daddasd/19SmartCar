@@ -25,6 +25,7 @@
         "allinit.h": "c",
         "zf_delay.h": "c",
         "board.h": "c",
-        "INTRINS.H": "cpp"
+        "INTRINS.H": "cpp",
+        "trackelement.h": "c"
     }
 }

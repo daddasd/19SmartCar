@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               04/05/24  22:10:43  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               05/05/24  11:48:16  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -44,55 +44,51 @@ stmt  level    source
    33          
    34          int Car_Start_Flag = 0;
    35          int Car_Stop_Flag = 0;
-   36          void main()
-   37          {
-   38   1        int i=0;
-   39   1        int32 ns_delay = 0xffffffff;
-   40   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
-   41   1        board_init();         // 初始化寄存器,勿删除此句代码。
-   42   1          // 此处编写用户代码 例如外设初始化代码等
-   43   1        GPIO_Init();
-   44   1        ALL_Peripheral_Init();
-   45   1        while (1)
-   46   1        {
-   47   2          menu = First_menu();
-   48   2          if(menu == 1) Second_Element_menu();
-   49   2          if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 49 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+   36          float Gyro_Diff = 0;
+   37          void main()
+   38          {
+   39   1        int i=0;
+   40   1        int32 ns_delay = 0xffffffff;
+   41   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
+   42   1        board_init();         // 初始化寄存器,勿删除此句代码。
+   43   1          // 此处编写用户代码 例如外设初始化代码等
+   44   1        GPIO_Init();
+   45   1        ALL_Peripheral_Init();
+   46   1        Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
+   47   1        delay_ms(500);
+   48   1        while (1)
+   49   1        {
+   50   2          menu = First_menu();
+   51   2          if(menu == 1) Second_Element_menu();
+   52   2          if(menu == 2) Second_Motor_menu();
+*** WARNING C140 IN LINE 52 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
-   50   2          if(menu == 3) Second__NWHuan_menu();
-   51   2          if(menu == 4) Second__Speed_menu();
-   52   2          if(menu == 5) Show_Val_Menu();
-   53   2          if(menu == 6){
-   54   3            flag=1;
-   55   3            oled_printf_float(45,4,angle1,5,6);
-C251 COMPILER V5.60.0,  main                                                               04/05/24  22:10:43  PAGE 2   
+   53   2          if(menu == 3) Second__NWHuan_menu();
+   54   2          if(menu == 4) Second__Speed_menu();
+   55   2          if(menu == 5) Show_Val_Menu();
+C251 COMPILER V5.60.0,  main                                                               05/05/24  11:48:16  PAGE 2   
 
-   56   3            if(flag == 1)
-   57   3            {
-   58   4              Encoder_Time_Init();
-   59   4              flag = 0;
-   60   4            }
-   61   3            menu = 0;
-   62   3          }
-   63   2        }
-   64   1      }
-   65          
-   66          
-   67          
-   68                                               
+   56   2          if(menu == 6){
+   57   3            Car_Start_Flag = 1;
+   58   3          }
+   59   2        }
+   60   1      }
+   61          
+   62          
+   63          
+   64                                               
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       190     ------
+  code size            =       153     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        14     ------
+  edata size           =        18     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -100,7 +96,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        24     ------
+  hconst size          =        32     ------
 End of Module Information.
 
 

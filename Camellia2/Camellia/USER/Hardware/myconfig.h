@@ -22,5 +22,6 @@
 
 extern int Car_Start_Flag;
 extern int Car_Stop_Flag;
+extern float Gyro_Diff;
 
 #endif

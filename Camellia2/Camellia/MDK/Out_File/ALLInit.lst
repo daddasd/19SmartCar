@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            04/05/24  22:10:44  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            05/05/24  11:48:28  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -42,12 +42,13 @@ stmt  level    source
    30   1          Inductance_Init(); // adc采集初始化
    31   1          Motor_Init();      // 电机初始化
    32   1          Motor_SET_PID(Motor_P, Motor_I, 0);
-   33   1      }
+   33   1          Encoder_Time_Init();
+   34   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       115     ------
+  code size            =       118     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

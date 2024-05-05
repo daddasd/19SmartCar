@@ -122,13 +122,11 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 int Speed_pid_Out(int Target_Value,int Actual_Value)
 {
 	float Kp_Value=0;
-	int   Target_LBVal=0;//滤波之后的值
 	static float Ki_Value=0,Kd_Value=0;
 	float MOTOR_PWM = 0;
 	//1.计算偏差
-	//Target_LBVal= filter_1(Target_Value,Target_LBVal,0.89); //编码器滤波
 	Motor_pid.Motor_err=Target_Value-Actual_Value;
-	if(abs(Motor_pid.Motor_err)<3)  //PID死区
+	if(abs(Motor_pid.Motor_err)<2)  //PID死区
 	{
 		Motor_pid.Motor_err=0;
 		Motor_pid.Motor_err_last=0;
@@ -144,7 +142,7 @@ int Speed_pid_Out(int Target_Value,int Actual_Value)
 	Motor_pid.Motor_err_last=Motor_pid.Motor_err;
 	//7.输出电机执行量
 	Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
-	MOTOR_PWM = Motor_pid.Motor_Out_Value;
+	MOTOR_PWM+ = Motor_pid.Motor_Out_Value;
 	MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
 	return (int)MOTOR_PWM;
 }

@@ -33,6 +33,7 @@ int menu = 0;
 
 int Car_Start_Flag = 0;
 int Car_Stop_Flag = 0;
+float Gyro_Diff = 0;
 void main()
 {
 	int i=0;
@@ -42,8 +43,8 @@ void main()
     // 此处编写用户代码 例如外设初始化代码等
 	GPIO_Init();
 	ALL_Peripheral_Init();
-	delay_ms(2000);
-	gyro_zero_wander();//减去飘零 现在是MPU6050到时候要改成IMU66ORA
+	Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
+	delay_ms(500);
 	while (1)
 	{
 		menu = First_menu();
@@ -53,14 +54,7 @@ void main()
 		if(menu == 4) Second__Speed_menu();
 		if(menu == 5) Show_Val_Menu();
 		if(menu == 6){
-			flag=1;
-		    oled_printf_float(45,4,angle1,5,6);
-			if(flag == 1)
-			{
-				Encoder_Time_Init();
-				flag = 0;
-			}
-			menu = 0;
+			Car_Start_Flag = 1;
 		}
 	}
 }

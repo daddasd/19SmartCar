@@ -30,4 +30,5 @@ void ALL_Peripheral_Init(void)
     Inductance_Init(); // adc采集初始化
     Motor_Init();      // 电机初始化
     Motor_SET_PID(Motor_P, Motor_I, 0);
+    Encoder_Time_Init();
 }
