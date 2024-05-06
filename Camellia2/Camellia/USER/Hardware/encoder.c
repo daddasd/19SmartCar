@@ -123,7 +123,7 @@ void TM4_Isr() interrupt 20
 		//	if(Track_flag)
 		//	Right_Angle();
 		//	Error_Speed();
-		nh = nh_Turn_Out(20, Nh_P, Nh_D);
+		nh = nh_Turn_Out(35, Nh_P, Nh_D);
 		Motor_PWM(-nh,+nh);
 		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);

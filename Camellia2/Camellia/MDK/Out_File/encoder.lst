@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            06/05/24  20:37:25  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:21:45  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          }
    55   1          else
    56   1          {
-C251 COMPILER V5.60.0,  encoder                                                            06/05/24  20:37:25  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:21:45  PAGE 2   
 
    57   2            R_Pulse = ctimer_count_read(Encoder_R);
    58   2          }
@@ -134,12 +134,12 @@ stmt  level    source
   120   2          R_Pulse=R_Encoder_Pulse();
   121   2          NORMALIZATION_TRACKING_ADC(1,1);
   122   2          //  Roundabout();
-C251 COMPILER V5.60.0,  encoder                                                            06/05/24  20:37:25  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:21:45  PAGE 3   
 
   123   2          //  if(Track_flag)
   124   2          //  Right_Angle();
   125   2          //  Error_Speed();
-  126   2          nh = nh_Turn_Out(20, Nh_P, Nh_D);
+  126   2          nh = nh_Turn_Out(35, Nh_P, Nh_D);
   127   2          Motor_PWM(-nh,+nh);
   128   2          //  Tracking(speed+Err_speed);
   129   2          ctimer_count_clean(Encoder_L);

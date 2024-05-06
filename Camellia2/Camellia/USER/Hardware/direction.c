@@ -10,8 +10,8 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 0.5; //0.5
-float Nh_D = 4.1; //4.1
+float Nh_P = 0.1; //0.5
+float Nh_D = 0.7; //4.1
 float Wh_P = 90;
 float Wh_D = 320;
 
@@ -50,8 +50,8 @@ int nh_Turn_Out(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
   static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
-  error1 = err - Get_Angle()/65.6;
-  P_out += dir_p * last_err;
+  error1 = err - mpu6050_gyro_z / 65.6;
+  P_out += dir_p * (error1-last_err);
   I_out += dir_i * error1;
   if(I_out>2700)
     I_out = 2700;
