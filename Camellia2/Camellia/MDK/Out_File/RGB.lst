@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:14:32  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:16:29  PAGE 1   
+>>>>>>> 调参
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE RGB
@@ -66,7 +70,11 @@ stmt  level    source
    54   2              _nop_();
    55   2              _nop_();
    56   2              _nop_();
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:14:32  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:16:29  PAGE 2   
+>>>>>>> 调参
 
    57   2              _nop_();
    58   2              _nop_();
@@ -134,7 +142,11 @@ stmt  level    source
   120   2              _nop_();
   121   2              _nop_();
   122   2              _nop_();
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:14:32  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:16:29  PAGE 3   
+>>>>>>> 调参
 
   123   2              _nop_();
   124   2              _nop_();
@@ -202,7 +214,11 @@ stmt  level    source
   186   2              for (j = 0; j < 254; j++)
   187   2              {
   188   3                  for (k = 0; k < 254; k++)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:14:32  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  RGB                                                                06/05/24  21:16:29  PAGE 4   
+>>>>>>> 调参
 
   189   3                  {
   190   4                      RGB_Color(i, j, k);

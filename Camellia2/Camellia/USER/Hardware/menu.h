@@ -1,10 +1,10 @@
 #ifndef __MENU_H_
 #define __MENU_H_
 
-#define key1 P45
-#define key2 P46
-#define key3 P44
-#define key4 P37
+#define key1 P43
+#define key2 P37 
+#define key3 P36 
+#define key4 P44
 
 extern float out_dir_p;
 extern float out_dir_d;

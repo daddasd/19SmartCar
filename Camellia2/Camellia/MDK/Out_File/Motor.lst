@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:14:49  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:16:28  PAGE 1   
+>>>>>>> 璋冨弬
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -22,7 +26,7 @@ stmt  level    source
    10          
    11          
    12          
-   13          #define MOTOR_MAX  7000
+   13          #define MOTOR_MAX  8000
    14          
    15          float Motor_P = 12.3085;
    16          float Motor_I = 0.019;
@@ -66,7 +70,11 @@ stmt  level    source
    54   2          pwm_duty(MOTOR_L_PWM,L_PWM);
    55   2        }
    56   1        if(R_PWM<0)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:14:49  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:16:28  PAGE 2   
+>>>>>>> 璋冨弬
 
    57   1        {
    58   2          MOTOR_R_DIR=1;
@@ -134,7 +142,11 @@ stmt  level    source
   120          //  @return     速度环输出        
   121          //--
   122          int Speed_pid_Out(int Target_Value,int Actual_Value)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:14:49  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  Motor                                                              06/05/24  21:16:28  PAGE 3   
+>>>>>>> 璋冨弬
 
   123          {
   124   1        float Kp_Value=0;
@@ -150,6 +162,7 @@ stmt  level    source
   134   1        //2.比例运算
   135   1        Kp_Value=Motor_pid.Motor_err_last*Motor_pid.Motor_Kp;
   136   1        //3.积分运算
+<<<<<<< HEAD
   137   1        Ki_Value+=Motor_pid.Motor_err;
   138   1        if(Ki_Value>1000)Ki_Value=1000;
   139   1        if(Ki_Value<-1000)Ki_Value=-1000;
@@ -183,3 +196,48 @@ stmt  level    source
   157   2      }
 
 C251 COMPILATION COMPLETE.  2 WARNING(S),  8 ERROR(S)
+=======
+  137   1        Ki_Value =Motor_pid.Motor_err;
+  138   1        //6.更新误差
+  139   1        Motor_pid.Motor_err_last2=Motor_pid.Motor_err_last;
+  140   1        Motor_pid.Motor_err_last=Motor_pid.Motor_err;
+  141   1        //7.输出电机执行量
+  142   1        Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
+  143   1        MOTOR_PWM+= Motor_pid.Motor_Out_Value;
+  144   1        MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
+  145   1        return (int)MOTOR_PWM;
+  146   1      }
+  147          
+  148          
+  149          
+  150          void Buzzer(int time)
+  151          {
+  152   1        Buzzer_ON;
+  153   1        delay_ms(time);
+  154   1        Buzzer_OFF;
+  155   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       683     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        95     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        32     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+>>>>>>> 璋冨弬

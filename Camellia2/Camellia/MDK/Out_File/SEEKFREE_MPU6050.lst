@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 1   
+>>>>>>> 璋冨弬
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_MPU6050
@@ -66,7 +70,11 @@ stmt  level    source
    51          //-------------------------------------------------------------------------------------------------------
              -------------
    52          static void mpu6050_simiic_delay(void)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 2   
+>>>>>>> 璋冨弬
 
    53          {
    54   1          uint16 j=MPU6050_IIC_DELAY;   
@@ -134,7 +142,11 @@ stmt  level    source
   116   1      }
   117          
   118          //字节发送程序
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 3   
+>>>>>>> 璋冨弬
 
   119          //发送c(可以是数据也可是地址)，送完后接收从应答
   120          //不考虑从应答位
@@ -202,7 +214,11 @@ stmt  level    source
   181          //-------------------------------------------------------------------------------------------------------
              -------------
   182          static void mpu6050_simiic_write_reg(uint8 dev_add, uint8 reg, uint8 dat)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 4   
+>>>>>>> 璋冨弬
 
   183          {
   184   1        mpu6050_simiic_start();
@@ -270,7 +286,11 @@ stmt  level    source
   242   1        mpu6050_simiic_stop();
   243   1      }
   244          
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 5   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 5   
+>>>>>>> 璋冨弬
 
   245          //-------------------------------------------------------------------------------------------------------
              -------------
@@ -338,7 +358,11 @@ stmt  level    source
   303          //  @since      v1.0
   304          //  Sample usage:       执行该函数后，直接查看对应的变量即可
   305          //-------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   06/05/24  21:14:31  PAGE 6   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_MPU6050                                                   05/05/24  20:02:06  PAGE 6   
+>>>>>>> 璋冨弬
 
              -------------
   306          void mpu6050_get_accdata(void)

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 1   
+>>>>>>> 调参
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_IMU660RA
@@ -66,7 +70,11 @@ stmt  level    source
    52          
    53          int16 imu660ra_gyro_x = 0, imu660ra_gyro_y = 0, imu660ra_gyro_z = 0;            // 三轴陀螺仪数据 
              -  gyro (陀螺仪)
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 2   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 2   
+>>>>>>> 调参
 
    54          int16 imu660ra_acc_x = 0, imu660ra_acc_y = 0, imu660ra_acc_z = 0;               // 三轴加速度计数�
              -�� acc  (accelerometer 加速度计)
@@ -134,7 +142,11 @@ stmt  level    source
   114   1          IMU660RA_SCL_LOW();
   115   1          imu660ra_simiic_delay();
   116   1      }
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 3   
+>>>>>>> 调参
 
   117          
   118          
@@ -202,7 +214,11 @@ stmt  level    source
   180   2              c<<=1;
   181   2              if(GET_IMU660RA_SDA) 
   182   2              {
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 4   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 4   
+>>>>>>> 调参
 
   183   3                  c+=1;   //读数据位，将接收的数据存c
   184   3              }
@@ -270,7 +286,11 @@ stmt  level    source
   241          //  @param      type      选择通信方式是IIC  还是 SCCB
   242          //  @return     uint8     返回寄存器的数据      
   243          //  @since      v1.0
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 5   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 5   
+>>>>>>> 调参
 
   244          //  Sample usage:       
   245          //-------------------------------------------------------------------------------------------------------
@@ -338,7 +358,11 @@ stmt  level    source
                
                
                //-------------------------------------------------------------------------------------------------------
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 6   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 6   
+>>>>>>> 调参
 
              -------------
                //  @brief      通过SPI写一个byte,同时读取一个byte
@@ -406,7 +430,11 @@ stmt  level    source
                //  @brief      读取cmd所对应的寄存器地址
                //  @param      cmd         命令字
                //  @param      *val        存储读取的数据地址
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 7   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 7   
+>>>>>>> 调参
 
                //  @since      v1.0
                //  Sample usage:
@@ -474,7 +502,11 @@ stmt  level    source
              -------------
                static void imu660ra_write_registers(uint8 reg, const uint8 *dat, uint32 len)
                {
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 8   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 8   
+>>>>>>> 调参
 
                    IMU660RA_CS(0);
                
@@ -542,7 +574,11 @@ stmt  level    source
   477   2              dat = imu660ra_read_register(IMU660RA_CHIP_ID);
   478   2              delay_ms(1);
   479   2          }while(0x24 != dat);                                                        // 读取设备ID是否�
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 9   
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 9   
+>>>>>>> 调参
 
              -�于0X24，如果不是0X24则认为没检测到设备
   480   1          return return_state;
@@ -610,7 +646,11 @@ stmt  level    source
              -------------
   535          // 函数简介     将 IMU660RA 加速度计数据转换为实际物理数据
   536          // 参数说明     gyro_value      任意轴的加速度计数据
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 10  
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 10  
+>>>>>>> 调参
 
   537          // 返回参数     void
   538          // 使用示例     float dat = imu660ra_acc_transition(imu660ra_acc_x);           // 单位为 g(m/s^2)
@@ -678,7 +718,11 @@ stmt  level    source
   586   1          uint8 return_state = 0;
   587   1        
   588   1          delay_ms(20);                                                           // 等待设备上电成功
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 11  
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 11  
+>>>>>>> 调参
 
   589   1      
   590   1      //#if IMU660RA_USE_SOFT_IIC 
@@ -746,7 +790,11 @@ stmt  level    source
              -可以转化为带物理单位的数据 单位为：°/s
   640   2              // 设置为:0x01 陀螺仪量程为:±1000dps     获取到的陀螺仪数据 除以 32.8       
              -可以转化为带物理单位的数据 单位为：°/s
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  06/05/24  21:14:31  PAGE 12  
+=======
+C251 COMPILER V5.60.0,  SEEKFREE_IMU660RA                                                  05/05/24  20:02:05  PAGE 12  
+>>>>>>> 调参
 
   641   2              // 设置为:0x02 陀螺仪量程为:±500 dps     获取到的陀螺仪数据 除以 65.6       
              -可以转化为带物理单位的数据 单位为：°/s

@@ -10,7 +10,7 @@
 
 
 
-#define MOTOR_MAX  7000
+#define MOTOR_MAX  8000
 
 float Motor_P = 12.3085;
 float Motor_I = 0.019;
@@ -134,15 +134,13 @@ int Speed_pid_Out(int Target_Value,int Actual_Value)
 	//2.比例运算
 	Kp_Value=Motor_pid.Motor_err_last*Motor_pid.Motor_Kp;
 	//3.积分运算
-	Ki_Value+=Motor_pid.Motor_err;
-	if(Ki_Value>1000)Ki_Value=1000;
-	if(Ki_Value<-1000)Ki_Value=-1000;
+	Ki_Value =Motor_pid.Motor_err;
 	//6.更新误差
 	Motor_pid.Motor_err_last2=Motor_pid.Motor_err_last;
 	Motor_pid.Motor_err_last=Motor_pid.Motor_err;
 	//7.输出电机执行量
 	Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
-	MOTOR_PWM+ = Motor_pid.Motor_Out_Value;
+	MOTOR_PWM+= Motor_pid.Motor_Out_Value;
 	MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
 	return (int)MOTOR_PWM;
 }

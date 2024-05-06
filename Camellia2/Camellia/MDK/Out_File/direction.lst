@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  direction                                                          06/05/24  21:14:49  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  21:25:56  PAGE 1   
+>>>>>>> 璋冨弬
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -22,8 +26,8 @@ stmt  level    source
    10          #define out_max 20000
    11          #define Angle_MAX 3500
    12          
-   13          float Nh_P = 0.849;
-   14          float Nh_D = 1.119;
+   13          float Nh_P = 0.1; //0.5
+   14          float Nh_D = 0.7; //4.1
    15          float Wh_P = 90;
    16          float Wh_D = 320;
    17          
@@ -58,8 +62,9 @@ stmt  level    source
    46          //@return     void
    47          //--
    48          
-   49          int nh_Turn_Out(int err, float dir_p, float dir_d)
+   49          int nh_Turn_Out(int err, float dir_p, float dir_i)
    50          {
+<<<<<<< HEAD
    51   1        float error;
    52   1        static float last_error = 0;
    53   1        float Output;
@@ -135,44 +140,122 @@ stmt  level    source
   121           * @brief  方向环方案二，陀螺仪作为d项抑制
   122           *
 C251 COMPILER V5.60.0,  direction                                                          06/05/24  21:14:49  PAGE 3   
+=======
+   51   1        int error1 = 0;
+   52   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
+   53   1        error1 = err - mpu6050_gyro_z / 65.6;
+   54   1        P_out += dir_p * (error1-last_err);
+   55   1        I_out += dir_i * error1;
+   56   1        if(I_out>2700)
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  21:25:56  PAGE 2   
 
-  123           * @param chazhi
-  124           * @param dir_p
-  125           * @param dir_d
-  126           * @param dir_d2
-  127           * @return int
-  128           */
-  129          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
-  130          {
-*** WARNING C57 IN LINE 130 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
-  131   1        float error;
-  132   1        static float last_error = 0;
-  133   1        float Output;
-  134   1        float error_derivative;
-  135   1        // 计算位置误差
-  136   1        error = chazhi;
-  137   1        // 计算位置误差变化率
-  138   1        error_derivative = error - last_error;
-  139   1        // 计算PD控制器的输出
-  140   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
-  141   1        // 更新上一时刻的位置误差
-  142   1        last_error = error;
-  143   1        // 对输出进行限幅
-  144   1        Output = limit(Output, out_max);
-  145   1        return (int)Output;
-  146   1      }
+   57   1          I_out = 2700;
+   58   1        if(I_out < -2700)
+   59   1          I_out = -2700; 
+   60   1        nh_out = P_out + I_out;
+   61   1        last_err = error1;
+   62   1        return (int)nh_out;
+   63   1      }
+   64          
+   65          //--
+   66          //@brief      方向环控制（内环1ms外环3ms）
+   67          //@param      void
+   68          //@return     方向环输出
+   69          //-
+   70          int DirControl(void)
+   71          {
+   72   1        static int count = 0;
+   73   1        static int wh_out = 0;
+   74   1        if (count == 3)
+   75   1        {
+   76   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+   77   2          count = 0;
+   78   2        }
+   79   1        count++;
+   80   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+   81   1      }
+   82          /**
+   83           * @brief 角度环
+   84           *
+   85           * @param target 目标角度
+   86           * @param actual 实际角度
+   87           */
+   88          int Angle_Ring(double target, double actual, float p, float i, float d)
+   89          {
+   90   1        float error;
+   91   1        static float last_error = 0, Ki_val = 0;
+   92   1        int Output;
+   93   1        float error_derivative;
+   94   1        // 计算位置误差
+   95   1        error = target - actual;
+   96   1        Ki_val += error;
+   97   1        if (Ki_val > 1000)
+   98   1          Ki_val = 1000;
+   99   1        if (Ki_val < -1000)
+  100   1          Ki_val = -1000;
+  101   1        // 计算位置误差变化率
+  102   1        error_derivative = error - last_error;
+  103   1        // 计算PD控制器的输出
+  104   1        Output = (int)error * p + error_derivative * d + Ki_val * i;
+  105   1        // 更新上一时刻的位置误差
+  106   1        last_error = error;
+  107   1        // 对输出进行限幅
+  108   1        Output = limit(Output, Angle_MAX);
+  109   1        Motor_PWM(-Output, +Output);
+  110   1        if (abs(error) < 5) // 如果误差小于5度代表到达目标角度
+  111   1        {
+  112   2          return 1;
+  113   2        }
+  114   1        return 0;
+  115   1      }
+  116          
+  117          /**
+  118           * @brief  方向环方案二，陀螺仪作为d项抑制
+  119           *
+  120           * @param chazhi
+  121           * @param dir_p
+  122           * @param dir_d
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  21:25:56  PAGE 3   
+>>>>>>> 璋冨弬
+
+  123           * @param dir_d2
+  124           * @return int
+  125           */
+  126          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
+  127          {
+*** WARNING C57 IN LINE 127 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
+  128   1        float error;
+  129   1        static float last_error = 0;
+  130   1        float Output;
+  131   1        float error_derivative;
+  132   1        // 计算位置误差
+  133   1        error = chazhi;
+  134   1        // 计算位置误差变化率
+  135   1        error_derivative = error - last_error;
+  136   1        // 计算PD控制器的输出
+  137   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
+  138   1        // 更新上一时刻的位置误差
+  139   1        last_error = error;
+  140   1        // 对输出进行限幅
+  141   1        Output = limit(Output, out_max);
+  142   1        return (int)Output;
+  143   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
+<<<<<<< HEAD
   code size            =       700     ------
+=======
+  code size            =       777     ------
+>>>>>>> 璋冨弬
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       140     ------
+  edata size           =       142     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -180,7 +263,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        84     ------
+  hconst size          =       108     ------
 End of Module Information.
 
 
