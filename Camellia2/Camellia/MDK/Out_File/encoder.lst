@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 1   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:14:32  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -70,11 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 2   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:14:32  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -134,17 +126,6 @@ stmt  level    source
   112          
   113          void TM4_Isr() interrupt 20
   114          {
-<<<<<<< HEAD
-  115   1        static int count=0;
-  116   1        L_Pulse=L_Encoder_Pulse();
-  117   1        R_Pulse=R_Encoder_Pulse();
-  118   1        NORMALIZATION_TRACKING_ADC(1,1);
-  119   1      //  Roundabout();
-  120   1      //  if(Track_flag)
-  121   1      //  Right_Angle();
-  122   1        Error_Speed();
-C251 COMPILER V5.60.0,  encoder                                                            03/05/24  16:21:03  PAGE 3   
-=======
   115   1        static int count = 0;
   116   1        if(Car_Start_Flag)
   117   1        {
@@ -153,8 +134,7 @@ stmt  level    source
   120   2          NORMALIZATION_TRACKING_ADC(1,1);
   121   2        //  Roundabout();
   122   2        //  if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  11:48:16  PAGE 3   
->>>>>>> Menu
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  21:14:32  PAGE 3   
 
   123   2        //  Right_Angle();
   124   2          Error_Speed();

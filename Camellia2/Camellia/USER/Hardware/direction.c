@@ -53,7 +53,7 @@ int nh_Turn_Out(int err, float dir_p, float dir_d)
   float Output;
   float error_derivative;
   // 计算位置误差
-  error = err - Get_Angle() * 0.0075;
+  error = err - mpu6050_gyro_z*0.0075;
   // 计算位置误差变化率
   error_derivative = error - last_error;
   // 计算PD控制器的输出
