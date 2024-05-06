@@ -16,7 +16,7 @@ extern  	nh_out;
 extern 		double angle1;
 
 extern int speed;
-
+extern float Ang;
 void Encoder_Time_Init(void);
 int L_Encoder_Pulse(void);
 int R_Encoder_Pulse(void);

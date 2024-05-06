@@ -10,8 +10,8 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 0.5;
-float Nh_D = 3.1;
+float Nh_P = 0.5; //0.5
+float Nh_D = 4.1; //4.1
 float Wh_P = 90;
 float Wh_D = 320;
 
@@ -53,10 +53,10 @@ int nh_Turn_Out(int err, float dir_p, float dir_i)
   error1 = err - Get_Angle()/65.6;
   P_out += dir_p * last_err;
   I_out += dir_i * error1;
-  if(I_out>2300)
-    I_out = 2300;
-  if(I_out < -2300)
-    I_out = -2300; 
+  if(I_out>2700)
+    I_out = 2700;
+  if(I_out < -2700)
+    I_out = -2700; 
   nh_out = P_out + I_out;
   last_err = error1;
   return (int)nh_out;

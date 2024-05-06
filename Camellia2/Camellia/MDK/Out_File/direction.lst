@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          06/05/24  17:05:40  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  20:29:21  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -23,7 +23,7 @@ stmt  level    source
    11          #define Angle_MAX 3500
    12          
    13          float Nh_P = 0.5;
-   14          float Nh_D = 3.1;
+   14          float Nh_D = 4.1;
    15          float Wh_P = 90;
    16          float Wh_D = 320;
    17          
@@ -65,12 +65,12 @@ stmt  level    source
    53   1        error1 = err - Get_Angle()/65.6;
    54   1        P_out += dir_p * last_err;
    55   1        I_out += dir_i * error1;
-   56   1        if(I_out>2300)
-C251 COMPILER V5.60.0,  direction                                                          06/05/24  17:05:40  PAGE 2   
+   56   1        if(I_out>2700)
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  20:29:21  PAGE 2   
 
-   57   1          I_out = 2300;
-   58   1        if(I_out < -2300)
-   59   1          I_out = -2300;
+   57   1          I_out = 2700;
+   58   1        if(I_out < -2700)
+   59   1          I_out = -2700; 
    60   1        nh_out = P_out + I_out;
    61   1        last_err = error1;
    62   1        return (int)nh_out;
@@ -134,7 +134,7 @@ stmt  level    source
   120           * @param chazhi
   121           * @param dir_p
   122           * @param dir_d
-C251 COMPILER V5.60.0,  direction                                                          06/05/24  17:05:40  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          06/05/24  20:29:21  PAGE 3   
 
   123           * @param dir_d2
   124           * @return int
