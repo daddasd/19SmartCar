@@ -113,6 +113,7 @@ int R_Enc_integral(int R_target)
 void TM4_Isr() interrupt 20
 {
 	static int count = 0;
+	int nh = 0;
 	if(Car_Start_Flag)
 	{
 		L_Pulse=L_Encoder_Pulse();
@@ -121,10 +122,14 @@ void TM4_Isr() interrupt 20
 	//	Roundabout();
 	//	if(Track_flag)
 	//	Right_Angle();
-		Error_Speed();
-		Tracking(speed+Err_speed);
+	//	Error_Speed();
+		nh = nh_Turn_Out(0, Nh_P, Nh_D);
+		Motor_PWM(-nh,+nh);
+		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
 		TIM4_CLEAR_FLAG; //????§Ø???
 	}
 }
+
+

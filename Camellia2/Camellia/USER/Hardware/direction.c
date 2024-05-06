@@ -10,8 +10,8 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 0.849;
-float Nh_D = 1.119;
+float Nh_P = 0.5;
+float Nh_D = 3.1;
 float Wh_P = 90;
 float Wh_D = 320;
 
@@ -49,13 +49,16 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 int nh_Turn_Out(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
-  static last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
-  error1 = err - Get_Angle();
-  P_out = dir_p * last_err;
-  I_out = dir_i * error1;
-  nh_out += P_out + I_out;
+  static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0;
+  error1 = err - Get_Angle()/65.6;
+  P_out += dir_p * last_err;
+  I_out += dir_i * error1;
+  if(I_out>2300)
+    I_out = 2300;
+  if(I_out < -2300)
+    I_out = -2300; 
+  nh_out = P_out + I_out;
   last_err = error1;
-  limit(nh_out, 8000);
   return (int)nh_out;
 }
 

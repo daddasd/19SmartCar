@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  20:02:06  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  16:12:23  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2      
    55   2          }
    56   1          else
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  20:02:06  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  16:12:23  PAGE 2   
 
    57   1          {
    58   2            R_Pulse = ctimer_count_read(Encoder_R);
@@ -127,36 +127,40 @@ stmt  level    source
   113          void TM4_Isr() interrupt 20
   114          {
   115   1        static int count = 0;
-  116   1        if(Car_Start_Flag)
-  117   1        {
-  118   2          L_Pulse=L_Encoder_Pulse();
-  119   2          R_Pulse=R_Encoder_Pulse();
-  120   2          NORMALIZATION_TRACKING_ADC(1,1);
-  121   2        //  Roundabout();
-  122   2        //  if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            05/05/24  20:02:06  PAGE 3   
+  116   1        int nh = 0;
+  117   1        if(Car_Start_Flag)
+  118   1        {
+  119   2          L_Pulse=L_Encoder_Pulse();
+  120   2          R_Pulse=R_Encoder_Pulse();
+  121   2          NORMALIZATION_TRACKING_ADC(1,1);
+  122   2        //  Roundabout();
+C251 COMPILER V5.60.0,  encoder                                                            06/05/24  16:12:23  PAGE 3   
 
-  123   2        //  Right_Angle();
-  124   2          Error_Speed();
-*** WARNING C140 IN LINE 124 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
-  125   2          Tracking(speed+Err_speed);
-  126   2          ctimer_count_clean(Encoder_L);
-  127   2          ctimer_count_clean(Encoder_R);
-  128   2          TIM4_CLEAR_FLAG; //????§Ø???
-  129   2        }
-  130   1      }
+  123   2        //  if(Track_flag)
+  124   2        //  Right_Angle();
+  125   2        //  Error_Speed();
+  126   2          nh = nh_Turn_Out(0, Nh_P, Nh_D);
+  127   2          Motor_PWM(-nh,+nh);
+  128   2          //  Tracking(speed+Err_speed);
+  129   2          ctimer_count_clean(Encoder_L);
+  130   2          ctimer_count_clean(Encoder_R);
+  131   2          TIM4_CLEAR_FLAG; //????§Ø???
+  132   2        }
+  133   1      }
+  134          
+  135          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       384     ------
+  code size            =       408     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        30     ------
+  edata size           =        32     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -168,4 +172,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
