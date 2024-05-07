@@ -216,12 +216,12 @@ void show_val(void)
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
 	oled_int16(0,6,dir_out);
-	oled_int16(60,6,nh_out);
-//-----------------TOFæ‡¿Î------------------------//
-//	if(dl1a_finsh_flag)
-//	{
-//		dl1a_finsh_flag = 0;
-//		oled_int16(60,6,dl1a_distance_mm);
-//	}
+	oled_int16(60, 6, Speed_Ring);
+	//-----------------TOFæ‡¿Î------------------------//
+	//	if(dl1a_finsh_flag)
+	//	{
+	//		dl1a_finsh_flag = 0;
+	//		oled_int16(60,6,dl1a_distance_mm);
+	//	}
 
 }

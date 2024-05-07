@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          }
    55   1          else
    56   1          {
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 2   
 
    57   2            R_Pulse = ctimer_count_read(Encoder_R);
    58   2          }
@@ -134,13 +134,13 @@ stmt  level    source
   120   2          R_Pulse=R_Encoder_Pulse();
   121   2          NORMALIZATION_TRACKING_ADC(1,1);
   122   2          //  Roundabout();
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 3   
 
   123   2          //  if(Track_flag)
   124   2          //  Right_Angle();
   125   2          //  Error_Speed();
-  126   2          nh = nh_Turn_Out(35, Nh_P, Nh_D);
-  127   2          Motor_PWM(-nh,+nh);
+  126   2          Speed_pid_Out(30, (L_Pulse + R_Pulse) * 0.5);
+  127   2          Motor_PWM(Speed_Ring, Speed_Ring);
   128   2          //  Tracking(speed+Err_speed);
   129   2          ctimer_count_clean(Encoder_L);
   130   2          ctimer_count_clean(Encoder_R);
@@ -153,7 +153,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       413     ------
+  code size            =       440     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
