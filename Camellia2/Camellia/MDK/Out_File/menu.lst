@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 1   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE menu
@@ -70,78 +66,7 @@ stmt  level    source
    54   1        oled_p6x8str(25,5,"Car_Star"); //小车启动
    55   1        while(1)
    56   1        {
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 2   
-
-   57   2              mpu6050_get_gyro();
-   58   2              if(key3==0) // 下一项
-   59   2          {
-   60   3            delay_ms(10);
-   61   3            while(key3==0);
-   62   3            delay_ms(10);
-   63   3            flag++;
-   64   3            if(flag == 7) flag = 1;
-   65   3          }
-   66   2          if(key1==0) // 上一项
-   67   2          {
-   68   3            delay_ms(10);
-   69   3            while(key1==0);
-   70   3            delay_ms(10);
-   71   3            flag--;
-   72   3            if(flag == 0) flag = 6;
-   73   3          }
-   74   2          if(key2 == 0) //确定
-   75   2          {
-   76   3            delay_ms(10);
-   77   3            while(key2 ==0);
-   78   3            delay_ms(10);
-   79   3            oled_fill(0x00); //清屏
-   80   3            return flag; // 返回选择的选项
-   81   3          }
-   82   2          if(key4 == 0) //返回上级
-   83   2          {
-   84   3            delay_ms(10);
-   85   3            while(key4 ==0);
-   86   3            delay_ms(10);
-   87   3            oled_fill(0x00); //清屏
-   88   3            return 0; 
-   89   3          }
-   90   2          switch(flag) //光标移动
-   91   2          {
-   92   3            case 1:
-   93   3            {
-   94   4              oled_p6x8str(0,0,"-->"); 
-   95   4              oled_p6x8str(0,1,"   "); 
-   96   4              oled_p6x8str(0,2,"   ");
-   97   4              oled_p6x8str(0,3,"   ");
-   98   4              oled_p6x8str(0,4,"   ");
-   99   4              oled_p6x8str(0,5,"   ");
-  100   4            }break;
-  101   3            case 2:
-  102   3            {
-  103   4              oled_p6x8str(0,0,"   "); 
-  104   4              oled_p6x8str(0,1,"-->"); 
-  105   4              oled_p6x8str(0,2,"   ");
-  106   4              oled_p6x8str(0,3,"   ");
-  107   4              oled_p6x8str(0,4,"   ");
-  108   4              oled_p6x8str(0,5,"   ");
-  109   4            }break;
-  110   3            case 3:
-  111   3            {
-  112   4              oled_p6x8str(0,0,"   "); 
-  113   4              oled_p6x8str(0,1,"   "); 
-  114   4              oled_p6x8str(0,2,"-->");
-  115   4              oled_p6x8str(0,3,"   ");
-  116   4              oled_p6x8str(0,4,"   ");
-  117   4              oled_p6x8str(0,5,"   ");
-  118   4            }break;
-  119   3            case 4:
-  120   3            {
-  121   4              oled_p6x8str(0,0,"   "); 
-  122   4              oled_p6x8str(0,1,"   "); 
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 3   
-=======
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 2   
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 2   
 
    57   2              if(key3==0) // 下一项
    58   2          {
@@ -209,8 +134,7 @@ stmt  level    source
   120   4              oled_p6x8str(0,0,"   "); 
   121   4              oled_p6x8str(0,1,"   "); 
   122   4              oled_p6x8str(0,2,"   ");
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 3   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 3   
 
   123   4              oled_p6x8str(0,3,"-->");
   124   4              oled_p6x8str(0,4,"   ");
@@ -247,176 +171,6 @@ stmt  level    source
   154          
   155          
   156          
-<<<<<<< HEAD
-  157          
-  158          int Second_Element_menu(void)
-  159          {
-  160   1          int flag = 1,i = 0,Order = 0,k =0;
-  161   1          int menu_order[MENU_SIZE] = {0}; // 用于存储菜单项的顺序
-  162   1          
-  163   1          oled_p8x16str(25, 0, "L_YuanH");  // 左圆环
-  164   1          oled_p8x16str(25, 2, "R_YuanH");  // 右圆环
-  165   1          oled_p8x16str(25, 4, "PoDao");    // 坡道
-  166   1          oled_p8x16str(25, 6, "LuZhang");      // 路障
-  167   1          
-  168   1          while (1)
-  169   1          {
-  170   2              if (key3 == 0) // 下一项
-  171   2              {
-  172   3                  delay_ms(10);
-  173   3                  while (key3 == 0);
-  174   3                  delay_ms(10);
-  175   3                  flag++;
-  176   3                  if (flag == MENU_SIZE + 1) flag = 1;
-  177   3              }
-  178   2              if (key1 == 0) // 上一项
-  179   2              {
-  180   3                  delay_ms(10);
-  181   3                  while (key1 == 0);
-  182   3                  delay_ms(10);
-  183   3                  flag--;
-  184   3                  if (flag == 0) flag = MENU_SIZE;
-  185   3              }
-  186   2              if (key2 == 0) // 确定
-  187   2              {
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 4   
-
-  188   3                  delay_ms(10);
-  189   3                  while (key2 == 0);
-  190   3                  delay_ms(10);
-  191   3                  Order++;
-  192   3                  if(Order == 5){
-  193   4                    for(k=0;k<4;k++)
-  194   4                    {
-  195   5                      Element_Order[k]=menu_order[k];
-  196   5                    }
-  197   4                    oled_fill(0x00); //清屏
-  198   4                    return 0;  //返回上一级
-  199   4                  }
-  200   3                  menu_order[flag-1] = Order;
-  201   3              } 
-  202   2              if(key4 == 0) //返回上级
-  203   2              {
-  204   3                delay_ms(10);
-  205   3                while(key4 ==0);
-  206   3                delay_ms(10);
-  207   3                oled_fill(0x00); //清屏
-  208   3                return 0; // 返回选择的选项
-  209   3              }
-  210   2              // 更新光标位置和显示顺序
-  211   2              for (i = 0; i < MENU_SIZE; i++)
-  212   2              {
-  213   3                  if (i + 1 == flag)
-  214   3                      oled_p8x16str(0, i*2, "-->");  // 光标指示当前选中项
-*** WARNING C188 IN LINE 214 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
-  215   3                  else
-  216   3                      oled_p8x16str(0, i*2, "   ");
-*** WARNING C188 IN LINE 216 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
-  217   3                      
-  218   3                  // 在菜单项后显示顺序
-  219   3                  oled_uint16_px8(80, i*2, menu_order[i]);
-*** WARNING C188 IN LINE 219 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
-  220   3              } 
-  221   2        }
-  222   1      }
-  223          
-  224          //--
-  225          //  @brief      二级调节电机PI菜单
-  226          //  @param      void    
-  227          //  @return     0 退出二级菜单    
-  228          //--
-  229          
-  230          int Second_Motor_menu(void)
-  231          {
-  232   1          int flag = 0, Val_add_lose = 1, i = 0, count = 0;
-  233   1          int16 long_press_delay = 0;
-  234   1          int pree_delay = 0;
-  235   1          double x = 0.0001;
-  236   1          
-  237   1          oled_p8x16str(20, 0, "M_P"); 
-  238   1          oled_printf_float_px8(50, 0, Motor_P, 2, 4); // 电机P
-  239   1          oled_p8x16str(20, 2, "M_I"); 
-  240   1          oled_printf_float_px8(50, 2, Motor_I, 2, 4); // 电机I
-  241   1          oled_p8x16str(20, 4, "Add");   // 加值
-  242   1          oled_p8x16str(20, 6, "Val");   // 加几倍或者减几倍
-  243   1          
-  244   1          while (1)
-  245   1          {
-  246   2              if (key3 == 0) // 下一项
-  247   2              {
-  248   3                  delay_ms(10);
-  249   3                  while (key3 == 0);
-  250   3                  delay_ms(10);
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 5   
-
-  251   3                  flag++;
-  252   3                  if (flag == 5) flag = 1;
-  253   3              }
-  254   2              if (key1 == 0) // 上一项
-  255   2              {
-  256   3                  delay_ms(10);
-  257   3                  while (key1 == 0);
-  258   3                  delay_ms(10);
-  259   3                  flag--;
-  260   3                  if (flag == 0) flag = 4;
-  261   3              } 
-  262   2              if (key2 == 0) // 确定
-  263   2              {
-  264   3                  delay_ms(10);
-  265   3                  long_press_delay = 0;
-  266   3                  
-  267   3                  while (key2 == 0)
-  268   3                  {
-  269   4                      delay_ms(10);
-  270   4                      long_press_delay += 10;
-  271   4                      
-  272   4                      if (long_press_delay >= INTERVAL_TIME - pree_delay)
-  273   4                      {
-  274   5                          if (flag == 1)
-  275   5                          {
-  276   6                              oled_printf_float_px8(50, 0, Motor_P, 2, 4);
-  277   6                              Motor_P = Motor_P + x * Val_add_lose;
-  278   6                          }
-  279   5                          if (flag == 2)
-  280   5                          {
-  281   6                              Motor_I = Motor_I + x * Val_add_lose;
-  282   6                              oled_printf_float_px8(50, 2, Motor_I, 2, 4);
-  283   6                          }
-  284   5                          pree_delay += 150;
-  285   5                          if (pree_delay > 1000) pree_delay = 1000;
-  286   5                          long_press_delay = 0;
-  287   5                      }
-  288   4                  }
-  289   3                  delay_ms(10);
-  290   3                  if (long_press_delay < 800)
-  291   3                  {
-  292   4                      pree_delay = 0;
-  293   4                      if (flag == 1)
-  294   4                      {
-  295   5                          oled_printf_float_px8(50, 0, Motor_P, 2, 4);
-  296   5                          Motor_P = Motor_P + x * Val_add_lose;
-  297   5                      }
-  298   4                      if (flag == 2)
-  299   4                      {
-  300   5                          Motor_I = Motor_I + x * Val_add_lose;
-  301   5                          oled_printf_float_px8(50, 2, Motor_I, 2, 4);
-  302   5                      }
-  303   4                      if (flag == 3)
-  304   4                      {
-  305   5                          if (count == 0)
-  306   5                          {
-  307   6                              oled_p8x16str(20, 4, "    ");   // 减值
-  308   6                              oled_p8x16str(20, 4, "Lose");   // 减值
-  309   6                              Val_add_lose = -1;
-  310   6                              count = 1;
-  311   6                          }
-  312   5                          else if (count == 1)
-  313   5                          {
-  314   6                              oled_p8x16str(20, 4, "    ");   // 加值
-  315   6                              oled_p8x16str(20, 4, "Add");    // 加值
-  316   6                              Val_add_lose = 1;
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 6   
-=======
   157          int Second_Element_menu(void)
   158          {
   159   1          int flag = 1,i = 0,Order = 0,k =0;
@@ -448,7 +202,7 @@ stmt  level    source
   185   2              if (key2 == 0) // 确定
   186   2              {
   187   3                  delay_ms(10);
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 4   
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 4   
 
   188   3                  while (key2 == 0);
   189   3                  delay_ms(10);
@@ -516,7 +270,7 @@ stmt  level    source
   248   3                  while (key3 == 0);
   249   3                  delay_ms(10);
   250   3                  flag++;
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 5   
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 5   
 
   251   3                  if (flag == 5) flag = 1;
   252   3              }
@@ -584,8 +338,7 @@ stmt  level    source
   314   6                              oled_p8x16str(20, 4, "Add");    // 加值
   315   6                              Val_add_lose = 1;
   316   6                              count = 0;
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 6   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 6   
 
   317   6                          }
   318   5                      }
@@ -627,171 +380,6 @@ stmt  level    source
   352          
   353          
   354          
-<<<<<<< HEAD
-  355          
-  356          int Second__NWHuan_menu(void)
-  357          {
-  358   1          int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
-  359   1          float x =1,x1=0.005;
-  360   1          uint16 long_press_delay=0,pree_delay=0;
-  361   1          int page = 1; // 用于跟踪当前所在页面
-  362   1          int page1 = 1;
-  363   1          if(page == 1)
-  364   1          {
-  365   2                  oled_fill(0x00);
-  366   2          }
-  367   1          while (1)
-  368   1          {
-  369   2              // 监听按键操作
-  370   2              if (key3 == 0) // 下一项
-  371   2              {
-  372   3                  delay_ms(10);
-  373   3                  while (key3 == 0);
-  374   3                  delay_ms(10);
-  375   3                  flag++;
-  376   3                  // 如果到达菜单底部，则翻页到下一页
-  377   3                  if (flag > MENU_SIZE) {
-  378   4                      flag = 1; // 重置指针
-  379   4                      page = (page == 1) ? 2 : 1; // 切换到下一页
-  380   4                  }
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 7   
-
-  381   3              }
-  382   2              if (key1 == 0) // 上一项
-  383   2              {
-  384   3                  delay_ms(10);
-  385   3                  while (key1 == 0);
-  386   3                  delay_ms(10);
-  387   3                  flag--;
-  388   3                  // 如果在第一页按上一页，翻至第二页
-  389   3                  if (flag == 0 && page == 1) {
-  390   4                      flag = MENU_SIZE + 1; // 调整指针位置到第二页底部
-  391   4                      page = 2; // 切换到第二页
-  392   4                  }
-  393   3                  // 如果在第二页按上一页，返回到第一页
-  394   3                  else if (flag == 0 && page == 2) {
-  395   4                      flag = MENU_SIZE; // 调整指针位置到第一页底部
-  396   4                      page = 1; // 切换到第一页
-  397   4                  }
-  398   3              } 
-  399   2              //----------------------一二页区---------------------------//
-  400   2              if (page == 1)  //第一页
-  401   2              {
-  402   3                  if(page1==1)
-  403   3                  {
-  404   4                      oled_fill(0x00);
-  405   4                      page1=2;
-  406   4                      oled_p8x16str(22, 0, "N_P");  
-  407   4                      oled_printf_float_px8(45, 0, Nh_P, 2, 3); // 内环P
-  408   4                      oled_p8x16str(22, 2, "N_D");  
-  409   4                      oled_printf_float_px8(45, 2, Nh_D, 2, 3); // 内环D
-  410   4                      oled_p8x16str(22, 4, "W_P");  
-  411   4                      oled_printf_float_px8(45, 4, Wh_P, 3, 2); // 外环P
-  412   4                      oled_p8x16str(22, 6, "W_D");  
-  413   4                      oled_printf_float_px8(45, 6, Wh_D, 3, 2); // 外环D
-  414   4                  }
-  415   3              } 
-  416   2              else if (page == 2) //第二页
-  417   2              {
-  418   3                  if(page1==2)
-  419   3                  {
-  420   4                      oled_fill(0x00);
-  421   4                      page1=1;  
-  422   4                     // oled_p8x16str(22, 0, "Add");
-  423   4                      oled_p8x16str(22, 2, "W_Val");
-  424   4                      oled_p8x16str(22, 4, "N_Val");            
-  425   4                  }
-  426   3              }
-  427   2      //----------------------一二页区---------------------------//
-  428   2              if (key2 == 0&&page==1) // 确定并且在第一页
-  429   2              {
-  430   3                  delay_ms(10);
-  431   3                  long_press_delay = 0;
-  432   3                  while (key2 == 0)
-  433   3                  {
-  434   4                      delay_ms(10);
-  435   4                      long_press_delay += 10;
-  436   4                      if (long_press_delay >= INTERVAL_TIME - pree_delay)
-  437   4                      {
-  438   5                          if (flag == 1) {
-  439   6                              oled_printf_float_px8(45, 0, Nh_P, 2, 3);
-  440   6                              Nh_P = Nh_P + x1 * Val_add_lose;
-  441   6                          } else if (flag == 2) {
-  442   6                              oled_printf_float_px8(45, 2, Nh_D, 2, 3);
-  443   6                              Nh_D = Nh_D + x1 * Val_add_lose;
-  444   6                          } else if (flag == 3) {
-  445   6                              Wh_P = Wh_P + x* Val_add_lose;
-  446   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 8   
-
-  447   6                          } else if (flag == 4) {
-  448   6                              Wh_D = Wh_D + x * Val_add_lose;
-  449   6                              oled_printf_float_px8(45, 6, Wh_D, 3, 2);
-  450   6                          }
-  451   5                          pree_delay += 150;
-  452   5                          if (pree_delay > 1000) pree_delay = 1000;
-  453   5                          long_press_delay = 0;
-  454   5                      }
-  455   4                  }
-  456   3                  delay_ms(10);
-  457   3                  if (long_press_delay < 800)
-  458   3                  {
-  459   4                      pree_delay = 0;
-  460   4                      switch(flag)
-  461   4                      {
-  462   5                          case 1:
-  463   5                          {
-  464   6                              oled_printf_float_px8(45, 0, Nh_P, 2, 3);
-  465   6                              Nh_P = Nh_P + x1 * Val_add_lose;
-  466   6                          }break;
-  467   5                          case 2:
-  468   5                          {
-  469   6                              oled_printf_float_px8(45, 2, Nh_D, 2, 3);
-  470   6                              Nh_D = Nh_D + x1 * Val_add_lose;
-  471   6                          }break;
-  472   5                          case 3:
-  473   5                          {
-  474   6                              Wh_P = Wh_P + x * Val_add_lose;
-  475   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
-  476   6                          }break;
-  477   5                          case 4:
-  478   5                          {
-  479   6                              Wh_D = Wh_D + x * Val_add_lose;
-  480   6                              oled_printf_float_px8(45, 6, Wh_D, 3, 2);
-  481   6                          }break;
-  482   5                      }   
-  483   4      
-  484   4                  }
-  485   3              } 
-  486   2              if (key2 == 0&&page==2) // 确定并且在第一页
-  487   2              {
-  488   3                  delay_ms(10);
-  489   3                  while(key2==0);
-  490   3                  delay_ms(10);
-  491   3                  if (flag == 1)//并且在第二页 第一列add与lose
-  492   3                  {
-  493   4                      count ++;
-  494   4                      if(count==3)count=0;
-  495   4                      if (count == 0)
-  496   4                      {
-  497   5                          oled_p8x16str(22, 0, "    ");   // 减值
-  498   5                          oled_p8x16str(22, 0, "Lose");   // 减值
-  499   5                          Val_add_lose = -1;
-  500   5                          flag1++;
-  501   5                      }
-  502   4                      else if (count == 1)
-  503   4                      {
-  504   5                          oled_p8x16str(22, 0, "    ");   // 加值
-  505   5                          oled_p8x16str(22, 0, "Add");    // 加值
-  506   5                          Val_add_lose = 1;
-  507   5                      }
-  508   4                      
-  509   4                  }
-  510   3                  if (flag == 2)
-  511   3                  {
-  512   4                      x = x + 0.5 * Val_add_lose;
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 9   
-=======
   355          int Second__NWHuan_menu(void)
   356          {
   357   1          int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
@@ -818,7 +406,7 @@ stmt  level    source
   378   4                      page = (page == 1) ? 2 : 1; // 切换到下一页
   379   4                  }
   380   3              }
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 7   
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 7   
 
   381   2              if (key1 == 0) // 上一项
   382   2              {
@@ -886,7 +474,7 @@ stmt  level    source
   444   6                              Wh_P = Wh_P + x* Val_add_lose;
   445   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
   446   6                          } else if (flag == 4) {
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 8   
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 8   
 
   447   6                              Wh_D = Wh_D + x * Val_add_lose;
   448   6                              oled_printf_float_px8(45, 6, Wh_D, 3, 2);
@@ -954,8 +542,7 @@ stmt  level    source
   510   3                  {
   511   4                      x = x + 0.5 * Val_add_lose;
   512   4                      oled_printf_float_px8(50, 2, x, 3, 1);
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 9   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 9   
 
   513   4                  }
   514   3                  if(flag==3)
@@ -986,46 +573,6 @@ stmt  level    source
   537   1      }
   538          
   539          
-<<<<<<< HEAD
-  540          
-  541          //--
-  542          //  @brief      二级调节速度菜单
-  543          //  @param      void    
-  544          //  @return     0 退出二级菜单    
-  545          //--
-  546          
-  547          int Second__Speed_menu(void)
-  548          {
-  549   1          oled_fill(0x00);
-  550   1          oled_p8x16str(0, 0, "Speed");
-  551   1          oled_uint16_px8(45,0, speed); 
-  552   1          while(1)
-  553   1          {
-  554   2              if(key2==0)
-  555   2              {
-  556   3                  delay_ms(10);
-  557   3                  while(key2==0);
-  558   3                  delay_ms(10);
-  559   3                  speed=speed+1;
-  560   3                  oled_uint16_px8(45,0, speed); 
-  561   3              } 
-  562   2              if(key3==0)
-  563   2              {
-  564   3                  delay_ms(10);
-  565   3                  while(key3==0);
-  566   3                  delay_ms(10);
-  567   3                  speed=speed-1;
-  568   3                  oled_uint16_px8(45,0, speed); 
-  569   3              }
-  570   2              if (key4 == 0)  // 返回
-  571   2              {
-  572   3                  delay_ms(10);
-  573   3                  while (key4 == 0);
-  574   3                  delay_ms(10);
-  575   3                  oled_fill(0x00); // 清屏
-  576   3                  return 0; // 返回选择的选项
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 10  
-=======
   540          //--
   541          //  @brief      二级调节速度菜单
   542          //  @param      void    
@@ -1063,31 +610,12 @@ stmt  level    source
   574   3                  oled_fill(0x00); // 清屏
   575   3                  return 0; // 返回选择的选项
   576   3              }
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 10  
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 10  
 
   577   2          }
   578   1      }
   579          
   580          
-<<<<<<< HEAD
-  581          
-  582          //--
-  583          //  @brief      二级显示数据菜单
-  584          //  @param      void    
-  585          //  @return     0 退出二级菜单    
-  586          //--
-  587          
-  588          int Show_Val_Menu(void)
-  589          {
-  590   1          while(1)
-  591   1          {
-  592   2            NORMALIZATION_TRACKING_ADC(1,1);
-  593   2          show_val();
-  594   2          mpu6050_get_gyro();
-  595   2              if (key4 == 0)  // 返回
-  596   2              {
-=======
   581          //--
   582          //  @brief      二级显示数据菜单
   583          //  @param      void    
@@ -1104,7 +632,6 @@ stmt  level    source
   594   2              {
   595   3                  delay_ms(10);
   596   3                  while (key4 == 0);
->>>>>>> 璋冨弬
   597   3                  delay_ms(10);
   598   3                  oled_fill(0x00); // 清屏
   599   3                  return 0; // 返回选择的选项
@@ -1136,21 +663,11 @@ stmt  level    source
   625   3                  delay_ms(10);
   626   3                  while (key4 == 0);
   627   3                  delay_ms(10);
-<<<<<<< HEAD
-  628   3                  while (key4 == 0);
-  629   3                  delay_ms(10);
-  630   3                  oled_fill(0x00); // 清屏
-  631   3                  return 0; // 返回选择的选项
-  632   3              } 
-  633   2          }
-  634   1      }
-=======
   628   3                  oled_fill(0x00); // 清屏
   629   3                  return 0; // 返回选择的选项
   630   3              } 
   631   2          }
   632   1      }
->>>>>>> 璋冨弬
 
 
 Module Information          Static   Overlayable
@@ -1160,14 +677,9 @@ Module Information          Static   Overlayable
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:14:32  PAGE 11  
-
-=======
->>>>>>> 璋冨弬
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:16:29  PAGE 11  
+C251 COMPILER V5.60.0,  menu                                                               06/05/24  21:46:47  PAGE 11  
 
   edata size           =        66     ------
   bit size             =    ------     ------

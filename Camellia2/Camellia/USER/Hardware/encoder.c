@@ -3,7 +3,7 @@
 
 int dir_out=0,nh_out=0;
 int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
-double angle1=0.0;
+double angle1=0.0;   
 int speed = 105;
 float Ang = 0;
 //--
@@ -112,7 +112,6 @@ int R_Enc_integral(int R_target)
 void TM4_Isr() interrupt 20
 {
 	static int count = 0;
-	int nh = 0;
 	if(Car_Start_Flag)
 	{
 		mpu6050_get_gyro();
@@ -123,8 +122,8 @@ void TM4_Isr() interrupt 20
 		//	if(Track_flag)
 		//	Right_Angle();
 		//	Error_Speed();
-		nh = nh_Turn_Out(35, Nh_P, Nh_D);
-		Motor_PWM(-nh,+nh);
+		nh_out = nh_Turn_Out(0, Nh_P, Nh_D);
+		Motor_PWM(-nh_out, +nh_out);
 		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
