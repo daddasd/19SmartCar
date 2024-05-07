@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  direction                                                          07/05/24  18:37:44  PAGE 1   
+=======
+C251 COMPILER V5.60.0,  direction                                                          07/05/24  18:41:06  PAGE 1   
+>>>>>>> 调参
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -22,8 +26,13 @@ stmt  level    source
    10          #define out_max 20000
    11          #define Angle_MAX 3500
    12          
+<<<<<<< HEAD
    13          float Nh_P = 100; //0.5
    14          float Nh_D = 1.50; //4.1
+=======
+   13          float Nh_P = 100;  // 0.5
+   14          float Nh_D = 1.50; // 4.1
+>>>>>>> 调参
    15          float Wh_P = 90;
    16          float Wh_D = 320;
    17          
@@ -63,6 +72,7 @@ stmt  level    source
    51   1        int error1 = 0;
    52   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
    53   1        error1 = err - mpu6050_gyro_z / 65.6;
+<<<<<<< HEAD
    54   1        P_out = dir_p * (error1-last_err);
    55   1        I_out = dir_i * error1;
    56   1        if(I_out>2000)
@@ -70,6 +80,15 @@ stmt  level    source
 
    57   1          I_out = 2000;
    58   1        if(I_out < -2000)
+=======
+   54   1        P_out = dir_p * (error1 - last_err);
+   55   1        I_out = dir_i * error1;
+   56   1        if (I_out > 2000)
+C251 COMPILER V5.60.0,  direction                                                          07/05/24  18:41:06  PAGE 2   
+
+   57   1          I_out = 2000;
+   58   1        if (I_out < -2000)
+>>>>>>> 调参
    59   1          I_out = -2000;
    60   1        out = P_out + I_out;
    61   1        nh_out += out;
@@ -134,7 +153,11 @@ stmt  level    source
   120           *
   121           * @param chazhi
   122           * @param dir_p
+<<<<<<< HEAD
 C251 COMPILER V5.60.0,  direction                                                          07/05/24  18:37:44  PAGE 3   
+=======
+C251 COMPILER V5.60.0,  direction                                                          07/05/24  18:41:06  PAGE 3   
+>>>>>>> 调参
 
   123           * @param dir_d
   124           * @param dir_d2
