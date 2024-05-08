@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:07:24  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -18,149 +18,154 @@ stmt  level    source
     6          double angle1=0.0;
     7          int speed = 105;
     8          float Ang = 0;
-    9          //--
-   10          //  @brief      ???????????
-   11          //  @param      void
-   12          //  @return     void         
-   13          //--
-   14          
-   15          void Encoder_Time_Init(void)
-   16          {
-   17   1          pit_timer_ms(TIM_4,2); 
-   18   1          gpio_mode(Encoder_L, GPI_IMPEDANCE);
-   19   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
-   20   1          ctimer_count_init(Encoder_L);
-   21   1          ctimer_count_init(Encoder_R);
-   22   1          EnableGlobalIRQ();  //???????§Ø?
-   23   1      }
-   24          
-   25          //--
-   26          //  @brief      ??????????????
-   27          //  @param      void
-   28          //  @return     return : ?????         
-   29          //--
-   30          
-   31          int L_Encoder_Pulse(void)
-   32          {
-   33   1          if(DIL == 1)
-   34   1          {
-   35   2            L_Pulse = ctimer_count_read(Encoder_L);
-   36   2          }
-   37   1          else
-   38   1          {
-   39   2            L_Pulse = ctimer_count_read(Encoder_L);
-   40   2          }
-   41   1          return L_Pulse;  
-   42   1      }
-   43          
-   44          //--
-   45          //  @brief      ??????????????
-   46          //  @param      void
-   47          //  @return     return : ?????         
-   48          //--
-   49          int R_Encoder_Pulse(void)
-   50          {
-   51   1          if(DIR == 0)
-   52   1          {
-   53   2            R_Pulse = ctimer_count_read(Encoder_R);
-   54   2          }
-   55   1          else
-   56   1          {
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 2   
+    9          
+   10          float L = 0, R = 0;
+   11          //--
+   12          //  @brief      ???????????
+   13          //  @param      void
+   14          //  @return     void         
+   15          //--
+   16          
+   17          void Encoder_Time_Init(void)
+   18          {
+   19   1          pit_timer_ms(TIM_4,2); 
+   20   1          gpio_mode(Encoder_L, GPI_IMPEDANCE);
+   21   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
+   22   1          ctimer_count_init(Encoder_L);
+   23   1          ctimer_count_init(Encoder_R);
+   24   1          EnableGlobalIRQ();  //???????§Ø?
+   25   1      }
+   26          
+   27          //--
+   28          //  @brief      ??????????????
+   29          //  @param      void
+   30          //  @return     return : ?????         
+   31          //--
+   32          
+   33          int L_Encoder_Pulse(void)
+   34          {
+   35   1          if(DIL == 1)
+   36   1          {
+   37   2            L_Pulse = ctimer_count_read(Encoder_L);
+   38   2          }
+   39   1          else
+   40   1          {
+   41   2            L_Pulse = ctimer_count_read(Encoder_L);
+   42   2          }
+   43   1          return L_Pulse;  
+   44   1      }
+   45          
+   46          //--
+   47          //  @brief      ??????????????
+   48          //  @param      void
+   49          //  @return     return : ?????         
+   50          //--
+   51          int R_Encoder_Pulse(void)
+   52          {
+   53   1          if(DIR == 0)
+   54   1          {
+   55   2            R_Pulse = ctimer_count_read(Encoder_R);
+   56   2          }
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:07:24  PAGE 2   
 
-   57   2            R_Pulse = ctimer_count_read(Encoder_R);
-   58   2          }
-   59   1           return R_Pulse;  
-   60   1      }
-   61          
-   62          //--
-   63          //  @brief      ?????????
-   64          //  @param      void
-   65          //  @return     void        
-   66          //--
-   67          void Encoder_Read_Pulse(void)
-   68          {
-   69   1        L_Encoder_Pulse();
-   70   1        R_Encoder_Pulse();
-   71   1      }
-   72          //--
-   73          //  @brief      ???????????
-   74          //  @param      L_cont??R_cont?????????
-   75          //  @return     void        
-   76          //--
-   77          int L_Enc_integral(int L_target)
-   78          {
-   79   1         static int L=0,L_flag;
-   80   1          L+=L_Encoder_Pulse();
-   81   1         if(L>L_target)
-   82   1         {
-   83   2            L_flag=1;
-   84   2         }
-   85   1         if(L_flag==1)
-   86   1         {
-   87   2           L=0;
-   88   2           L_flag=0;
-   89   2           return 0;
-   90   2         }
-   91   1         return 1;
-   92   1      }
-   93          
-   94          
-   95          int R_Enc_integral(int R_target)
-   96          {
-   97   1         static int R=0,R_flag;
-   98   1         R+=R_Encoder_Pulse();
-   99   1         if(R>R_target)
-  100   1         {
-  101   2            R_flag=1;
-  102   2         }
-  103   1         if(R_flag==1)
-  104   1         {
-  105   2           R_flag=0;
-  106   2           R=0;
-  107   2           return 0;
-  108   2         }
-  109   1         return 1;
-  110   1      }
-  111          
-  112          void TM4_Isr() interrupt 20
-  113          {
-  114   1        static int count = 0;
-  115   1        int nh = 0;
-  116   1        if(Car_Start_Flag)
-  117   1        {
-  118   2          mpu6050_get_gyro();
-  119   2          L_Pulse=L_Encoder_Pulse();
-  120   2          R_Pulse=R_Encoder_Pulse();
-  121   2          NORMALIZATION_TRACKING_ADC(1,1);
-  122   2          //  Roundabout();
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  22:07:37  PAGE 3   
+   57   1          else
+   58   1          {
+   59   2            R_Pulse = ctimer_count_read(Encoder_R);
+   60   2          }
+   61   1           return R_Pulse;  
+   62   1      }
+   63          
+   64          //--
+   65          //  @brief      ?????????
+   66          //  @param      void
+   67          //  @return     void        
+   68          //--
+   69          void Encoder_Read_Pulse(void)
+   70          {
+   71   1        L_Encoder_Pulse();
+   72   1        R_Encoder_Pulse();
+   73   1      }
+   74          //--
+   75          //  @brief      ???????????
+   76          //  @param      L_cont??R_cont?????????
+   77          //  @return     void        
+   78          //--
+   79          int L_Enc_integral(int L_target)
+   80          {
+   81   1         static int L=0,L_flag;
+   82   1          L+=L_Encoder_Pulse();
+   83   1         if(L>L_target)
+   84   1         {
+   85   2            L_flag=1;
+   86   2         }
+   87   1         if(L_flag==1)
+   88   1         {
+   89   2           L=0;
+   90   2           L_flag=0;
+   91   2           return 0;
+   92   2         }
+   93   1         return 1;
+   94   1      }
+   95          
+   96          
+   97          int R_Enc_integral(int R_target)
+   98          {
+   99   1         static int R=0,R_flag;
+  100   1         R+=R_Encoder_Pulse();
+  101   1         if(R>R_target)
+  102   1         {
+  103   2            R_flag=1;
+  104   2         }
+  105   1         if(R_flag==1)
+  106   1         {
+  107   2           R_flag=0;
+  108   2           R=0;
+  109   2           return 0;
+  110   2         }
+  111   1         return 1;
+  112   1      }
+  113          
+  114          void TM4_Isr() interrupt 20
+  115          {
+  116   1        static int count = 0,OUT1,OUT2;
+  117   1        int nh = 0;
+  118   1        if(Car_Start_Flag)
+  119   1        {
+  120   2          mpu6050_get_gyro();
+  121   2          L_Pulse=L_Encoder_Pulse();
+  122   2          R_Pulse=R_Encoder_Pulse();
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:07:24  PAGE 3   
 
-  123   2          //  if(Track_flag)
-  124   2          //  Right_Angle();
-  125   2          //  Error_Speed();
-  126   2          Speed_pid_Out(30, (L_Pulse + R_Pulse) * 0.5);
-  127   2          Motor_PWM(Speed_Ring, Speed_Ring);
-  128   2          //  Tracking(speed+Err_speed);
-  129   2          ctimer_count_clean(Encoder_L);
-  130   2          ctimer_count_clean(Encoder_R);
-  131   2          TIM4_CLEAR_FLAG; //????§Ø???
-  132   2        }
-  133   1      }
-  134          
-  135          
+  123   2          NORMALIZATION_TRACKING_ADC(1,1);
+  124   2          //  Roundabout();
+  125   2          //  if(Track_flag)
+  126   2          //  Right_Angle();
+  127   2          //  Error_Speed();
+  128   2          L = L_Pulse;
+  129   2          R = R_Pulse;
+  130   2          OUT1=LSpeed_pid_Out(15, L_Pulse);
+  131   2          OUT2=RSpeed_pid_Out(15, R_Pulse);
+  132   2          Motor_PWM(OUT1, OUT2);
+  133   2          //  Tracking(speed+Err_speed);
+  134   2          ctimer_count_clean(Encoder_L);
+  135   2          ctimer_count_clean(Encoder_R);
+  136   2          TIM4_CLEAR_FLAG; //????§Ø???
+  137   2        }
+  138   1      }
+  139          
+  140          
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       440     ------
+  code size            =       444     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        36     ------
+  edata size           =        48     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -168,7 +173,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        70     ------
+  hconst size          =        86     ------
 End of Module Information.
 
 

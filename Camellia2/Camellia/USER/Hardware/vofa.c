@@ -28,10 +28,10 @@ char DataToSend[128];
 
 	 
 	 
-//		DataToSend[_cnt++]=BYTE0(_b);
-//		DataToSend[_cnt++]=BYTE1(_b);
-//		DataToSend[_cnt++]=BYTE2(_b);
-//		DataToSend[_cnt++]=BYTE3(_b);
+		DataToSend[_cnt++]=BYTE0(_b);
+		DataToSend[_cnt++]=BYTE1(_b);
+		DataToSend[_cnt++]=BYTE2(_b);
+		DataToSend[_cnt++]=BYTE3(_b);
 //		 
 //		DataToSend[_cnt++]=BYTE0(_c);
 //		DataToSend[_cnt++]=BYTE1(_c);

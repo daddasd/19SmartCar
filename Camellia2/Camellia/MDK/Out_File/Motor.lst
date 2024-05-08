@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              07/05/24  22:09:29  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              08/05/24  15:09:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -24,8 +24,8 @@ stmt  level    source
    12          
    13          #define MOTOR_MAX  8000
    14          
-   15          float Motor_P = 18.3085;
-   16          float Motor_I = 0;
+   15          float Motor_P = 260;
+   16          float Motor_I = 0.4;
    17          float Speed_Ring = 0;
    18          
    19          
@@ -60,22 +60,22 @@ stmt  level    source
    48          {
    49   1        if(L_PWM<0)
    50   1        {
-   51   2          MOTOR_L_DIR=1;
+   51   2          MOTOR_L_DIR=0;
    52   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
    53   2        }
    54   1        else{
-   55   2          MOTOR_L_DIR=0;
+   55   2          MOTOR_L_DIR=1;
    56   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-C251 COMPILER V5.60.0,  Motor                                                              07/05/24  22:09:29  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              08/05/24  15:09:29  PAGE 2   
 
    57   2        }
    58   1        if(R_PWM<0)
    59   1        {
-   60   2          MOTOR_R_DIR=1;
+   60   2          MOTOR_R_DIR=0;
    61   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
    62   2        }
    63   1        else{
-   64   2          MOTOR_R_DIR=0;
+   64   2          MOTOR_R_DIR=1;
    65   2          pwm_duty(MOTOR_R_PWM,R_PWM);
    66   2        }
    67   1      }
@@ -134,10 +134,10 @@ stmt  level    source
   120          //  @param      Target_Value: 目标速度
   121          //  @param      Actual_Value: 实际速度      
   122          //  @return     速度环输出        
-C251 COMPILER V5.60.0,  Motor                                                              07/05/24  22:09:29  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              08/05/24  15:09:29  PAGE 3   
 
   123          //--
-  124          int Speed_pid_Out(int Target_Value,int Actual_Value)
+  124          int LSpeed_pid_Out(int Target_Value,int Actual_Value)
   125          {
   126   1        int error = 0;
   127   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
@@ -151,30 +151,46 @@ stmt  level    source
   135   1        out = P_out + I_out;
   136   1        speed_out += out;
   137   1        last_err = error;
-  138   1        Speed_Ring = speed_out;
+  138   1        //Speed_Ring = speed_out;
   139   1        return (int)speed_out;
   140   1      }
   141          
-  142          
-  143          
-  144          void Buzzer(int time)
-  145          {
-  146   1        Buzzer_ON;
-  147   1        delay_ms(time);
-  148   1        Buzzer_OFF;
-  149   1      }
+  142          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+  143          {
+  144   1        int error = 0;
+  145   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  146   1        error = Target_Value - Actual_Value;
+  147   1        P_out = Motor_P * (error - last_err);
+  148   1        I_out = Motor_I * error;
+  149   1        if (I_out > 2000)
+  150   1          I_out = 2000;
+  151   1        if (I_out < -2000)
+  152   1          I_out = -2000;
+  153   1        out = P_out + I_out;
+  154   1        speed_out += out;
+  155   1        last_err = error;
+  156   1        //Speed_Ring = speed_out;
+  157   1        return (int)speed_out;
+  158   1      }
+  159          
+  160          void Buzzer(int time)
+  161          {
+  162   1        Buzzer_ON;
+  163   1        delay_ms(time);
+  164   1        Buzzer_OFF;
+  165   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       703     ------
+  code size            =       875     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       105     ------
+  edata size           =       131     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -182,7 +198,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        64     ------
+  hconst size          =       104     ------
 End of Module Information.
 
 

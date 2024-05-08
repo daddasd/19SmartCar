@@ -6,6 +6,8 @@ int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
 double angle1=0.0;
 int speed = 105;
 float Ang = 0;
+
+float L = 0, R = 0;
 //--
 //  @brief    	???????????
 //  @param      void
@@ -111,7 +113,7 @@ int R_Enc_integral(int R_target)
 
 void TM4_Isr() interrupt 20
 {
-	static int count = 0;
+	static int count = 0,OUT1,OUT2;
 	int nh = 0;
 	if(Car_Start_Flag)
 	{
@@ -123,8 +125,11 @@ void TM4_Isr() interrupt 20
 		//	if(Track_flag)
 		//	Right_Angle();
 		//	Error_Speed();
-		Speed_pid_Out(30, (L_Pulse + R_Pulse) * 0.5);
-		Motor_PWM(Speed_Ring, Speed_Ring);
+		L = L_Pulse;
+		R = R_Pulse;
+		OUT1=LSpeed_pid_Out(15, L_Pulse);
+		OUT2=RSpeed_pid_Out(15, R_Pulse);
+		Motor_PWM(OUT1, OUT2);
 		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
