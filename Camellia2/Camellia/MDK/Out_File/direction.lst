@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          08/05/24  15:15:37  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          08/05/24  21:07:04  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        P_out = dir_p * (error1 - last_err);
    55   1        I_out = dir_i * error1;
    56   1        if (I_out > 2000)
-C251 COMPILER V5.60.0,  direction                                                          08/05/24  15:15:37  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          08/05/24  21:07:04  PAGE 2   
 
    57   1          I_out = 2000;
    58   1        if (I_out < -2000)
@@ -134,7 +134,7 @@ stmt  level    source
   120           *
   121           * @param chazhi
   122           * @param dir_p
-C251 COMPILER V5.60.0,  direction                                                          08/05/24  15:15:37  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          08/05/24  21:07:04  PAGE 3   
 
   123           * @param dir_d
   124           * @param dir_d2

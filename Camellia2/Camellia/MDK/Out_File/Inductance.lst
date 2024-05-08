@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  15:15:37  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  21:07:03  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -43,14 +43,14 @@ stmt  level    source
    31          
    32          void Inductance_Init(void)
    33          {
-   34   1        adc_init(ADC_P11, ADC_SYSclk_DIV_2);
-   35   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+   34   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+   35   1        adc_init(ADC_P05, ADC_SYSclk_DIV_2);
    36   1        adc_init(ADC_P06, ADC_SYSclk_DIV_2);        
-   37   1          adc_init(ADC_P04, ADC_SYSclk_DIV_2);    
-   38   1        adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+   37   1          adc_init(ADC_P00, ADC_SYSclk_DIV_2);    
+   38   1        adc_init(ADC_P01, ADC_SYSclk_DIV_2);
    39   1        adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-   40   1          adc_init(ADC_P01, ADC_SYSclk_DIV_2);
-   41   1        adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+   40   1          adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+   41   1        adc_init(ADC_P04, ADC_SYSclk_DIV_2);
    42   1      }
    43          /**
    44           * @brief 快速开方
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        
    55   1        x = number * 0.5F;
    56   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  15:15:37  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  21:07:03  PAGE 2   
 
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
@@ -90,14 +90,14 @@ stmt  level    source
    76   1        uint16 ad_valu1[7] = {0};
    77   1        for (i = 0; i < 10; i++) // 读取十次电感
    78   1        {
-   79   2            ad_value[0][i] = adc_once(ADC_P11, ADC_12BIT);
-   80   2            ad_value[1][i] = adc_once(ADC_P10, ADC_12BIT);
+   79   2            ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
+   80   2            ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
    81   2            ad_value[2][i] = adc_once(ADC_P06, ADC_12BIT);
-   82   2            ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
-   83   2            ad_value[4][i] = adc_once(ADC_P04, ADC_12BIT);
-   84   2            ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
-   85   2            ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
-   86   2            bug=adc_once(ADC_P00, ADC_12BIT);
+   82   2            ad_value[3][i] = adc_once(ADC_P00, ADC_12BIT);
+   83   2            ad_value[4][i] = adc_once(ADC_P01, ADC_12BIT);
+   84   2            ad_value[5][i] = adc_once(ADC_P02, ADC_12BIT);
+   85   2              ad_value[6][i] = adc_once(ADC_P03, ADC_12BIT);
+   86   2            bug=       adc_once(ADC_P04, ADC_12BIT);
    87   2        }
    88   1      
    89   1        /*=========================冒泡排序升序==========================*/
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
   122   1        R2 = ad_valu1[5];
-C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  15:15:37  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  21:07:03  PAGE 3   
 
   123   1        R1 = ad_valu1[6];
   124   1        
@@ -202,7 +202,7 @@ stmt  level    source
   184          **/
   185          
   186          void show_val(void)
-C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  15:15:37  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         08/05/24  21:07:03  PAGE 4   
 
   187          {
   188   1      //-----------------oled显示电感值----------------------//

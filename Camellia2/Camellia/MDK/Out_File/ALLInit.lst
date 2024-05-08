@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            08/05/24  15:15:38  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            08/05/24  21:07:04  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -22,10 +22,10 @@ stmt  level    source
    10   1          gpio_mode(P4_2, GPO_PP);//Lift 
    11   1          gpio_mode(P5_2, GPO_PP);//Right
    12   1          //********RGB”ÎBuzzer********//
-   13   1          gpio_mode(P2_6, GPO_PP);  // RGB
-   14   1          gpio_mode(P1_3, GPO_PP); // Buzzer
-   15   1          P26 = 0;
-   16   1          P13 = 0;
+   13   1          gpio_mode(P4_1, GPO_PP);  // RGB
+   14   1          gpio_mode(P4_4, GPO_PP); // Buzzer
+   15   1          P41 = 0;
+   16   1          P44 = 0;
    17   1      }
    18          
    19          /**

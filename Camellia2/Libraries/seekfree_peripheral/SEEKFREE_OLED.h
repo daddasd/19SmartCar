@@ -39,10 +39,10 @@
 //--------------------软件SPI--------------------
 
 
-#define OLED_SCL_PIN  P25		
-#define OLED_SDA_PIN  P23
-#define OLED_REST_PIN P20	  	//液晶复位引脚定义
-#define OLED_DC_PIN   P21   	//液晶命令位引脚定义
+#define OLED_SCL_PIN  P26		
+#define OLED_SDA_PIN  P27
+#define OLED_REST_PIN P24	  	//液晶复位引脚定义
+#define OLED_DC_PIN   P25   	//液晶命令位引脚定义
 #define OLED_CS_PIN   P22   	//定义SPI_CS引脚
 
 

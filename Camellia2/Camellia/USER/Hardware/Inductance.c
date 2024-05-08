@@ -31,14 +31,14 @@ int bug=0;
 
 void Inductance_Init(void)
 {
-	adc_init(ADC_P11, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P05, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P06, ADC_SYSclk_DIV_2);				
-  	adc_init(ADC_P04, ADC_SYSclk_DIV_2);		
-	adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+  	adc_init(ADC_P00, ADC_SYSclk_DIV_2);		
+	adc_init(ADC_P01, ADC_SYSclk_DIV_2);
 	adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-  	adc_init(ADC_P01, ADC_SYSclk_DIV_2);
-	adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+  	adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+	adc_init(ADC_P04, ADC_SYSclk_DIV_2);
 }
 /**
  * @brief 快速开方
@@ -76,14 +76,14 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	uint16 ad_valu1[7] = {0};
 	for (i = 0; i < 10; i++) // 读取十次电感
 	{
-			ad_value[0][i] = adc_once(ADC_P11, ADC_12BIT);
-			ad_value[1][i] = adc_once(ADC_P10, ADC_12BIT);
+			ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
+			ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
 			ad_value[2][i] = adc_once(ADC_P06, ADC_12BIT);
-			ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
-			ad_value[4][i] = adc_once(ADC_P04, ADC_12BIT);
-			ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
-		  ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
-		  bug=adc_once(ADC_P00, ADC_12BIT);
+			ad_value[3][i] = adc_once(ADC_P00, ADC_12BIT);
+			ad_value[4][i] = adc_once(ADC_P01, ADC_12BIT);
+			ad_value[5][i] = adc_once(ADC_P02, ADC_12BIT);
+		  	ad_value[6][i] = adc_once(ADC_P03, ADC_12BIT);
+		 	bug=			 adc_once(ADC_P04, ADC_12BIT);
 	}
 
 	/*=========================冒泡排序升序==========================*/
