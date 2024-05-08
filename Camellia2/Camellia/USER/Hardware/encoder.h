@@ -14,7 +14,8 @@ extern    Sum_Pulse;
 extern		dir_out;
 extern  	nh_out;
 extern 		double angle1;
-
+extern float L;
+extern float R;
 extern int speed;
 extern float Ang;
 void Encoder_Time_Init(void);

@@ -12,8 +12,10 @@
 
 #define MOTOR_MAX  8000
 
-float Motor_P = 12.3085;
-float Motor_I = 0.019;
+float Motor_P = 260;
+float Motor_I = 0.4;
+float Speed_Ring = 0;
+
 
 Motor_PID_InitTypedef Motor_pid;
 
@@ -46,20 +48,20 @@ void Motor_PWM(int L_PWM,int R_PWM)
 {
 	if(L_PWM<0)
 	{
-		MOTOR_L_DIR=1;
+		MOTOR_L_DIR=0;
 		pwm_duty(MOTOR_L_PWM,abs(L_PWM));
 	}
 	else{
-		MOTOR_L_DIR=0;
+		MOTOR_L_DIR=1;
 		pwm_duty(MOTOR_L_PWM,L_PWM);
 	}
  	if(R_PWM<0)
 	{
-		MOTOR_R_DIR=1;
+		MOTOR_R_DIR=0;
 		pwm_duty(MOTOR_R_PWM,abs(R_PWM));
 	}
 	else{
-		MOTOR_R_DIR=0;
+		MOTOR_R_DIR=1;
 		pwm_duty(MOTOR_R_PWM,R_PWM);
 	}
 }
@@ -119,33 +121,41 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 //  @param      Actual_Value: 实际速度      
 //  @return     速度环输出        
 //--
-int Speed_pid_Out(int Target_Value,int Actual_Value)
+int LSpeed_pid_Out(int Target_Value,int Actual_Value)
 {
-	float Kp_Value=0;
-	static float Ki_Value=0,Kd_Value=0;
-	float MOTOR_PWM = 0;
-	//1.计算偏差
-	Motor_pid.Motor_err=Target_Value-Actual_Value;
-	if(abs(Motor_pid.Motor_err)<2)  //PID死区
-	{
-		Motor_pid.Motor_err=0;
-		Motor_pid.Motor_err_last=0;
-	}
-	//2.比例运算
-	Kp_Value=Motor_pid.Motor_err_last*Motor_pid.Motor_Kp;
-	//3.积分运算
-	Ki_Value =Motor_pid.Motor_err;
-	//6.更新误差
-	Motor_pid.Motor_err_last2=Motor_pid.Motor_err_last;
-	Motor_pid.Motor_err_last=Motor_pid.Motor_err;
-	//7.输出电机执行量
-	Motor_pid.Motor_Out_Value=(Kp_Value+Ki_Value*Motor_pid.Motor_Ki);
-	MOTOR_PWM+= Motor_pid.Motor_Out_Value;
-	MOTOR_PWM = limit(MOTOR_PWM,MOTOR_MAX);
-	return (int)MOTOR_PWM;
+	int error = 0;
+	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+	error = Target_Value - Actual_Value ;
+	P_out = Motor_P * (error - last_err);
+	I_out = Motor_I * error;
+	if (I_out > 2000)
+		I_out = 2000;
+	if (I_out < -2000)
+		I_out = -2000;
+	out = P_out + I_out;
+	speed_out += out;
+	last_err = error;
+	//Speed_Ring = speed_out;
+	return (int)speed_out;
 }
 
-
+int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+{
+	int error = 0;
+	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+	error = Target_Value - Actual_Value;
+	P_out = Motor_P * (error - last_err);
+	I_out = Motor_I * error;
+	if (I_out > 2000)
+		I_out = 2000;
+	if (I_out < -2000)
+		I_out = -2000;
+	out = P_out + I_out;
+	speed_out += out;
+	last_err = error;
+	//Speed_Ring = speed_out;
+	return (int)speed_out;
+}
 
 void Buzzer(int time)
 {

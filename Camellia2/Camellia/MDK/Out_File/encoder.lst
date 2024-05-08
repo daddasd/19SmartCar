@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:34:06  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 1   
->>>>>>> Ë∞ÉÂèÇ
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:15:37  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -70,11 +66,7 @@ stmt  level    source
    54   2          }
    55   1          else
    56   1          {
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:34:06  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 2   
->>>>>>> Ë∞ÉÂèÇ
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:15:37  PAGE 2   
 
    57   2            R_Pulse = ctimer_count_read(Encoder_R);
    58   2          }
@@ -134,7 +126,6 @@ stmt  level    source
   112          void TM4_Isr() interrupt 20
   113          {
   114   1        static int count = 0;
-<<<<<<< HEAD
   115   1        if(Car_Start_Flag)
   116   1        {
   117   2          mpu6050_get_gyro();
@@ -143,18 +134,7 @@ stmt  level    source
   120   2          NORMALIZATION_TRACKING_ADC(1,1);
   121   2          //  Roundabout();
   122   2          //  if(Track_flag)
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:34:06  PAGE 3   
-=======
-  115   1        int nh = 0;
-  116   1        if(Car_Start_Flag)
-  117   1        {
-  118   2          mpu6050_get_gyro();
-  119   2          L_Pulse=L_Encoder_Pulse();
-  120   2          R_Pulse=R_Encoder_Pulse();
-  121   2          NORMALIZATION_TRACKING_ADC(1,1);
-  122   2          //  Roundabout();
-C251 COMPILER V5.60.0,  encoder                                                            07/05/24  18:41:06  PAGE 3   
->>>>>>> Ë∞ÉÂèÇ
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:15:37  PAGE 3   
 
   123   2          //  Right_Angle();
   124   2          //  Error_Speed();
@@ -168,27 +148,164 @@ stmt  level    source
   132   1      }
   133          
   134          
+  135          #include "myconfig.h"
+  136          
+  137          
+  138          int dir_out=0,nh_out=0;
+*** ERROR C53 IN LINE 138 OF ..\USER\Hardware\encoder.c: redefinition of 'dir_out'
+*** ERROR C53 IN LINE 138 OF ..\USER\Hardware\encoder.c: redefinition of 'nh_out'
+  139          int L_Pulse=0,R_Pulse=0,Sum_Pulse=0;
+*** ERROR C53 IN LINE 139 OF ..\USER\Hardware\encoder.c: redefinition of 'L_Pulse'
+*** ERROR C53 IN LINE 139 OF ..\USER\Hardware\encoder.c: redefinition of 'R_Pulse'
+*** ERROR C53 IN LINE 139 OF ..\USER\Hardware\encoder.c: redefinition of 'Sum_Pulse'
+  140          double angle1=0.0;
+*** ERROR C53 IN LINE 140 OF ..\USER\Hardware\encoder.c: redefinition of 'angle1'
+  141          int speed = 105;
+*** ERROR C53 IN LINE 141 OF ..\USER\Hardware\encoder.c: redefinition of 'speed'
+  142          float Ang = 0;
+*** ERROR C53 IN LINE 142 OF ..\USER\Hardware\encoder.c: redefinition of 'Ang'
+  143          
+  144          float L = 0, R = 0;
+  145          //--
+  146          //  @brief      ???????????
+  147          //  @param      void
+  148          //  @return     void         
+  149          //--
+  150          
+  151          void Encoder_Time_Init(void)
+  152          {
+*** ERROR C53 IN LINE 152 OF ..\USER\Hardware\encoder.c: redefinition of 'Encoder_Time_Init': function already defined
+  153   1          pit_timer_ms(TIM_4,2); 
+  154   1          gpio_mode(Encoder_L, GPI_IMPEDANCE);
+  155   1          gpio_mode(Encoder_R, GPI_IMPEDANCE);
+  156   1          ctimer_count_init(Encoder_L);
+  157   1          ctimer_count_init(Encoder_R);
+  158   1          EnableGlobalIRQ();  //???????ßÿ?
+  159   1      }
+  160          
+  161          //--
+  162          //  @brief      ??????????????
+  163          //  @param      void
+  164          //  @return     return : ?????         
+  165          //--
+  166          
+  167          int L_Encoder_Pulse(void)
+  168          {
+*** ERROR C53 IN LINE 168 OF ..\USER\Hardware\encoder.c: redefinition of 'L_Encoder_Pulse': function already defined
+  169   1          if(DIL == 1)
+  170   1          {
+  171   2            L_Pulse = ctimer_count_read(Encoder_L);
+  172   2          }
+  173   1          else
+  174   1          {
+  175   2            L_Pulse = ctimer_count_read(Encoder_L);
+  176   2          }
+  177   1          return L_Pulse;  
+  178   1      }
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:15:37  PAGE 4   
 
+  179          
+  180          //--
+  181          //  @brief      ??????????????
+  182          //  @param      void
+  183          //  @return     return : ?????         
+  184          //--
+  185          int R_Encoder_Pulse(void)
+  186          {
+*** ERROR C53 IN LINE 186 OF ..\USER\Hardware\encoder.c: redefinition of 'R_Encoder_Pulse': function already defined
+  187   1          if(DIR == 0)
+  188   1          {
+  189   2            R_Pulse = ctimer_count_read(Encoder_R);
+  190   2          }
+  191   1          else
+  192   1          {
+  193   2            R_Pulse = ctimer_count_read(Encoder_R);
+  194   2          }
+  195   1           return R_Pulse;  
+  196   1      }
+  197          
+  198          //--
+  199          //  @brief      ?????????
+  200          //  @param      void
+  201          //  @return     void        
+  202          //--
+  203          void Encoder_Read_Pulse(void)
+  204          {
+*** ERROR C53 IN LINE 204 OF ..\USER\Hardware\encoder.c: redefinition of 'Encoder_Read_Pulse': function already defined
+  205   1        L_Encoder_Pulse();
+  206   1        R_Encoder_Pulse();
+  207   1      }
+  208          //--
+  209          //  @brief      ???????????
+  210          //  @param      L_cont??R_cont?????????
+  211          //  @return     void        
+  212          //--
+  213          int L_Enc_integral(int L_target)
+  214          {
+*** ERROR C53 IN LINE 214 OF ..\USER\Hardware\encoder.c: redefinition of 'L_Enc_integral': function already defined
+  215   1         static int L=0,L_flag;
+  216   1          L+=L_Encoder_Pulse();
+  217   1         if(L>L_target)
+  218   1         {
+  219   2            L_flag=1;
+  220   2         }
+  221   1         if(L_flag==1)
+  222   1         {
+  223   2           L=0;
+  224   2           L_flag=0;
+  225   2           return 0;
+  226   2         }
+  227   1         return 1;
+  228   1      }
+  229          
+  230          
+  231          int R_Enc_integral(int R_target)
+  232          {
+*** ERROR C53 IN LINE 232 OF ..\USER\Hardware\encoder.c: redefinition of 'R_Enc_integral': function already defined
+  233   1         static int R=0,R_flag;
+  234   1         R+=R_Encoder_Pulse();
+  235   1         if(R>R_target)
+  236   1         {
+  237   2            R_flag=1;
+  238   2         }
+  239   1         if(R_flag==1)
+  240   1         {
+C251 COMPILER V5.60.0,  encoder                                                            08/05/24  15:15:37  PAGE 5   
 
-Module Information          Static   Overlayable
-------------------------------------------------
-  code size            =       405     ------
-  ecode size           =    ------     ------
-  data size            =    ------     ------
-  idata size           =    ------     ------
-  pdata size           =    ------     ------
-  xdata size           =    ------     ------
-  xdata-const size     =    ------     ------
-  edata size           =        34     ------
-  bit size             =    ------     ------
-  ebit size            =    ------     ------
-  bitaddressable size  =    ------     ------
-  ebitaddressable size =    ------     ------
-  far data size        =    ------     ------
-  huge data size       =    ------     ------
-  const size           =    ------     ------
-  hconst size          =        70     ------
-End of Module Information.
+  241   2           R_flag=0;
+  242   2           R=0;
+  243   2           return 0;
+  244   2         }
+  245   1         return 1;
+  246   1      }
+  247          
+  248          void TM4_Isr() interrupt 20
+  249          {
+*** ERROR C53 IN LINE 249 OF ..\USER\Hardware\encoder.c: redefinition of 'TM4_Isr': function already defined
+  250   1        static int count = 0,OUT1,OUT2;
+  251   1        int nh = 0;
+  252   1        if(Car_Start_Flag)
+  253   1        {
+  254   2          mpu6050_get_gyro();
+  255   2          L_Pulse=L_Encoder_Pulse();
+  256   2          R_Pulse=R_Encoder_Pulse();
+  257   2          NORMALIZATION_TRACKING_ADC(1,1);
+  258   2          //  Roundabout();
+  259   2          //  if(Track_flag)
+  260   2          //  Right_Angle();
+  261   2          //  Error_Speed();
+  262   2          L = L_Pulse;
+  263   2          R = R_Pulse;
+  264   2          OUT1=LSpeed_pid_Out(15, L_Pulse);
+  265   2          OUT2=RSpeed_pid_Out(15, R_Pulse);
+  266   2          Motor_PWM(OUT1, OUT2);
+  267   2          //  Tracking(speed+Err_speed);
+  268   2          ctimer_count_clean(Encoder_L);
+  269   2          ctimer_count_clean(Encoder_R);
+  270   2          TIM4_CLEAR_FLAG; //????ßÿ???
+  271   2        }
+  272   1      }
+  273          
+  274          
 
-
-C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  15 ERROR(S)

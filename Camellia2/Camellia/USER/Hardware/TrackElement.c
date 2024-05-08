@@ -230,17 +230,18 @@ void Sub_Pid(float error)
 **/
 void Tracking(int Set_speed)
 {
-	static int count=0,pwm=0;
+	static int count=0,Lpwm=0,Rpwm=0;
 	Sum_Pulse=(L_Pulse+R_Pulse)/2;
 	count++;
 	dir_out=DirControl();
 	if(count==10)
 	{
-		pwm=Speed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
+		Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
+		Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
 		count=0;
 	}
 		
-		Motor_PWM(pwm-dir_out,pwm+dir_out);
+		Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
 }
 /**
  * @brief 根据不同速度给标志位
