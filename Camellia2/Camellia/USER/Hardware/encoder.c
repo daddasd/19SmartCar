@@ -20,7 +20,7 @@ void Encoder_Time_Init(void)
 	gpio_mode(Encoder_R, GPI_IMPEDANCE);
 	ctimer_count_init(Encoder_L);
 	ctimer_count_init(Encoder_R);
-	EnableGlobalIRQ(); //???????ùù?
+	EnableGlobalIRQ(); //???????ÔøΩÔøΩ?
 }
 
 //--
@@ -31,7 +31,7 @@ void Encoder_Time_Init(void)
 
 int L_Encoder_Pulse(void)
 {
-	if (DIL == 1)
+	if (DIL == 0)
 	{
 		L_Pulse = ctimer_count_read(Encoder_L);
 	}
@@ -124,13 +124,13 @@ void TM4_Isr() interrupt 20
 		//	Right_Angle();
 		//	Error_Speed();
 		L = L_Pulse;
-		R = R_Pulse;
-		OUT1 = LSpeed_pid_Out(15, L_Pulse);
-		OUT2 = RSpeed_pid_Out(15, R_Pulse);
-		Motor_PWM(OUT1, OUT2);
+		R = R_Pulse; 
+		OUT1 = LSpeed_pid_Out(30, L_Pulse);
+		OUT2 = RSpeed_pid_Out(30, R_Pulse);
+		Motor_PWM(OUT1,OUT2); ////////////////
 		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
-		TIM4_CLEAR_FLAG; //????ùù???
+		TIM4_CLEAR_FLAG; //????ÔøΩÔøΩ???
 	}
 }

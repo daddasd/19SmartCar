@@ -13,7 +13,7 @@
 #define MOTOR_MAX  8000
 
 float Motor_P = 260;
-float Motor_I = 0.4;
+float Motor_I = 1 ;
 float Speed_Ring = 0;
 
 
@@ -48,20 +48,20 @@ void Motor_PWM(int L_PWM,int R_PWM)
 {
 	if(L_PWM<0)
 	{
-		MOTOR_L_DIR=0;
+		MOTOR_L_DIR=1;
 		pwm_duty(MOTOR_L_PWM,abs(L_PWM));
 	}
 	else{
-		MOTOR_L_DIR=1;
+		MOTOR_L_DIR=0;
 		pwm_duty(MOTOR_L_PWM,L_PWM);
 	}
  	if(R_PWM<0)
 	{
-		MOTOR_R_DIR=0;
+		MOTOR_R_DIR=1;
 		pwm_duty(MOTOR_R_PWM,abs(R_PWM));
 	}
 	else{
-		MOTOR_R_DIR=1;
+		MOTOR_R_DIR=0;
 		pwm_duty(MOTOR_R_PWM,R_PWM);
 	}
 }

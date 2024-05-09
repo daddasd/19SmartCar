@@ -3,7 +3,7 @@
 
 #define key1 P20
 #define key2 P21 
-#define key3 P23 
+#define key3 P43 
 #define key4 P37
 
 extern float out_dir_p;

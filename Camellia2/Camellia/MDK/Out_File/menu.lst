@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 1   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE menu
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        oled_p6x8str(25,5,"Car_Star"); //小车启动
    55   1        while(1)
    56   1        {
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 2   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 2   
 
    57   2              Send4DataToVofa(L, R);
 *** WARNING C96 IN LINE 57 OF ..\USER\Hardware\menu.c: 'Send4DataToVofa': too few actual parameters
@@ -134,7 +134,7 @@ stmt  level    source
   119   3            case 4:
   120   3            {
   121   4              oled_p6x8str(0,0,"   "); 
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 3   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 3   
 
   122   4              oled_p6x8str(0,1,"   "); 
   123   4              oled_p6x8str(0,2,"   ");
@@ -202,7 +202,7 @@ stmt  level    source
   184   3                  if (flag == 0) flag = MENU_SIZE;
   185   3              }
   186   2              if (key2 == 0) // 确定
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 4   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 4   
 
   187   2              {
   188   3                  delay_ms(10);
@@ -270,7 +270,7 @@ stmt  level    source
   247   2              {
   248   3                  delay_ms(10);
   249   3                  while (key3 == 0);
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 5   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 5   
 
   250   3                  delay_ms(10);
   251   3                  flag++;
@@ -338,7 +338,7 @@ stmt  level    source
   313   5                          {
   314   6                              oled_p8x16str(20, 4, "    ");   // 加值
   315   6                              oled_p8x16str(20, 4, "Add");    // 加值
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 6   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 6   
 
   316   6                              Val_add_lose = 1;
   317   6                              count = 0;
@@ -406,7 +406,7 @@ stmt  level    source
   377   3                  if (flag > MENU_SIZE) {
   378   4                      flag = 1; // 重置指针
   379   4                      page = (page == 1) ? 2 : 1; // 切换到下一页
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 7   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 7   
 
   380   4                  }
   381   3              }
@@ -474,7 +474,7 @@ stmt  level    source
   443   6                              Nh_D = Nh_D + x1 * Val_add_lose;
   444   6                          } else if (flag == 3) {
   445   6                              Wh_P = Wh_P + x* Val_add_lose;
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 8   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 8   
 
   446   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
   447   6                          } else if (flag == 4) {
@@ -542,7 +542,7 @@ stmt  level    source
   509   4                  }
   510   3                  if (flag == 2)
   511   3                  {
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 9   
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 9   
 
   512   4                      x = x + 0.5 * Val_add_lose;
   513   4                      oled_printf_float_px8(50, 2, x, 3, 1);
@@ -610,7 +610,7 @@ stmt  level    source
   573   3                  while (key4 == 0);
   574   3                  delay_ms(10);
   575   3                  oled_fill(0x00); // 清屏
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 10  
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 10  
 
   576   3                  return 0; // 返回选择的选项
   577   3              }
@@ -679,7 +679,7 @@ Module Information          Static   Overlayable
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:07:04  PAGE 11  
+C251 COMPILER V5.60.0,  menu                                                               08/05/24  21:18:53  PAGE 11  
 
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------

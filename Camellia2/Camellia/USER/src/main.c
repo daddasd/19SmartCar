@@ -45,17 +45,18 @@ void main()
 	ALL_Peripheral_Init();
 	Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
 	delay_ms(500);
+	RGB_Color(76, 0, 153);
 	while (1)
 	{
-		menu = First_menu();
-		if(menu == 1) Second_Element_menu();
-		if(menu == 2) Second_Motor_menu();
-		if(menu == 3) Second__NWHuan_menu();
-		if(menu == 4) Second__Speed_menu();
-		if(menu == 5) Show_Val_Menu();
-		if(menu == 6){
+		// menu = First_menu();
+		// if(menu == 1) Second_Element_menu();
+		// if(menu == 2) Second_Motor_menu();
+		// if(menu == 3) Second__NWHuan_menu();
+		// if(menu == 4) Second__Speed_menu();
+		// if(menu == 5) Show_Val_Menu();
+		// if(menu == 6){
 			Car_Start_Flag = 1;
-		}
+//		}
 	}
 }
 

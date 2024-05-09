@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            08/05/24  21:07:04  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            09/05/24  18:52:33  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -32,7 +32,7 @@ stmt  level    source
    20   1        gpio_mode(Encoder_R, GPI_IMPEDANCE);
    21   1        ctimer_count_init(Encoder_L);
    22   1        ctimer_count_init(Encoder_R);
-   23   1        EnableGlobalIRQ(); //???????ùù?
+   23   1        EnableGlobalIRQ(); //???????ÔøΩÔøΩ?
    24   1      }
    25          
    26          //--
@@ -43,7 +43,7 @@ stmt  level    source
    31          
    32          int L_Encoder_Pulse(void)
    33          {
-   34   1        if (DIL == 1)
+   34   1        if (DIL == 0)
    35   1        {
    36   2          L_Pulse = ctimer_count_read(Encoder_L);
    37   2        }
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          R_Pulse = ctimer_count_read(Encoder_R);
    55   2        }
    56   1        else
-C251 COMPILER V5.60.0,  encoder                                                            08/05/24  21:07:04  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            09/05/24  18:52:33  PAGE 2   
 
    57   1        {
    58   2          R_Pulse = ctimer_count_read(Encoder_R);
@@ -134,20 +134,20 @@ stmt  level    source
   120   2          R_Pulse = R_Encoder_Pulse();
   121   2          NORMALIZATION_TRACKING_ADC(1, 1);
   122   2          //  Roundabout();
-C251 COMPILER V5.60.0,  encoder                                                            08/05/24  21:07:04  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            09/05/24  18:52:33  PAGE 3   
 
   123   2          //  if(Track_flag)
   124   2          //  Right_Angle();
   125   2          //  Error_Speed();
   126   2          L = L_Pulse;
   127   2          R = R_Pulse;
-  128   2          OUT1 = LSpeed_pid_Out(15, L_Pulse);
-  129   2          OUT2 = RSpeed_pid_Out(15, R_Pulse);
-  130   2          Motor_PWM(OUT1, OUT2);
+  128   2          OUT1 = LSpeed_pid_Out(30, L_Pulse);
+  129   2          OUT2 = RSpeed_pid_Out(30, R_Pulse);
+  130   2          Motor_PWM(OUT1,OUT2); ////////////////
   131   2          //  Tracking(speed+Err_speed);
   132   2          ctimer_count_clean(Encoder_L);
   133   2          ctimer_count_clean(Encoder_R);
-  134   2          TIM4_CLEAR_FLAG; //????ùù???
+  134   2          TIM4_CLEAR_FLAG; //????ÔøΩÔøΩ???
   135   2        }
   136   1      }
 

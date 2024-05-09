@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               08/05/24  21:07:03  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               09/05/24  18:30:23  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -56,32 +56,31 @@ stmt  level    source
    45   1        ALL_Peripheral_Init();
    46   1        Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
    47   1        delay_ms(500);
-   48   1        while (1)
-   49   1        {
-   50   2          menu = First_menu();
-   51   2          if(menu == 1) Second_Element_menu();
-   52   2          if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 52 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
-             -()'
-   53   2          if(menu == 3) Second__NWHuan_menu();
-   54   2          if(menu == 4) Second__Speed_menu();
-   55   2          if(menu == 5) Show_Val_Menu();
-C251 COMPILER V5.60.0,  main                                                               08/05/24  21:07:03  PAGE 2   
+   48   1        RGB_Color(76, 0, 153);
+   49   1        while (1)
+   50   1        {
+   51   2          // menu = First_menu();
+   52   2          // if(menu == 1) Second_Element_menu();
+   53   2          // if(menu == 2) Second_Motor_menu();
+   54   2          // if(menu == 3) Second__NWHuan_menu();
+   55   2          // if(menu == 4) Second__Speed_menu();
+   56   2          // if(menu == 5) Show_Val_Menu();
+   57   2          // if(menu == 6){
+C251 COMPILER V5.60.0,  main                                                               09/05/24  18:30:23  PAGE 2   
 
-   56   2          if(menu == 6){
-   57   3            Car_Start_Flag = 1;
-   58   3          }
-   59   2        }
-   60   1      }
-   61          
+   58   2            Car_Start_Flag = 1;
+   59   2      //    }
+   60   2        }
+   61   1      }
    62          
    63          
-   64                                               
+   64          
+   65                                               
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       153     ------
+  code size            =        69     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -100,4 +99,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
