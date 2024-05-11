@@ -14,6 +14,9 @@ float Nh_P = 100;  // 0.5
 float Nh_D = 1.50; // 4.1
 float Wh_P = 90;
 float Wh_D = 320;
+float gyro_z3 = 0;
+
+int Speed_Ring_Flag = 0;
 
 //--
 //@brief      方向环(外环) 位置式
@@ -80,39 +83,50 @@ int DirControl(void)
   count++;
   return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
 }
-/**
- * @brief 角度环
- *
- * @param target 目标角度
- * @param actual 实际角度
- */
-int Angle_Ring(double target, double actual, float p, float i, float d)
+
+
+int Angle_Ring(double target, float p, float d)
 {
   float error;
   static float last_error = 0, Ki_val = 0;
-  int Output;
+  int Output, Angle_Speed;
   float error_derivative;
-  // 计算位置误差
-  error = target - actual;
-  Ki_val += error;
-  if (Ki_val > 1000)
-    Ki_val = 1000;
-  if (Ki_val < -1000)
-    Ki_val = -1000;
-  // 计算位置误差变化率
+  gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
+  error = target - gyro_z3;
+  Angle_Speed=Angle_Speed_Ring(error, 200, 3.50);
   error_derivative = error - last_error;
-  // 计算PD控制器的输出
-  Output = (int)error * p + error_derivative * d + Ki_val * i;
-  // 更新上一时刻的位置误差
+  Output = (int)error * p + Angle_Speed * d;
   last_error = error;
-  // 对输出进行限幅
-  Output = limit(Output, Angle_MAX);
-  Motor_PWM(-Output, +Output);
-  if (abs(error) < 5) // 如果误差小于5度代表到达目标角度
-  {
-    return 1;
-  }
-  return 0;
+
+  //	if(abs(error) < 3){
+  //		error = 0;
+  //
+  //	}
+  Motor_PWM(+Output, -Output);
+}
+/**
+?* @brief ????
+?*
+?* @param err
+?* @param dir_p
+?* @param dir_i
+?* @return int
+?*/
+int Angle_Speed_Ring(int err, float dir_p, float dir_i)
+{
+  int error1 = 0;
+  static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+  error1 = err - mpu6050_gyro_z / 65.6;
+  P_out = dir_p * (error1 - last_err);
+  I_out = dir_i * error1;
+  if (I_out > 2000)
+    I_out = 2000;
+  if (I_out < -2000)
+    I_out = -2000;
+  out = P_out + I_out;
+  nh_out += out;
+  last_err = error1;
+  return (int)nh_out;
 }
 
 /**
@@ -141,4 +155,21 @@ int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
   // 对输出进行限幅
   Output = limit(Output, out_max);
   return (int)Output;
+}
+
+/**
+ * @brief 
+ * 
+ * @param L_Distanc 
+ * @param R_Distance 
+ */
+void Car_Distance(int L_Distanc,int R_Distance)
+{
+  static int L_Dis = 0, R_Dis = 0;
+  L_Dis += L_Pulse;
+  R_Dis += R_Pulse;
+  if (L_Pulse < L_Distanc && R_Pulse<L_Distanc)
+  {
+    Motor_PWM(3000, 3000);
+  }
 }

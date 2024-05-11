@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              09/05/24  18:28:35  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        else{
    55   2          MOTOR_L_DIR=0;
    56   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-C251 COMPILER V5.60.0,  Motor                                                              09/05/24  18:28:35  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 2   
 
    57   2        }
    58   1        if(R_PWM<0)
@@ -134,7 +134,7 @@ stmt  level    source
   120          //  @param      Target_Value: 目标速度
   121          //  @param      Actual_Value: 实际速度      
   122          //  @return     速度环输出        
-C251 COMPILER V5.60.0,  Motor                                                              09/05/24  18:28:35  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 3   
 
   123          //--
   124          int LSpeed_pid_Out(int Target_Value,int Actual_Value)

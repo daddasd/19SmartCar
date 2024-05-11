@@ -18,6 +18,8 @@ extern float L;
 extern float R;
 extern int speed;
 extern float Ang;
+extern float groy_z1;
+
 void Encoder_Time_Init(void);
 int L_Encoder_Pulse(void);
 int R_Encoder_Pulse(void);
