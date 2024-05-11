@@ -16,14 +16,14 @@ float gyro_zero_wander(void) {
     static int flag = 1;
     int i=0;
     if (flag == 1) {
-        for (i = 0; i < 100; i++) {
+        for (i = 0; i < 300; i++) {
             mpu6050_get_gyro();
             sum = sum + mpu6050_gyro_z;
         }
         flag = 0;
-        return sum / 100;
+        return sum / 300;
     }
-    return sum / 100;
+    return sum / 300;
 }
 
 double Gyro_filter(double val)

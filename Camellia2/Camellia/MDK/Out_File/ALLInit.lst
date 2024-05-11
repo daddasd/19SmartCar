@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            11/05/24  20:59:44  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            11/05/24  21:38:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
 OBJECT MODULE PLACED IN .\Out_File\ALLInit.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\ALLInit.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
-                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
-                    -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\ALLInit.lst) TABS(2) OBJECT(.\Out_File\
-                    -ALLInit.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\USER\Hardware\ALLInit.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWS
+                    -E INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USE
+                    -R\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\ALLInit.lst) TABS(2) OBJECT(.\Out_File\ALLIn
+                    -it.obj) 
 
 stmt  level    source
 

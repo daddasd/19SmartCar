@@ -1,12 +1,11 @@
-C251 COMPILER V5.60.0,  vofa                                                               11/05/24  20:59:43  PAGE 1   
+C251 COMPILER V5.60.0,  vofa                                                               11/05/24  21:38:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE vofa
 OBJECT MODULE PLACED IN .\Out_File\vofa.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\vofa.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BRO
-                    -WSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\U
-                    -SER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\vofa.lst) TABS(2) OBJECT(.\Out_File\vofa.o
-                    -bj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\USER\Hardware\vofa.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE I
+                    -NCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\i
+                    -nc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\vofa.lst) TABS(2) OBJECT(.\Out_File\vofa.obj) 
 
 stmt  level    source
 
@@ -66,9 +65,9 @@ stmt  level    source
    54   1      //    DataToSend[_cnt++]=BYTE3(_f);
    55   1           
    56   1        for(i = 0;i < _cnt;i++)
-C251 COMPILER V5.60.0,  vofa                                                               11/05/24  20:59:43  PAGE 2   
-
    57   1        {
+C251 COMPILER V5.60.0,  vofa                                                               11/05/24  21:38:13  PAGE 2   
+
    58   2          uart_putchar(UART_1,DataToSend[i]);
    59   2        }
    60   1       }

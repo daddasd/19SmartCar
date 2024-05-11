@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  mpu6050                                                            11/05/24  20:59:43  PAGE 1   
+C251 COMPILER V5.60.0,  mpu6050                                                            11/05/24  21:38:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE mpu6050
 OBJECT MODULE PLACED IN .\Out_File\mpu6050.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\mpu6050.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
-                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
-                    -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\mpu6050.lst) TABS(2) OBJECT(.\Out_File\
-                    -mpu6050.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\USER\Hardware\mpu6050.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWS
+                    -E INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USE
+                    -R\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\mpu6050.lst) TABS(2) OBJECT(.\Out_File\mpu60
+                    -50.obj) 
 
 stmt  level    source
 
@@ -28,14 +28,14 @@ stmt  level    source
    16   1          static int flag = 1;
    17   1          int i=0;
    18   1          if (flag == 1) {
-   19   2              for (i = 0; i < 100; i++) {
+   19   2              for (i = 0; i < 300; i++) {
    20   3                  mpu6050_get_gyro();
    21   3                  sum = sum + mpu6050_gyro_z;
    22   3              }
    23   2              flag = 0;
-   24   2              return sum / 100;
+   24   2              return sum / 300;
    25   2          }
-   26   1          return sum / 100;
+   26   1          return sum / 300;
    27   1      }
    28          
    29          double Gyro_filter(double val)
@@ -66,7 +66,7 @@ stmt  level    source
    54   1      }
 
 
-C251 COMPILER V5.60.0,  mpu6050                                                            11/05/24  20:59:43  PAGE 2   
+C251 COMPILER V5.60.0,  mpu6050                                                            11/05/24  21:38:13  PAGE 2   
 
 Module Information          Static   Overlayable
 ------------------------------------------------

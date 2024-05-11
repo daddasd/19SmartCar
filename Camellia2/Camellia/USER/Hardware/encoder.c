@@ -6,7 +6,6 @@ double angle1 = 0.0;
 int speed = 105;
 float Ang = 0;
 
-
 float L = 0, R = 0;
 //--
 //  @brief    	???????????
@@ -112,27 +111,35 @@ int R_Enc_integral(int R_target)
 
 void TM4_Isr() interrupt 20
 {
-	static int count = 0, OUT1, OUT2, groy = 0;
+	static int count = 0, OUT1, OUT2,gyro_count=0;//gyro_count为陀螺仪飘零
 	int nh = 0;
 	if (Car_Start_Flag)
 	{
+		gyro_count++;
+		if(gyro_count==500)
+		{
+			Gyro_Diff=1;
+		}
+		Gyro_Diff=0;
 		mpu6050_get_gyro();
-			//		L_Pulse = L_Encoder_Pulse();
-			//		R_Pulse = R_Encoder_Pulse();
-			//		NORMALIZATION_TRACKING_ADC(1, 1);
-			//	Roundabout();
-			//	if(Track_flag)
-			//	Right_Angle();
-			//	Error_Speed();
-
-			//		L = L_Pulse;
-			//		R = R_Pulse;
-			//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
-			//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
-			// Motor_PWM(OUT1, OUT2); ////////////////
-			//	Tracking(speed+Err_speed);
-		ctimer_count_clean(Encoder_L);
-		ctimer_count_clean(Encoder_R);
+		//Gyro_Diff=gyro_zero_wander(); // ¼õÈ¥Æ®Áã ÏÖÔÚÊÇMPU6050µ½Ê±ºòÒª¸Ä³ÉIMU66ORA
+		//gyro_z3+=(mpu6050_gyro_z)*0.000121;
+			Angle_Ring(90,25,1);
+//		L_Pulse = L_Encoder_Pulse();
+//		R_Pulse = R_Encoder_Pulse();
+//		NORMALIZATION_TRACKING_ADC(1, 1);
+//		//	Roundabout();
+//		//	if(Track_flag)
+//		//	Right_Angle();
+//		//	Error_Speed();
+//		L = L_Pulse;
+//		R = R_Pulse; 
+//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
+//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
+//		Motor_PWM(OUT1,OUT2); ////////////////
+//		//	Tracking(speed+Err_speed);
+//		ctimer_count_clean(Encoder_L);
+//		ctimer_count_clean(Encoder_R);
 		TIM4_CLEAR_FLAG; //????��???
 	}
 }

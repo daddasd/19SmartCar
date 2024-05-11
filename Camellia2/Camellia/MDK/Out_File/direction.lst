@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:00:04  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:38:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
 OBJECT MODULE PLACED IN .\Out_File\direction.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
-                    -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
-                    -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
-                    -ile\direction.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BRO
+                    -WSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\U
+                    -SER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_File\d
+                    -irection.obj) 
 
 stmt  level    source
 
@@ -20,193 +20,177 @@ stmt  level    source
     8          #include "myconfig.h"
     9          
    10          #define out_max 20000
-   11          #define Angle_MAX 3500
+   11          #define Angle_MAX 9500
    12          
    13          float Nh_P = 100;  // 0.5
    14          float Nh_D = 1.50; // 4.1
    15          float Wh_P = 90;
    16          float Wh_D = 320;
    17          float gyro_z3 = 0;
-   18          
-   19          int Speed_Ring_Flag = 0;
-   20          
-   21          //--
-   22          //@brief      ·½Ïò»·(Íâ»·) Î»ÖÃÊ½
-   23          //@param      c hazhi : µç¸Ð²îÖµ KP ±ÈÀý KI »ý·Ö KD Î¢·Ö
-   24          //@return     void
-   25          //--
-   26          
-   27          int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
-   28          {
-   29   1        float error;
-   30   1        static float last_error = 0;
-   31   1        float Output;
-   32   1        float error_derivative;
-   33   1        // ¼ÆËãÎ»ÖÃÎó²î
-   34   1        error = chazhi;
-   35   1        // ¼ÆËãÎ»ÖÃÎó²î±ä»¯ÂÊ
-   36   1        error_derivative = error - last_error;
-   37   1        // ¼ÆËãPD¿ØÖÆÆ÷µÄÊä³ö
-   38   1        Output = error * dir_p + error_derivative * dir_d;
-   39   1        // ¸üÐÂÉÏÒ»Ê±¿ÌµÄÎ»ÖÃÎó²î
-   40   1        last_error = error;
-   41   1        // ¶ÔÊä³ö½øÐÐÏÞ·ù
-   42   1        Output = limit(Output, out_max);
-   43   1        return (int)Output;
-   44   1      }
-   45          
-   46          //--
-   47          //@brief      ·½Ïò»·(ÄÚ»·) Î»ÖÃÊ½
-   48          //@param      chazhi : µç¸Ð²îÖµ KP ±ÈÀý KI »ý·Ö KD Î¢·Ö
-   49          //@return     void
-   50          //--
-   51          
-   52          int nh_Turn_Out(int err, float dir_p, float dir_i)
-   53          {
-   54   1        int error1 = 0;
-   55   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-   56   1        error1 = err - mpu6050_gyro_z / 65.6;
-C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:00:04  PAGE 2   
+   18          //--
+   19          //@brief      ·½Ïò»·(Íâ»·) Î»ÖÃÊ½
+   20          //@param      c hazhi : µç¸Ð²îÖµ KP ±ÈÀý KI »ý·Ö KD Î¢·Ö
+   21          //@return     void
+   22          //--
+   23          
+   24          int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+   25          {
+   26   1        float error;
+   27   1        static float last_error = 0;
+   28   1        float Output;
+   29   1        float error_derivative;
+   30   1        // ¼ÆËãÎ»ÖÃÎó²î
+   31   1        error = chazhi;
+   32   1        // ¼ÆËãÎ»ÖÃÎó²î±ä»¯ÂÊ
+   33   1        error_derivative = error - last_error;
+   34   1        // ¼ÆËãPD¿ØÖÆÆ÷µÄÊä³ö
+   35   1        Output = error * dir_p + error_derivative * dir_d;
+   36   1        // ¸üÐÂÉÏÒ»Ê±¿ÌµÄÎ»ÖÃÎó²î
+   37   1        last_error = error;
+   38   1        // ¶ÔÊä³ö½øÐÐÏÞ·ù
+   39   1        Output = limit(Output, out_max);
+   40   1        return (int)Output;
+   41   1      }
+   42          
+   43          //--
+   44          //@brief      ·½Ïò»·(ÄÚ»·) Î»ÖÃÊ½
+   45          //@param      chazhi : µç¸Ð²îÖµ KP ±ÈÀý KI »ý·Ö KD Î¢·Ö
+   46          //@return     void
+   47          //--
+   48          
+   49          int nh_Turn_Out(int err, float dir_p, float dir_i)
+   50          {
+   51   1        int error1 = 0;
+   52   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+   53   1        error1 = err - mpu6050_gyro_z / 65.6;
+   54   1        P_out = dir_p * (error1 - last_err);
+   55   1        I_out = dir_i * error1;
+   56   1        if (I_out > 2000)
+C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:38:13  PAGE 2   
 
-   57   1        P_out = dir_p * (error1 - last_err);
-   58   1        I_out = dir_i * error1;
-   59   1        if (I_out > 2000)
-   60   1          I_out = 2000;
-   61   1        if (I_out < -2000)
-   62   1          I_out = -2000;
-   63   1        out = P_out + I_out;
-   64   1        nh_out += out;
-   65   1        last_err = error1;
-   66   1        return (int)nh_out;
-   67   1      }
-   68          
-   69          //--
-   70          //@brief      ·½Ïò»·¿ØÖÆ£¨ÄÚ»·1msÍâ»·3ms£©
-   71          //@param      void
-   72          //@return     ·½Ïò»·Êä³ö
-   73          //-
-   74          int DirControl(void)
-   75          {
-   76   1        static int count = 0;
-   77   1        static int wh_out = 0;
-   78   1        if (count == 3)
-   79   1        {
-   80   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
-   81   2          count = 0;
-   82   2        }
-   83   1        count++;
-   84   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
-   85   1      }
-   86          
-   87          
-   88          int Angle_Ring(double target, float p, float d)
-   89          {
-   90   1        float error;
-   91   1        static float last_error = 0, Ki_val = 0;
-   92   1        int Output, Angle_Speed;
-   93   1        float error_derivative;
-   94   1        gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
-   95   1        error = target - gyro_z3;
-   96   1        Angle_Speed=Angle_Speed_Ring(error, 200, 3.50);
-   97   1        error_derivative = error - last_error;
-   98   1        Output = (int)error * p + Angle_Speed * d;
-   99   1        last_error = error;
-  100   1      
-  101   1        //  if(abs(error) < 3){
-  102   1        //    error = 0;
-  103   1        //
-  104   1        //  }
-  105   1        Motor_PWM(+Output, -Output);
-  106   1      }
-  107          /**
-  108          ?* @brief ????
-  109          ?*
-  110          ?* @param err
-  111          ?* @param dir_p
-  112          ?* @param dir_i
-  113          ?* @return int
-  114          ?*/
-  115          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
-  116          {
-  117   1        int error1 = 0;
-  118   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  119   1        error1 = err - mpu6050_gyro_z / 65.6;
-  120   1        P_out = dir_p * (error1 - last_err);
-  121   1        I_out = dir_i * error1;
-  122   1        if (I_out > 2000)
-C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:00:04  PAGE 3   
+   57   1          I_out = 2000;
+   58   1        if (I_out < -2000)
+   59   1          I_out = -2000;
+   60   1        out = P_out + I_out;
+   61   1        nh_out += out;
+   62   1        last_err = error1;
+   63   1        return (int)nh_out;
+   64   1      }
+   65          
+   66          //--
+   67          //@brief      ·½Ïò»·¿ØÖÆ£¨ÄÚ»·1msÍâ»·3ms£©
+   68          //@param      void
+   69          //@return     ·½Ïò»·Êä³ö
+   70          //-
+   71          int DirControl(void)
+   72          {
+   73   1        static int count = 0;
+   74   1        static int wh_out = 0;
+   75   1        if (count == 3)
+   76   1        {
+   77   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+   78   2          count = 0;
+   79   2        }
+   80   1        count++;
+   81   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+   82   1      }
+   83          //float gyro_z3 = 0;
+   84          /**
+   85           * @brief ½Ç¶È»·
+   86           *
+   87           * @param target Ä¿±ê½Ç¶È
+   88           * @param actual Êµ¼Ê½Ç¶È
+   89           */
+   90          int Angle_Ring(double target, float p, float d)
+   91          {
+   92   1      float error;
+   93   1      static float last_error = 0, Ki_val = 0;
+   94   1        int Output,Angle_Speed;
+   95   1        float error_derivative;
+   96   1       gyro_z3 += ((mpu6050_gyro_z) * 0.000121-0.001);
+   97   1       error = target - gyro_z3;
+   98   1       Angle_Speed = Angle_Speed_Ring(error, 180, 2.50);
+   99   1       error_derivative = error - last_error;
+  100   1       Output = (int)error * p + Angle_Speed * d;
+  101   1       last_error = error;
+  102   1        
+  103   1      //  if(abs(error) < 3){
+  104   1      //    error = 0;
+  105   1      //    
+  106   1      //  }
+  107   1       Motor_PWM(+Output, -Output);
+  108   1        
+  109   1        
+  110   1      }
+  111          /**
+  112           * @brief ????
+  113           * 
+  114           * @param err 
+  115           * @param dir_p 
+  116           * @param dir_i 
+  117           * @return int 
+  118           */
+  119          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
+  120          {
+  121   1      int error1 = 0;
+  122   1      static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:38:13  PAGE 3   
 
-  123   1          I_out = 2000;
-  124   1        if (I_out < -2000)
-  125   1          I_out = -2000;
-  126   1        out = P_out + I_out;
-  127   1        nh_out += out;
-  128   1        last_err = error1;
-  129   1        return (int)nh_out;
-  130   1      }
-  131          
-  132          /**
-  133           * @brief  ·½Ïò»··½°¸¶þ£¬ÍÓÂÝÒÇ×÷ÎªdÏîÒÖÖÆ
-  134           *
-  135           * @param chazhi
-  136           * @param dir_p
-  137           * @param dir_d
-  138           * @param dir_d2
-  139           * @return int
-  140           */
-  141          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
-  142          {
-*** WARNING C57 IN LINE 142 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
-  143   1        float error;
-  144   1        static float last_error = 0;
-  145   1        float Output;
-  146   1        float error_derivative;
-  147   1        // ¼ÆËãÎ»ÖÃÎó²î
-  148   1        error = chazhi;
-  149   1        // ¼ÆËãÎ»ÖÃÎó²î±ä»¯ÂÊ
-  150   1        error_derivative = error - last_error;
-  151   1        // ¼ÆËãPD¿ØÖÆÆ÷µÄÊä³ö
-  152   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
-  153   1        // ¸üÐÂÉÏÒ»Ê±¿ÌµÄÎ»ÖÃÎó²î
-  154   1        last_error = error;
-  155   1        // ¶ÔÊä³ö½øÐÐÏÞ·ù
-  156   1        Output = limit(Output, out_max);
-  157   1        return (int)Output;
-  158   1      }
-  159          
-  160          /**
-  161           * @brief 
-  162           * 
-  163           * @param L_Distanc 
-  164           * @param R_Distance 
-  165           */
-  166          void Car_Distance(int L_Distanc,int R_Distance)
-  167          {
-  168   1        static int L_Dis = 0, R_Dis = 0;
-  169   1        L_Dis += L_Pulse;
-  170   1        R_Dis += R_Pulse;
-  171   1        if (L_Pulse < L_Distanc && R_Pulse<L_Distanc)
-  172   1        {
-  173   2          Motor_PWM(3000, 3000);
-  174   2        }
-  175   1      }
-*** WARNING C47 IN LINE 166 OF ..\USER\Hardware\direction.c: 'R_Distance': unreferenced parameter
-*** WARNING C135 IN LINE 106 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
-*** WARNING C135 IN LINE 106 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
+  123   1      error1 = err - mpu6050_gyro_z / 65.6;
+  124   1      P_out = dir_p * (error1 - last_err);
+  125   1      I_out = dir_i * error1;
+  126   1      if (I_out > 2000)
+  127   1      I_out = 2000;
+  128   1      if (I_out < -2000)
+  129   1      I_out = -2000;
+  130   1      out = P_out + I_out;
+  131   1      nh_out += out;
+  132   1      last_err = error1;
+  133   1      return (int)nh_out;
+  134   1      }
+  135          
+  136          /**
+  137           * @brief  ·½Ïò»··½°¸¶þ£¬ÍÓÂÝÒÇ×÷ÎªdÏîÒÖÖÆ
+  138           *
+  139           * @param chazhi
+  140           * @param dir_p
+  141           * @param dir_d
+  142           * @param dir_d2
+  143           * @return int
+  144           */
+  145          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
+  146          {
+*** WARNING C57 IN LINE 146 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
+  147   1        float error;
+  148   1        static float last_error = 0;
+  149   1        float Output;
+  150   1        float error_derivative;
+  151   1        // ¼ÆËãÎ»ÖÃÎó²î
+  152   1        error = chazhi;
+  153   1        // ¼ÆËãÎ»ÖÃÎó²î±ä»¯ÂÊ
+  154   1        error_derivative = error - last_error;
+  155   1        // ¼ÆËãPD¿ØÖÆÆ÷µÄÊä³ö
+  156   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
+  157   1        // ¸üÐÂÉÏÒ»Ê±¿ÌµÄÎ»ÖÃÎó²î
+  158   1        last_error = error;
+  159   1        // ¶ÔÊä³ö½øÐÐÏÞ·ù
+  160   1        Output = limit(Output, out_max);
+  161   1        return (int)Output;
+  162   1      }
+*** WARNING C135 IN LINE 110 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
+*** WARNING C135 IN LINE 110 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       998     ------
+  code size            =       930     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
-C251 COMPILER V5.60.0,  direction                                                          11/05/24  21:00:04  PAGE 4   
-
   xdata-const size     =    ------     ------
-  edata size           =       184     ------
+  edata size           =       176     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -214,8 +198,8 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       182     ------
+  hconst size          =       164     ------
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

@@ -8,16 +8,13 @@
 #include "myconfig.h"
 
 #define out_max 20000
-#define Angle_MAX 3500
+#define Angle_MAX 9500
 
 float Nh_P = 100;  // 0.5
 float Nh_D = 1.50; // 4.1
 float Wh_P = 90;
 float Wh_D = 320;
 float gyro_z3 = 0;
-
-int Speed_Ring_Flag = 0;
-
 //--
 //@brief      ·½Ïò»·(Íâ»·) Î»ÖÃÊ½
 //@param      c	hazhi : µç¸Ð²îÖµ KP ±ÈÀý KI »ý·Ö KD Î¢·Ö
@@ -83,50 +80,57 @@ int DirControl(void)
   count++;
   return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
 }
-
-
+//float gyro_z3 = 0;
+/**
+ * @brief ½Ç¶È»·
+ *
+ * @param target Ä¿±ê½Ç¶È
+ * @param actual Êµ¼Ê½Ç¶È
+ */
 int Angle_Ring(double target, float p, float d)
 {
-  float error;
-  static float last_error = 0, Ki_val = 0;
-  int Output, Angle_Speed;
+float error;
+static float last_error = 0, Ki_val = 0;
+  int Output,Angle_Speed;
   float error_derivative;
-  gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
-  error = target - gyro_z3;
-  Angle_Speed=Angle_Speed_Ring(error, 200, 3.50);
-  error_derivative = error - last_error;
-  Output = (int)error * p + Angle_Speed * d;
-  last_error = error;
-
-  //	if(abs(error) < 3){
-  //		error = 0;
-  //
-  //	}
-  Motor_PWM(+Output, -Output);
+ gyro_z3 += ((mpu6050_gyro_z) * 0.000121-0.001);
+ error = target - gyro_z3;
+ Angle_Speed = Angle_Speed_Ring(error, 180, 2.50);
+ error_derivative = error - last_error;
+ Output = (int)error * p + Angle_Speed * d;
+ last_error = error;
+	
+//	if(abs(error) < 3){
+//		error = 0;
+//		
+//	}
+ Motor_PWM(+Output, -Output);
+	
+	
 }
 /**
-?* @brief ????
-?*
-?* @param err
-?* @param dir_p
-?* @param dir_i
-?* @return int
-?*/
+ * @brief ????
+ * 
+ * @param err 
+ * @param dir_p 
+ * @param dir_i 
+ * @return int 
+ */
 int Angle_Speed_Ring(int err, float dir_p, float dir_i)
 {
-  int error1 = 0;
-  static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = err - mpu6050_gyro_z / 65.6;
-  P_out = dir_p * (error1 - last_err);
-  I_out = dir_i * error1;
-  if (I_out > 2000)
-    I_out = 2000;
-  if (I_out < -2000)
-    I_out = -2000;
-  out = P_out + I_out;
-  nh_out += out;
-  last_err = error1;
-  return (int)nh_out;
+int error1 = 0;
+static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+error1 = err - mpu6050_gyro_z / 65.6;
+P_out = dir_p * (error1 - last_err);
+I_out = dir_i * error1;
+if (I_out > 2000)
+I_out = 2000;
+if (I_out < -2000)
+I_out = -2000;
+out = P_out + I_out;
+nh_out += out;
+last_err = error1;
+return (int)nh_out;
 }
 
 /**
@@ -155,21 +159,4 @@ int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
   // ¶ÔÊä³ö½øÐÐÏÞ·ù
   Output = limit(Output, out_max);
   return (int)Output;
-}
-
-/**
- * @brief 
- * 
- * @param L_Distanc 
- * @param R_Distance 
- */
-void Car_Distance(int L_Distanc,int R_Distance)
-{
-  static int L_Dis = 0, R_Dis = 0;
-  L_Dis += L_Pulse;
-  R_Dis += R_Pulse;
-  if (L_Pulse < L_Distanc && R_Pulse<L_Distanc)
-  {
-    Motor_PWM(3000, 3000);
-  }
 }

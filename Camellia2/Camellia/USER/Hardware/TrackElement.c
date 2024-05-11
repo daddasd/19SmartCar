@@ -75,12 +75,38 @@ void Crossroad(void)
 		 Track_flag=1;//正常循迹
 }
 
+//void Right_Angle(void)
+//{
+//	if (L2_NOR_ADC > 65  && L3_NOR_ADC > 65 && R3_NOR_ADC < 30 && R2_NOR_ADC < 25  ) // 左转
+//	{
+//		P13=1; //蜂鸣器
+//		Motor_PWM(-2000, -2000);
+//		Angle_Ring(90, angle1,Angle_P, Angle_I, Angle_D);
+//		Inductance_Error = 0;//误差清零
+//		//RAngle_Flag = 1; //清除标志位
+//		
+//	}
+//	else if (R2_NOR_ADC > 65  && R3_NOR_ADC > 65 && L3_NOR_ADC < 30 && L2_NOR_ADC < 25)//右转
+//	{
+//		P13=1;
+//		Motor_PWM(-2000, -2000);
+//		Angle_Ring(-90, angle1, Angle_P, Angle_I, Angle_D);
+//		Inductance_Error = 0;//误差清零
+//		//RAngle_Flag = 1; // 清除标志位
+//		//P13=0;
+//	}
+//	else
+//	{
+//		P13=0;
+//	}
+//}
 
-/**
-*  @brief      六边环岛
-*  @param      角度
-*  @return     void       
-**/
+
+///**
+//*  @brief      六边环岛
+//*  @param      角度
+//*  @return     void       
+//**/
 //void Roundabout(float angle)
 //{
 //	 static int bmq_flag=0,angle_flag=0,angle2=0,yu_flag=0,angle_flag2=0,status=0;

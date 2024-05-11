@@ -212,7 +212,7 @@ void show_val(void)
 ////-----------------ÍÓÂÝÒÇ½ÇËÙ¶È------------------------//
 
 	oled_p6x8str(0,4,"gyro_z:");
-	oled_printf_float(45, 4,Get_Angle(), 5, 6);
+	oled_printf_float(45, 4,gyro_z3, 5, 6);
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
 	oled_int16(0,6,dir_out);

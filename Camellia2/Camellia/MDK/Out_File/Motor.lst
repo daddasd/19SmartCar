@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  21:38:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
 OBJECT MODULE PLACED IN .\Out_File\Motor.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
-                    -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
-                    -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
-                    -r.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE 
+                    -INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\
+                    -inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Motor.obj
+                    -) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        else{
    55   2          MOTOR_L_DIR=0;
    56   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  21:38:13  PAGE 2   
 
    57   2        }
    58   1        if(R_PWM<0)
@@ -134,7 +134,7 @@ stmt  level    source
   120          //  @param      Target_Value: 目标速度
   121          //  @param      Actual_Value: 实际速度      
   122          //  @return     速度环输出        
-C251 COMPILER V5.60.0,  Motor                                                              11/05/24  20:59:43  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              11/05/24  21:38:13  PAGE 3   
 
   123          //--
   124          int LSpeed_pid_Out(int Target_Value,int Actual_Value)

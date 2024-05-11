@@ -1,12 +1,12 @@
-C251 COMPILER V5.60.0,  zf_adc                                                             03/05/24  16:19:53  PAGE 1   
+C251 COMPILER V5.60.0,  zf_adc                                                             11/05/24  21:38:10  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_adc
 OBJECT MODULE PLACED IN .\Out_File\zf_adc.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_adc.c XSMALL WARNINGLEVEL(3) O
-                    -PTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_per
-                    -ipheral;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\zf_adc.lst) TABS(2) OB
-                    -JECT(.\Out_File\zf_adc.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_adc.c XSMALL WARNINGLEVEL(3) OPTIMI
+                    -ZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripher
+                    -al;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\zf_adc.lst) TABS(2) OBJECT(
+                    -.\Out_File\zf_adc.obj) 
 
 stmt  level    source
 
@@ -66,7 +66,7 @@ stmt  level    source
    49   2            P1M1 |= (1 << (adcn & 0x07));
    50   2        }
    51   1      
-C251 COMPILER V5.60.0,  zf_adc                                                             03/05/24  16:19:53  PAGE 2   
+C251 COMPILER V5.60.0,  zf_adc                                                             11/05/24  21:38:10  PAGE 2   
 
    52   1        ADCCFG |= speed&0x0F;     //ADCÊ±ÖÓÆµÂÊSYSclk/2/speed&0x0F;
    53   1        

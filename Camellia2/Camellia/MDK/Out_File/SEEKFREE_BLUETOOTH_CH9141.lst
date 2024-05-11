@@ -1,16 +1,12 @@
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          06/05/24  21:14:31  PAGE 1   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          05/05/24  20:02:05  PAGE 1   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          11/05/24  21:38:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_BLUETOOTH_CH9141
 OBJECT MODULE PLACED IN .\Out_File\SEEKFREE_BLUETOOTH_CH9141.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_BLUETOOTH_CH9141.c XSMA
-                    -LL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Li
-                    -braries\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\SE
-                    -EKFREE_BLUETOOTH_CH9141.lst) TABS(2) OBJECT(.\Out_File\SEEKFREE_BLUETOOTH_CH9141.obj) 
+COMPILER INVOKED BY: D:\C251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_peripheral\SEEKFREE_BLUETOOTH_CH9141.c XSMALL WA
+                    -RNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Librari
+                    -es\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\SEEKFRE
+                    -E_BLUETOOTH_CH9141.lst) TABS(2) OBJECT(.\Out_File\SEEKFREE_BLUETOOTH_CH9141.obj) 
 
 stmt  level    source
 
@@ -70,11 +66,7 @@ stmt  level    source
    52          //uint8 bluetooth_ch9141_rx_buffer;
    53          
    54          
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          06/05/24  21:14:31  PAGE 2   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          05/05/24  20:02:05  PAGE 2   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          11/05/24  21:38:11  PAGE 2   
 
    55          static  fifo_struct     bluetooth_ch9141_fifo;
    56          static  uint8           bluetooth_ch9141_buffer[BLUETOOTH_CH9141_BUFFER_SIZE];  // 数据存放数组
@@ -142,11 +134,7 @@ stmt  level    source
   109   2              uart_putbuff(BLUETOOTH_CH9141_INDEX, buff, 30);
   110   2      
   111   2              buff += 30;                                                             // 地址偏移
-<<<<<<< HEAD
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          06/05/24  21:14:31  PAGE 3   
-=======
-C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          05/05/24  20:02:05  PAGE 3   
->>>>>>> 璋冨弬
+C251 COMPILER V5.60.0,  SEEKFREE_BLUETOOTH_CH9141                                          11/05/24  21:38:11  PAGE 3   
 
   112   2              len -= 30;                                                              // 数量
   113   2          }
