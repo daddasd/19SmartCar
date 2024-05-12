@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Inductance                                                         11/05/24  20:59:42  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
 OBJECT MODULE PLACED IN .\Out_File\Inductance.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
                     -D) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\COD
                     -E;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Inductance.lst) TABS(2) OBJECT(.\Out
                     -_File\Inductance.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        
    55   1        x = number * 0.5F;
    56   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         11/05/24  20:59:42  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 2   
 
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
   122   1        R2 = ad_valu1[5];
-C251 COMPILER V5.60.0,  Inductance                                                         11/05/24  20:59:42  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 3   
 
   123   1        R1 = ad_valu1[6];
   124   1        
@@ -202,7 +202,7 @@ stmt  level    source
   184          **/
   185          
   186          void show_val(void)
-C251 COMPILER V5.60.0,  Inductance                                                         11/05/24  20:59:42  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 4   
 
   187          {
   188   1      //-----------------oled显示电感值----------------------//
@@ -232,7 +232,7 @@ stmt  level    source
   212   1      ////-----------------陀螺仪角速度------------------------//
   213   1      
   214   1        oled_p6x8str(0,4,"gyro_z:");
-  215   1        oled_printf_float(45, 4,Get_Angle(), 5, 6);
+  215   1        oled_printf_float(45, 4,gyro_z3, 5, 6);
   216   1        oled_int16(0,5,L_Pulse);
   217   1        oled_int16(60,5,R_Pulse);
   218   1        oled_int16(0,6,dir_out);
@@ -249,7 +249,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2238     ------
+  code size            =      2237     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

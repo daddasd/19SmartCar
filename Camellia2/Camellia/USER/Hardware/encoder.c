@@ -117,20 +117,27 @@ void TM4_Isr() interrupt 20
 	if (Car_Start_Flag)
 	{
 		mpu6050_get_gyro();
-			//		L_Pulse = L_Encoder_Pulse();
-			//		R_Pulse = R_Encoder_Pulse();
-			//		NORMALIZATION_TRACKING_ADC(1, 1);
-			//	Roundabout();
-			//	if(Track_flag)
-			//	Right_Angle();
-			//	Error_Speed();
+		L_Pulse = L_Encoder_Pulse();
+		R_Pulse = R_Encoder_Pulse();
+		// NORMALIZATION_TRACKING_ADC(1, 1);
+		// Roundabout();
+		// if(Track_flag)
+		// Right_Angle();
+		// Error_Speed();
+		// if(Angle_Ring(90, 25, 1))
+		// 	{
+				
+		// 	}
+		//Car_Distance(2024);
+		//Angle_Ring1(90, 180, 1080);
+		OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
 
-			//		L = L_Pulse;
-			//		R = R_Pulse;
-			//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
-			//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
-			// Motor_PWM(OUT1, OUT2); ////////////////
-			//	Tracking(speed+Err_speed);
+		//		L = L_Pulse;
+		//		R = R_Pulse;
+		//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
+		//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
+		Motor_PWM(OUT1,-OUT1); ////////////////
+		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
 		TIM4_CLEAR_FLAG; //????��???
