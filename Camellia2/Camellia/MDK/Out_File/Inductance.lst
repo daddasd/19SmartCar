@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         13/05/24  15:10:38  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
 OBJECT MODULE PLACED IN .\Out_File\Inductance.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
                     -D) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\COD
                     -E;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Inductance.lst) TABS(2) OBJECT(.\Out
                     -_File\Inductance.obj) 
@@ -20,23 +20,24 @@ stmt  level    source
     8          #include "myconfig.h"
     9          
    10          
-   11          #define filter_n 9//Êı×é³¤¶È
+   11          #define filter_n 9//æ•°ç»„é•¿åº¦
    12          
    13          
    14          uint16 Left_Val=0,Right_Val=0;
    15          int16 ad_sum=0;
    16          int16 ad_diff=0;
-   17          uint16 ad_value[7][10]={0};//Ô­Ê¼Êı¾İ
-   18          uint16 R1,R2,R3,L1,L2,L3,M1;//ÂË²¨Ö®ºóµÄµç¸ĞÖµ
+   17          uint16 ad_value[7][10]={0};//åŸå§‹æ•°æ®
+   18          uint16 R1,R2,R3,L1,L2,L3,M1;//æ»¤æ³¢ä¹‹åçš„ç”µæ„Ÿå€¼
    19          uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_ADC=0,M1_NOR_ADC=0;
    20          float NOR_VAL[7]={0};
-   21          float AD_NOR_VAL[7]={0}; //¹éÒ»»¯Öµ
-   22          int16 Inductance_Error=0; //µç¸ĞÎó²î
+   21          float AD_NOR_VAL[7]={0}; //å½’ä¸€åŒ–å€¼
+   22          int16 Inductance_Error=0; //ç”µæ„Ÿè¯¯å·®
    23          uint16 ADC_MIN[7]={156,252,160,150,153,180,149};
-   24          uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //²â³öµÄµç¸Ğ×î´ó£¬Óë×îĞ¡Öµ´Ó×óµ½ÓÒ
+   24          uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //æµ‹å‡ºçš„ç”µæ„Ÿæœ€å¤§ï¼Œä¸æœ€å°å€¼ä»å·¦åˆ°å
+             -³
    25          int bug=0;
    26          /**
-   27          *  @brief      ADC²É¼¯³õÊ¼»¯
+   27          *  @brief      ADCé‡‡é›†åˆå§‹åŒ–
    28          *  @param      void
    29          *  @return     void         
    30          **/
@@ -53,9 +54,9 @@ stmt  level    source
    41   1        adc_init(ADC_P04, ADC_SYSclk_DIV_2);
    42   1      }
    43          /**
-   44           * @brief ¿ìËÙ¿ª·½
+   44           * @brief å¿«é€Ÿå¼€æ–¹
    45           * 
-   46           * @param f ±»¿ª·½Êı
+   46           * @param f è¢«å¼€æ–¹æ•°
    47           * @return float 
    48           */
    49          float sq(float number)
@@ -65,9 +66,9 @@ stmt  level    source
    53   1        const float f = 1.5F;
    54   1        
    55   1        x = number * 0.5F;
-   56   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         13/05/24  15:10:38  PAGE 2   
 
+   56   1        y = number;
    57   1        i = * ( long * ) &y;
    58   1        i = 0x5f3759df - ( i >> 1 );
    59   1        y = * ( float * ) &i;
@@ -79,8 +80,8 @@ stmt  level    source
    65          
    66          
    67          /**
-   68          *  @brief      ¹éÒ»»¯´¦Àíµç¸ĞÖµ²¢Ñ­¼£¿ØÖÆ
-   69          *  @param      I1,I2,¼ÓÈ¨ÏµÊı,
+   68          *  @brief      å½’ä¸€åŒ–å¤„ç†ç”µæ„Ÿå€¼å¹¶å¾ªè¿¹æ§åˆ¶
+   69          *  @param      I1,I2,åŠ æƒç³»æ•°,
    70          *  @return     void         
    71          **/
    72          int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)  
@@ -88,7 +89,7 @@ stmt  level    source
    74   1        int i = 0, j = 0, k = 0, temp = 0;
    75   1        int ad_sum1[7] = {0};
    76   1        uint16 ad_valu1[7] = {0};
-   77   1        for (i = 0; i < 10; i++) // ¶ÁÈ¡Ê®´Îµç¸Ğ
+   77   1        for (i = 0; i < 10; i++) // è¯»å–åæ¬¡ç”µæ„Ÿ
    78   1        {
    79   2            ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
    80   2            ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
@@ -100,14 +101,14 @@ stmt  level    source
    86   2            bug=       adc_once(ADC_P04, ADC_12BIT);
    87   2        }
    88   1      
-   89   1        /*=========================Ã°ÅİÅÅĞòÉıĞò==========================*/
+   89   1        /*=========================å†’æ³¡æ’åºå‡åº==========================*/
    90   1        for (i = 0; i < 7; i++)
    91   1        {
    92   2            for (j = 0; j < 10 - 1; j++)
    93   2            {
    94   3                for (k = 0; k < 10 - 1 - j; k++)
    95   3                {
-   96   4                    if (ad_value[i][k] > ad_value[i][k + 1]) // Ç°ÃæµÄ±ÈºóÃæµÄ´ó£¬Ôò½øĞĞ½»»»
+   96   4                    if (ad_value[i][k] > ad_value[i][k + 1]) // å‰é¢çš„æ¯”åé¢çš„å¤§ï¼Œåˆ™è¿›è¡Œäº¤æ¢
    97   4                    {
    98   5                        temp = ad_value[i][k + 1];
    99   5                        ad_value[i][k + 1] = ad_value[i][k];
@@ -117,25 +118,25 @@ stmt  level    source
   103   3            }
   104   2        }
   105   1      
-  106   1        /*===========================ÖĞÖµÂË²¨=================================*/
-  107   1        for (i = 0; i < 7; i++) // ÇóÖĞ¼ä°ËÏîµÄºÍ
+  106   1        /*===========================ä¸­å€¼æ»¤æ³¢=================================*/
+  107   1        for (i = 0; i < 7; i++) // æ±‚ä¸­é—´å…«é¡¹çš„å’Œ
   108   1        {
-  109   2            for (k = 0; k < 9; k++) // ÉáÆú×î´óÖµºÍ×îĞ¡Öµ£¬Ö»È¡ÖĞ¼ä8Ïî
+  109   2            for (k = 0; k < 9; k++) // èˆå¼ƒæœ€å¤§å€¼å’Œæœ€å°å€¼ï¼Œåªå–ä¸­é—´8é¡¹
   110   2            {
   111   3                ad_sum1[i] += ad_value[i][k];
   112   3            }
   113   2            ad_valu1[i] = ad_sum1[i] / 8;
   114   2        }
   115   1      
-  116   1        /*=========================¸³Öµ¸÷¸öµç¸Ğ==============================*/
+  116   1        /*=========================èµ‹å€¼å„ä¸ªç”µæ„Ÿ==============================*/
   117   1        L1 = ad_valu1[0];
   118   1        L2 = ad_valu1[1];
   119   1        L3 = ad_valu1[2];
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
-  122   1        R2 = ad_valu1[5];
-C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         13/05/24  15:10:38  PAGE 3   
 
+  122   1        R2 = ad_valu1[5];
   123   1        R1 = ad_valu1[6];
   124   1        
   125   1      
@@ -191,21 +192,21 @@ stmt  level    source
   174   2            Inductance_Error = Inductance_Error * 1.2;
   175   2        }
   176   1        //Inductance_Error=ad_diff;
-  177   1        return Inductance_Error; //·Å´ó128±¶
+  177   1        return Inductance_Error; //æ”¾å¤§128å€
   178   1      }
 *** WARNING C47 IN LINE 72 OF ..\USER\Hardware\Inductance.c: 'I2': unreferenced parameter
   179          
   180          /**
-  181          *  @brief      ÏÔÊ¾²âÁ¿Öµ
+  181          *  @brief      æ˜¾ç¤ºæµ‹é‡å€¼
   182          *  @param      void
   183          *  @return     void         
   184          **/
   185          
-  186          void show_val(void)
-C251 COMPILER V5.60.0,  Inductance                                                         12/05/24  10:53:22  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         13/05/24  15:10:38  PAGE 4   
 
+  186          void show_val(void)
   187          {
-  188   1      //-----------------oledÏÔÊ¾µç¸ĞÖµ----------------------//
+  188   1      //-----------------oledæ˜¾ç¤ºç”µæ„Ÿå€¼----------------------//
   189   1        oled_p6x8str(0,0,"L1:");
   190   1        oled_uint16(15,0,L1_NOR_ADC);
   191   1      
@@ -229,15 +230,15 @@ stmt  level    source
   209   1        
   210   1        oled_p6x8str(70,3,"M1:");
   211   1        oled_uint16(85,3,M1_NOR_ADC);
-  212   1      ////-----------------ÍÓÂİÒÇ½ÇËÙ¶È------------------------//
+  212   1      ////-----------------é™€èºä»ªè§’é€Ÿåº¦------------------------//
   213   1      
   214   1        oled_p6x8str(0,4,"gyro_z:");
-  215   1        oled_printf_float(45, 4,gyro_z3, 5, 6);
+  215   1        oled_printf_float(45, 4,mpu6050_gyro_z/65.6, 5, 6);
   216   1        oled_int16(0,5,L_Pulse);
   217   1        oled_int16(60,5,R_Pulse);
-  218   1        oled_int16(0,6,dir_out);
+  218   1        oled_int16(0, 6, nh_out);
   219   1        oled_int16(60, 6, Speed_Ring);
-  220   1        //-----------------TOF¾àÀë------------------------//
+  220   1        //-----------------TOFè·ç¦»------------------------//
   221   1        //  if(dl1a_finsh_flag)
   222   1        //  {
   223   1        //    dl1a_finsh_flag = 0;
@@ -249,7 +250,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2237     ------
+  code size            =      2263     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

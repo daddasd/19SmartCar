@@ -8,23 +8,23 @@
 #include "myconfig.h"
 
 
-#define filter_n 9//Êı×é³¤¶È
+#define filter_n 9//æ•°ç»„é•¿åº¦
 
 
 uint16 Left_Val=0,Right_Val=0;
 int16 ad_sum=0;
 int16 ad_diff=0;
-uint16 ad_value[7][10]={0};//Ô­Ê¼Êı¾İ
-uint16 R1,R2,R3,L1,L2,L3,M1;//ÂË²¨Ö®ºóµÄµç¸ĞÖµ
+uint16 ad_value[7][10]={0};//åŸå§‹æ•°æ®
+uint16 R1,R2,R3,L1,L2,L3,M1;//æ»¤æ³¢ä¹‹åçš„ç”µæ„Ÿå€¼
 uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_ADC=0,M1_NOR_ADC=0;
 float NOR_VAL[7]={0};
-float AD_NOR_VAL[7]={0}; //¹éÒ»»¯Öµ
-int16 Inductance_Error=0; //µç¸ĞÎó²î
+float AD_NOR_VAL[7]={0}; //å½’ä¸€åŒ–å€¼
+int16 Inductance_Error=0; //ç”µæ„Ÿè¯¯å·®
 uint16 ADC_MIN[7]={156,252,160,150,153,180,149};
-uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //²â³öµÄµç¸Ğ×î´ó£¬Óë×îĞ¡Öµ´Ó×óµ½ÓÒ
+uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //æµ‹å‡ºçš„ç”µæ„Ÿæœ€å¤§ï¼Œä¸æœ€å°å€¼ä»å·¦åˆ°å³
 int bug=0;
 /**
-*  @brief      ADC²É¼¯³õÊ¼»¯
+*  @brief      ADCé‡‡é›†åˆå§‹åŒ–
 *  @param      void
 *  @return     void         
 **/
@@ -41,9 +41,9 @@ void Inductance_Init(void)
 	adc_init(ADC_P04, ADC_SYSclk_DIV_2);
 }
 /**
- * @brief ¿ìËÙ¿ª·½
+ * @brief å¿«é€Ÿå¼€æ–¹
  * 
- * @param f ±»¿ª·½Êı
+ * @param f è¢«å¼€æ–¹æ•°
  * @return float 
  */
 float sq(float number)
@@ -65,8 +65,8 @@ float sq(float number)
 
 
 /**
-*  @brief      ¹éÒ»»¯´¦Àíµç¸ĞÖµ²¢Ñ­¼£¿ØÖÆ
-*  @param      I1,I2,¼ÓÈ¨ÏµÊı,
+*  @brief      å½’ä¸€åŒ–å¤„ç†ç”µæ„Ÿå€¼å¹¶å¾ªè¿¹æ§åˆ¶
+*  @param      I1,I2,åŠ æƒç³»æ•°,
 *  @return     void         
 **/
 int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)  
@@ -74,7 +74,7 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	int i = 0, j = 0, k = 0, temp = 0;
 	int ad_sum1[7] = {0};
 	uint16 ad_valu1[7] = {0};
-	for (i = 0; i < 10; i++) // ¶ÁÈ¡Ê®´Îµç¸Ğ
+	for (i = 0; i < 10; i++) // è¯»å–åæ¬¡ç”µæ„Ÿ
 	{
 			ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
 			ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
@@ -86,14 +86,14 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 		 	bug=			 adc_once(ADC_P04, ADC_12BIT);
 	}
 
-	/*=========================Ã°ÅİÅÅĞòÉıĞò==========================*/
+	/*=========================å†’æ³¡æ’åºå‡åº==========================*/
 	for (i = 0; i < 7; i++)
 	{
 			for (j = 0; j < 10 - 1; j++)
 			{
 					for (k = 0; k < 10 - 1 - j; k++)
 					{
-							if (ad_value[i][k] > ad_value[i][k + 1]) // Ç°ÃæµÄ±ÈºóÃæµÄ´ó£¬Ôò½øĞĞ½»»»
+							if (ad_value[i][k] > ad_value[i][k + 1]) // å‰é¢çš„æ¯”åé¢çš„å¤§ï¼Œåˆ™è¿›è¡Œäº¤æ¢
 							{
 									temp = ad_value[i][k + 1];
 									ad_value[i][k + 1] = ad_value[i][k];
@@ -103,17 +103,17 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 			}
 	}
 
-	/*===========================ÖĞÖµÂË²¨=================================*/
-	for (i = 0; i < 7; i++) // ÇóÖĞ¼ä°ËÏîµÄºÍ
+	/*===========================ä¸­å€¼æ»¤æ³¢=================================*/
+	for (i = 0; i < 7; i++) // æ±‚ä¸­é—´å…«é¡¹çš„å’Œ
 	{
-			for (k = 0; k < 9; k++) // ÉáÆú×î´óÖµºÍ×îĞ¡Öµ£¬Ö»È¡ÖĞ¼ä8Ïî
+			for (k = 0; k < 9; k++) // èˆå¼ƒæœ€å¤§å€¼å’Œæœ€å°å€¼ï¼Œåªå–ä¸­é—´8é¡¹
 			{
 					ad_sum1[i] += ad_value[i][k];
 			}
 			ad_valu1[i] = ad_sum1[i] / 8;
 	}
 
-	/*=========================¸³Öµ¸÷¸öµç¸Ğ==============================*/
+	/*=========================èµ‹å€¼å„ä¸ªç”µæ„Ÿ==============================*/
 	L1 = ad_valu1[0];
 	L2 = ad_valu1[1];
 	L3 = ad_valu1[2];
@@ -174,18 +174,18 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 			Inductance_Error = Inductance_Error * 1.2;
 	}
 	//Inductance_Error=ad_diff;
-	return Inductance_Error; //·Å´ó128±¶
+	return Inductance_Error; //æ”¾å¤§128å€
 }
 
 /**
-*  @brief      ÏÔÊ¾²âÁ¿Öµ
+*  @brief      æ˜¾ç¤ºæµ‹é‡å€¼
 *  @param      void
 *  @return     void         
 **/
 
 void show_val(void)
 {
-//-----------------oledÏÔÊ¾µç¸ĞÖµ----------------------//
+//-----------------oledæ˜¾ç¤ºç”µæ„Ÿå€¼----------------------//
 	oled_p6x8str(0,0,"L1:");
 	oled_uint16(15,0,L1_NOR_ADC);
 
@@ -209,15 +209,15 @@ void show_val(void)
 	
 	oled_p6x8str(70,3,"M1:");
 	oled_uint16(85,3,M1_NOR_ADC);
-////-----------------ÍÓÂİÒÇ½ÇËÙ¶È------------------------//
+////-----------------é™€èºä»ªè§’é€Ÿåº¦------------------------//
 
 	oled_p6x8str(0,4,"gyro_z:");
-	oled_printf_float(45, 4,gyro_z3, 5, 6);
+	oled_printf_float(45, 4,mpu6050_gyro_z/65.6, 5, 6);
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
-	oled_int16(0,6,dir_out);
+	oled_int16(0, 6, nh_out);
 	oled_int16(60, 6, Speed_Ring);
-	//-----------------TOF¾àÀë------------------------//
+	//-----------------TOFè·ç¦»------------------------//
 	//	if(dl1a_finsh_flag)
 	//	{
 	//		dl1a_finsh_flag = 0;

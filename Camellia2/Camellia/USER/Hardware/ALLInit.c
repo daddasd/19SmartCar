@@ -1,15 +1,15 @@
 #include "myconfig.h"
 
 /**
- * @brief ËùÓĞÒı½Å³õÊ¼»¯
+ * @brief æ‰€æœ‰å¼•è„šåˆå§‹åŒ–
  * 
  */
 void GPIO_Init(void)
 {
-    //********µç»ú·½ÏòÒı½Å*********//
+    //********ç”µæœºæ–¹å‘å¼•è„š*********//
     gpio_mode(P4_2, GPO_PP);//Lift 
     gpio_mode(P5_2, GPO_PP);//Right
-    //********RGBÓëBuzzer********//
+    //********RGBä¸Buzzer********//
     gpio_mode(P4_1, GPO_PP);  // RGB
     gpio_mode(P4_4, GPO_PP); // Buzzer
     P41 = 0;
@@ -17,18 +17,18 @@ void GPIO_Init(void)
 }
 
 /**
- * @brief ËùÓĞÍâÉè³õÊ¼»¯
+ * @brief æ‰€æœ‰å¤–è®¾åˆå§‹åŒ–
  * 
  */
 void ALL_Peripheral_Init(void)
 {
-    mpu6050_init(); // ÍÓÂİÒÇ³õÊ¼»¯
+    mpu6050_init(); // é™€èºä»ªåˆå§‹åŒ–
     uart_init(UART_1, UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2);
     oled_init();
     oled_fill(0x00);
     delay_init();
-    Inductance_Init(); // adc²É¼¯³õÊ¼»¯
-    Motor_Init();      // µç»ú³õÊ¼»¯
+    Inductance_Init(); // adcé‡‡é›†åˆå§‹åŒ–
+    Motor_Init();      // ç”µæœºåˆå§‹åŒ–
     Motor_SET_PID(Motor_P, Motor_I, 0);
     Encoder_Time_Init();
 }

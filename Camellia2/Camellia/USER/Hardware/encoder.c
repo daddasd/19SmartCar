@@ -130,13 +130,13 @@ void TM4_Isr() interrupt 20
 		// 	}
 		//Car_Distance(2024);
 		//Angle_Ring1(90, 180, 1080);
-		OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
 
+		Angle_Ring1(90, 1.65,5);	
 		//		L = L_Pulse;
 		//		R = R_Pulse;
 		//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
 		//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
-		Motor_PWM(OUT1,-OUT1); ////////////////
+		// Motor_PWM(nh_out, -nh_out);
 		//	Tracking(speed+Err_speed);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);

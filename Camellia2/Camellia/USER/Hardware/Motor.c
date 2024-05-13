@@ -22,11 +22,15 @@ Motor_PID_InitTypedef Motor_pid;
 
 int16 limit(int16 In,int16 limit)
 {
-	return (In > limit) ? limit : ((In < -limit) ? -limit : In);
+	if(In>limit&&In>0)
+		In = limit;
+	else if(In<-limit&&In<0)
+		In = -limit;
+	return In;
 }
 
 //--
-//  @brief      µç»úPWM³õÊ¼»¯
+//  @brief      ç”µæœºPWMåˆå§‹åŒ–
 //  @param      void
 //  @return     void         
 //--
@@ -38,9 +42,9 @@ void Motor_Init(void)
 }
 
 //--
-//  @brief      Êä³öpwm
-//  @param      L_PWM:×óµç»úpwm
-//  @param      R_PWM:ÓÒµç»úpwm
+//  @brief      è¾“å‡ºpwm
+//  @param      L_PWM:å·¦ç”µæœºpwm
+//  @param      R_PWM:å³ç”µæœºpwm
 //  @return     void         
 //--
 
@@ -67,7 +71,7 @@ void Motor_PWM(int L_PWM,int R_PWM)
 }
 
 //--
-//  @brief      µç»úpidµ÷½Ú
+//  @brief      ç”µæœºpidè°ƒèŠ‚
 //  @param      kp,ki.kd
 //  @return     void         
 //--
@@ -86,10 +90,10 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 	Motor_pid.Motor_integral=0;
 }
 
-/*Èë¿Ú£ºNEW_DATA ĞÂ²ÉÑùÖµ
-       OLD_DATA ÉÏ´ÎÂË²¨½á¹û
-       k        ÂË²¨ÏµÊı(0~255)(´ú±íÔÚÂË²¨½á¹ûÖĞµÄÈ¨ÖØ)
-  ³ö¿Ú£º         ±¾´ÎÂË²¨½á¹û
+/*å…¥å£ï¼šNEW_DATA æ–°é‡‡æ ·å€¼
+       OLD_DATA ä¸Šæ¬¡æ»¤æ³¢ç»“æœ
+       k        æ»¤æ³¢ç³»æ•°(0~255)(ä»£è¡¨åœ¨æ»¤æ³¢ç»“æœä¸­çš„æƒé‡)
+  å‡ºå£ï¼š         æœ¬æ¬¡æ»¤æ³¢ç»“æœ
  */
  char filter_1(char NEW_DATA,char OLD_DATA,char k)
 {
@@ -98,7 +102,7 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
     {
         result=OLD_DATA-NEW_DATA;
         result=result*k;
-        result=result+128;//+128ÊÇÎªÁËËÄÉ«ÎåÈë
+        result=result+128;//+128æ˜¯ä¸ºäº†å››è‰²äº”å…¥
         result=result/256;
         result=OLD_DATA-result;
     }
@@ -106,7 +110,7 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
     {
         result=NEW_DATA-OLD_DATA;
         result=result*k;
-        result=result+128;//+128ÊÇÎªÁËËÄÉ«ÎåÈë
+        result=result+128;//+128æ˜¯ä¸ºäº†å››è‰²äº”å…¥
         result=result/256;
         result=OLD_DATA-result;
     }
@@ -116,10 +120,10 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 
 
 //--
-//  @brief      ËÙ¶È»·
-//  @param      Target_Value: Ä¿±êËÙ¶È
-//  @param      Actual_Value: Êµ¼ÊËÙ¶È      
-//  @return     ËÙ¶È»·Êä³ö        
+//  @brief      é€Ÿåº¦ç¯
+//  @param      Target_Value: ç›®æ ‡é€Ÿåº¦
+//  @param      Actual_Value: å®é™…é€Ÿåº¦      
+//  @return     é€Ÿåº¦ç¯è¾“å‡º        
 //--
 int LSpeed_pid_Out(int Target_Value,int Actual_Value)
 {

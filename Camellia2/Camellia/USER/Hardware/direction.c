@@ -10,19 +10,22 @@
 #define out_max 20000
 #define Angle_MAX 35-00
 
-float Nh_P = 160;  // 0.5
-float Nh_D = 1.85; // 4.1
+float Nh_P = 180;  // 0.5
+float Nh_D = 1.9; // 4.1
 float Wh_P = 90;
 float Wh_D = 320;
 float gyro_z3 = 0;
 
 int Speed_Ring_Flag = 0;
 
-//--
-//@brief      ����(�⻷) λ��ʽ
-//@param      c	hazhi : ��в�ֵ KP ���� KI ���� KD ΢��
-//@return     void
-//--
+/**
+ * @brief 外环
+ * 
+ * @param chazhi 电感差值PD控制
+ * @param dir_p  KP
+ * @param dir_d  KD
+ * @return int   外环返回值
+ */
 
 int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 {
@@ -30,47 +33,49 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
   static float last_error = 0;
   float Output;
   float error_derivative;
-  // ����λ�����
+
   error = chazhi;
-  // ����λ�����仯��
+
   error_derivative = error - last_error;
-  // ����PD�����������
+
   Output = error * dir_p + error_derivative * dir_d;
-  // ������һʱ�̵�λ�����
+
   last_error = error;
-  // ����������޷�
+
   Output = limit(Output, out_max);
   return (int)Output;
 }
 
-//--
-//@brief      ����(�ڻ�) λ��ʽ
-//@param      chazhi : ��в�ֵ KP ���� KI ���� KD ΢��
-//@return     void
-//--
-
+/**
+ * @brief 内环角速度PI控制
+ * 
+ * @param err   外环输入值
+ * @param dir_p 
+ * @param dir_i 
+ * @return int  
+ */
 int nh_Turn_Out(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
-  static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = err - mpu6050_gyro_z / 65.6;
+  static int last_err = 0, P_out = 0, I_out = 0, out = 0;
+  error1 = (int)(err - mpu6050_gyro_z / 65.6);
   P_out = dir_p * (error1 - last_err);
   I_out = dir_i * error1;
-  if (I_out > 2000)
+  if (I_out >= 2000)
     I_out = 2000;
-  if (I_out < -2000)
+  else if (I_out <= -2000)
     I_out = -2000;
-  out = P_out + I_out;
-  nh_out += out;
   last_err = error1;
-  return (int)nh_out;
+  out += P_out + I_out;
+  out=limit(out, 25000);
+  return out;
 }
 
-//--
-//@brief      ���򻷿��ƣ��ڻ�1ms�⻷3ms��
-//@param      void
-//@return     �������
-//-
+/**
+ * @brief 方向环，串级PID给电机
+ * 
+ * @return int 
+ */
 int DirControl(void)
 {
   static int count = 0;
@@ -84,7 +89,14 @@ int DirControl(void)
   return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
 }
 
-
+/**
+ * @brief 角度环
+ * 
+ * @param target 目标角度
+ * @param p 
+ * @param d 
+ * @return int 
+ */
 int Angle_Ring(double target, float p, float d)
 {
   float error;
@@ -92,35 +104,39 @@ int Angle_Ring(double target, float p, float d)
   int Output, Angle_Speed;
   float error_derivative;
   gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
-  error = target - gyro_z3;
-  Angle_Speed=Angle_Speed_Ring(error, 180, 2.5);
-  error_derivative = error - last_error;
-  Output = (int)error * p + Angle_Speed * d;
-  last_error = error;
-  Motor_PWM(+Output, -Output);
-  if(abs(error)<2)
-    return 1;
-}
 
+}
+/**
+ * @brief 角度环2
+ * 
+ * @param target 目标角度
+ * @param p 
+ * @param d 
+ * @return int 
+ */
 int Angle_Ring1(double target, float p, float d)
 {
   float error;
   int Output, Angle_Speed;
-  gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
+  static float last_error,error2;
+  gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.00015);
   error = target - gyro_z3;
-  Output = error * p + ((mpu6050_gyro_z) * 0.000121 - 0.001) * d;
-  Motor_PWM(+Output, -Output);
+  error2 = error - last_error;
+  last_error = error;
+  Output = (int)(error * p + error2 * d);
+  Output=limit(Output, 1000);
+  Angle_Speed_Ring(Output, 160, 1.85);
 }
 
-    /**
-    ?* @brief ????
-    ?*
-    ?* @param err
-    ?* @param dir_p
-    ?* @param dir_i
-    ?* @return int
-    ?*/
-    int Angle_Speed_Ring(int err, float dir_p, float dir_i)
+/**
+ * @brief 角速度环
+ * 
+ * @param err 
+ * @param dir_p 
+ * @param dir_i 
+ * @return int 
+ */
+int Angle_Speed_Ring(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
   static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
@@ -134,39 +150,32 @@ int Angle_Ring1(double target, float p, float d)
   out = P_out + I_out;
   nh_out += out;
   last_err = error1;
-  return (int)nh_out;
+  nh_out = limit(nh_out, 25000);
+  Motor_PWM(nh_out, -nh_out);
 }
 
-/**
- * @brief  ���򻷷���������������Ϊd������
- *
- * @param chazhi
- * @param dir_p
- * @param dir_d
- * @param dir_d2
- * @return int
- */
+
 int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
 {
   float error;
   static float last_error = 0;
   float Output;
   float error_derivative;
-  // ����λ�����
+
   error = chazhi;
-  // ����λ�����仯��
+
   error_derivative = error - last_error;
-  // ����PD�����������
+
   Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
-  // ������һʱ�̵�λ�����
+
   last_error = error;
-  // ����������޷�
+
   Output = limit(Output, out_max);
   return (int)Output;
 }
 
 /**
- * @brief 
+ * @brief 控制车行驶的距离
  * 
  * @param L_Distanc 
  * @param R_Distance 

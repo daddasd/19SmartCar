@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  10:53:24  PAGE 1   
+C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
 OBJECT MODULE PLACED IN .\Out_File\TrackElement.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\TrackElement.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SP
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\TrackElement.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SP
                     -EED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\C
                     -ODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\TrackElement.lst) TABS(2) OBJECT(.
                     -\Out_File\TrackElement.obj) 
@@ -25,34 +25,34 @@ stmt  level    source
    13          int ring_flag=-1;
    14          long bmq_jifen=0;
    15          double angle_jifen=0;
-   16          int Track_flag=0; //Õı³£Ñ­¼£
-   17          int set_speed = 0; //ÔÚÈüµÀÉÏ²»¶Ï¸ü¸ÄËÙ¶È
+   16          int Track_flag=0; //æ­£å¸¸å¾ªè¿¹
+   17          int set_speed = 0; //åœ¨èµ›é“ä¸Šä¸æ–­æ›´æ”¹é€Ÿåº¦
    18          
    19          int RING_FLAG1=0;
    20          int RING_FLAG2=0;
    21          int RING_FLAG3=0;
    22          int RING_FLAG4=0;
    23          
-   24          int ANGLE_FLAG=0; //½Ç¶È»ı·Ö±êÖ¾
-   25          double Angle4=0;  //½Ç¶È»ı·Ö
-   26          int DISTANCE_FLAG=0;//¾àÀë»ı·Ö±êÖ¾
-   27          long Distance=0;//¾àÀë»ı·Ö
+   24          int ANGLE_FLAG=0; //è§’åº¦ç§¯åˆ†æ ‡å¿—
+   25          double Angle4=0;  //è§’åº¦ç§¯åˆ†
+   26          int DISTANCE_FLAG=0;//è·ç¦»ç§¯åˆ†æ ‡å¿—
+   27          long Distance=0;//è·ç¦»ç§¯åˆ†
    28          
-   29          int RAngle_Flag = 0; //90¶È±êÖ¾Î»
+   29          int RAngle_Flag = 0; //90åº¦æ ‡å¿—ä½
    30          
-   31          /*Íâ»·Óëµç»úpidÓëËÙ¶È¸Ä±äµÄ²ÎÊı*/
+   31          /*å¤–ç¯ä¸ç”µæœºpidä¸é€Ÿåº¦æ”¹å˜çš„å‚æ•°*/
    32          
    33          double Sub_wh_p = 20;
    34          double Sub_wh_d = 10;
    35          double Sub_motor_p = 0;
    36          double Sub_motor_i = 0;
    37          int    Sub_speed = -10;
-   38          /*½Ç¶È»·²ÎÊı*/
+   38          /*è§’åº¦ç¯å‚æ•°*/
    39          float Angle_P = 70;
    40          float Angle_I = 0.4;
    41          float Angle_D = 40;
    42          
-   43          /*²»Í¬ÔªËØËÙ¶È¿ØÖÆ*/
+   43          /*ä¸åŒå…ƒç´ é€Ÿåº¦æ§åˆ¶*/
    44          int Speed_Plan1 = 0;
    45          
    46          int Err_speed = 0;
@@ -65,15 +65,15 @@ stmt  level    source
    53   1      }
    54          
    55          /**
-   56          *  @brief      Ê®×ÖÂ·¿Ú
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  10:53:24  PAGE 2   
+   56          *  @brief      åå­—è·¯å£
+C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 2   
 
    57          *  @param      void
    58          *  @return     void
    59          **/
    60          void Crossroad(void)
    61          {
-   62   1         if(L1_NOR_ADC>40&&L2_NOR_ADC>40&&R2_NOR_ADC>40&&R1_NOR_ADC>40||shizi_flag==-1)//Ê®×ÖÂ·¿Ú
+   62   1         if(L1_NOR_ADC>40&&L2_NOR_ADC>40&&R2_NOR_ADC>40&&R1_NOR_ADC>40||shizi_flag==-1)//åå­—è·¯å£
    63   1         {
    64   2          shizi_flag=-1;
    65   2          Track_flag=0;
@@ -86,21 +86,22 @@ stmt  level    source
    72   2          Motor_PWM(2000,2000);
    73   2         }
    74   1         else
-   75   1           Track_flag=1;//Õı³£Ñ­¼£
+   75   1           Track_flag=1;//æ­£å¸¸å¾ªè¿¹
    76   1      }
    77          
    78          
    79          /**
-   80          *  @brief      Áù±ß»·µº
-   81          *  @param      ½Ç¶È
+   80          *  @brief      å…­è¾¹ç¯å²›
+   81          *  @param      è§’åº¦
    82          *  @return     void       
    83          **/
    84          //void Roundabout(float angle)
    85          //{
    86          //   static int bmq_flag=0,angle_flag=0,angle2=0,yu_flag=0,angle_flag2=0,status=0;
-   87          //   if(L1_NOR_ADC>100&&R1_NOR_ADC>55&&R2_NOR_ADC<15&&L2_NOR_ADC<15||ring_flag==0||ring_flag==1)//Áù±ß»·µº
+   87          //   if(L1_NOR_ADC>100&&R1_NOR_ADC>55&&R2_NOR_ADC<15&&L2_NOR_ADC<15||ring_flag==0||ring_flag==1)//å…­è¾¹ç
+             -¯å²›
    88          //   {
-   89          //     if(status==0)  //Ô¤½øÈë»·µº
+   89          //     if(status==0)  //é¢„è¿›å…¥ç¯å²›
    90          //      if(bmq_jifen<4524&&bmq_flag==0)
    91          //      {
    92          //        bmq_jifen+=(R_Pulse+L_Pulse)/2;
@@ -112,45 +113,45 @@ stmt  level    source
    98          //      {
    99          //        status=1; 
   100          //        bmq_jifen=0;
-  101          //        bmq_flag=1; //±àÂëÆ÷Í£Ö¹»ı·Ö
-  102          //        angle_flag2=2;//½øÈë»·µº´ò¹Ì¶¨½Ç¶È
+  101          //        bmq_flag=1; //ç¼–ç å™¨åœæ­¢ç§¯åˆ†
+  102          //        angle_flag2=2;//è¿›å…¥ç¯å²›æ‰“å›ºå®šè§’åº¦
   103          //      }
-  104          //    else if(status==1)//½øÈë»·µº
+  104          //    else if(status==1)//è¿›å…¥ç¯å²›
   105          //    { 
-  106          //      if(angle_flag2==2&&angle_flag==0)//×ª40¶È
+  106          //      if(angle_flag2==2&&angle_flag==0)//è½¬40åº¦
   107          //      {
   108          //        if (Angle_Ring(45, angle1, Angle_P, Angle_I, Angle_D))
   109          //        {
-  110          //          angle1=0;  //½Ç¶È»ı·ÖÇåÁã
-  111          //          yu_flag=3;//±àÂëÆ÷¿ªÆô»ı·Ö
-  112          //          angle_flag2=0;//ÍË³ö½Ç¶È»ı·Ö
-  113          //          angle_flag=1;//Í£Ö¹ÍÓÂİÒÇ»ı·Ö
+  110          //          angle1=0;  //è§’åº¦ç§¯åˆ†æ¸…é›¶
+  111          //          yu_flag=3;//ç¼–ç å™¨å¼€å¯ç§¯åˆ†
+  112          //          angle_flag2=0;//é€€å‡ºè§’åº¦ç§¯åˆ†
+  113          //          angle_flag=1;//åœæ­¢é™€èºä»ªç§¯åˆ†
   114          //        }
   115          //        else
   116          //            angle1+=(Get_Angle()/7387)+0.0001;
   117          //      }
-  118          //      if(yu_flag==3) //½øÈëÔ²»·ĞĞÊ»Ò»¶Î¾àÀë¿ªÊ¼Õı³£Ñ­¼£
+  118          //      if(yu_flag==3) //è¿›å…¥åœ†ç¯è¡Œé©¶ä¸€æ®µè·ç¦»å¼€å§‹æ­£å¸¸å¾ªè¿¹
   119          //      {
   120          //        if(bmq_jifen<1024&&yu_flag==3)
   121          //        {
-  122          //          bmq_jifen+=(R_Pulse+L_Pulse)/2;
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  10:53:24  PAGE 3   
+C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 3   
 
+  122          //          bmq_jifen+=(R_Pulse+L_Pulse)/2;
   123          //          Motor_PWM(2000,2000);
   124          //        }
   125          //        else
   126          //        {
   127          //          bmq_jifen=0;
-  128          //          yu_flag=0; //±àÂëÆ÷Í£Ö¹»ı·Ö
-  129          //          ring_flag=4;//½øÈëÔ²»·½áÊø
+  128          //          yu_flag=0; //ç¼–ç å™¨åœæ­¢ç§¯åˆ†
+  129          //          ring_flag=4;//è¿›å…¥åœ†ç¯ç»“æŸ
   130          //          status=3;
-  131          //          Track_flag=1;//Õı³£Ñ­¼£
+  131          //          Track_flag=1;//æ­£å¸¸å¾ªè¿¹
   132          //        }     
   133          //      }
   134          //    }
-  135          //    else if(status==3) //³ö»·µº
+  135          //    else if(status==3) //å‡ºç¯å²›
   136          //    {
-  137          //      if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//³öÁù±ß»·µº
+  137          //      if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//å‡ºå…­è¾¹ç¯å²›
   138          //      {
   139          //        if(bmq_jifen<1524&&status==3)
   140          //        {
@@ -161,7 +162,7 @@ stmt  level    source
   145          //        {
   146          //          bmq_jifen=0;
   147          //          status=4;
-  148          //          Track_flag=1;//Õı³£Ñ­¼£
+  148          //          Track_flag=1;//æ­£å¸¸å¾ªè¿¹
   149          //        }   
   150          //      }
   151          //    }
@@ -172,7 +173,7 @@ stmt  level    source
   156          //     Track_flag=1;
   157          //}
   158          /**
-  159           * @brief ¸ù¾İ±êÖ¾Î»¸ø²»Í¬ËÙ¶È
+  159           * @brief æ ¹æ®æ ‡å¿—ä½ç»™ä¸åŒé€Ÿåº¦
   160           * 
   161           * @param speed_flag 
   162           */
@@ -181,19 +182,19 @@ stmt  level    source
   165   1        switch (speed_flag)
   166   1        {
   167   2        case 1:
-  168   2          Speed_Plan1 = 0;  //Õı³£Ñ­¼£ËÙ¶È
+  168   2          Speed_Plan1 = 0;  //æ­£å¸¸å¾ªè¿¹é€Ÿåº¦
   169   2          break;
   170   2        case 2:
-  171   2          Speed_Plan1 = -speed; //Ö±½ÇºóËÙ¶ÈÇåÁã
+  171   2          Speed_Plan1 = -speed; //ç›´è§’åé€Ÿåº¦æ¸…é›¶
   172   2          break;
   173   2        case 3:
-  174   2          Speed_Plan1 = -speed*0.30; // »·µºÄÚËÙ¶È£¬ÎªÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®70
+  174   2          Speed_Plan1 = -speed*0.30; // ç¯å²›å†…é€Ÿåº¦ï¼Œä¸ºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹70
   175   2          break;
   176   2        case 4:
-  177   2          Speed_Plan1 = -speed * 0.5; // Ô¤½øÔ²»·£¬ÎªÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®50;
+  177   2          Speed_Plan1 = -speed * 0.5; // é¢„è¿›åœ†ç¯ï¼Œä¸ºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹50;
   178   2          break;
   179   2        case 5:
-  180   2          Speed_Plan1 = speed * 0.4; // Ö±µÀ¼ÓËÙ £¬´óÓÚÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®40;
+  180   2          Speed_Plan1 = speed * 0.4; // ç›´é“åŠ é€Ÿ ï¼Œå¤§äºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹40;
   181   2          break;
   182   2        default:
   183   2          break;
@@ -201,11 +202,11 @@ stmt  level    source
   185   1      }
   186          
   187          void Sub_Pid(float error)
-  188          {
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  10:53:24  PAGE 4   
+C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 4   
 
+  188          {
   189   1          float err = error;
-  190   1        if(err>20) //Æ«ÀëÈüµÀ×î´ó
+  190   1        if(err>20) //åç¦»èµ›é“æœ€å¤§
   191   1        {
   192   2          Sub_wh_p = 20;
   193   2          Sub_wh_d = 10;
@@ -216,7 +217,7 @@ stmt  level    source
   198   1      }
   199          
   200          /**
-  201          *  @brief      »ù´¡Ñ­¼£
+  201          *  @brief      åŸºç¡€å¾ªè¿¹
   202          *  @param      void
   203          *  @return     void        
   204          **/
@@ -228,29 +229,29 @@ stmt  level    source
   210   1        dir_out=DirControl();
   211   1        if(count==10)
   212   1        {
-  213   2          Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
-  214   2          Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // ¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
+  213   2          Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //å‡æˆ–åŠ ä¸€ä¸ªæ–¹å‘ç¯çš„è¾“å‡º
+  214   2          Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // å‡æˆ–åŠ ä¸€ä¸ªæ–¹å‘ç¯çš„è¾“å‡º
   215   2          count=0;
   216   2        }
   217   1          
   218   1          Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
   219   1      }
   220          /**
-  221           * @brief ¸ù¾İ²»Í¬ËÙ¶È¸ø±êÖ¾Î»
+  221           * @brief æ ¹æ®ä¸åŒé€Ÿåº¦ç»™æ ‡å¿—ä½
   222           * 
   223           */
   224          void Error_Speed(void)
   225          {
   226   1        if(Inductance_Error<40)
-  227   1          Err_speed = speed * 0.10; //Ìá°Ù·ÖÖ®30µÄËÙ¶È
+  227   1          Err_speed = speed * 0.10; //æç™¾åˆ†ä¹‹30çš„é€Ÿåº¦
   228   1        else if(Inductance_Error >=40 && Inductance_Error <=55)
-  229   1          Err_speed = speed * 0.15 ;//Ìá°Ù·ÖÖ®20µÄËÙ¶È
+  229   1          Err_speed = speed * 0.15 ;//æç™¾åˆ†ä¹‹20çš„é€Ÿåº¦
   230   1        else if(Inductance_Error > 55 && Inductance_Error <=65)
-  231   1          Err_speed = -speed * 0.65;//½µµÍ°Ù·ÖÖ®45µÄËÙ¶È
+  231   1          Err_speed = -speed * 0.65;//é™ä½ç™¾åˆ†ä¹‹45çš„é€Ÿåº¦
   232   1        else if(Inductance_Error > 65 && Inductance_Error <=75)
-  233   1          Err_speed = -speed * 0.75;//½µµÍ°Ù·ÖÖ®55µÄËÙ¶È
+  233   1          Err_speed = -speed * 0.75;//é™ä½ç™¾åˆ†ä¹‹55çš„é€Ÿåº¦
   234   1        else if(Inductance_Error >75)
-  235   1          Err_speed = -speed * 0.77;//½µµÍ°Ù·ÖÖ®°ÙµÄËÙ¶È
+  235   1          Err_speed = -speed * 0.77;//é™ä½ç™¾åˆ†ä¹‹ç™¾çš„é€Ÿåº¦
   236   1      }
 
 
@@ -270,9 +271,9 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-  const size           =    ------     ------
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  10:53:24  PAGE 5   
+C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 5   
 
+  const size           =    ------     ------
   hconst size          =       202     ------
 End of Module Information.
 

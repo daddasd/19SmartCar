@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            12/05/24  21:44:59  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    54   1        {
    55   2          R_Pulse = ctimer_count_read(Encoder_R);
    56   2        }
-C251 COMPILER V5.60.0,  encoder                                                            12/05/24  21:44:59  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 2   
 
    57   1        else
    58   1        {
@@ -134,7 +134,7 @@ stmt  level    source
   120   2          L_Pulse = L_Encoder_Pulse();
   121   2          R_Pulse = R_Encoder_Pulse();
   122   2          // NORMALIZATION_TRACKING_ADC(1, 1);
-C251 COMPILER V5.60.0,  encoder                                                            12/05/24  21:44:59  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 3   
 
   123   2          // Roundabout();
   124   2          // if(Track_flag)
@@ -146,13 +146,13 @@ stmt  level    source
   130   2          //  }
   131   2          //Car_Distance(2024);
   132   2          //Angle_Ring1(90, 180, 1080);
-  133   2          OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-  134   2      
+  133   2      
+  134   2          Angle_Ring1(90, 1.65,5);  
   135   2          //    L = L_Pulse;
   136   2          //    R = R_Pulse;
   137   2          //    OUT1 = LSpeed_pid_Out(30, L_Pulse);
   138   2          //    OUT2 = RSpeed_pid_Out(30, R_Pulse);
-  139   2          Motor_PWM(OUT1,-OUT1); ////////////////
+  139   2          // Motor_PWM(nh_out, -nh_out);
   140   2          //  Tracking(speed+Err_speed);
   141   2          ctimer_count_clean(Encoder_L);
   142   2          ctimer_count_clean(Encoder_R);
@@ -163,7 +163,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       396     ------
+  code size            =       389     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 1   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE menu
 OBJECT MODULE PLACED IN .\Out_File\menu.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\menu.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BRO
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\menu.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BRO
                     -WSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\U
                     -SER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\menu.lst) TABS(2) OBJECT(.\Out_File\menu.o
                     -bj) 
@@ -20,13 +20,13 @@ stmt  level    source
     8          #define INTERVAL_TIME 500
     9          
    10          
-   11          //Î»ÖÃ»·Íâ»·
+   11          //ä½ç½®ç¯å¤–ç¯
    12          
    13          
    14          //--
-   15          //  @brief      ÆğÊ¼²Ëµ¥ÏÔÊ¾Ò»Ğ©³õÊ¼Öµ
+   15          //  @brief      èµ·å§‹èœå•æ˜¾ç¤ºä¸€äº›åˆå§‹å€¼
    16          //  @param      void    
-   17          //  @return     1 °´KEY2Ìø×ªÒ»¼¶²Ëµ¥      
+   17          //  @return     1 æŒ‰KEY2è·³è½¬ä¸€çº§èœå•      
    18          //--
    19          int Show_AllVal(int flag1)
    20          {
@@ -34,14 +34,14 @@ stmt  level    source
    22   1          while (flag == 0)
    23   1          {
    24   2              NORMALIZATION_TRACKING_ADC(1,1);
-   25   2              show_val();  // ÏÔÊ¾²âµÃÊı¾İ 
+   25   2              show_val();  // æ˜¾ç¤ºæµ‹å¾—æ•°æ® 
    26   2              
-   27   2              if (key2 == 0) // °´ÏÂÌø×ªµ½Ò»¼¶²Ëµ¥
+   27   2              if (key2 == 0) // æŒ‰ä¸‹è·³è½¬åˆ°ä¸€çº§èœå•
    28   2              {
    29   3                  delay_ms(10);
    30   3                  while (key2 == 0);
    31   3                  delay_ms(10);
-   32   3                  oled_fill(0x00); // ÇåÆÁ
+   32   3                  oled_fill(0x00); // æ¸…å±
    33   3                  flag = 1;
    34   3                  return 1;
    35   3              }
@@ -50,25 +50,25 @@ stmt  level    source
    38   1      }
    39          
    40          //--
-   41          //  @brief      Ò»¼¶²Ëµ¥
+   41          //  @brief      ä¸€çº§èœå•
    42          //  @param      void    
-   43          //  @return     1 °´KEY2Ìø×ªÒ»¼¶²Ëµ¥      
+   43          //  @return     1 æŒ‰KEY2è·³è½¬ä¸€çº§èœå•      
    44          //--
    45          int First_menu(void)
    46          {
    47   1        int flag = 1;
    48   1        int c,a=0;
-   49   1        oled_p6x8str(25,0,"Set_Element"); //µ÷ÕûÔªËØ
-   50   1        oled_p6x8str(25,1,"Set_Motor_PI"); //ÉèÖÃµç»úpi
-   51   1        oled_p6x8str(25,2,"Set_Wh_Nh_PD"); //ÉèÖÃÄÚÍâ»·pd
-   52   1        oled_p6x8str(25,3,"Set_Speed"); //ÉèÖÃËÙ¶È
-   53   1        oled_p6x8str(25,4,"Show_Val"); //ÏÔÊ¾»ù´¡Öµ
-   54   1        oled_p6x8str(25,5,"Car_Star"); //Ğ¡³µÆô¶¯
+   49   1        oled_p6x8str(25,0,"Set_Element"); //è°ƒæ•´å…ƒç´ 
+   50   1        oled_p6x8str(25,1,"Set_Motor_PI"); //è®¾ç½®ç”µæœºpi
+   51   1        oled_p6x8str(25,2,"Set_Wh_Nh_PD"); //è®¾ç½®å†…å¤–ç¯pd
+   52   1        oled_p6x8str(25,3,"Set_Speed"); //è®¾ç½®é€Ÿåº¦
+   53   1        oled_p6x8str(25,4,"Show_Val"); //æ˜¾ç¤ºåŸºç¡€å€¼
+   54   1        oled_p6x8str(25,5,"Car_Star"); //å°è½¦å¯åŠ¨
    55   1        while(1)
    56   1        {
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 2   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 2   
 
-   57   2              if (key3 == 0) // ÏÂÒ»Ïî
+   57   2              if (key3 == 0) // ä¸‹ä¸€é¡¹
    58   2              {
    59   3            delay_ms(10);
    60   3            while(key3==0);
@@ -76,7 +76,7 @@ stmt  level    source
    62   3            flag++;
    63   3            if(flag == 7) flag = 1;
    64   3          }
-   65   2          if(key1==0) // ÉÏÒ»Ïî
+   65   2          if(key1==0) // ä¸Šä¸€é¡¹
    66   2          {
    67   3            delay_ms(10);
    68   3            while(key1==0);
@@ -84,23 +84,23 @@ stmt  level    source
    70   3            flag--;
    71   3            if(flag == 0) flag = 6;
    72   3          }
-   73   2          if(key2 == 0) //È·¶¨
+   73   2          if(key2 == 0) //ç¡®å®š
    74   2          {
    75   3            delay_ms(10);
    76   3            while(key2 ==0);
    77   3            delay_ms(10);
-   78   3            oled_fill(0x00); //ÇåÆÁ
-   79   3            return flag; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+   78   3            oled_fill(0x00); //æ¸…å±
+   79   3            return flag; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
    80   3          }
-   81   2          if(key4 == 0) //·µ»ØÉÏ¼¶
+   81   2          if(key4 == 0) //è¿”å›ä¸Šçº§
    82   2          {
    83   3            delay_ms(10);
    84   3            while(key4 ==0);
    85   3            delay_ms(10);
-   86   3            oled_fill(0x00); //ÇåÆÁ
+   86   3            oled_fill(0x00); //æ¸…å±
    87   3            return 0; 
    88   3          }
-   89   2          switch(flag) //¹â±êÒÆ¶¯
+   89   2          switch(flag) //å…‰æ ‡ç§»åŠ¨
    90   2          {
    91   3            case 1:
    92   3            {
@@ -134,7 +134,7 @@ stmt  level    source
   120   4              oled_p6x8str(0,0,"   "); 
   121   4              oled_p6x8str(0,1,"   "); 
   122   4              oled_p6x8str(0,2,"   ");
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 3   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 3   
 
   123   4              oled_p6x8str(0,3,"-->");
   124   4              oled_p6x8str(0,4,"   ");
@@ -164,9 +164,9 @@ stmt  level    source
 *** WARNING C47 IN LINE 48 OF ..\USER\Hardware\menu.c: 'c': unreferenced local variable
   148          
   149          //--
-  150          //  @brief      ¶ş¼¶ÔªËØË³Ğò²Ëµ¥
+  150          //  @brief      äºŒçº§å…ƒç´ é¡ºåºèœå•
   151          //  @param      void    
-  152          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  152          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   153          //--
   154          
   155          
@@ -174,16 +174,16 @@ stmt  level    source
   157          int Second_Element_menu(void)
   158          {
   159   1          int flag = 1,i = 0,Order = 0,k =0;
-  160   1          int menu_order[MENU_SIZE] = {0}; // ÓÃÓÚ´æ´¢²Ëµ¥ÏîµÄË³Ğò
+  160   1          int menu_order[MENU_SIZE] = {0}; // ç”¨äºå­˜å‚¨èœå•é¡¹çš„é¡ºåº
   161   1          
-  162   1          oled_p8x16str(25, 0, "L_YuanH");  // ×óÔ²»·
-  163   1          oled_p8x16str(25, 2, "R_YuanH");  // ÓÒÔ²»·
-  164   1          oled_p8x16str(25, 4, "PoDao");    // ÆÂµÀ
-  165   1          oled_p8x16str(25, 6, "LuZhang");      // Â·ÕÏ
+  162   1          oled_p8x16str(25, 0, "L_YuanH");  // å·¦åœ†ç¯
+  163   1          oled_p8x16str(25, 2, "R_YuanH");  // å³åœ†ç¯
+  164   1          oled_p8x16str(25, 4, "PoDao");    // å¡é“
+  165   1          oled_p8x16str(25, 6, "LuZhang");      // è·¯éšœ
   166   1          
   167   1          while (1)
   168   1          {
-  169   2              if (key3 == 0) // ÏÂÒ»Ïî
+  169   2              if (key3 == 0) // ä¸‹ä¸€é¡¹
   170   2              {
   171   3                  delay_ms(10);
   172   3                  while (key3 == 0);
@@ -191,7 +191,7 @@ stmt  level    source
   174   3                  flag++;
   175   3                  if (flag == MENU_SIZE + 1) flag = 1;
   176   3              }
-  177   2              if (key1 == 0) // ÉÏÒ»Ïî
+  177   2              if (key1 == 0) // ä¸Šä¸€é¡¹
   178   2              {
   179   3                  delay_ms(10);
   180   3                  while (key1 == 0);
@@ -199,10 +199,10 @@ stmt  level    source
   182   3                  flag--;
   183   3                  if (flag == 0) flag = MENU_SIZE;
   184   3              }
-  185   2              if (key2 == 0) // È·¶¨
+  185   2              if (key2 == 0) // ç¡®å®š
   186   2              {
   187   3                  delay_ms(10);
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 4   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 4   
 
   188   3                  while (key2 == 0);
   189   3                  delay_ms(10);
@@ -212,30 +212,30 @@ stmt  level    source
   193   4                    {
   194   5                      Element_Order[k]=menu_order[k];
   195   5                    }
-  196   4                    oled_fill(0x00); //ÇåÆÁ
-  197   4                    return 0;  //·µ»ØÉÏÒ»¼¶
+  196   4                    oled_fill(0x00); //æ¸…å±
+  197   4                    return 0;  //è¿”å›ä¸Šä¸€çº§
   198   4                  }
   199   3                  menu_order[flag-1] = Order;
   200   3              } 
-  201   2              if(key4 == 0) //·µ»ØÉÏ¼¶
+  201   2              if(key4 == 0) //è¿”å›ä¸Šçº§
   202   2              {
   203   3                delay_ms(10);
   204   3                while(key4 ==0);
   205   3                delay_ms(10);
-  206   3                oled_fill(0x00); //ÇåÆÁ
-  207   3                return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  206   3                oled_fill(0x00); //æ¸…å±
+  207   3                return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   208   3              }
-  209   2              // ¸üĞÂ¹â±êÎ»ÖÃºÍÏÔÊ¾Ë³Ğò
+  209   2              // æ›´æ–°å…‰æ ‡ä½ç½®å’Œæ˜¾ç¤ºé¡ºåº
   210   2              for (i = 0; i < MENU_SIZE; i++)
   211   2              {
   212   3                  if (i + 1 == flag)
-  213   3                      oled_p8x16str(0, i*2, "-->");  // ¹â±êÖ¸Ê¾µ±Ç°Ñ¡ÖĞÏî
+  213   3                      oled_p8x16str(0, i*2, "-->");  // å…‰æ ‡æŒ‡ç¤ºå½“å‰é€‰ä¸­é¡¹
 *** WARNING C188 IN LINE 213 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
   214   3                  else
   215   3                      oled_p8x16str(0, i*2, "   ");
 *** WARNING C188 IN LINE 215 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
   216   3                      
-  217   3                  // ÔÚ²Ëµ¥ÏîºóÏÔÊ¾Ë³Ğò
+  217   3                  // åœ¨èœå•é¡¹åæ˜¾ç¤ºé¡ºåº
   218   3                  oled_uint16_px8(80, i*2, menu_order[i]);
 *** WARNING C188 IN LINE 218 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
   219   3              } 
@@ -243,9 +243,9 @@ stmt  level    source
   221   1      }
   222          
   223          //--
-  224          //  @brief      ¶ş¼¶µ÷½Úµç»úPI²Ëµ¥
+  224          //  @brief      äºŒçº§è°ƒèŠ‚ç”µæœºPIèœå•
   225          //  @param      void    
-  226          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  226          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   227          //--
   228          
   229          int Second_Motor_menu(void)
@@ -256,25 +256,25 @@ stmt  level    source
   234   1          double x = 0.0001;
   235   1          
   236   1          oled_p8x16str(20, 0, "M_P"); 
-  237   1          oled_printf_float_px8(50, 0, Motor_P, 2, 4); // µç»úP
+  237   1          oled_printf_float_px8(50, 0, Motor_P, 2, 4); // ç”µæœºP
   238   1          oled_p8x16str(20, 2, "M_I"); 
-  239   1          oled_printf_float_px8(50, 2, Motor_I, 2, 4); // µç»úI
-  240   1          oled_p8x16str(20, 4, "Add");   // ¼ÓÖµ
-  241   1          oled_p8x16str(20, 6, "Val");   // ¼Ó¼¸±¶»òÕß¼õ¼¸±¶
+  239   1          oled_printf_float_px8(50, 2, Motor_I, 2, 4); // ç”µæœºI
+  240   1          oled_p8x16str(20, 4, "Add");   // åŠ å€¼
+  241   1          oled_p8x16str(20, 6, "Val");   // åŠ å‡ å€æˆ–è€…å‡å‡ å€
   242   1          
   243   1          while (1)
   244   1          {
-  245   2              if (key3 == 0) // ÏÂÒ»Ïî
+  245   2              if (key3 == 0) // ä¸‹ä¸€é¡¹
   246   2              {
   247   3                  delay_ms(10);
   248   3                  while (key3 == 0);
   249   3                  delay_ms(10);
   250   3                  flag++;
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 5   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 5   
 
   251   3                  if (flag == 5) flag = 1;
   252   3              }
-  253   2              if (key1 == 0) // ÉÏÒ»Ïî
+  253   2              if (key1 == 0) // ä¸Šä¸€é¡¹
   254   2              {
   255   3                  delay_ms(10);
   256   3                  while (key1 == 0);
@@ -282,7 +282,7 @@ stmt  level    source
   258   3                  flag--;
   259   3                  if (flag == 0) flag = 4;
   260   3              } 
-  261   2              if (key2 == 0) // È·¶¨
+  261   2              if (key2 == 0) // ç¡®å®š
   262   2              {
   263   3                  delay_ms(10);
   264   3                  long_press_delay = 0;
@@ -327,18 +327,18 @@ stmt  level    source
   303   4                      {
   304   5                          if (count == 0)
   305   5                          {
-  306   6                              oled_p8x16str(20, 4, "    ");   // ¼õÖµ
-  307   6                              oled_p8x16str(20, 4, "Lose");   // ¼õÖµ
+  306   6                              oled_p8x16str(20, 4, "    ");   // å‡å€¼
+  307   6                              oled_p8x16str(20, 4, "Lose");   // å‡å€¼
   308   6                              Val_add_lose = -1;
   309   6                              count = 1;
   310   6                          }
   311   5                          else if (count == 1)
   312   5                          {
-  313   6                              oled_p8x16str(20, 4, "    ");   // ¼ÓÖµ
-  314   6                              oled_p8x16str(20, 4, "Add");    // ¼ÓÖµ
+  313   6                              oled_p8x16str(20, 4, "    ");   // åŠ å€¼
+  314   6                              oled_p8x16str(20, 4, "Add");    // åŠ å€¼
   315   6                              Val_add_lose = 1;
   316   6                              count = 0;
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 6   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 6   
 
   317   6                          }
   318   5                      }
@@ -349,18 +349,18 @@ stmt  level    source
   323   5                      }
   324   4                  }
   325   3              } 
-  326   2              if (key4 == 0)  // ·µ»Ø
+  326   2              if (key4 == 0)  // è¿”å›
   327   2              {
   328   3                  delay_ms(10);
   329   3                  while (key4 == 0);
   330   3                  delay_ms(10);
-  331   3                  oled_fill(0x00); // ÇåÆÁ
-  332   3                  return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  331   3                  oled_fill(0x00); // æ¸…å±
+  332   3                  return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   333   3              }
   334   2              for (i = 0; i < 4; i++)
   335   2              {
   336   3                  if (i + 1 == flag)
-  337   3                      oled_p8x16str(0, i*2, "->");  // ¹â±êÖ¸Ê¾µ±Ç°Ñ¡ÖĞÏî
+  337   3                      oled_p8x16str(0, i*2, "->");  // å…‰æ ‡æŒ‡ç¤ºå½“å‰é€‰ä¸­é¡¹
 *** WARNING C188 IN LINE 337 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
   338   3                  else
   339   3                      oled_p8x16str(0, i*2, "  ");
@@ -369,13 +369,13 @@ stmt  level    source
   341   2          }
   342   1      }
   343          //--
-  344          //  @brief      ¶ş¼¶µ÷½ÚÄÚÍâ»·PD²Ëµ¥
+  344          //  @brief      äºŒçº§è°ƒèŠ‚å†…å¤–ç¯PDèœå•
   345          //  @param      void    
-  346          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  346          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   347          //--
-  348          // ¶¨Òå²Ëµ¥´óĞ¡
+  348          // å®šä¹‰èœå•å¤§å°
   349          
-  350          // ¶¨Òå²Ëµ¥´óĞ¡
+  350          // å®šä¹‰èœå•å¤§å°
   351          #define MENU_SIZE 4
   352          
   353          
@@ -385,7 +385,7 @@ stmt  level    source
   357   1          int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
   358   1          float x =1,x1=0.005;
   359   1          uint16 long_press_delay=0,pree_delay=0;
-  360   1          int page = 1; // ÓÃÓÚ¸ú×Ùµ±Ç°ËùÔÚÒ³Ãæ
+  360   1          int page = 1; // ç”¨äºè·Ÿè¸ªå½“å‰æ‰€åœ¨é¡µé¢
   361   1          int page1 = 1;
   362   1          if(page == 1)
   363   1          {
@@ -393,56 +393,56 @@ stmt  level    source
   365   2          }
   366   1          while (1)
   367   1          {
-  368   2              // ¼àÌı°´¼ü²Ù×÷
-  369   2              if (key3 == 0) // ÏÂÒ»Ïî
+  368   2              // ç›‘å¬æŒ‰é”®æ“ä½œ
+  369   2              if (key3 == 0) // ä¸‹ä¸€é¡¹
   370   2              {
   371   3                  delay_ms(10);
   372   3                  while (key3 == 0);
   373   3                  delay_ms(10);
   374   3                  flag++;
-  375   3                  // Èç¹ûµ½´ï²Ëµ¥µ×²¿£¬Ôò·­Ò³µ½ÏÂÒ»Ò³
+  375   3                  // å¦‚æœåˆ°è¾¾èœå•åº•éƒ¨ï¼Œåˆ™ç¿»é¡µåˆ°ä¸‹ä¸€é¡µ
   376   3                  if (flag > MENU_SIZE) {
-  377   4                      flag = 1; // ÖØÖÃÖ¸Õë
-  378   4                      page = (page == 1) ? 2 : 1; // ÇĞ»»µ½ÏÂÒ»Ò³
+  377   4                      flag = 1; // é‡ç½®æŒ‡é’ˆ
+  378   4                      page = (page == 1) ? 2 : 1; // åˆ‡æ¢åˆ°ä¸‹ä¸€é¡µ
   379   4                  }
   380   3              }
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 7   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 7   
 
-  381   2              if (key1 == 0) // ÉÏÒ»Ïî
+  381   2              if (key1 == 0) // ä¸Šä¸€é¡¹
   382   2              {
   383   3                  delay_ms(10);
   384   3                  while (key1 == 0);
   385   3                  delay_ms(10);
   386   3                  flag--;
-  387   3                  // Èç¹ûÔÚµÚÒ»Ò³°´ÉÏÒ»Ò³£¬·­ÖÁµÚ¶şÒ³
+  387   3                  // å¦‚æœåœ¨ç¬¬ä¸€é¡µæŒ‰ä¸Šä¸€é¡µï¼Œç¿»è‡³ç¬¬äºŒé¡µ
   388   3                  if (flag == 0 && page == 1) {
-  389   4                      flag = MENU_SIZE + 1; // µ÷ÕûÖ¸ÕëÎ»ÖÃµ½µÚ¶şÒ³µ×²¿
-  390   4                      page = 2; // ÇĞ»»µ½µÚ¶şÒ³
+  389   4                      flag = MENU_SIZE + 1; // è°ƒæ•´æŒ‡é’ˆä½ç½®åˆ°ç¬¬äºŒé¡µåº•éƒ¨
+  390   4                      page = 2; // åˆ‡æ¢åˆ°ç¬¬äºŒé¡µ
   391   4                  }
-  392   3                  // Èç¹ûÔÚµÚ¶şÒ³°´ÉÏÒ»Ò³£¬·µ»Øµ½µÚÒ»Ò³
+  392   3                  // å¦‚æœåœ¨ç¬¬äºŒé¡µæŒ‰ä¸Šä¸€é¡µï¼Œè¿”å›åˆ°ç¬¬ä¸€é¡µ
   393   3                  else if (flag == 0 && page == 2) {
-  394   4                      flag = MENU_SIZE; // µ÷ÕûÖ¸ÕëÎ»ÖÃµ½µÚÒ»Ò³µ×²¿
-  395   4                      page = 1; // ÇĞ»»µ½µÚÒ»Ò³
+  394   4                      flag = MENU_SIZE; // è°ƒæ•´æŒ‡é’ˆä½ç½®åˆ°ç¬¬ä¸€é¡µåº•éƒ¨
+  395   4                      page = 1; // åˆ‡æ¢åˆ°ç¬¬ä¸€é¡µ
   396   4                  }
   397   3              } 
-  398   2              //----------------------Ò»¶şÒ³Çø---------------------------//
-  399   2              if (page == 1)  //µÚÒ»Ò³
+  398   2              //----------------------ä¸€äºŒé¡µåŒº---------------------------//
+  399   2              if (page == 1)  //ç¬¬ä¸€é¡µ
   400   2              {
   401   3                  if(page1==1)
   402   3                  {
   403   4                      oled_fill(0x00);
   404   4                      page1=2;
   405   4                      oled_p8x16str(22, 0, "N_P");  
-  406   4                      oled_printf_float_px8(45, 0, Nh_P, 2, 3); // ÄÚ»·P
+  406   4                      oled_printf_float_px8(45, 0, Nh_P, 2, 3); // å†…ç¯P
   407   4                      oled_p8x16str(22, 2, "N_D");  
-  408   4                      oled_printf_float_px8(45, 2, Nh_D, 2, 3); // ÄÚ»·D
+  408   4                      oled_printf_float_px8(45, 2, Nh_D, 2, 3); // å†…ç¯D
   409   4                      oled_p8x16str(22, 4, "W_P");  
-  410   4                      oled_printf_float_px8(45, 4, Wh_P, 3, 2); // Íâ»·P
+  410   4                      oled_printf_float_px8(45, 4, Wh_P, 3, 2); // å¤–ç¯P
   411   4                      oled_p8x16str(22, 6, "W_D");  
-  412   4                      oled_printf_float_px8(45, 6, Wh_D, 3, 2); // Íâ»·D
+  412   4                      oled_printf_float_px8(45, 6, Wh_D, 3, 2); // å¤–ç¯D
   413   4                  }
   414   3              } 
-  415   2              else if (page == 2) //µÚ¶şÒ³
+  415   2              else if (page == 2) //ç¬¬äºŒé¡µ
   416   2              {
   417   3                  if(page1==2)
   418   3                  {
@@ -453,8 +453,8 @@ stmt  level    source
   423   4                      oled_p8x16str(22, 4, "N_Val");            
   424   4                  }
   425   3              }
-  426   2      //----------------------Ò»¶şÒ³Çø---------------------------//
-  427   2              if (key2 == 0&&page==1) // È·¶¨²¢ÇÒÔÚµÚÒ»Ò³
+  426   2      //----------------------ä¸€äºŒé¡µåŒº---------------------------//
+  427   2              if (key2 == 0&&page==1) // ç¡®å®šå¹¶ä¸”åœ¨ç¬¬ä¸€é¡µ
   428   2              {
   429   3                  delay_ms(10);
   430   3                  long_press_delay = 0;
@@ -474,7 +474,7 @@ stmt  level    source
   444   6                              Wh_P = Wh_P + x* Val_add_lose;
   445   6                              oled_printf_float_px8(45, 4, Wh_P, 3, 2);
   446   6                          } else if (flag == 4) {
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 8   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 8   
 
   447   6                              Wh_D = Wh_D + x * Val_add_lose;
   448   6                              oled_printf_float_px8(45, 6, Wh_D, 3, 2);
@@ -514,26 +514,26 @@ stmt  level    source
   482   4      
   483   4                  }
   484   3              } 
-  485   2              if (key2 == 0&&page==2) // È·¶¨²¢ÇÒÔÚµÚÒ»Ò³
+  485   2              if (key2 == 0&&page==2) // ç¡®å®šå¹¶ä¸”åœ¨ç¬¬ä¸€é¡µ
   486   2              {
   487   3                  delay_ms(10);
   488   3                  while(key2==0);
   489   3                  delay_ms(10);
-  490   3                  if (flag == 1)//²¢ÇÒÔÚµÚ¶şÒ³ µÚÒ»ÁĞaddÓëlose
+  490   3                  if (flag == 1)//å¹¶ä¸”åœ¨ç¬¬äºŒé¡µ ç¬¬ä¸€åˆ—addä¸lose
   491   3                  {
   492   4                      count ++;
   493   4                      if(count==3)count=0;
   494   4                      if (count == 0)
   495   4                      {
-  496   5                          oled_p8x16str(22, 0, "    ");   // ¼õÖµ
-  497   5                          oled_p8x16str(22, 0, "Lose");   // ¼õÖµ
+  496   5                          oled_p8x16str(22, 0, "    ");   // å‡å€¼
+  497   5                          oled_p8x16str(22, 0, "Lose");   // å‡å€¼
   498   5                          Val_add_lose = -1;
   499   5                          flag1++;
   500   5                      }
   501   4                      else if (count == 1)
   502   4                      {
-  503   5                          oled_p8x16str(22, 0, "    ");   // ¼ÓÖµ
-  504   5                          oled_p8x16str(22, 0, "Add");    // ¼ÓÖµ
+  503   5                          oled_p8x16str(22, 0, "    ");   // åŠ å€¼
+  504   5                          oled_p8x16str(22, 0, "Add");    // åŠ å€¼
   505   5                          Val_add_lose = 1;
   506   5                      }
   507   4                      
@@ -542,7 +542,7 @@ stmt  level    source
   510   3                  {
   511   4                      x = x + 0.5 * Val_add_lose;
   512   4                      oled_printf_float_px8(50, 2, x, 3, 1);
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 9   
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 9   
 
   513   4                  }
   514   3                  if(flag==3)
@@ -551,19 +551,19 @@ stmt  level    source
   517   4                      oled_printf_float_px8(50, 4, x1, 1, 3);                    
   518   4                  }
   519   3              }
-  520   2              if (key4 == 0)  // ·µ»Ø
+  520   2              if (key4 == 0)  // è¿”å›
   521   2              {
   522   3                  delay_ms(10);
   523   3                  while (key4 == 0);
   524   3                  delay_ms(10);
-  525   3                  oled_fill(0x00); // ÇåÆÁ
-  526   3                  return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  525   3                  oled_fill(0x00); // æ¸…å±
+  526   3                  return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   527   3              }
-  528   2              // ¸üĞÂ¹â±êÎ»ÖÃ
+  528   2              // æ›´æ–°å…‰æ ‡ä½ç½®
   529   2              for (i = 0; i < MENU_SIZE; i++)
   530   2              {
   531   3                  if (i + 1 == flag)
-  532   3                      oled_p8x16str(0, i * 2, "->");  // ¹â±êÖ¸Ê¾µ±Ç°Ñ¡ÖĞÏî
+  532   3                      oled_p8x16str(0, i * 2, "->");  // å…‰æ ‡æŒ‡ç¤ºå½“å‰é€‰ä¸­é¡¹
 *** WARNING C188 IN LINE 532 OF ..\USER\Hardware\menu.c: 'parameter 2': value truncated
   533   3                  else
   534   3                      oled_p8x16str(0, i * 2, "  ");
@@ -574,9 +574,9 @@ stmt  level    source
   538          
   539          
   540          //--
-  541          //  @brief      ¶ş¼¶µ÷½ÚËÙ¶È²Ëµ¥
+  541          //  @brief      äºŒçº§è°ƒèŠ‚é€Ÿåº¦èœå•
   542          //  @param      void    
-  543          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  543          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   544          //--
   545          
   546          int Second__Speed_menu(void)
@@ -602,24 +602,24 @@ stmt  level    source
   566   3                  speed=speed-1;
   567   3                  oled_uint16_px8(45,0, speed); 
   568   3              }
-  569   2              if (key4 == 0)  // ·µ»Ø
+  569   2              if (key4 == 0)  // è¿”å›
   570   2              {
   571   3                  delay_ms(10);
   572   3                  while (key4 == 0);
   573   3                  delay_ms(10);
-  574   3                  oled_fill(0x00); // ÇåÆÁ
-  575   3                  return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  574   3                  oled_fill(0x00); // æ¸…å±
+  575   3                  return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   576   3              }
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 10  
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 10  
 
   577   2          }
   578   1      }
   579          
   580          
   581          //--
-  582          //  @brief      ¶ş¼¶ÏÔÊ¾Êı¾İ²Ëµ¥
+  582          //  @brief      äºŒçº§æ˜¾ç¤ºæ•°æ®èœå•
   583          //  @param      void    
-  584          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  584          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   585          //--
   586          
   587          int Show_Val_Menu(void)
@@ -628,20 +628,20 @@ stmt  level    source
   590   1          {
   591   2            NORMALIZATION_TRACKING_ADC(1,1);
   592   2          show_val();
-  593   2              if (key4 == 0)  // ·µ»Ø
+  593   2              if (key4 == 0)  // è¿”å›
   594   2              {
   595   3                  delay_ms(10);
   596   3                  while (key4 == 0);
   597   3                  delay_ms(10);
-  598   3                  oled_fill(0x00); // ÇåÆÁ
-  599   3                  return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  598   3                  oled_fill(0x00); // æ¸…å±
+  599   3                  return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   600   3              }
   601   2          }
   602   1      }
   603          //--
-  604          //  @brief      ¶ş¼¶Æô¶¯²Ëµ¥
+  604          //  @brief      äºŒçº§å¯åŠ¨èœå•
   605          //  @param      void    
-  606          //  @return     0 ÍË³ö¶ş¼¶²Ëµ¥    
+  606          //  @return     0 é€€å‡ºäºŒçº§èœå•    
   607          //--
   608          
   609          int CarStart_Menu(void)
@@ -655,16 +655,16 @@ stmt  level    source
   617   3                  while (key2==0)
   618   3                  {
   619   4                      delay_ms(10);
-  620   4                      return 1;// Ğ¡³µÆô¶¯
+  620   4                      return 1;// å°è½¦å¯åŠ¨
   621   4                  }
   622   3              }      
-  623   2              if (key4 == 0)  // ·µ»Ø
+  623   2              if (key4 == 0)  // è¿”å›
   624   2              {
   625   3                  delay_ms(10);
   626   3                  while (key4 == 0);
   627   3                  delay_ms(10);
-  628   3                  oled_fill(0x00); // ÇåÆÁ
-  629   3                  return 0; // ·µ»ØÑ¡ÔñµÄÑ¡Ïî
+  628   3                  oled_fill(0x00); // æ¸…å±
+  629   3                  return 0; // è¿”å›é€‰æ‹©çš„é€‰é¡¹
   630   3              } 
   631   2          }
   632   1      }
@@ -679,7 +679,7 @@ Module Information          Static   Overlayable
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-C251 COMPILER V5.60.0,  menu                                                               12/05/24  10:59:46  PAGE 11  
+C251 COMPILER V5.60.0,  menu                                                               12/05/24  22:20:15  PAGE 11  
 
   edata size           =        66     ------
   bit size             =    ------     ------

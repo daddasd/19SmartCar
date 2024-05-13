@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Motor                                                              12/05/24  10:53:23  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
 OBJECT MODULE PLACED IN .\Out_File\Motor.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
                     -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
                     -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
                     -r.obj) 
@@ -34,156 +34,160 @@ stmt  level    source
    22          
    23          int16 limit(int16 In,int16 limit)
    24          {
-   25   1        return (In > limit) ? limit : ((In < -limit) ? -limit : In);
-   26   1      }
-   27          
-   28          //--
-   29          //  @brief      µÁª˙PWM≥ı ºªØ
-   30          //  @param      void
-   31          //  @return     void         
+   25   1        if(In>limit&&In>0)
+   26   1          In = limit;
+   27   1        else if(In<-limit&&In<0)
+   28   1          In = -limit;
+   29   1        return In;
+   30   1      }
+   31          
    32          //--
-   33          
-   34          void Motor_Init(void)
-   35          {
-   36   1          pwm_init(MOTOR_L_PWM, 17000,0);
-   37   1          pwm_init(MOTOR_R_PWM, 17000,0);
-   38   1      }
-   39          
-   40          //--
-   41          //  @brief       ‰≥ˆpwm
-   42          //  @param      L_PWM:◊ÛµÁª˙pwm
-   43          //  @param      R_PWM:”“µÁª˙pwm
-   44          //  @return     void         
-   45          //--
-   46          
-   47          void Motor_PWM(int L_PWM,int R_PWM)
-   48          {
-   49   1        if(L_PWM<0)
-   50   1        {
-   51   2          MOTOR_L_DIR=1;
-   52   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
-   53   2        }
-   54   1        else{
-   55   2          MOTOR_L_DIR=0;
-   56   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-C251 COMPILER V5.60.0,  Motor                                                              12/05/24  10:53:23  PAGE 2   
+   33          //  @brief      ÁîµÊú∫PWMÂàùÂßãÂåñ
+   34          //  @param      void
+   35          //  @return     void         
+   36          //--
+   37          
+   38          void Motor_Init(void)
+   39          {
+   40   1          pwm_init(MOTOR_L_PWM, 17000,0);
+   41   1          pwm_init(MOTOR_R_PWM, 17000,0);
+   42   1      }
+   43          
+   44          //--
+   45          //  @brief      ËæìÂá∫pwm
+   46          //  @param      L_PWM:Â∑¶ÁîµÊú∫pwm
+   47          //  @param      R_PWM:Âè≥ÁîµÊú∫pwm
+   48          //  @return     void         
+   49          //--
+   50          
+   51          void Motor_PWM(int L_PWM,int R_PWM)
+   52          {
+   53   1        if(L_PWM<0)
+   54   1        {
+   55   2          MOTOR_L_DIR=1;
+   56   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
+C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 2   
 
    57   2        }
-   58   1        if(R_PWM<0)
-   59   1        {
-   60   2          MOTOR_R_DIR=1;
-   61   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
-   62   2        }
-   63   1        else{
-   64   2          MOTOR_R_DIR=0;
-   65   2          pwm_duty(MOTOR_R_PWM,R_PWM);
+   58   1        else{
+   59   2          MOTOR_L_DIR=0;
+   60   2          pwm_duty(MOTOR_L_PWM,L_PWM);
+   61   2        }
+   62   1        if(R_PWM<0)
+   63   1        {
+   64   2          MOTOR_R_DIR=1;
+   65   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
    66   2        }
-   67   1      }
-   68          
-   69          //--
-   70          //  @brief      µÁª˙pidµ˜Ω⁄
-   71          //  @param      kp,ki.kd
-   72          //  @return     void         
+   67   1        else{
+   68   2          MOTOR_R_DIR=0;
+   69   2          pwm_duty(MOTOR_R_PWM,R_PWM);
+   70   2        }
+   71   1      }
+   72          
    73          //--
-   74          
-   75          void Motor_SET_PID(float Kp,float Ki,float Kd)
-   76          {
-   77   1        Motor_pid.Motor_Target_Value=0;
-   78   1        Motor_pid.Motor_Actual_Value=0;
-   79   1        Motor_pid.Motor_err=0;
-   80   1        Motor_pid.Motor_err_last=0;
-   81   1        Motor_pid.Motor_err_last2=0;
-   82   1        Motor_pid.Motor_Kp=Kp;
-   83   1        Motor_pid.Motor_Ki=Ki;
-   84   1        Motor_pid.Motor_Kd=Kd;
-   85   1        Motor_pid.Motor_Out_Value=0;
-   86   1        Motor_pid.Motor_integral=0;
-   87   1      }
-   88          
-   89          /*»Îø⁄£∫NEW_DATA –¬≤…—˘÷µ
-   90                 OLD_DATA …œ¥Œ¬À≤®Ω·π˚
-   91                 k        ¬À≤®œµ ˝(0~255)(¥˙±Ì‘⁄¬À≤®Ω·π˚÷–µƒ»®÷ÿ)
-   92            ≥ˆø⁄£∫         ±æ¥Œ¬À≤®Ω·π˚
-   93           */
-   94           char filter_1(char NEW_DATA,char OLD_DATA,char k)
-   95          {
-   96   1          int result;
-   97   1          if(NEW_DATA<OLD_DATA)
-   98   1          {
-   99   2              result=OLD_DATA-NEW_DATA;
-  100   2              result=result*k;
-  101   2              result=result+128;//+128 «Œ™¡ÀÀƒ…´ŒÂ»Î
-  102   2              result=result/256;
-  103   2              result=OLD_DATA-result;
-  104   2          }
-  105   1          else if(NEW_DATA>OLD_DATA)
-  106   1          {
-  107   2              result=NEW_DATA-OLD_DATA;
-  108   2              result=result*k;
-  109   2              result=result+128;//+128 «Œ™¡ÀÀƒ…´ŒÂ»Î
-  110   2              result=result/256;
-  111   2              result=OLD_DATA-result;
-  112   2          }
-  113   1          else result=OLD_DATA;
-  114   1          return((char)result);
-  115   1      }
-  116          
-  117          
-  118          //--
-  119          //  @brief      ÀŸ∂»ª∑
-  120          //  @param      Target_Value: ƒø±ÍÀŸ∂»
-  121          //  @param      Actual_Value:  µº ÀŸ∂»      
-  122          //  @return     ÀŸ∂»ª∑ ‰≥ˆ        
-C251 COMPILER V5.60.0,  Motor                                                              12/05/24  10:53:23  PAGE 3   
+   74          //  @brief      ÁîµÊú∫pidË∞ÉËäÇ
+   75          //  @param      kp,ki.kd
+   76          //  @return     void         
+   77          //--
+   78          
+   79          void Motor_SET_PID(float Kp,float Ki,float Kd)
+   80          {
+   81   1        Motor_pid.Motor_Target_Value=0;
+   82   1        Motor_pid.Motor_Actual_Value=0;
+   83   1        Motor_pid.Motor_err=0;
+   84   1        Motor_pid.Motor_err_last=0;
+   85   1        Motor_pid.Motor_err_last2=0;
+   86   1        Motor_pid.Motor_Kp=Kp;
+   87   1        Motor_pid.Motor_Ki=Ki;
+   88   1        Motor_pid.Motor_Kd=Kd;
+   89   1        Motor_pid.Motor_Out_Value=0;
+   90   1        Motor_pid.Motor_integral=0;
+   91   1      }
+   92          
+   93          /*ÂÖ•Âè£ÔºöNEW_DATA Êñ∞ÈááÊ†∑ÂÄº
+   94                 OLD_DATA ‰∏äÊ¨°Êª§Ê≥¢ÁªìÊûú
+   95                 k        Êª§Ê≥¢Á≥ªÊï∞(0~255)(‰ª£Ë°®Âú®Êª§Ê≥¢ÁªìÊûú‰∏≠ÁöÑÊùÉÈáç)
+   96            Âá∫Âè£Ôºö         Êú¨Ê¨°Êª§Ê≥¢ÁªìÊûú
+   97           */
+   98           char filter_1(char NEW_DATA,char OLD_DATA,char k)
+   99          {
+  100   1          int result;
+  101   1          if(NEW_DATA<OLD_DATA)
+  102   1          {
+  103   2              result=OLD_DATA-NEW_DATA;
+  104   2              result=result*k;
+  105   2              result=result+128;//+128ÊòØ‰∏∫‰∫ÜÂõõËâ≤‰∫îÂÖ•
+  106   2              result=result/256;
+  107   2              result=OLD_DATA-result;
+  108   2          }
+  109   1          else if(NEW_DATA>OLD_DATA)
+  110   1          {
+  111   2              result=NEW_DATA-OLD_DATA;
+  112   2              result=result*k;
+  113   2              result=result+128;//+128ÊòØ‰∏∫‰∫ÜÂõõËâ≤‰∫îÂÖ•
+  114   2              result=result/256;
+  115   2              result=OLD_DATA-result;
+  116   2          }
+  117   1          else result=OLD_DATA;
+  118   1          return((char)result);
+  119   1      }
+  120          
+  121          
+  122          //--
+C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 3   
 
-  123          //--
-  124          int LSpeed_pid_Out(int Target_Value,int Actual_Value)
-  125          {
-  126   1        int error = 0;
-  127   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  128   1        error = Target_Value - Actual_Value ;
-  129   1        P_out = Motor_P * (error - last_err);
-  130   1        I_out = Motor_I * error;
-  131   1        if (I_out > 2000)
-  132   1          I_out = 2000;
-  133   1        if (I_out < -2000)
-  134   1          I_out = -2000;
-  135   1        out = P_out + I_out;
-  136   1        speed_out += out;
-  137   1        last_err = error;
-  138   1        //Speed_Ring = speed_out;
-  139   1        return (int)speed_out;
-  140   1      }
-  141          
-  142          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
-  143          {
-  144   1        int error = 0;
-  145   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  146   1        error = Target_Value - Actual_Value;
-  147   1        P_out = Motor_P * (error - last_err);
-  148   1        I_out = Motor_I * error;
-  149   1        if (I_out > 2000)
-  150   1          I_out = 2000;
-  151   1        if (I_out < -2000)
-  152   1          I_out = -2000;
-  153   1        out = P_out + I_out;
-  154   1        speed_out += out;
-  155   1        last_err = error;
-  156   1        //Speed_Ring = speed_out;
-  157   1        return (int)speed_out;
-  158   1      }
-  159          
-  160          void Buzzer(int time)
-  161          {
-  162   1        Buzzer_ON;
-  163   1        delay_ms(time);
-  164   1        Buzzer_OFF;
-  165   1      }
+  123          //  @brief      ÈÄüÂ∫¶ÁéØ
+  124          //  @param      Target_Value: ÁõÆÊ†áÈÄüÂ∫¶
+  125          //  @param      Actual_Value: ÂÆûÈôÖÈÄüÂ∫¶      
+  126          //  @return     ÈÄüÂ∫¶ÁéØËæìÂá∫        
+  127          //--
+  128          int LSpeed_pid_Out(int Target_Value,int Actual_Value)
+  129          {
+  130   1        int error = 0;
+  131   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  132   1        error = Target_Value - Actual_Value ;
+  133   1        P_out = Motor_P * (error - last_err);
+  134   1        I_out = Motor_I * error;
+  135   1        if (I_out > 2000)
+  136   1          I_out = 2000;
+  137   1        if (I_out < -2000)
+  138   1          I_out = -2000;
+  139   1        out = P_out + I_out;
+  140   1        speed_out += out;
+  141   1        last_err = error;
+  142   1        //Speed_Ring = speed_out;
+  143   1        return (int)speed_out;
+  144   1      }
+  145          
+  146          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+  147          {
+  148   1        int error = 0;
+  149   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  150   1        error = Target_Value - Actual_Value;
+  151   1        P_out = Motor_P * (error - last_err);
+  152   1        I_out = Motor_I * error;
+  153   1        if (I_out > 2000)
+  154   1          I_out = 2000;
+  155   1        if (I_out < -2000)
+  156   1          I_out = -2000;
+  157   1        out = P_out + I_out;
+  158   1        speed_out += out;
+  159   1        last_err = error;
+  160   1        //Speed_Ring = speed_out;
+  161   1        return (int)speed_out;
+  162   1      }
+  163          
+  164          void Buzzer(int time)
+  165          {
+  166   1        Buzzer_ON;
+  167   1        delay_ms(time);
+  168   1        Buzzer_OFF;
+  169   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       875     ------
+  code size            =       901     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -199,6 +203,8 @@ Module Information          Static   Overlayable
   huge data size       =    ------     ------
   const size           =    ------     ------
   hconst size          =       104     ------
+C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 4   
+
 End of Module Information.
 
 

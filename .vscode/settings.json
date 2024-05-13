@@ -27,5 +27,6 @@
         "board.h": "c",
         "INTRINS.H": "cpp",
         "trackelement.h": "c"
-    }
+    },
+    "files.autoGuessEncoding": true
 }

@@ -13,34 +13,34 @@ int shizi_flag=0;
 int ring_flag=-1;
 long bmq_jifen=0;
 double angle_jifen=0;
-int Track_flag=0; //Õı³£Ñ­¼£
-int set_speed = 0; //ÔÚÈüµÀÉÏ²»¶Ï¸ü¸ÄËÙ¶È
+int Track_flag=0; //æ­£å¸¸å¾ªè¿¹
+int set_speed = 0; //åœ¨èµ›é“ä¸Šä¸æ–­æ›´æ”¹é€Ÿåº¦
 
 int RING_FLAG1=0;
 int RING_FLAG2=0;
 int RING_FLAG3=0;
 int RING_FLAG4=0;
 
-int ANGLE_FLAG=0; //½Ç¶È»ı·Ö±êÖ¾
-double Angle4=0;  //½Ç¶È»ı·Ö
-int DISTANCE_FLAG=0;//¾àÀë»ı·Ö±êÖ¾
-long Distance=0;//¾àÀë»ı·Ö
+int ANGLE_FLAG=0; //è§’åº¦ç§¯åˆ†æ ‡å¿—
+double Angle4=0;  //è§’åº¦ç§¯åˆ†
+int DISTANCE_FLAG=0;//è·ç¦»ç§¯åˆ†æ ‡å¿—
+long Distance=0;//è·ç¦»ç§¯åˆ†
 
-int RAngle_Flag = 0; //90¶È±êÖ¾Î»
+int RAngle_Flag = 0; //90åº¦æ ‡å¿—ä½
 
-/*Íâ»·Óëµç»úpidÓëËÙ¶È¸Ä±äµÄ²ÎÊı*/
+/*å¤–ç¯ä¸ç”µæœºpidä¸é€Ÿåº¦æ”¹å˜çš„å‚æ•°*/
 
 double Sub_wh_p = 20;
 double Sub_wh_d = 10;
 double Sub_motor_p = 0;
 double Sub_motor_i = 0;
 int    Sub_speed = -10;
-/*½Ç¶È»·²ÎÊı*/
+/*è§’åº¦ç¯å‚æ•°*/
 float Angle_P = 70;
 float Angle_I = 0.4;
 float Angle_D = 40;
 
-/*²»Í¬ÔªËØËÙ¶È¿ØÖÆ*/
+/*ä¸åŒå…ƒç´ é€Ÿåº¦æ§åˆ¶*/
 int Speed_Plan1 = 0;
 
 int Err_speed = 0;
@@ -53,13 +53,13 @@ void Distace(int flag)
 }
 
 /**
-*  @brief      Ê®×ÖÂ·¿Ú
+*  @brief      åå­—è·¯å£
 *  @param      void
 *  @return     void
 **/
 void Crossroad(void)
 {
-	 if(L1_NOR_ADC>40&&L2_NOR_ADC>40&&R2_NOR_ADC>40&&R1_NOR_ADC>40||shizi_flag==-1)//Ê®×ÖÂ·¿Ú
+	 if(L1_NOR_ADC>40&&L2_NOR_ADC>40&&R2_NOR_ADC>40&&R1_NOR_ADC>40||shizi_flag==-1)//åå­—è·¯å£
 	 {
 		shizi_flag=-1;
 		Track_flag=0;
@@ -72,21 +72,21 @@ void Crossroad(void)
 	 	Motor_PWM(2000,2000);
 	 }
    else
-		 Track_flag=1;//Õı³£Ñ­¼£
+		 Track_flag=1;//æ­£å¸¸å¾ªè¿¹
 }
 
 
 /**
-*  @brief      Áù±ß»·µº
-*  @param      ½Ç¶È
+*  @brief      å…­è¾¹ç¯å²›
+*  @param      è§’åº¦
 *  @return     void       
 **/
 //void Roundabout(float angle)
 //{
 //	 static int bmq_flag=0,angle_flag=0,angle2=0,yu_flag=0,angle_flag2=0,status=0;
-//	 if(L1_NOR_ADC>100&&R1_NOR_ADC>55&&R2_NOR_ADC<15&&L2_NOR_ADC<15||ring_flag==0||ring_flag==1)//Áù±ß»·µº
+//	 if(L1_NOR_ADC>100&&R1_NOR_ADC>55&&R2_NOR_ADC<15&&L2_NOR_ADC<15||ring_flag==0||ring_flag==1)//å…­è¾¹ç¯å²›
 //	 {
-//		 if(status==0)  //Ô¤½øÈë»·µº
+//		 if(status==0)  //é¢„è¿›å…¥ç¯å²›
 //			if(bmq_jifen<4524&&bmq_flag==0)
 //			{
 //				bmq_jifen+=(R_Pulse+L_Pulse)/2;
@@ -98,24 +98,24 @@ void Crossroad(void)
 //			{
 //				status=1; 
 //				bmq_jifen=0;
-//				bmq_flag=1; //±àÂëÆ÷Í£Ö¹»ı·Ö
-//				angle_flag2=2;//½øÈë»·µº´ò¹Ì¶¨½Ç¶È
+//				bmq_flag=1; //ç¼–ç å™¨åœæ­¢ç§¯åˆ†
+//				angle_flag2=2;//è¿›å…¥ç¯å²›æ‰“å›ºå®šè§’åº¦
 //			}
-//		else if(status==1)//½øÈë»·µº
+//		else if(status==1)//è¿›å…¥ç¯å²›
 //		{	
-//			if(angle_flag2==2&&angle_flag==0)//×ª40¶È
+//			if(angle_flag2==2&&angle_flag==0)//è½¬40åº¦
 //			{
 //				if (Angle_Ring(45, angle1, Angle_P, Angle_I, Angle_D))
 //				{
-//					angle1=0;  //½Ç¶È»ı·ÖÇåÁã
-//					yu_flag=3;//±àÂëÆ÷¿ªÆô»ı·Ö
-//					angle_flag2=0;//ÍË³ö½Ç¶È»ı·Ö
-//					angle_flag=1;//Í£Ö¹ÍÓÂİÒÇ»ı·Ö
+//					angle1=0;  //è§’åº¦ç§¯åˆ†æ¸…é›¶
+//					yu_flag=3;//ç¼–ç å™¨å¼€å¯ç§¯åˆ†
+//					angle_flag2=0;//é€€å‡ºè§’åº¦ç§¯åˆ†
+//					angle_flag=1;//åœæ­¢é™€èºä»ªç§¯åˆ†
 //				}
 //				else
 //						angle1+=(Get_Angle()/7387)+0.0001;
 //			}
-//			if(yu_flag==3) //½øÈëÔ²»·ĞĞÊ»Ò»¶Î¾àÀë¿ªÊ¼Õı³£Ñ­¼£
+//			if(yu_flag==3) //è¿›å…¥åœ†ç¯è¡Œé©¶ä¸€æ®µè·ç¦»å¼€å§‹æ­£å¸¸å¾ªè¿¹
 //			{
 //				if(bmq_jifen<1024&&yu_flag==3)
 //				{
@@ -125,16 +125,16 @@ void Crossroad(void)
 //				else
 //				{
 //					bmq_jifen=0;
-//					yu_flag=0; //±àÂëÆ÷Í£Ö¹»ı·Ö
-//					ring_flag=4;//½øÈëÔ²»·½áÊø
+//					yu_flag=0; //ç¼–ç å™¨åœæ­¢ç§¯åˆ†
+//					ring_flag=4;//è¿›å…¥åœ†ç¯ç»“æŸ
 //					status=3;
-//					Track_flag=1;//Õı³£Ñ­¼£
+//					Track_flag=1;//æ­£å¸¸å¾ªè¿¹
 //				}			
 //			}
 //		}
-//		else if(status==3) //³ö»·µº
+//		else if(status==3) //å‡ºç¯å²›
 //		{
-//			if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//³öÁù±ß»·µº
+//			if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//å‡ºå…­è¾¹ç¯å²›
 //			{
 //				if(bmq_jifen<1524&&status==3)
 //				{
@@ -145,7 +145,7 @@ void Crossroad(void)
 //				{
 //					bmq_jifen=0;
 //					status=4;
-//					Track_flag=1;//Õı³£Ñ­¼£
+//					Track_flag=1;//æ­£å¸¸å¾ªè¿¹
 //				}		
 //			}
 //		}
@@ -156,7 +156,7 @@ void Crossroad(void)
 //		 Track_flag=1;
 //}
 /**
- * @brief ¸ù¾İ±êÖ¾Î»¸ø²»Í¬ËÙ¶È
+ * @brief æ ¹æ®æ ‡å¿—ä½ç»™ä¸åŒé€Ÿåº¦
  * 
  * @param speed_flag 
  */
@@ -165,19 +165,19 @@ void Speed_Plan(int speed_flag)
 	switch (speed_flag)
 	{
 	case 1:
-		Speed_Plan1 = 0;  //Õı³£Ñ­¼£ËÙ¶È
+		Speed_Plan1 = 0;  //æ­£å¸¸å¾ªè¿¹é€Ÿåº¦
 		break;
 	case 2:
-		Speed_Plan1 = -speed; //Ö±½ÇºóËÙ¶ÈÇåÁã
+		Speed_Plan1 = -speed; //ç›´è§’åé€Ÿåº¦æ¸…é›¶
 		break;
 	case 3:
-		Speed_Plan1 = -speed*0.30; // »·µºÄÚËÙ¶È£¬ÎªÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®70
+		Speed_Plan1 = -speed*0.30; // ç¯å²›å†…é€Ÿåº¦ï¼Œä¸ºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹70
 		break;
 	case 4:
-		Speed_Plan1 = -speed * 0.5; // Ô¤½øÔ²»·£¬ÎªÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®50;
+		Speed_Plan1 = -speed * 0.5; // é¢„è¿›åœ†ç¯ï¼Œä¸ºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹50;
 		break;
 	case 5:
-		Speed_Plan1 = speed * 0.4; // Ö±µÀ¼ÓËÙ £¬´óÓÚÕı³£ËÙ¶ÈµÄ°Ù·ÖÖ®40;
+		Speed_Plan1 = speed * 0.4; // ç›´é“åŠ é€Ÿ ï¼Œå¤§äºæ­£å¸¸é€Ÿåº¦çš„ç™¾åˆ†ä¹‹40;
 		break;
 	default:
 		break;
@@ -187,7 +187,7 @@ void Speed_Plan(int speed_flag)
 void Sub_Pid(float error)
 {
     float err = error;
-	if(err>20) //Æ«ÀëÈüµÀ×î´ó
+	if(err>20) //åç¦»èµ›é“æœ€å¤§
 	{
 		Sub_wh_p = 20;
 		Sub_wh_d = 10;
@@ -198,7 +198,7 @@ void Sub_Pid(float error)
 }
 
 /**
-*  @brief      »ù´¡Ñ­¼£
+*  @brief      åŸºç¡€å¾ªè¿¹
 *  @param      void
 *  @return     void        
 **/
@@ -210,27 +210,27 @@ void Tracking(int Set_speed)
 	dir_out=DirControl();
 	if(count==10)
 	{
-		Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
-		Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // ¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
+		Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //å‡æˆ–åŠ ä¸€ä¸ªæ–¹å‘ç¯çš„è¾“å‡º
+		Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // å‡æˆ–åŠ ä¸€ä¸ªæ–¹å‘ç¯çš„è¾“å‡º
 		count=0;
 	}
 		
 		Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
 }
 /**
- * @brief ¸ù¾İ²»Í¬ËÙ¶È¸ø±êÖ¾Î»
+ * @brief æ ¹æ®ä¸åŒé€Ÿåº¦ç»™æ ‡å¿—ä½
  * 
  */
 void Error_Speed(void)
 {
 	if(Inductance_Error<40)
-		Err_speed = speed * 0.10; //Ìá°Ù·ÖÖ®30µÄËÙ¶È
+		Err_speed = speed * 0.10; //æç™¾åˆ†ä¹‹30çš„é€Ÿåº¦
 	else if(Inductance_Error >=40 && Inductance_Error <=55)
-		Err_speed = speed * 0.15 ;//Ìá°Ù·ÖÖ®20µÄËÙ¶È
+		Err_speed = speed * 0.15 ;//æç™¾åˆ†ä¹‹20çš„é€Ÿåº¦
 	else if(Inductance_Error > 55 && Inductance_Error <=65)
-		Err_speed = -speed * 0.65;//½µµÍ°Ù·ÖÖ®45µÄËÙ¶È
+		Err_speed = -speed * 0.65;//é™ä½ç™¾åˆ†ä¹‹45çš„é€Ÿåº¦
 	else if(Inductance_Error > 65 && Inductance_Error <=75)
-		Err_speed = -speed * 0.75;//½µµÍ°Ù·ÖÖ®55µÄËÙ¶È
+		Err_speed = -speed * 0.75;//é™ä½ç™¾åˆ†ä¹‹55çš„é€Ÿåº¦
 	else if(Inductance_Error >75)
-		Err_speed = -speed * 0.77;//½µµÍ°Ù·ÖÖ®°ÙµÄËÙ¶È
+		Err_speed = -speed * 0.77;//é™ä½ç™¾åˆ†ä¹‹ç™¾çš„é€Ÿåº¦
 }
