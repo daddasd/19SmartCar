@@ -211,11 +211,11 @@ void Tracking(int Set_speed)
 	if(count==10)
 	{
 		Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
-		Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
+		Rpwm=RSpeed_pid_Out(Set_speed,Sum_Pulse); // 减或加一个方向环的输出
 		count=0;
 	}
-		
-		Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+	Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+	//Motor_PWM(Lpwm,Rpwm);
 }
 /**
  * @brief 根据不同速度给标志位

@@ -1,7 +1,22 @@
 Build target 'STC32F12K'
-compiling encoder.c...
+compiling direction.c...
+..\USER\Hardware\direction.c(105): warning C47: 'target': unreferenced parameter
+..\USER\Hardware\direction.c(105): warning C47: 'p': unreferenced parameter
+..\USER\Hardware\direction.c(105): warning C47: 'd': unreferenced parameter
+..\USER\Hardware\direction.c(107): warning C47: 'error': unreferenced local variable
+..\USER\Hardware\direction.c(109): warning C47: 'Output': unreferenced local variable
+..\USER\Hardware\direction.c(109): warning C47: 'Angle_Speed': unreferenced local variable
+..\USER\Hardware\direction.c(110): warning C47: 'error_derivative': unreferenced local variable
+..\USER\Hardware\direction.c(125): warning C47: 'Angle_Speed': unreferenced local variable
+..\USER\Hardware\direction.c(164): warning C57: parameter 1: different from declaration
+..\USER\Hardware\direction.c(113): warning C135: 'Angle_Ring': no return value
+..\USER\Hardware\direction.c(113): warning C135: 'Angle_Ring': no return value
+..\USER\Hardware\direction.c(134): warning C135: 'Angle_Ring1': no return value
+..\USER\Hardware\direction.c(134): warning C135: 'Angle_Ring1': no return value
+..\USER\Hardware\direction.c(160): warning C135: 'Angle_Speed_Ring': no return value
+..\USER\Hardware\direction.c(160): warning C135: 'Angle_Speed_Ring': no return value
 linking...
-Program Size: data=8.1 edata+hdata=4047 xdata=0 const=1659 code=36049
+Program Size: data=8.1 edata+hdata=4058 xdata=0 const=1659 code=36381
 creating hex file from ".\Out_File\SEEKFREE"...
-".\Out_File\SEEKFREE" - 0 Error(s), 0 Warning(s).
-Build Time Elapsed:  00:00:01
+".\Out_File\SEEKFREE" - 0 Error(s), 15 Warning(s).
+Build Time Elapsed:  00:00:00

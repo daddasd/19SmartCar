@@ -12,8 +12,11 @@
 
 #define MOTOR_MAX  8000
 
-float Motor_P = 260;
-float Motor_I = 1 ;
+float Motor_P = 135;
+float Motor_I = 12 ;
+
+float Motor_RP = 155;
+float Motor_RI = 18;
 float Speed_Ring = 0;
 
 
@@ -50,6 +53,8 @@ void Motor_Init(void)
 
 void Motor_PWM(int L_PWM,int R_PWM)
 {
+	L_PWM = limit(L_PWM, 9500);
+	R_PWM = limit(R_PWM, 9500);
 	if(L_PWM<0)
 	{
 		MOTOR_L_DIR=1;
@@ -90,34 +95,6 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 	Motor_pid.Motor_integral=0;
 }
 
-/*入口：NEW_DATA 新采样值
-       OLD_DATA 上次滤波结果
-       k        滤波系数(0~255)(代表在滤波结果中的权重)
-  出口：         本次滤波结果
- */
- char filter_1(char NEW_DATA,char OLD_DATA,char k)
-{
-    int result;
-    if(NEW_DATA<OLD_DATA)
-    {
-        result=OLD_DATA-NEW_DATA;
-        result=result*k;
-        result=result+128;//+128是为了四色五入
-        result=result/256;
-        result=OLD_DATA-result;
-    }
-    else if(NEW_DATA>OLD_DATA)
-    {
-        result=NEW_DATA-OLD_DATA;
-        result=result*k;
-        result=result+128;//+128是为了四色五入
-        result=result/256;
-        result=OLD_DATA-result;
-    }
-    else result=OLD_DATA;
-    return((char)result);
-}
-
 
 //--
 //  @brief      速度环
@@ -148,8 +125,8 @@ int RSpeed_pid_Out(int Target_Value, int Actual_Value)
 	int error = 0;
 	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
 	error = Target_Value - Actual_Value;
-	P_out = Motor_P * (error - last_err);
-	I_out = Motor_I * error;
+	P_out = Motor_RP * (error - last_err);
+	I_out = Motor_RI * error;
 	if (I_out > 2000)
 		I_out = 2000;
 	if (I_out < -2000)

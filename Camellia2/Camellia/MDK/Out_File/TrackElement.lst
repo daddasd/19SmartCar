@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 1   
+C251 COMPILER V5.60.0,  TrackElement                                                       16/05/24  18:13:54  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
@@ -66,7 +66,7 @@ stmt  level    source
    54          
    55          /**
    56          *  @brief      十字路口
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 2   
+C251 COMPILER V5.60.0,  TrackElement                                                       16/05/24  18:13:54  PAGE 2   
 
    57          *  @param      void
    58          *  @return     void
@@ -134,7 +134,7 @@ stmt  level    source
   119          //      {
   120          //        if(bmq_jifen<1024&&yu_flag==3)
   121          //        {
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 3   
+C251 COMPILER V5.60.0,  TrackElement                                                       16/05/24  18:13:54  PAGE 3   
 
   122          //          bmq_jifen+=(R_Pulse+L_Pulse)/2;
   123          //          Motor_PWM(2000,2000);
@@ -202,7 +202,7 @@ stmt  level    source
   185   1      }
   186          
   187          void Sub_Pid(float error)
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 4   
+C251 COMPILER V5.60.0,  TrackElement                                                       16/05/24  18:13:54  PAGE 4   
 
   188          {
   189   1          float err = error;
@@ -230,11 +230,11 @@ stmt  level    source
   211   1        if(count==10)
   212   1        {
   213   2          Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
-  214   2          Rpwm=LSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
+  214   2          Rpwm=RSpeed_pid_Out(Set_speed,Sum_Pulse); // 减或加一个方向环的输出
   215   2          count=0;
   216   2        }
-  217   1          
-  218   1          Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+  217   1        Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+  218   1        //Motor_PWM(Lpwm,Rpwm);
   219   1      }
   220          /**
   221           * @brief 根据不同速度给标志位
@@ -271,7 +271,7 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  TrackElement                                                       12/05/24  22:20:14  PAGE 5   
+C251 COMPILER V5.60.0,  TrackElement                                                       16/05/24  18:13:54  PAGE 5   
 
   const size           =    ------     ------
   hconst size          =       202     ------

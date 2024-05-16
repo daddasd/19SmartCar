@@ -34,12 +34,13 @@ int L_Encoder_Pulse(void)
 {
 	if (DIL == 0)
 	{
-		L_Pulse = ctimer_count_read(Encoder_L);
+		L_Pulse =-ctimer_count_read(Encoder_L);
 	}
 	else
 	{
-		L_Pulse = ctimer_count_read(Encoder_L);
+		L_Pulse =ctimer_count_read(Encoder_L);
 	}
+	ctimer_count_clean(Encoder_L);
 	return L_Pulse;
 }
 
@@ -56,8 +57,9 @@ int R_Encoder_Pulse(void)
 	}
 	else
 	{
-		R_Pulse = ctimer_count_read(Encoder_R);
+		R_Pulse =-ctimer_count_read(Encoder_R);
 	}
+	ctimer_count_clean(Encoder_R);
 	return R_Pulse;
 }
 
@@ -117,9 +119,9 @@ void TM4_Isr() interrupt 20
 	if (Car_Start_Flag)
 	{
 		mpu6050_get_gyro();
-		L_Pulse = L_Encoder_Pulse();
-		R_Pulse = R_Encoder_Pulse();
-		// NORMALIZATION_TRACKING_ADC(1, 1);
+		L_Pulse = L_Encoder_Pulse()*0.7;
+		R_Pulse = R_Encoder_Pulse()*0.7;
+		NORMALIZATION_TRACKING_ADC(1,1);
 		// Roundabout();
 		// if(Track_flag)
 		// Right_Angle();
@@ -131,15 +133,19 @@ void TM4_Isr() interrupt 20
 		//Car_Distance(2024);
 		//Angle_Ring1(90, 180, 1080);
 
-		Angle_Ring1(90, 1.65,5);	
+		//Angle_Ring1(90, 0.7,3);	
 		//		L = L_Pulse;
 		//		R = R_Pulse;
 		//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
 		//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
 		// Motor_PWM(nh_out, -nh_out);
-		//	Tracking(speed+Err_speed);
-		ctimer_count_clean(Encoder_L);
-		ctimer_count_clean(Encoder_R);
-		TIM4_CLEAR_FLAG; //????锟斤拷???
+		// OUT1 = LSpeed_pid_Out(20, L_Pulse); // 减或加一个方向环的输出
+		//OUT2 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
+		//OUT1=nh_Turn_Out(-10, Nh_P, Nh_D);
+		//Motor_PWM(OUT1,-OUT1);
+		//dir_out=DirControl();
+
+		Tracking(15);
+		TIM4_CLEAR_FLAG;
 	}
 }

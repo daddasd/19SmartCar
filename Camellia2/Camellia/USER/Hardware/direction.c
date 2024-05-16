@@ -8,13 +8,14 @@
 #include "myconfig.h"
 
 #define out_max 20000
-#define Angle_MAX 35-00
+#define Angle_MAX 3500
 
-float Nh_P = 180;  // 0.5
-float Nh_D = 1.9; // 4.1
-float Wh_P = 90;
-float Wh_D = 320;
+float Nh_P = 24;  // 0.5
+float Nh_D = 64; // 4.1
+float Wh_P = 10.3;
+float Wh_D = 0;
 float gyro_z3 = 0;
+int wh = 0;
 
 int Speed_Ring_Flag = 0;
 
@@ -43,7 +44,7 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
   last_error = error;
 
   Output = limit(Output, out_max);
-  return (int)Output;
+  return Output;
 }
 
 /**
@@ -54,21 +55,23 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
  * @param dir_i 
  * @return int  
  */
-int nh_Turn_Out(int err, float dir_p, float dir_i)
+int nh_Turn_Out(float err, float dir_p, float dir_i)
 {
-  int error1 = 0;
-  static int last_err = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = (int)(err - mpu6050_gyro_z / 65.6);
-  P_out = dir_p * (error1 - last_err);
-  I_out = dir_i * error1;
-  if (I_out >= 2000)
-    I_out = 2000;
-  else if (I_out <= -2000)
-    I_out = -2000;
-  last_err = error1;
-  out += P_out + I_out;
-  out=limit(out, 25000);
-  return out;
+  float error;
+  static float last_error = 0;
+  float Output;
+  float error_derivative;
+  // ����λ�����
+  error = err - mpu6050_gyro_z / 65.6;
+  // ����λ�����仯��
+  error_derivative = error - last_error;
+  // ����PD�����������
+  Output = (int)(error * dir_p + error_derivative * dir_i);
+  // ������һʱ�̵�λ�����
+  last_error = error;
+  // ����������޷�
+  Output = limit(Output, out_max);
+  return (int)Output;
 }
 
 /**
@@ -80,13 +83,15 @@ int DirControl(void)
 {
   static int count = 0;
   static int wh_out = 0;
+  long nh = 0;
   if (count == 3)
   {
-    wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+    wh = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);//缩小十倍
     count = 0;
   }
   count++;
-  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+  nh = limit(nh_Turn_Out(wh, Nh_P, Nh_D), 9500);
+  return (int)nh;
 }
 
 /**
@@ -180,25 +185,25 @@ int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
  * @param L_Distanc 
  * @param R_Distance 
  */
-int Car_Distance(int Distance)
-{
-  static int bmq_jifen,flag =1;
-  bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
-  if (bmq_jifen<=Distance)
-  {
-    //LSpeed_pid_Out(20, L_Pulse);
-    //RSpeed_pid_Out(20, R_Pulse);
-    Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
-  }
-  else if(bmq_jifen >Distance)
-  {
-    if(Angle_Ring(90, 25, 1)==1)
-    {
-      bmq_jifen = 0;
-      L_Pulse = 0;
-      R_Pulse=0;
-      gyro_z3 = 0;
-    }
-    return 1;
-  }
-}
+// int Car_Distance(int Distance)
+// {
+//   static int bmq_jifen,flag =1;
+//   bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
+//   if (bmq_jifen<=Distance)
+//   {
+//     //LSpeed_pid_Out(20, L_Pulse);
+//     //RSpeed_pid_Out(20, R_Pulse);
+//     Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
+//   }
+//   else if(bmq_jifen >Distance)
+//   {
+//     if(Angle_Ring(90, 25, 1)==1)
+//     {
+//       bmq_jifen = 0;
+//       L_Pulse = 0;
+//       R_Pulse=0;
+//       gyro_z3 = 0;
+//     }
+//     return 1;
+//   }
+// }
