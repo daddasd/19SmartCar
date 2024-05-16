@@ -12,11 +12,11 @@
 
 #define MOTOR_MAX  8000
 
-float Motor_P = 135;
-float Motor_I = 12 ;
+float Motor_P = 95;
+float Motor_I = 10 ;
 
-float Motor_RP = 155;
-float Motor_RI = 18;
+float Motor_RP = 115;
+float Motor_RI = 16;
 float Speed_Ring = 0;
 
 
@@ -114,9 +114,10 @@ int LSpeed_pid_Out(int Target_Value,int Actual_Value)
 	if (I_out < -2000)
 		I_out = -2000;
 	out = P_out + I_out;
-	speed_out += out;
+	speed_out = out;
 	last_err = error;
 	//Speed_Ring = speed_out;
+	speed_out=limit(speed_out, 7500);
 	return (int)speed_out;
 }
 
@@ -132,10 +133,25 @@ int RSpeed_pid_Out(int Target_Value, int Actual_Value)
 	if (I_out < -2000)
 		I_out = -2000;
 	out = P_out + I_out;
-	speed_out += out;
+	speed_out = out;
 	last_err = error;
 	//Speed_Ring = speed_out;
+	speed_out = limit(speed_out, 7500);
 	return (int)speed_out;
+}
+
+int Speed_pid_Out(int Target_Value, int Actual_Value)
+{
+	int out, Error;
+	static int speed_jifen = 0;
+	Error = Target_Value - Actual_Value;
+	speed_jifen += Error;
+	if (speed_jifen > 2000)
+		speed_jifen = 2000;
+	if (speed_jifen < -2000)
+		speed_jifen = -2000;
+	out = (int)(Error * Motor_P + speed_jifen * Motor_I);
+	return out;
 }
 
 void Buzzer(int time)

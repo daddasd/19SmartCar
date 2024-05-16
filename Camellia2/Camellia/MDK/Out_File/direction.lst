@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  direction                                                          16/05/24  18:25:53  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          16/05/24  20:31:44  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
 OBJECT MODULE PLACED IN .\Out_File\direction.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
                     -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
                     -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
                     -ile\direction.obj) 
@@ -22,229 +22,230 @@ stmt  level    source
    10          #define out_max 20000
    11          #define Angle_MAX 3500
    12          
-   13          float Nh_P = 24;  // 0.5
-   14          float Nh_D = 64; // 4.1
-   15          float Wh_P = 10.3;
-   16          float Wh_D = 0;
-   17          float gyro_z3 = 0;
-   18          int wh = 0;
-   19          
-   20          int Speed_Ring_Flag = 0;
+   13          
+   14          
+   15          float Nh_P = 0.38;  // 0.5
+   16          float Nh_D = 0.09;  // 4.1
+   17          float Wh_P = 90;
+   18          float Wh_D = 40;
+   19          float gyro_z3 = 0;
+   20          int wh = 0;
    21          
-   22          /**
-   23           * @brief 外环
-   24           * 
-   25           * @param chazhi 电感差值PD控制
-   26           * @param dir_p  KP
-   27           * @param dir_d  KD
-   28           * @return int   外环返回值
-   29           */
-   30          
-   31          int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
-   32          {
-   33   1        float error;
-   34   1        static float last_error = 0;
-   35   1        float Output;
-   36   1        float error_derivative;
-   37   1      
-   38   1        error = chazhi;
+   22          int Speed_Ring_Flag = 0;
+   23          
+   24          /**
+   25           * @brief 外环
+   26           * 
+   27           * @param chazhi 电感差值PD控制
+   28           * @param dir_p  KP
+   29           * @param dir_d  KD
+   30           * @return int   外环返回值
+   31           */
+   32          
+   33          int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+   34          {
+   35   1        float error;
+   36   1        static float last_error = 0;
+   37   1        float Output;
+   38   1        float error_derivative;
    39   1      
-   40   1        error_derivative = error - last_error;
+   40   1        error = chazhi;
    41   1      
-   42   1        Output = error * dir_p + error_derivative * dir_d;
+   42   1        error_derivative = error - last_error;
    43   1      
-   44   1        last_error = error;
+   44   1        Output = error * dir_p + error_derivative * dir_d;
    45   1      
-   46   1        Output = limit(Output, out_max);
-   47   1        return Output;
-   48   1      }
-   49          
-   50          /**
-   51           * @brief 内环角速度PI控制
-   52           * 
-   53           * @param err   外环输入值
-   54           * @param dir_p 
-   55           * @param dir_i 
-   56           * @return int  
-C251 COMPILER V5.60.0,  direction                                                          16/05/24  18:25:53  PAGE 2   
+   46   1        last_error = error;
+   47   1      
+   48   1        Output = limit(Output, out_max);
+   49   1        return Output;
+   50   1      }
+   51          
+   52          /**
+   53           * @brief 内环角速度PI控制
+   54           * 
+   55           * @param err   外环输入值
+   56           * @param dir_p 
+C251 COMPILER V5.60.0,  direction                                                          16/05/24  20:31:44  PAGE 2   
 
-   57           */
-   58          int nh_Turn_Out(float err, float dir_p, float dir_i)
-   59          {
-   60   1        float error;
-   61   1        static float last_error = 0;
-   62   1        float Output;
-   63   1        float error_derivative;
-   64   1        // ����λ�����
-   65   1        error = err - mpu6050_gyro_z / 65.6;
-   66   1        // ����λ�����仯��
-   67   1        error_derivative = error - last_error;
-   68   1        // ����PD�����������
-   69   1        Output = (int)(error * dir_p + error_derivative * dir_i);
-   70   1        // ������һʱ�̵�λ�����
-   71   1        last_error = error;
-   72   1        // ����������޷�
-   73   1        Output = limit(Output, out_max);
-   74   1        return (int)Output;
-   75   1      }
-   76          
-   77          /**
-   78           * @brief 方向环，串级PID给电机
-   79           * 
-   80           * @return int 
-   81           */
-   82          int DirControl(void)
-   83          {
-   84   1        static int count = 0;
-   85   1        static int wh_out = 0;
-   86   1        long nh = 0;
-   87   1        if (count == 3)
-   88   1        {
-   89   2          wh = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);//缩小十倍
-   90   2          count = 0;
-   91   2        }
-   92   1        count++;
-   93   1        nh = limit(nh_Turn_Out(wh, Nh_P, Nh_D), 9500);
-   94   1        return (int)nh;
-   95   1      }
-   96          
-   97          /**
-   98           * @brief 角度环
-   99           * 
-  100           * @param target 目标角度
-  101           * @param p 
-  102           * @param d 
-  103           * @return int 
-  104           */
-  105          int Angle_Ring(double target, float p, float d)
-  106          {
-  107   1        float error;
-  108   1        static float last_error = 0, Ki_val = 0;
-  109   1        int Output, Angle_Speed;
-  110   1        float error_derivative;
-  111   1        gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
-  112   1      
-  113   1      }
-*** WARNING C47 IN LINE 105 OF ..\USER\Hardware\direction.c: 'target': unreferenced parameter
-*** WARNING C47 IN LINE 105 OF ..\USER\Hardware\direction.c: 'p': unreferenced parameter
-*** WARNING C47 IN LINE 105 OF ..\USER\Hardware\direction.c: 'd': unreferenced parameter
-*** WARNING C47 IN LINE 107 OF ..\USER\Hardware\direction.c: 'error': unreferenced local variable
-*** WARNING C47 IN LINE 109 OF ..\USER\Hardware\direction.c: 'Output': unreferenced local variable
-*** WARNING C47 IN LINE 109 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
-*** WARNING C47 IN LINE 110 OF ..\USER\Hardware\direction.c: 'error_derivative': unreferenced local variable
-  114          /**
-  115           * @brief 角度环2
-C251 COMPILER V5.60.0,  direction                                                          16/05/24  18:25:53  PAGE 3   
+   57           * @param dir_i 
+   58           * @return int  
+   59           */
+   60          int nh_Turn_Out(float err, float dir_p, float dir_i)
+   61          {
+   62   1        float error;
+   63   1        static float last_error = 0;
+   64   1        float Output;
+   65   1        float error_derivative;
+   66   1        // ����λ�����
+   67   1        error = err - mpu6050_gyro_z ;
+   68   1        // ����λ�����仯��
+   69   1        error_derivative = error - last_error;
+   70   1        // ����PD�����������
+   71   1        Output = (int)(error * dir_p + error_derivative * dir_i);
+   72   1        // ������һʱ�̵�λ�����
+   73   1        last_error = error;
+   74   1        // ����������޷�
+   75   1        return (int)Output;
+   76   1      }
+   77          
+   78          /**
+   79           * @brief 方向环，串级PID给电机
+   80           * 
+   81           * @return int 
+   82           */
+   83          int DirControl(void)
+   84          {
+   85   1        static int count = 0;
+   86   1        static int wh_out = 0;
+   87   1        long nh = 0;
+   88   1        if (count == 3)
+   89   1        {
+   90   2          wh = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);//缩小十倍
+   91   2          count = 0;
+   92   2        }
+   93   1        count++;
+   94   1        nh = nh_Turn_Out(wh, Nh_P, Nh_D);
+   95   1        return (int)nh;
+   96   1      }
+   97          
+   98          /**
+   99           * @brief 角度环
+  100           * 
+  101           * @param target 目标角度
+  102           * @param p 
+  103           * @param d 
+  104           * @return int 
+  105           */
+  106          int Angle_Ring(double target, float p, float d)
+  107          {
+  108   1        float error;
+  109   1        static float last_error = 0, Ki_val = 0;
+  110   1        int Output, Angle_Speed;
+  111   1        float error_derivative;
+  112   1        gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.001);
+  113   1      
+  114   1      }
+*** WARNING C47 IN LINE 106 OF ..\USER\Hardware\direction.c: 'target': unreferenced parameter
+*** WARNING C47 IN LINE 106 OF ..\USER\Hardware\direction.c: 'p': unreferenced parameter
+*** WARNING C47 IN LINE 106 OF ..\USER\Hardware\direction.c: 'd': unreferenced parameter
+*** WARNING C47 IN LINE 108 OF ..\USER\Hardware\direction.c: 'error': unreferenced local variable
+*** WARNING C47 IN LINE 110 OF ..\USER\Hardware\direction.c: 'Output': unreferenced local variable
+*** WARNING C47 IN LINE 110 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
+*** WARNING C47 IN LINE 111 OF ..\USER\Hardware\direction.c: 'error_derivative': unreferenced local variable
+  115          /**
+C251 COMPILER V5.60.0,  direction                                                          16/05/24  20:31:44  PAGE 3   
 
-  116           * 
-  117           * @param target 目标角度
-  118           * @param p 
-  119           * @param d 
-  120           * @return int 
-  121           */
-  122          int Angle_Ring1(double target, float p, float d)
-  123          {
-  124   1        float error;
-  125   1        int Output, Angle_Speed;
-  126   1        static float last_error,error2;
-  127   1        gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.00015);
-  128   1        error = target - gyro_z3;
-  129   1        error2 = error - last_error;
-  130   1        last_error = error;
-  131   1        Output = (int)(error * p + error2 * d);
-  132   1        Output=limit(Output, 1000);
-  133   1        Angle_Speed_Ring(Output, 160, 1.85);
-  134   1      }
-*** WARNING C47 IN LINE 125 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
-  135          
-  136          /**
-  137           * @brief 角速度环
-  138           * 
-  139           * @param err 
-  140           * @param dir_p 
-  141           * @param dir_i 
-  142           * @return int 
-  143           */
-  144          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
-  145          {
-  146   1        int error1 = 0;
-  147   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  148   1        error1 = err - mpu6050_gyro_z / 65.6;
-  149   1        P_out = dir_p * (error1 - last_err);
-  150   1        I_out = dir_i * error1;
-  151   1        if (I_out > 2000)
-  152   1          I_out = 2000;
-  153   1        if (I_out < -2000)
-  154   1          I_out = -2000;
-  155   1        out = P_out + I_out;
-  156   1        nh_out += out;
-  157   1        last_err = error1;
-  158   1        nh_out = limit(nh_out, 25000);
-  159   1        Motor_PWM(nh_out, -nh_out);
-  160   1      }
-  161          
+  116           * @brief 角度环2
+  117           * 
+  118           * @param target 目标角度
+  119           * @param p 
+  120           * @param d 
+  121           * @return int 
+  122           */
+  123          int Angle_Ring1(double target, float p, float d)
+  124          {
+  125   1        float error;
+  126   1        int Output, Angle_Speed;
+  127   1        static float last_error,error2;
+  128   1        gyro_z3 += ((mpu6050_gyro_z) * 0.000121 - 0.00015);
+  129   1        error = target - gyro_z3;
+  130   1        error2 = error - last_error;
+  131   1        last_error = error;
+  132   1        Output = (int)(error * p + error2 * d);
+  133   1        Output=limit(Output, 1000);
+  134   1        Angle_Speed_Ring(Output, 160, 1.85);
+  135   1      }
+*** WARNING C47 IN LINE 126 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
+  136          
+  137          /**
+  138           * @brief 角速度环
+  139           * 
+  140           * @param err 
+  141           * @param dir_p 
+  142           * @param dir_i 
+  143           * @return int 
+  144           */
+  145          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
+  146          {
+  147   1        int error1 = 0;
+  148   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+  149   1        error1 = err - mpu6050_gyro_z / 65.6;
+  150   1        P_out = dir_p * (error1 - last_err);
+  151   1        I_out = dir_i * error1;
+  152   1        if (I_out > 2000)
+  153   1          I_out = 2000;
+  154   1        if (I_out < -2000)
+  155   1          I_out = -2000;
+  156   1        out = P_out + I_out;
+  157   1        nh_out += out;
+  158   1        last_err = error1;
+  159   1        nh_out = limit(nh_out, 25000);
+  160   1        Motor_PWM(nh_out, -nh_out);
+  161   1      }
   162          
-  163          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
-  164          {
-*** WARNING C57 IN LINE 164 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
-  165   1        float error;
-  166   1        static float last_error = 0;
-  167   1        float Output;
-  168   1        float error_derivative;
-  169   1      
-  170   1        error = chazhi;
-  171   1      
-  172   1        error_derivative = error - last_error;
-  173   1      
-  174   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
-  175   1      
-  176   1        last_error = error;
-  177   1      
-  178   1        Output = limit(Output, out_max);
-  179   1        return (int)Output;
-C251 COMPILER V5.60.0,  direction                                                          16/05/24  18:25:53  PAGE 4   
+  163          
+  164          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
+  165          {
+*** WARNING C57 IN LINE 165 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
+  166   1        float error;
+  167   1        static float last_error = 0;
+  168   1        float Output;
+  169   1        float error_derivative;
+  170   1      
+  171   1        error = chazhi;
+  172   1      
+  173   1        error_derivative = error - last_error;
+  174   1      
+  175   1        Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z/65.6 * dir_d2;
+  176   1      
+  177   1        last_error = error;
+  178   1      
+  179   1        Output = limit(Output, out_max);
+C251 COMPILER V5.60.0,  direction                                                          16/05/24  20:31:44  PAGE 4   
 
-  180   1      }
-  181          
-  182          /**
-  183           * @brief 控制车行驶的距离
-  184           * 
-  185           * @param L_Distanc 
-  186           * @param R_Distance 
-  187           */
-  188          // int Car_Distance(int Distance)
-  189          // {
-  190          //   static int bmq_jifen,flag =1;
-  191          //   bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
-  192          //   if (bmq_jifen<=Distance)
-  193          //   {
-  194          //     //LSpeed_pid_Out(20, L_Pulse);
-  195          //     //RSpeed_pid_Out(20, R_Pulse);
-  196          //     Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
-  197          //   }
-  198          //   else if(bmq_jifen >Distance)
-  199          //   {
-  200          //     if(Angle_Ring(90, 25, 1)==1)
-  201          //     {
-  202          //       bmq_jifen = 0;
-  203          //       L_Pulse = 0;
-  204          //       R_Pulse=0;
-  205          //       gyro_z3 = 0;
-  206          //     }
-  207          //     return 1;
-  208          //   }
-  209          // }
-*** WARNING C135 IN LINE 113 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
-*** WARNING C135 IN LINE 113 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
-*** WARNING C135 IN LINE 134 OF ..\USER\Hardware\direction.c: 'Angle_Ring1': no return value
-*** WARNING C135 IN LINE 134 OF ..\USER\Hardware\direction.c: 'Angle_Ring1': no return value
-*** WARNING C135 IN LINE 160 OF ..\USER\Hardware\direction.c: 'Angle_Speed_Ring': no return value
-*** WARNING C135 IN LINE 160 OF ..\USER\Hardware\direction.c: 'Angle_Speed_Ring': no return value
+  180   1        return (int)Output;
+  181   1      }
+  182          
+  183          /**
+  184           * @brief 控制车行驶的距离
+  185           * 
+  186           * @param L_Distanc 
+  187           * @param R_Distance 
+  188           */
+  189          // int Car_Distance(int Distance)
+  190          // {
+  191          //   static int bmq_jifen,flag =1;
+  192          //   bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
+  193          //   if (bmq_jifen<=Distance)
+  194          //   {
+  195          //     //LSpeed_pid_Out(20, L_Pulse);
+  196          //     //RSpeed_pid_Out(20, R_Pulse);
+  197          //     Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
+  198          //   }
+  199          //   else if(bmq_jifen >Distance)
+  200          //   {
+  201          //     if(Angle_Ring(90, 25, 1)==1)
+  202          //     {
+  203          //       bmq_jifen = 0;
+  204          //       L_Pulse = 0;
+  205          //       R_Pulse=0;
+  206          //       gyro_z3 = 0;
+  207          //     }
+  208          //     return 1;
+  209          //   }
+  210          // }
+*** WARNING C135 IN LINE 114 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
+*** WARNING C135 IN LINE 114 OF ..\USER\Hardware\direction.c: 'Angle_Ring': no return value
+*** WARNING C135 IN LINE 135 OF ..\USER\Hardware\direction.c: 'Angle_Ring1': no return value
+*** WARNING C135 IN LINE 135 OF ..\USER\Hardware\direction.c: 'Angle_Ring1': no return value
+*** WARNING C135 IN LINE 161 OF ..\USER\Hardware\direction.c: 'Angle_Speed_Ring': no return value
+*** WARNING C135 IN LINE 161 OF ..\USER\Hardware\direction.c: 'Angle_Speed_Ring': no return value
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       929     ------
+  code size            =       901     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

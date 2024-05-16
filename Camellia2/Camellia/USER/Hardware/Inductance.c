@@ -14,17 +14,17 @@
 uint16 Left_Val=0,Right_Val=0;
 int16 ad_sum=0;
 int16 ad_diff=0;
-uint16 ad_value[7][10]={0};//原始数据
-uint16 R1,R2,R3,L1,L2,L3,M1;//滤波之后的电感值
+uint16 ad_value[7][10]={0};//原�?�数�?
+uint16 R1,R2,R3,L1,L2,L3,M1;//滤波之后的电感�?
 uint16 L1_NOR_ADC=0,R1_NOR_ADC=0,L2_NOR_ADC=0,R2_NOR_ADC=0,L3_NOR_ADC=0,R3_NOR_ADC=0,M1_NOR_ADC=0;
 float NOR_VAL[7]={0};
-float AD_NOR_VAL[7]={0}; //归一化值
-int16 Inductance_Error=0; //电感误差
+float AD_NOR_VAL[7]={0}; //归一化�?
+int16 Inductance_Error=0; //电感�?�?
 uint16 ADC_MIN[7]={156,252,160,150,153,180,149};
-uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //测出的电感最大，与最小值从左到右
+uint16 ADC_MAX[7]={3020,2620,2620,2620,2600,2600,2600}; //测出的电感最大，与最小值从左到�?
 int bug=0;
 /**
-*  @brief      ADC采集初始化
+*  @brief      ADC采集初�?�化
 *  @param      void
 *  @return     void         
 **/
@@ -41,9 +41,9 @@ void Inductance_Init(void)
 	adc_init(ADC_P04, ADC_SYSclk_DIV_2);
 }
 /**
- * @brief 快速开方
+ * @brief �?速开�?
  * 
- * @param f 被开方数
+ * @param f �?开方数
  * @return float 
  */
 float sq(float number)
@@ -65,7 +65,7 @@ float sq(float number)
 
 
 /**
-*  @brief      归一化处理电感值并循迹控制
+*  @brief      归一化�?�理电感值并�?迹控�?
 *  @param      I1,I2,加权系数,
 *  @return     void         
 **/
@@ -74,7 +74,7 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	int i = 0, j = 0, k = 0, temp = 0;
 	int ad_sum1[7] = {0};
 	uint16 ad_valu1[7] = {0};
-	for (i = 0; i < 10; i++) // 读取十次电感
+	for (i = 0; i < 10; i++) // 读取十�?�电�?
 	{
 			ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
 			ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
@@ -93,7 +93,7 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 			{
 					for (k = 0; k < 10 - 1 - j; k++)
 					{
-							if (ad_value[i][k] > ad_value[i][k + 1]) // 前面的比后面的大，则进行交换
+							if (ad_value[i][k] > ad_value[i][k + 1]) // 前面的比后面的大，则进�?�交�?
 							{
 									temp = ad_value[i][k + 1];
 									ad_value[i][k + 1] = ad_value[i][k];
@@ -103,17 +103,17 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 			}
 	}
 
-	/*===========================中值滤波=================================*/
-	for (i = 0; i < 7; i++) // 求中间八项的和
+	/*===========================�?值滤�?=================================*/
+	for (i = 0; i < 7; i++) // 求中间八项的�?
 	{
-			for (k = 0; k < 9; k++) // 舍弃最大值和最小值，只取中间8项
+			for (k = 0; k < 9; k++) // 舍弃最大值和最小值，�?取中�?8�?
 			{
 					ad_sum1[i] += ad_value[i][k];
 			}
 			ad_valu1[i] = ad_sum1[i] / 8;
 	}
 
-	/*=========================赋值各个电感==============================*/
+	/*=========================赋值各�?电感==============================*/
 	L1 = ad_valu1[0];
 	L2 = ad_valu1[1];
 	L3 = ad_valu1[2];
@@ -170,18 +170,18 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 		Inductance_Error=(ad_diff <<7)/(ad_sum+1);
 	}
 	//Inductance_Error=ad_diff;
-	return Inductance_Error; //放大128倍
+	return Inductance_Error; //放大128�?
 }
 
 /**
-*  @brief      显示测量值
+*  @brief      显示测量�?
 *  @param      void
 *  @return     void         
 **/
 
 void show_val(void)
 {
-//-----------------oled显示电感值----------------------//
+//-----------------oled显示电感�?----------------------//
 	oled_p6x8str(0,0,"L1:");
 	oled_uint16(15,0,L1_NOR_ADC);
 
@@ -208,12 +208,12 @@ void show_val(void)
 ////-----------------陀螺仪角速度------------------------//
 
 	oled_p6x8str(0,4,"gyro_z:");
-	oled_printf_float(45, 4,mpu6050_gyro_z/65.6, 5, 6);
+	oled_printf_float(45, 4,mpu6050_gyro_z, 5, 6);
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
-	oled_int16(0, 6, dir_out);
-	oled_int16(60, 6, Speed_Ring);
-	//-----------------TOF距离------------------------//
+	oled_int16(0, 6, R_Out);
+	oled_int16(60, 6, L_Out);
+	//-----------------TOF距�??------------------------//
 	//	if(dl1a_finsh_flag)
 	//	{
 	//		dl1a_finsh_flag = 0;

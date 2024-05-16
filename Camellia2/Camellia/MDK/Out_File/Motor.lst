@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Motor                                                              16/05/24  18:21:32  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              16/05/24  19:58:03  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
 OBJECT MODULE PLACED IN .\Out_File\Motor.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
                     -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
                     -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
                     -r.obj) 
@@ -24,11 +24,11 @@ stmt  level    source
    12          
    13          #define MOTOR_MAX  8000
    14          
-   15          float Motor_P = 135;
-   16          float Motor_I = 12 ;
+   15          float Motor_P = 95;
+   16          float Motor_I = 10 ;
    17          
-   18          float Motor_RP = 155;
-   19          float Motor_RI = 18;
+   18          float Motor_RP = 115;
+   19          float Motor_RI = 16;
    20          float Speed_Ring = 0;
    21          
    22          
@@ -66,7 +66,7 @@ stmt  level    source
    54          void Motor_PWM(int L_PWM,int R_PWM)
    55          {
    56   1        L_PWM = limit(L_PWM, 9500);
-C251 COMPILER V5.60.0,  Motor                                                              16/05/24  18:21:32  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              16/05/24  19:58:03  PAGE 2   
 
    57   1        R_PWM = limit(R_PWM, 9500);
    58   1        if(L_PWM<0)
@@ -128,50 +128,66 @@ stmt  level    source
   114   1        if (I_out < -2000)
   115   1          I_out = -2000;
   116   1        out = P_out + I_out;
-  117   1        speed_out += out;
+  117   1        speed_out = out;
   118   1        last_err = error;
   119   1        //Speed_Ring = speed_out;
-  120   1        return (int)speed_out;
-  121   1      }
-  122          
-C251 COMPILER V5.60.0,  Motor                                                              16/05/24  18:21:32  PAGE 3   
+  120   1        speed_out=limit(speed_out, 7500);
+  121   1        return (int)speed_out;
+  122   1      }
+C251 COMPILER V5.60.0,  Motor                                                              16/05/24  19:58:03  PAGE 3   
 
-  123          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
-  124          {
-  125   1        int error = 0;
-  126   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  127   1        error = Target_Value - Actual_Value;
-  128   1        P_out = Motor_RP * (error - last_err);
-  129   1        I_out = Motor_RI * error;
-  130   1        if (I_out > 2000)
-  131   1          I_out = 2000;
-  132   1        if (I_out < -2000)
-  133   1          I_out = -2000;
-  134   1        out = P_out + I_out;
-  135   1        speed_out += out;
-  136   1        last_err = error;
-  137   1        //Speed_Ring = speed_out;
-  138   1        return (int)speed_out;
-  139   1      }
-  140          
-  141          void Buzzer(int time)
-  142          {
-  143   1        Buzzer_ON;
-  144   1        delay_ms(time);
-  145   1        Buzzer_OFF;
-  146   1      }
+  123          
+  124          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+  125          {
+  126   1        int error = 0;
+  127   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  128   1        error = Target_Value - Actual_Value;
+  129   1        P_out = Motor_RP * (error - last_err);
+  130   1        I_out = Motor_RI * error;
+  131   1        if (I_out > 2000)
+  132   1          I_out = 2000;
+  133   1        if (I_out < -2000)
+  134   1          I_out = -2000;
+  135   1        out = P_out + I_out;
+  136   1        speed_out = out;
+  137   1        last_err = error;
+  138   1        //Speed_Ring = speed_out;
+  139   1        speed_out = limit(speed_out, 7500);
+  140   1        return (int)speed_out;
+  141   1      }
+  142          
+  143          int Speed_pid_Out(int Target_Value, int Actual_Value)
+  144          {
+  145   1        int out, Error;
+  146   1        static int speed_jifen = 0;
+  147   1        Error = Target_Value - Actual_Value;
+  148   1        speed_jifen += Error;
+  149   1        if (speed_jifen > 2000)
+  150   1          speed_jifen = 2000;
+  151   1        if (speed_jifen < -2000)
+  152   1          speed_jifen = -2000;
+  153   1        out = (int)(Error * Motor_P + speed_jifen * Motor_I);
+  154   1        return out;
+  155   1      }
+  156          
+  157          void Buzzer(int time)
+  158          {
+  159   1        Buzzer_ON;
+  160   1        delay_ms(time);
+  161   1        Buzzer_OFF;
+  162   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       714     ------
+  code size            =       857     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       134     ------
+  edata size           =       144     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -179,7 +195,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       120     ------
+  hconst size          =       126     ------
 End of Module Information.
 
 

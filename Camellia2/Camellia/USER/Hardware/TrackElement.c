@@ -15,6 +15,8 @@ long bmq_jifen=0;
 double angle_jifen=0;
 int Track_flag=0; //正常循迹
 int set_speed = 0; //在赛道上不断更改速度
+int L_Out = 0;
+int R_Out = 0;
 
 int RING_FLAG1=0;
 int RING_FLAG2=0;
@@ -204,17 +206,16 @@ void Sub_Pid(float error)
 **/
 void Tracking(int Set_speed)
 {
-	static int count=0,Lpwm=0,Rpwm=0;
+	static int count=0,Lpwm=0,Rpwm=0,pwm=0;
 	Sum_Pulse=(L_Pulse+R_Pulse)/2;
 	count++;
 	dir_out=DirControl();
 	if(count==10)
 	{
-		Lpwm=LSpeed_pid_Out(Set_speed,Sum_Pulse); //减或加一个方向环的输出
-		Rpwm=RSpeed_pid_Out(Set_speed,Sum_Pulse); // 减或加一个方向环的输出
+		pwm=Speed_pid_Out(Set_speed, Sum_Pulse);
 		count=0;
 	}
-	Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+	Motor_PWM(pwm - dir_out, pwm + dir_out);
 	//Motor_PWM(Lpwm,Rpwm);
 }
 /**

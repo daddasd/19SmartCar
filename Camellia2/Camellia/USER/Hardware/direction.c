@@ -10,10 +10,12 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 24;  // 0.5
-float Nh_D = 64; // 4.1
-float Wh_P = 10.3;
-float Wh_D = 0;
+
+
+float Nh_P = 0.38;  // 0.5
+float Nh_D = 0.09;  // 4.1
+float Wh_P = 90;
+float Wh_D = 40;
 float gyro_z3 = 0;
 int wh = 0;
 
@@ -62,7 +64,7 @@ int nh_Turn_Out(float err, float dir_p, float dir_i)
   float Output;
   float error_derivative;
   // ����λ�����
-  error = err - mpu6050_gyro_z / 65.6;
+  error = err - mpu6050_gyro_z ;
   // ����λ�����仯��
   error_derivative = error - last_error;
   // ����PD�����������
@@ -70,7 +72,6 @@ int nh_Turn_Out(float err, float dir_p, float dir_i)
   // ������һʱ�̵�λ�����
   last_error = error;
   // ����������޷�
-  Output = limit(Output, out_max);
   return (int)Output;
 }
 
@@ -90,7 +91,7 @@ int DirControl(void)
     count = 0;
   }
   count++;
-  nh = limit(nh_Turn_Out(wh, Nh_P, Nh_D), 9500);
+  nh = nh_Turn_Out(wh, Nh_P, Nh_D);
   return (int)nh;
 }
 
@@ -171,7 +172,7 @@ int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
 
   error_derivative = error - last_error;
 
-  Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z * dir_d2;
+  Output = error * dir_p + error_derivative * dir_d + mpu6050_gyro_z/65.6 * dir_d2;
 
   last_error = error;
 

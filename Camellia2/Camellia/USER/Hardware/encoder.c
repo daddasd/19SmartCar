@@ -139,13 +139,13 @@ void TM4_Isr() interrupt 20
 		//		OUT1 = LSpeed_pid_Out(30, L_Pulse);
 		//		OUT2 = RSpeed_pid_Out(30, R_Pulse);
 		// Motor_PWM(nh_out, -nh_out);
-		// OUT1 = LSpeed_pid_Out(20, L_Pulse); // ¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
+		// OUT1 = LSpeed_pid_Out(20, L_Pulse); // ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ò»·µï¿½ï¿½ï¿½ï¿½
 		//OUT2 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
 		//OUT1=nh_Turn_Out(-10, Nh_P, Nh_D);
 		//Motor_PWM(OUT1,-OUT1);
 		//dir_out=DirControl();
 
-		Tracking(15);
+		Tracking(20);
 		TIM4_CLEAR_FLAG;
 	}
 }

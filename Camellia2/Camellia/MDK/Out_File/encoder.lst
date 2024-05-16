@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            16/05/24  18:05:45  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            16/05/24  19:58:03  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    53          {
    54   1        if (DIR == 0)
    55   1        {
-C251 COMPILER V5.60.0,  encoder                                                            16/05/24  18:05:45  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            16/05/24  19:58:03  PAGE 2   
 
    56   2          R_Pulse = ctimer_count_read(Encoder_R);
    57   2        }
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        int nh = 0;
   119   1        if (Car_Start_Flag)
   120   1        {
-C251 COMPILER V5.60.0,  encoder                                                            16/05/24  18:05:45  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            16/05/24  19:58:03  PAGE 3   
 
   121   2          mpu6050_get_gyro();
   122   2          L_Pulse = L_Encoder_Pulse()*0.7;
@@ -157,13 +157,13 @@ stmt  level    source
   139   2          //    OUT1 = LSpeed_pid_Out(30, L_Pulse);
   140   2          //    OUT2 = RSpeed_pid_Out(30, R_Pulse);
   141   2          // Motor_PWM(nh_out, -nh_out);
-  142   2          // OUT1 = LSpeed_pid_Out(20, L_Pulse); // ¼õ»ò¼ÓÒ»¸ö·½Ïò»·µÄÊä³ö
+  142   2          // OUT1 = LSpeed_pid_Out(20, L_Pulse); // ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ò»·µï¿½ï¿½ï¿½ï¿½
   143   2          //OUT2 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
   144   2          //OUT1=nh_Turn_Out(-10, Nh_P, Nh_D);
   145   2          //Motor_PWM(OUT1,-OUT1);
   146   2          //dir_out=DirControl();
   147   2      
-  148   2          Tracking(15);
+  148   2          Tracking(20);
   149   2          TIM4_CLEAR_FLAG;
   150   2        }
   151   1      }
