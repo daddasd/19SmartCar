@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  direction                                                          13/05/24  18:51:18  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
 OBJECT MODULE PLACED IN .\Out_File\direction.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
                     -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
                     -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
                     -ile\direction.obj) 
@@ -20,12 +20,12 @@ stmt  level    source
     8          #include "myconfig.h"
     9          
    10          #define out_max 20000
-   11          #define Angle_MAX 35-00
+   11          #define Angle_MAX 3500
    12          
    13          float Nh_P = 180;  // 0.5
    14          float Nh_D = 1.9; // 4.1
-   15          float Wh_P = 90;
-   16          float Wh_D = 320;
+   15          float Wh_P = 5.7;
+   16          float Wh_D = 10;
    17          float gyro_z3 = 0;
    18          
    19          int Speed_Ring_Flag = 0;
@@ -66,13 +66,13 @@ stmt  level    source
    54           * @param dir_i 
    55           * @return int  
    56           */
-C251 COMPILER V5.60.0,  direction                                                          13/05/24  18:51:18  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 2   
 
    57          int nh_Turn_Out(int err, float dir_p, float dir_i)
    58          {
    59   1        int error1 = 0;
    60   1        static int last_err = 0, P_out = 0, I_out = 0, out = 0;
-   61   1        error1 = (int)(err - mpu6050_gyro_z / 65.6);
+   61   1        error1 = (int)(err + mpu6050_gyro_z / 65.6);
    62   1        P_out = dir_p * (error1 - last_err);
    63   1        I_out = dir_i * error1;
    64   1        if (I_out >= 2000)
@@ -100,7 +100,7 @@ stmt  level    source
    86   2          count = 0;
    87   2        }
    88   1        count++;
-   89   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+   89   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
    90   1      }
    91          
    92          /**
@@ -134,7 +134,7 @@ stmt  level    source
   113           * @param p 
   114           * @param d 
   115           * @return int 
-C251 COMPILER V5.60.0,  direction                                                          13/05/24  18:51:18  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 3   
 
   116           */
   117          int Angle_Ring1(double target, float p, float d)
@@ -202,7 +202,7 @@ stmt  level    source
   177          /**
   178           * @brief 控制车行驶的距离
   179           * 
-C251 COMPILER V5.60.0,  direction                                                          13/05/24  18:51:18  PAGE 4   
+C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 4   
 
   180           * @param L_Distanc 
   181           * @param R_Distance 
@@ -241,7 +241,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1141     ------
+  code size            =      1128     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

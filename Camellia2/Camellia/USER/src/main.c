@@ -45,7 +45,7 @@ void main()
 	ALL_Peripheral_Init();
 	Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
 	delay_ms(500);
-	RGB_Color(76, 0, 153);
+	//RGB_Color(76, 0, 153);
 	while (1)
 	{
 		menu = First_menu();

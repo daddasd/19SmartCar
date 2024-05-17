@@ -8,12 +8,12 @@
 #include "myconfig.h"
 
 #define out_max 20000
-#define Angle_MAX 35-00
+#define Angle_MAX 3500
 
 float Nh_P = 180;  // 0.5
 float Nh_D = 1.9; // 4.1
-float Wh_P = 90;
-float Wh_D = 320;
+float Wh_P = 5.7;
+float Wh_D = 10;
 float gyro_z3 = 0;
 
 int Speed_Ring_Flag = 0;
@@ -58,7 +58,7 @@ int nh_Turn_Out(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
   static int last_err = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = (int)(err - mpu6050_gyro_z / 65.6);
+  error1 = (int)(err + mpu6050_gyro_z / 65.6);
   P_out = dir_p * (error1 - last_err);
   I_out = dir_i * error1;
   if (I_out >= 2000)
@@ -86,7 +86,7 @@ int DirControl(void)
     count = 0;
   }
   count++;
-  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
+  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
 }
 
 /**

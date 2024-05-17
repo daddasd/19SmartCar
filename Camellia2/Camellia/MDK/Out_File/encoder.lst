@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -44,13 +44,14 @@ stmt  level    source
    32          
    33          int L_Encoder_Pulse(void)
    34          {
-   35   1        if (DIL == 0)
+   35   1        if (DIL == 1)
    36   1        {
    37   2          L_Pulse = ctimer_count_read(Encoder_L);
    38   2        }
    39   1        else
    40   1        {
-   41   2          L_Pulse = ctimer_count_read(Encoder_L);
+   41   2          L_Pulse = -ctimer_count_read(Encoder_L);
+*** WARNING C115 IN LINE 41 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
    42   2        }
    43   1        return L_Pulse;
    44   1      }
@@ -65,12 +66,13 @@ stmt  level    source
    53   1        if (DIR == 0)
    54   1        {
    55   2          R_Pulse = ctimer_count_read(Encoder_R);
-   56   2        }
-C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 2   
 
+   56   2        }
    57   1        else
    58   1        {
-   59   2          R_Pulse = ctimer_count_read(Encoder_R);
+   59   2          R_Pulse = -ctimer_count_read(Encoder_R);
+*** WARNING C115 IN LINE 59 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
    60   2        }
    61   1        return R_Pulse;
    62   1      }
@@ -131,11 +133,11 @@ stmt  level    source
   117   1        if (Car_Start_Flag)
   118   1        {
   119   2          mpu6050_get_gyro();
-  120   2          L_Pulse = L_Encoder_Pulse();
-  121   2          R_Pulse = R_Encoder_Pulse();
-  122   2          // NORMALIZATION_TRACKING_ADC(1, 1);
-C251 COMPILER V5.60.0,  encoder                                                            13/05/24  18:52:25  PAGE 3   
+  120   2          L_Pulse = L_Encoder_Pulse()*0.7;
+C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 3   
 
+  121   2          R_Pulse = R_Encoder_Pulse()*0.7;
+  122   2          NORMALIZATION_TRACKING_ADC(1, 1);
   123   2          // Roundabout();
   124   2          // if(Track_flag)
   125   2          // Right_Angle();
@@ -147,23 +149,25 @@ stmt  level    source
   131   2          //Car_Distance(2024);
   132   2          //Angle_Ring1(90, 180, 1080);
   133   2      
-  134   2          Angle_Ring1(90, 1.65,5);  
+  134   2          //Angle_Ring1(90, 1.65,5);  
   135   2          //    L = L_Pulse;
   136   2          //    R = R_Pulse;
-  137   2          //    OUT1 = LSpeed_pid_Out(30, L_Pulse);
-  138   2          //    OUT2 = RSpeed_pid_Out(30, R_Pulse);
+  137   2          //OUT1 = LSpeed_pid_Out(30, L_Pulse);
+  138   2          //OUT2 = RSpeed_pid_Out(30, R_Pulse);
   139   2          // Motor_PWM(nh_out, -nh_out);
-  140   2          //  Tracking(speed+Err_speed);
-  141   2          ctimer_count_clean(Encoder_L);
-  142   2          ctimer_count_clean(Encoder_R);
-  143   2          TIM4_CLEAR_FLAG; //????��???
-  144   2        }
-  145   1      }
+  140   2          Tracking(15);
+  141   2          //OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+  142   2          //Motor_PWM(OUT1, OUT2);
+  143   2          ctimer_count_clean(Encoder_L);
+  144   2          ctimer_count_clean(Encoder_R);
+  145   2          TIM4_CLEAR_FLAG; //????��???
+  146   2        }
+  147   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       389     ------
+  code size            =       438     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -182,4 +186,4 @@ Module Information          Static   Overlayable
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

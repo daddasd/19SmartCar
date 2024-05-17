@@ -12,10 +12,12 @@
 
 #define MOTOR_MAX  8000
 
-float Motor_P = 260;
-float Motor_I = 1 ;
-float Speed_Ring = 0;
+float Motor_P = 290;
+float Motor_I = 17.5 ;
 
+float Motor_RP = 355;
+float Motor_RI = 24.5;
+float Speed_Ring = 0;
 
 Motor_PID_InitTypedef Motor_pid;
 
@@ -125,6 +127,9 @@ void Motor_SET_PID(float Kp,float Ki,float Kd)
 //  @param      Actual_Value: 实际速度      
 //  @return     速度环输出        
 //--
+
+
+
 int LSpeed_pid_Out(int Target_Value,int Actual_Value)
 {
 	int error = 0;
@@ -132,14 +137,14 @@ int LSpeed_pid_Out(int Target_Value,int Actual_Value)
 	error = Target_Value - Actual_Value ;
 	P_out = Motor_P * (error - last_err);
 	I_out = Motor_I * error;
-	if (I_out > 2000)
-		I_out = 2000;
-	if (I_out < -2000)
-		I_out = -2000;
+	if (I_out > 800)
+		I_out = 800;
+	if (I_out < -800)
+		I_out = -800;
 	out = P_out + I_out;
 	speed_out += out;
 	last_err = error;
-	//Speed_Ring = speed_out;
+	speed_out=limit(speed_out, 7500);
 	return (int)speed_out;
 }
 
@@ -148,18 +153,20 @@ int RSpeed_pid_Out(int Target_Value, int Actual_Value)
 	int error = 0;
 	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
 	error = Target_Value - Actual_Value;
-	P_out = Motor_P * (error - last_err);
-	I_out = Motor_I * error;
-	if (I_out > 2000)
-		I_out = 2000;
-	if (I_out < -2000)
-		I_out = -2000;
+	P_out = Motor_RP * (error - last_err);
+	I_out = Motor_RI * error;
+	if (I_out > 800)
+		I_out = 800;
+	if (I_out < -800)
+		I_out = -800;
 	out = P_out + I_out;
 	speed_out += out;
 	last_err = error;
-	//Speed_Ring = speed_out;
+	speed_out = limit(speed_out, 7500);
 	return (int)speed_out;
 }
+
+
 
 void Buzzer(int time)
 {

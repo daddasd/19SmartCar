@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
 OBJECT MODULE PLACED IN .\Out_File\Motor.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
                     -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
                     -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
                     -r.obj) 
@@ -24,187 +24,194 @@ stmt  level    source
    12          
    13          #define MOTOR_MAX  8000
    14          
-   15          float Motor_P = 260;
-   16          float Motor_I = 1 ;
-   17          float Speed_Ring = 0;
-   18          
-   19          
-   20          Motor_PID_InitTypedef Motor_pid;
+   15          float Motor_P = 290;
+   16          float Motor_I = 17.5 ;
+   17          
+   18          float Motor_RP = 355;
+   19          float Motor_RI = 24.5;
+   20          float Speed_Ring = 0;
    21          
-   22          
-   23          int16 limit(int16 In,int16 limit)
-   24          {
-   25   1        if(In>limit&&In>0)
-   26   1          In = limit;
-   27   1        else if(In<-limit&&In<0)
-   28   1          In = -limit;
-   29   1        return In;
-   30   1      }
-   31          
-   32          //--
-   33          //  @brief      电机PWM初始化
-   34          //  @param      void
-   35          //  @return     void         
-   36          //--
-   37          
-   38          void Motor_Init(void)
-   39          {
-   40   1          pwm_init(MOTOR_L_PWM, 17000,0);
-   41   1          pwm_init(MOTOR_R_PWM, 17000,0);
-   42   1      }
-   43          
-   44          //--
-   45          //  @brief      输出pwm
-   46          //  @param      L_PWM:左电机pwm
-   47          //  @param      R_PWM:右电机pwm
-   48          //  @return     void         
-   49          //--
-   50          
-   51          void Motor_PWM(int L_PWM,int R_PWM)
-   52          {
-   53   1        if(L_PWM<0)
-   54   1        {
-   55   2          MOTOR_L_DIR=1;
-   56   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
-C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 2   
+   22          Motor_PID_InitTypedef Motor_pid;
+   23          
+   24          
+   25          int16 limit(int16 In,int16 limit)
+   26          {
+   27   1        if(In>limit&&In>0)
+   28   1          In = limit;
+   29   1        else if(In<-limit&&In<0)
+   30   1          In = -limit;
+   31   1        return In;
+   32   1      }
+   33          
+   34          //--
+   35          //  @brief      电机PWM初始化
+   36          //  @param      void
+   37          //  @return     void         
+   38          //--
+   39          
+   40          void Motor_Init(void)
+   41          {
+   42   1          pwm_init(MOTOR_L_PWM, 17000,0);
+   43   1          pwm_init(MOTOR_R_PWM, 17000,0);
+   44   1      }
+   45          
+   46          //--
+   47          //  @brief      输出pwm
+   48          //  @param      L_PWM:左电机pwm
+   49          //  @param      R_PWM:右电机pwm
+   50          //  @return     void         
+   51          //--
+   52          
+   53          void Motor_PWM(int L_PWM,int R_PWM)
+   54          {
+   55   1        if(L_PWM<0)
+   56   1        {
+C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 2   
 
-   57   2        }
-   58   1        else{
-   59   2          MOTOR_L_DIR=0;
-   60   2          pwm_duty(MOTOR_L_PWM,L_PWM);
-   61   2        }
-   62   1        if(R_PWM<0)
-   63   1        {
-   64   2          MOTOR_R_DIR=1;
-   65   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
-   66   2        }
-   67   1        else{
-   68   2          MOTOR_R_DIR=0;
-   69   2          pwm_duty(MOTOR_R_PWM,R_PWM);
-   70   2        }
-   71   1      }
-   72          
-   73          //--
-   74          //  @brief      电机pid调节
-   75          //  @param      kp,ki.kd
-   76          //  @return     void         
-   77          //--
-   78          
-   79          void Motor_SET_PID(float Kp,float Ki,float Kd)
-   80          {
-   81   1        Motor_pid.Motor_Target_Value=0;
-   82   1        Motor_pid.Motor_Actual_Value=0;
-   83   1        Motor_pid.Motor_err=0;
-   84   1        Motor_pid.Motor_err_last=0;
-   85   1        Motor_pid.Motor_err_last2=0;
-   86   1        Motor_pid.Motor_Kp=Kp;
-   87   1        Motor_pid.Motor_Ki=Ki;
-   88   1        Motor_pid.Motor_Kd=Kd;
-   89   1        Motor_pid.Motor_Out_Value=0;
-   90   1        Motor_pid.Motor_integral=0;
-   91   1      }
-   92          
-   93          /*入口：NEW_DATA 新采样值
-   94                 OLD_DATA 上次滤波结果
-   95                 k        滤波系数(0~255)(代表在滤波结果中的权重)
-   96            出口：         本次滤波结果
-   97           */
-   98           char filter_1(char NEW_DATA,char OLD_DATA,char k)
-   99          {
-  100   1          int result;
-  101   1          if(NEW_DATA<OLD_DATA)
-  102   1          {
-  103   2              result=OLD_DATA-NEW_DATA;
-  104   2              result=result*k;
-  105   2              result=result+128;//+128是为了四色五入
-  106   2              result=result/256;
-  107   2              result=OLD_DATA-result;
-  108   2          }
-  109   1          else if(NEW_DATA>OLD_DATA)
-  110   1          {
-  111   2              result=NEW_DATA-OLD_DATA;
-  112   2              result=result*k;
-  113   2              result=result+128;//+128是为了四色五入
-  114   2              result=result/256;
-  115   2              result=OLD_DATA-result;
-  116   2          }
-  117   1          else result=OLD_DATA;
-  118   1          return((char)result);
-  119   1      }
-  120          
-  121          
-  122          //--
-C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 3   
+   57   2          MOTOR_L_DIR=1;
+   58   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
+   59   2        }
+   60   1        else{
+   61   2          MOTOR_L_DIR=0;
+   62   2          pwm_duty(MOTOR_L_PWM,L_PWM);
+   63   2        }
+   64   1        if(R_PWM<0)
+   65   1        {
+   66   2          MOTOR_R_DIR=1;
+   67   2          pwm_duty(MOTOR_R_PWM,abs(R_PWM));
+   68   2        }
+   69   1        else{
+   70   2          MOTOR_R_DIR=0;
+   71   2          pwm_duty(MOTOR_R_PWM,R_PWM);
+   72   2        }
+   73   1      }
+   74          
+   75          //--
+   76          //  @brief      电机pid调节
+   77          //  @param      kp,ki.kd
+   78          //  @return     void         
+   79          //--
+   80          
+   81          void Motor_SET_PID(float Kp,float Ki,float Kd)
+   82          {
+   83   1        Motor_pid.Motor_Target_Value=0;
+   84   1        Motor_pid.Motor_Actual_Value=0;
+   85   1        Motor_pid.Motor_err=0;
+   86   1        Motor_pid.Motor_err_last=0;
+   87   1        Motor_pid.Motor_err_last2=0;
+   88   1        Motor_pid.Motor_Kp=Kp;
+   89   1        Motor_pid.Motor_Ki=Ki;
+   90   1        Motor_pid.Motor_Kd=Kd;
+   91   1        Motor_pid.Motor_Out_Value=0;
+   92   1        Motor_pid.Motor_integral=0;
+   93   1      }
+   94          
+   95          /*入口：NEW_DATA 新采样值
+   96                 OLD_DATA 上次滤波结果
+   97                 k        滤波系数(0~255)(代表在滤波结果中的权重)
+   98            出口：         本次滤波结果
+   99           */
+  100           char filter_1(char NEW_DATA,char OLD_DATA,char k)
+  101          {
+  102   1          int result;
+  103   1          if(NEW_DATA<OLD_DATA)
+  104   1          {
+  105   2              result=OLD_DATA-NEW_DATA;
+  106   2              result=result*k;
+  107   2              result=result+128;//+128是为了四色五入
+  108   2              result=result/256;
+  109   2              result=OLD_DATA-result;
+  110   2          }
+  111   1          else if(NEW_DATA>OLD_DATA)
+  112   1          {
+  113   2              result=NEW_DATA-OLD_DATA;
+  114   2              result=result*k;
+  115   2              result=result+128;//+128是为了四色五入
+  116   2              result=result/256;
+  117   2              result=OLD_DATA-result;
+  118   2          }
+  119   1          else result=OLD_DATA;
+  120   1          return((char)result);
+  121   1      }
+  122          
+C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 3   
 
-  123          //  @brief      速度环
-  124          //  @param      Target_Value: 目标速度
-  125          //  @param      Actual_Value: 实际速度      
-  126          //  @return     速度环输出        
-  127          //--
-  128          int LSpeed_pid_Out(int Target_Value,int Actual_Value)
-  129          {
-  130   1        int error = 0;
-  131   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  132   1        error = Target_Value - Actual_Value ;
-  133   1        P_out = Motor_P * (error - last_err);
-  134   1        I_out = Motor_I * error;
-  135   1        if (I_out > 2000)
-  136   1          I_out = 2000;
-  137   1        if (I_out < -2000)
-  138   1          I_out = -2000;
-  139   1        out = P_out + I_out;
-  140   1        speed_out += out;
-  141   1        last_err = error;
-  142   1        //Speed_Ring = speed_out;
-  143   1        return (int)speed_out;
-  144   1      }
-  145          
-  146          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
-  147          {
-  148   1        int error = 0;
-  149   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  150   1        error = Target_Value - Actual_Value;
-  151   1        P_out = Motor_P * (error - last_err);
-  152   1        I_out = Motor_I * error;
-  153   1        if (I_out > 2000)
-  154   1          I_out = 2000;
-  155   1        if (I_out < -2000)
-  156   1          I_out = -2000;
-  157   1        out = P_out + I_out;
-  158   1        speed_out += out;
-  159   1        last_err = error;
-  160   1        //Speed_Ring = speed_out;
-  161   1        return (int)speed_out;
-  162   1      }
-  163          
-  164          void Buzzer(int time)
-  165          {
-  166   1        Buzzer_ON;
-  167   1        delay_ms(time);
-  168   1        Buzzer_OFF;
-  169   1      }
+  123          
+  124          //--
+  125          //  @brief      速度环
+  126          //  @param      Target_Value: 目标速度
+  127          //  @param      Actual_Value: 实际速度      
+  128          //  @return     速度环输出        
+  129          //--
+  130          
+  131          
+  132          
+  133          int LSpeed_pid_Out(int Target_Value,int Actual_Value)
+  134          {
+  135   1        int error = 0;
+  136   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  137   1        error = Target_Value - Actual_Value ;
+  138   1        P_out = Motor_P * (error - last_err);
+  139   1        I_out = Motor_I * error;
+  140   1        if (I_out > 800)
+  141   1          I_out = 800;
+  142   1        if (I_out < -800)
+  143   1          I_out = -800;
+  144   1        out = P_out + I_out;
+  145   1        speed_out += out;
+  146   1        last_err = error;
+  147   1        speed_out=limit(speed_out, 7500);
+  148   1        return (int)speed_out;
+  149   1      }
+  150          
+  151          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+  152          {
+  153   1        int error = 0;
+  154   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  155   1        error = Target_Value - Actual_Value;
+  156   1        P_out = Motor_RP * (error - last_err);
+  157   1        I_out = Motor_RI * error;
+  158   1        if (I_out > 800)
+  159   1          I_out = 800;
+  160   1        if (I_out < -800)
+  161   1          I_out = -800;
+  162   1        out = P_out + I_out;
+  163   1        speed_out += out;
+  164   1        last_err = error;
+  165   1        speed_out = limit(speed_out, 7500);
+  166   1        return (int)speed_out;
+  167   1      }
+  168          
+  169          
+  170          
+  171          void Buzzer(int time)
+  172          {
+  173   1        Buzzer_ON;
+  174   1        delay_ms(time);
+  175   1        Buzzer_OFF;
+  176   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       901     ------
+  code size            =       943     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       131     ------
+  edata size           =       139     ------
   bit size             =    ------     ------
+C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 4   
+
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       104     ------
-C251 COMPILER V5.60.0,  Motor                                                              13/05/24  18:23:42  PAGE 4   
-
+  hconst size          =       120     ------
 End of Module Information.
 
 

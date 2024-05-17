@@ -158,8 +158,8 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	
 	L1_NOR_ADC=L1_NOR_ADC;
 	R1_NOR_ADC=I1*R1_NOR_ADC; 
-	L2_NOR_ADC=0.65*L2_NOR_ADC;
-	R2_NOR_ADC=1.25*R2_NOR_ADC;
+	L2_NOR_ADC=L2_NOR_ADC;
+	R2_NOR_ADC=R2_NOR_ADC;
 
 	Left_Val=sq(L1_NOR_ADC*L1_NOR_ADC+L2_NOR_ADC*L2_NOR_ADC);
 	Right_Val=sq(R1_NOR_ADC*R1_NOR_ADC+R2_NOR_ADC*R2_NOR_ADC);
@@ -168,10 +168,6 @@ int16 NORMALIZATION_TRACKING_ADC(float I1,float I2)
 	if(ad_sum>35)
 	{
 		Inductance_Error=(ad_diff <<7)/(ad_sum+1);
-		if(Inductance_Error<40)	
-			Inductance_Error = Inductance_Error * 0.78;
-		else if(Inductance_Error > 75)
-			Inductance_Error = Inductance_Error * 1.2;
 	}
 	//Inductance_Error=ad_diff;
 	return Inductance_Error; //放大128倍
@@ -215,7 +211,7 @@ void show_val(void)
 	oled_printf_float(45, 4,mpu6050_gyro_z/65.6, 5, 6);
 	oled_int16(0,5,L_Pulse);
 	oled_int16(60,5,R_Pulse);
-	oled_int16(0, 6, nh_out);
+	oled_int16(0, 6, dir_out);
 	oled_int16(60, 6, Speed_Ring);
 	//-----------------TOF距离------------------------//
 	//	if(dl1a_finsh_flag)

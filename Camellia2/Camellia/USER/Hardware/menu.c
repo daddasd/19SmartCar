@@ -588,7 +588,7 @@ int Show_Val_Menu(void)
 {
     while(1)
     {
-	    NORMALIZATION_TRACKING_ADC(1,1);
+	    //NORMALIZATION_TRACKING_ADC(1,1);
 		show_val();
         if (key4 == 0)  // 返回
         {
