@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    53   1        if (DIR == 0)
    54   1        {
    55   2          R_Pulse = ctimer_count_read(Encoder_R);
-C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 2   
 
    56   2        }
    57   1        else
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        {
   119   2          mpu6050_get_gyro();
   120   2          L_Pulse = L_Encoder_Pulse()*0.7;
-C251 COMPILER V5.60.0,  encoder                                                            17/05/24  20:49:17  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 3   
 
   121   2          R_Pulse = R_Encoder_Pulse()*0.7;
   122   2          NORMALIZATION_TRACKING_ADC(1, 1);

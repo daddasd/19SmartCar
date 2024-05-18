@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         17/05/24  20:41:26  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         18/05/24  18:41:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    53   1        const float f = 1.5F;
    54   1        
    55   1        x = number * 0.5F;
-C251 COMPILER V5.60.0,  Inductance                                                         17/05/24  20:41:26  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         18/05/24  18:41:17  PAGE 2   
 
    56   1        y = number;
    57   1        i = * ( long * ) &y;
@@ -134,7 +134,7 @@ stmt  level    source
   119   1        L3 = ad_valu1[2];
   120   1        M1 = ad_valu1[3];
   121   1        R3 = ad_valu1[4];
-C251 COMPILER V5.60.0,  Inductance                                                         17/05/24  20:41:26  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         18/05/24  18:41:17  PAGE 3   
 
   122   1        R2 = ad_valu1[5];
   123   1        R1 = ad_valu1[6];
@@ -202,7 +202,7 @@ stmt  level    source
   181          
   182          void show_val(void)
   183          {
-C251 COMPILER V5.60.0,  Inductance                                                         17/05/24  20:41:26  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         18/05/24  18:41:17  PAGE 4   
 
   184   1      //-----------------oled显示电感值----------------------//
   185   1        oled_p6x8str(0,0,"L1:");

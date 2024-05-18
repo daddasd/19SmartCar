@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          18/05/24  18:41:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -24,8 +24,8 @@ stmt  level    source
    12          
    13          float Nh_P = 180;  // 0.5
    14          float Nh_D = 1.9; // 4.1
-   15          float Wh_P = 5.7;
-   16          float Wh_D = 10;
+   15          float Wh_P = 3.7;
+   16          float Wh_D = 7;
    17          float gyro_z3 = 0;
    18          
    19          int Speed_Ring_Flag = 0;
@@ -66,7 +66,7 @@ stmt  level    source
    54           * @param dir_i 
    55           * @return int  
    56           */
-C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          18/05/24  18:41:17  PAGE 2   
 
    57          int nh_Turn_Out(int err, float dir_p, float dir_i)
    58          {
@@ -134,7 +134,7 @@ stmt  level    source
   113           * @param p 
   114           * @param d 
   115           * @return int 
-C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          18/05/24  18:41:17  PAGE 3   
 
   116           */
   117          int Angle_Ring1(double target, float p, float d)
@@ -202,7 +202,7 @@ stmt  level    source
   177          /**
   178           * @brief 控制车行驶的距离
   179           * 
-C251 COMPILER V5.60.0,  direction                                                          17/05/24  20:59:59  PAGE 4   
+C251 COMPILER V5.60.0,  direction                                                          18/05/24  18:41:17  PAGE 4   
 
   180           * @param L_Distanc 
   181           * @param R_Distance 

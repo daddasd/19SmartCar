@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -66,7 +66,7 @@ stmt  level    source
    54          {
    55   1        if(L_PWM<0)
    56   1        {
-C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 2   
 
    57   2          MOTOR_L_DIR=1;
    58   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
@@ -134,7 +134,7 @@ stmt  level    source
   120   1          return((char)result);
   121   1      }
   122          
-C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 3   
 
   123          
   124          //--
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   xdata-const size     =    ------     ------
   edata size           =       139     ------
   bit size             =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              17/05/24  20:59:54  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 4   
 
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

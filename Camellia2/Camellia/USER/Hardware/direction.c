@@ -12,8 +12,8 @@
 
 float Nh_P = 180;  // 0.5
 float Nh_D = 1.9; // 4.1
-float Wh_P = 5.7;
-float Wh_D = 10;
+float Wh_P = 3.7;
+float Wh_D = 7;
 float gyro_z3 = 0;
 
 int Speed_Ring_Flag = 0;
