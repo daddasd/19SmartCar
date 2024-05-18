@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    53   1        if (DIR == 0)
    54   1        {
    55   2          R_Pulse = ctimer_count_read(Encoder_R);
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 2   
 
    56   2        }
    57   1        else
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        {
   119   2          mpu6050_get_gyro();
   120   2          L_Pulse = L_Encoder_Pulse()*0.7;
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  18:41:17  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 3   
 
   121   2          R_Pulse = R_Encoder_Pulse()*0.7;
   122   2          NORMALIZATION_TRACKING_ADC(1, 1);
@@ -152,12 +152,12 @@ stmt  level    source
   134   2          //Angle_Ring1(90, 1.65,5);  
   135   2          //    L = L_Pulse;
   136   2          //    R = R_Pulse;
-  137   2          //OUT1 = LSpeed_pid_Out(30, L_Pulse);
-  138   2          //OUT2 = RSpeed_pid_Out(30, R_Pulse);
-  139   2          // Motor_PWM(nh_out, -nh_out);
-  140   2          Tracking(15);
+  137   2          //OUT1 = LSpeed_pid_Out(15, L_Pulse);
+  138   2          //OUT2 = RSpeed_pid_Out(15, R_Pulse);
+  139   2          //Motor_PWM(OUT1, OUT2);
+  140   2          Tracking(10);
   141   2          //OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-  142   2          //Motor_PWM(OUT1, OUT2);
+  142   2          //Motor_PWM(-OUT1, OUT1);
   143   2          ctimer_count_clean(Encoder_L);
   144   2          ctimer_count_clean(Encoder_R);
   145   2          TIM4_CLEAR_FLAG; //????��???

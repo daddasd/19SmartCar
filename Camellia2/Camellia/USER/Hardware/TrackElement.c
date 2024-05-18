@@ -77,84 +77,14 @@ void Crossroad(void)
 
 
 /**
-*  @brief      六边环岛
+*  @brief      左六边环岛
 *  @param      角度
 *  @return     void       
 **/
-//void Roundabout(float angle)
-//{
-//	 static int bmq_flag=0,angle_flag=0,angle2=0,yu_flag=0,angle_flag2=0,status=0;
-//	 if(L1_NOR_ADC>100&&R1_NOR_ADC>55&&R2_NOR_ADC<15&&L2_NOR_ADC<15||ring_flag==0||ring_flag==1)//六边环岛
-//	 {
-//		 if(status==0)  //预进入环岛
-//			if(bmq_jifen<4524&&bmq_flag==0)
-//			{
-//				bmq_jifen+=(R_Pulse+L_Pulse)/2;
-//				Motor_PWM(2000,2000);
-//				ring_flag=0;
-//				Track_flag=0;
-//			}
-//			else
-//			{
-//				status=1; 
-//				bmq_jifen=0;
-//				bmq_flag=1; //编码器停止积分
-//				angle_flag2=2;//进入环岛打固定角度
-//			}
-//		else if(status==1)//进入环岛
-//		{	
-//			if(angle_flag2==2&&angle_flag==0)//转40度
-//			{
-//				if (Angle_Ring(45, angle1, Angle_P, Angle_I, Angle_D))
-//				{
-//					angle1=0;  //角度积分清零
-//					yu_flag=3;//编码器开启积分
-//					angle_flag2=0;//退出角度积分
-//					angle_flag=1;//停止陀螺仪积分
-//				}
-//				else
-//						angle1+=(Get_Angle()/7387)+0.0001;
-//			}
-//			if(yu_flag==3) //进入圆环行驶一段距离开始正常循迹
-//			{
-//				if(bmq_jifen<1024&&yu_flag==3)
-//				{
-//					bmq_jifen+=(R_Pulse+L_Pulse)/2;
-//					Motor_PWM(2000,2000);
-//				}
-//				else
-//				{
-//					bmq_jifen=0;
-//					yu_flag=0; //编码器停止积分
-//					ring_flag=4;//进入圆环结束
-//					status=3;
-//					Track_flag=1;//正常循迹
-//				}			
-//			}
-//		}
-//		else if(status==3) //出环岛
-//		{
-//			if(R1_NOR_ADC>30&&L1_NOR_ADC>30&&R2_NOR_ADC<10&&L2_NOR_ADC>15||status==3)//出六边环岛
-//			{
-//				if(bmq_jifen<1524&&status==3)
-//				{
-//					bmq_jifen+=(R_Pulse+L_Pulse)/2;
-//					Motor_PWM(1800,2300);
-//				}
-//				else
-//				{
-//					bmq_jifen=0;
-//					status=4;
-//					Track_flag=1;//正常循迹
-//				}		
-//			}
-//		}
-//		else
-//			 Track_flag=1;
-//	 }
-//	 else 
-//		 Track_flag=1;
-//}
+// void LRoundabout(float angle)
+// {
+// 	if(L1_NOR_ADC>50&&L2_NOR_ADC>30&&L3_NOR_ADC)
+// }
 /**
  * @brief 根据标志位给不同速度
  * 
@@ -215,7 +145,7 @@ void Tracking(int Set_speed)
 		count=0;
 	}
 		
-		Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
+	Motor_PWM(Lpwm-dir_out,Rpwm+dir_out);
 }
 /**
  * @brief 根据不同速度给标志位

@@ -12,8 +12,8 @@
 
 float Nh_P = 180;  // 0.5
 float Nh_D = 1.9; // 4.1
-float Wh_P = 3.7;
-float Wh_D = 7;
+float Wh_P = 1.7;
+float Wh_D = 8.5;
 float gyro_z3 = 0;
 
 int Speed_Ring_Flag = 0;
@@ -80,6 +80,7 @@ int DirControl(void)
 {
   static int count = 0;
   static int wh_out = 0;
+  int nh_out = 0;
   if (count == 3)
   {
     wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);

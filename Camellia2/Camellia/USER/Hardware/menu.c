@@ -355,7 +355,7 @@ int Second_Motor_menu(void)
 int Second__NWHuan_menu(void)
 {
     int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
-    float x =1,x1=0.005;
+    float x =0.01,x1=0.005;
     uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
 	  int page1 = 1;

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  19:34:38  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -24,11 +24,11 @@ stmt  level    source
    12          
    13          #define MOTOR_MAX  8000
    14          
-   15          float Motor_P = 290;
-   16          float Motor_I = 17.5 ;
+   15          float Motor_P = 260;
+   16          float Motor_I = 15.5 ;
    17          
-   18          float Motor_RP = 355;
-   19          float Motor_RI = 24.5;
+   18          float Motor_RP = 285;
+   19          float Motor_RI = 18.5;
    20          float Speed_Ring = 0;
    21          
    22          Motor_PID_InitTypedef Motor_pid;
@@ -66,7 +66,7 @@ stmt  level    source
    54          {
    55   1        if(L_PWM<0)
    56   1        {
-C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  19:34:38  PAGE 2   
 
    57   2          MOTOR_L_DIR=1;
    58   2          pwm_duty(MOTOR_L_PWM,abs(L_PWM));
@@ -134,7 +134,7 @@ stmt  level    source
   120   1          return((char)result);
   121   1      }
   122          
-C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  19:34:38  PAGE 3   
 
   123          
   124          //--
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   xdata-const size     =    ------     ------
   edata size           =       139     ------
   bit size             =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              18/05/24  18:41:17  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              18/05/24  19:34:38  PAGE 4   
 
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

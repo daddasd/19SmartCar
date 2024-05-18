@@ -12,11 +12,11 @@
 
 #define MOTOR_MAX  8000
 
-float Motor_P = 290;
-float Motor_I = 17.5 ;
+float Motor_P = 260;
+float Motor_I = 15.5 ;
 
-float Motor_RP = 355;
-float Motor_RI = 24.5;
+float Motor_RP = 285;
+float Motor_RI = 18.5;
 float Speed_Ring = 0;
 
 Motor_PID_InitTypedef Motor_pid;

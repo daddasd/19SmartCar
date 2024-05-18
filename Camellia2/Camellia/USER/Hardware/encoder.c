@@ -134,12 +134,12 @@ void TM4_Isr() interrupt 20
 		//Angle_Ring1(90, 1.65,5);	
 		//		L = L_Pulse;
 		//		R = R_Pulse;
-		//OUT1 = LSpeed_pid_Out(30, L_Pulse);
-		//OUT2 = RSpeed_pid_Out(30, R_Pulse);
-		// Motor_PWM(nh_out, -nh_out);
-		Tracking(15);
-		//OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+		//OUT1 = LSpeed_pid_Out(15, L_Pulse);
+		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
 		//Motor_PWM(OUT1, OUT2);
+		Tracking(10);
+		//OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+		//Motor_PWM(-OUT1, OUT1);
 		ctimer_count_clean(Encoder_L);
 		ctimer_count_clean(Encoder_R);
 		TIM4_CLEAR_FLAG; //????��???
