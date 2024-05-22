@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  main                                                               17/05/24  20:20:07  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               22/05/24  15:46:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
 OBJECT MODULE PLACED IN .\Out_File\main.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE I
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE I
                     -NCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\i
                     -nc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\main.obj) 
 
@@ -11,73 +11,72 @@ stmt  level    source
 
     1          
     2          #include "headfile.h"
-    3          //你不玩原神，小车怎么启动啊 ! ! !
+    3          // 你不玩原神，小车怎么启动啊 ! ! !
     4          
-    5          
-    6          /**
-    7          *@Pin Motor:42,14(pwm),52,17(pwm)
-    8          *@Pin ADC: P03,02,01,11,10,06,02,10;P05(给采集电池电压)
-    9          *@Pin TFT: P25,23,20,21,22,27
-   10          *@Pin Encoder : P34-L P35-R  与GND上   计高低电平 P16-L P50-R TIM4 与VCC下
-   11          *@Pin KEY_Pin   P37（上，加）,36（确定）,45（下，减）,43（返回）
-   12          *@Pin TOF  IIC SDA: P15 SCL 33 24 51
-   13          *@Pin mpu6050 SCL P40 SDA P41
-   14          *@Pin 下载: UART1_RX_P30, UART1_TX_P31
-   15          *@Pin Buzzer: P13
-   16          *@Pin RGB: P26
-   17          **/  
-   18          
+    5          /**
+    6           *@Pin Motor:42,14(pwm),52,17(pwm)
+    7           *@Pin ADC: P03,02,01,11,10,06,02,10;P05(给采集电池电压)
+    8           *@Pin TFT: P25,23,20,21,22,27
+    9           *@Pin Encoder : P34-L P35-R  与GND上   计高低电平 P16-L P50-R TIM4 与VCC下
+   10           *@Pin KEY_Pin  P37（上，加）,36（确定）,45（下，减）,43（返回）
+   11           *@Pin TOF  IIC SDA: P15 SCL 33 24 51
+   12           *@Pin mpu6050 SCL P40 SDA P41
+   13           *@Pin 下载: UART1_RX_P30, UART1_TX_P31
+   14           *@Pin Buzzer: P13
+   15           *@Pin RGB: P26
+   16           **/
+   17          
+   18          #include "myconfig.h"
    19          
-   20          #include "myconfig.h"
+   20          // 注意10000是最大占空比 PWM
    21          
-   22          
-   23          //注意10000是最大占空比 PWM
-   24          
-   25          //圣经：小车不会因为你把他弄得太丑，他只会嫌弃自己让你在终点等的太久
-   26          
-   27          // 关于内核频率的设定，可以查看board.h文件
-   28          // 在board_init中,已经将P54引脚设置为复位
-   29          // 如果需要使用P54引脚,可以在board.c文件中的board_init()函数中删除SET_P54_RESRT即可
+   22          // 圣经：小车不会因为你把他弄得太丑，他只会嫌弃自己让你在终点等的太久
+   23          
+   24          // 关于内核频率的设定，可以查看board.h文件
+   25          // 在board_init中,已经将P54引脚设置为复位
+   26          // 如果需要使用P54引脚,可以在board.c文件中的board_init()函数中删除SET_P54_RESRT即可
+   27          
+   28          int flag = 0;
+   29          int menu = 0;
    30          
-   31          int flag=0;
-   32          int menu = 0;
-   33          
-   34          int Car_Start_Flag = 0;
-   35          int Car_Stop_Flag = 0;
-   36          float Gyro_Diff = 0;
-   37          void main()
-   38          {
-   39   1        int i=0;
-   40   1        int32 ns_delay = 0xffffffff;
-   41   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
-   42   1        board_init();         // 初始化寄存器,勿删除此句代码。
-   43   1          // 此处编写用户代码 例如外设初始化代码等
-   44   1        GPIO_Init();
-   45   1        ALL_Peripheral_Init();
-   46   1        Gyro_Diff=gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
-   47   1        delay_ms(500);
-   48   1        //RGB_Color(76, 0, 153);
-   49   1        while (1)
-   50   1        {
-   51   2          menu = First_menu();
-   52   2          if(menu == 1) Second_Element_menu();
-   53   2          if(menu == 2) Second_Motor_menu();
-*** WARNING C140 IN LINE 53 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+   31          int Car_Start_Flag = 0;
+   32          int Car_Stop_Flag = 0;
+   33          float Gyro_Diff = 0;
+   34          void main()
+   35          {
+   36   1        int i = 0;
+   37   1        int32 ns_delay = 0xffffffff;
+   38   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
+   39   1        board_init();         // 初始化寄存器,勿删除此句代码。
+   40   1                        // 此处编写用户代码 例如外设初始化代码等
+   41   1        GPIO_Init();
+   42   1        ALL_Peripheral_Init();
+   43   1        delay_ms(1500);         // 等待外设准备完毕
+   44   1        Gyro_Diff = gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
+   45   1        // RGB_Color(76, 0, 153);
+   46   1        while (1)
+   47   1        {
+   48   2          menu = First_menu();
+   49   2          if (menu == 1)
+   50   2            Second_Element_menu();
+   51   2          if (menu == 2)
+   52   2            Second_Motor_menu();
+*** WARNING C140 IN LINE 52 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
-   54   2          if(menu == 3) Second__NWHuan_menu();
-   55   2          if(menu == 4) Second__Speed_menu();
-C251 COMPILER V5.60.0,  main                                                               17/05/24  20:20:07  PAGE 2   
+   53   2          if (menu == 3)
+   54   2            Second__NWHuan_menu();
+   55   2          if (menu == 4)
+C251 COMPILER V5.60.0,  main                                                               22/05/24  15:46:29  PAGE 2   
 
-   56   2          if(menu == 5) Show_Val_Menu();
-   57   2          if(menu == 6){
-   58   3            Car_Start_Flag = 1;
-   59   3          }
-   60   2        }
-   61   1      }
-   62          
-   63          
-   64          
-   65                                               
+   56   2            Second__Speed_menu();
+   57   2          if (menu == 5)
+   58   2            Show_Val_Menu();
+   59   2          if (menu == 6)
+   60   2          {
+   61   3            Car_Start_Flag = 1;
+   62   3          }
+   63   2        }
+   64   1      }
 
 
 Module Information          Static   Overlayable

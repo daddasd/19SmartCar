@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -14,167 +14,162 @@ stmt  level    source
     2          
     3          int dir_out = 0, nh_out = 0;
     4          int L_Pulse = 0, R_Pulse = 0, Sum_Pulse = 0;
-    5          double angle1 = 0.0;
-    6          int speed = 105;
-    7          float Ang = 0;
+    5          
+    6          int L_Dis = 0;
+    7          int R_Dis = 0;
     8          
-    9          
-   10          float L = 0, R = 0;
-   11          //--
-   12          //  @brief      ???????????
-   13          //  @param      void
-   14          //  @return     void
+    9          double angle1 = 0.0;
+   10          int speed = 105;
+   11          float Ang = 0;
+   12          int PWM_Out = 0;
+   13          
+   14          float L = 0, R = 0;
    15          //--
-   16          
-   17          void Encoder_Time_Init(void)
-   18          {
-   19   1        pit_timer_ms(TIM_4, 2);
-   20   1        gpio_mode(Encoder_L, GPI_IMPEDANCE);
-   21   1        gpio_mode(Encoder_R, GPI_IMPEDANCE);
-   22   1        ctimer_count_init(Encoder_L);
-   23   1        ctimer_count_init(Encoder_R);
-   24   1        EnableGlobalIRQ(); //???????锟斤拷?
-   25   1      }
-   26          
-   27          //--
-   28          //  @brief      ??????????????
-   29          //  @param      void
-   30          //  @return     return : ?????
+   16          //  @brief      ???????????
+   17          //  @param      void
+   18          //  @return     void
+   19          //--
+   20          
+   21          void Encoder_Time_Init(void)
+   22          {
+   23   1        pit_timer_ms(TIM_4, 2);
+   24   1        gpio_mode(Encoder_L, GPI_IMPEDANCE);
+   25   1        gpio_mode(Encoder_R, GPI_IMPEDANCE);
+   26   1        ctimer_count_init(Encoder_L);
+   27   1        ctimer_count_init(Encoder_R);
+   28   1        EnableGlobalIRQ(); //???????锟斤拷?
+   29   1      }
+   30          
    31          //--
-   32          
-   33          int L_Encoder_Pulse(void)
-   34          {
-   35   1        if (DIL == 1)
-   36   1        {
-   37   2          L_Pulse = ctimer_count_read(Encoder_L);
-   38   2        }
-   39   1        else
+   32          //  @brief      ??????????????
+   33          //  @param      void
+   34          //  @return     return : ?????
+   35          //--
+   36          
+   37          int L_Encoder_Pulse(void)
+   38          {
+   39   1        if (DIL == 1)
    40   1        {
-   41   2          L_Pulse = -ctimer_count_read(Encoder_L);
-*** WARNING C115 IN LINE 41 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   41   2          L_Pulse = ctimer_count_read(Encoder_L);
    42   2        }
-   43   1        return L_Pulse;
-   44   1      }
-   45          
-   46          //--
-   47          //  @brief      ??????????????
-   48          //  @param      void
-   49          //  @return     return : ?????
-   50          //--
-   51          int R_Encoder_Pulse(void)
-   52          {
-   53   1        if (DIR == 0)
-   54   1        {
-   55   2          R_Pulse = ctimer_count_read(Encoder_R);
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 2   
+   43   1        else
+   44   1        {
+   45   2          L_Pulse = -ctimer_count_read(Encoder_L);
+*** WARNING C115 IN LINE 45 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   46   2        }
+   47   1        ctimer_count_clean(Encoder_L);
+   48   1        return L_Pulse;
+   49   1      }
+   50          
+   51          //--
+   52          //  @brief      ??????????????
+   53          //  @param      void
+   54          //  @return     return : ?????
+   55          //--
+C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 2   
 
-   56   2        }
-   57   1        else
-   58   1        {
-   59   2          R_Pulse = -ctimer_count_read(Encoder_R);
-*** WARNING C115 IN LINE 59 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
-   60   2        }
-   61   1        return R_Pulse;
-   62   1      }
-   63          
-   64          //--
-   65          //  @brief      ?????????
-   66          //  @param      void
-   67          //  @return     void
-   68          //--
-   69          void Encoder_Read_Pulse(void)
-   70          {
-   71   1        L_Encoder_Pulse();
-   72   1        R_Encoder_Pulse();
-   73   1      }
+   56          int R_Encoder_Pulse(void)
+   57          {
+   58   1        if (DIR == 0)
+   59   1        {
+   60   2          R_Pulse = ctimer_count_read(Encoder_R);
+   61   2        }
+   62   1        else
+   63   1        {
+   64   2          R_Pulse = -ctimer_count_read(Encoder_R);
+*** WARNING C115 IN LINE 64 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   65   2        }
+   66   1        ctimer_count_clean(Encoder_R);
+   67   1        return R_Pulse;
+   68   1      }
+   69          
+   70          //--
+   71          //  @brief      ?????????
+   72          //  @param      void
+   73          //  @return     void
    74          //--
-   75          //  @brief      ???????????
-   76          //  @param      L_cont??R_cont?????????
-   77          //  @return     void
-   78          //--
-   79          int L_Enc_integral(int L_target)
-   80          {
-   81   1        static int L = 0, L_flag;
-   82   1        L += L_Encoder_Pulse();
-   83   1        if (L > L_target)
-   84   1        {
-   85   2          L_flag = 1;
-   86   2        }
-   87   1        if (L_flag == 1)
-   88   1        {
-   89   2          L = 0;
-   90   2          L_flag = 0;
-   91   2          return 0;
+   75          void Encoder_Read_Pulse(void)
+   76          {
+   77   1        L_Encoder_Pulse();
+   78   1        R_Encoder_Pulse();
+   79   1      }
+   80          //--
+   81          //  @brief      ???????????
+   82          //  @param      L_cont??R_cont?????????
+   83          //  @return     void
+   84          //--
+   85          int L_Enc_integral(int L_target)
+   86          {
+   87   1        static int L = 0, L_flag;
+   88   1        L += L_Encoder_Pulse();
+   89   1        if (L > L_target)
+   90   1        {
+   91   2          L_flag = 1;
    92   2        }
-   93   1        return 1;
-   94   1      }
-   95          
-   96          int R_Enc_integral(int R_target)
-   97          {
-   98   1        static int R = 0, R_flag;
-   99   1        R += R_Encoder_Pulse();
-  100   1        if (R > R_target)
-  101   1        {
-  102   2          R_flag = 1;
-  103   2        }
-  104   1        if (R_flag == 1)
-  105   1        {
-  106   2          R_flag = 0;
-  107   2          R = 0;
-  108   2          return 0;
+   93   1        if (L_flag == 1)
+   94   1        {
+   95   2          L = 0;
+   96   2          L_flag = 0;
+   97   2          return 0;
+   98   2        }
+   99   1        return 1;
+  100   1      }
+  101          
+  102          int R_Enc_integral(int R_target)
+  103          {
+  104   1        static int R = 0, R_flag;
+  105   1        R += R_Encoder_Pulse();
+  106   1        if (R > R_target)
+  107   1        {
+  108   2          R_flag = 1;
   109   2        }
-  110   1        return 1;
-  111   1      }
-  112          
-  113          void TM4_Isr() interrupt 20
-  114          {
-  115   1        static int count = 0, OUT1, OUT2, groy = 0;
-  116   1        int nh = 0;
-  117   1        if (Car_Start_Flag)
-  118   1        {
-  119   2          mpu6050_get_gyro();
-  120   2          L_Pulse = L_Encoder_Pulse()*0.7;
-C251 COMPILER V5.60.0,  encoder                                                            18/05/24  19:25:54  PAGE 3   
+  110   1        if (R_flag == 1)
+  111   1        {
+  112   2          R_flag = 0;
+  113   2          R = 0;
+  114   2          return 0;
+  115   2        }
+  116   1        return 1;
+  117   1      }
+  118          
+  119          void TM4_Isr() interrupt 20
+  120          {
+C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 3   
 
-  121   2          R_Pulse = R_Encoder_Pulse()*0.7;
-  122   2          NORMALIZATION_TRACKING_ADC(1, 1);
-  123   2          // Roundabout();
-  124   2          // if(Track_flag)
-  125   2          // Right_Angle();
-  126   2          // Error_Speed();
-  127   2          // if(Angle_Ring(90, 25, 1))
-  128   2          //  {
-  129   2              
-  130   2          //  }
-  131   2          //Car_Distance(2024);
-  132   2          //Angle_Ring1(90, 180, 1080);
-  133   2      
-  134   2          //Angle_Ring1(90, 1.65,5);  
-  135   2          //    L = L_Pulse;
-  136   2          //    R = R_Pulse;
-  137   2          //OUT1 = LSpeed_pid_Out(15, L_Pulse);
-  138   2          //OUT2 = RSpeed_pid_Out(15, R_Pulse);
-  139   2          //Motor_PWM(OUT1, OUT2);
-  140   2          Tracking(10);
-  141   2          //OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-  142   2          //Motor_PWM(-OUT1, OUT1);
-  143   2          ctimer_count_clean(Encoder_L);
-  144   2          ctimer_count_clean(Encoder_R);
-  145   2          TIM4_CLEAR_FLAG; //????锟斤拷???
-  146   2        }
-  147   1      }
+  121   1        static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0;
+  122   1        int nh = 0;
+  123   1        if (Car_Start_Flag)
+  124   1        {
+  125   2          imu660ra_get_gyro();
+  126   2          dl1a_get_distance();
+  127   2          L_Pulse = L_Encoder_Pulse() * 0.7;
+  128   2          R_Pulse = R_Encoder_Pulse() * 0.7;
+  129   2          NORMALIZATION_TRACKING_ADC(1, 1);
+  130   2          gyro_z3 += Get_Gyro_Z;
+  131   2          // LRoundabout();
+  132   2          //  Angle_Ring1(90, 0.85,0.28);  //这个参数可以 5/19
+  133   2          //  PWM_Out = LSpeed_pid_Out(15, L_Pulse);
+  134   2          //  OUT2 = RSpeed_pid_Out(15, R_Pulse);
+  135   2          //  Motor_PWM(0, 1500);
+  136   2          // Tracking(10);
+  137   2          //  OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+  138   2          // Buzzer_OFF;
+  139   2          //  Motor_PWM(PWM_Out, OUT2);
+  140   2          TIM4_CLEAR_FLAG;
+  141   2        }
+  142   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       438     ------
+  code size            =       488     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        50     ------
+  edata size           =        58     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -182,7 +177,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =        92     ------
+  hconst size          =       116     ------
 End of Module Information.
 
 

@@ -10,9 +10,6 @@ extern Err_speed;
 void Distace(int flag);
 void Sub_Pid(float error);
 void Crossroad(void);
-void Right_Angle(void);
-void Roundabout(float angle);
+void LRoundabout(void);
 void Tracking(int Ser_speed);
 #endif
-
-

@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  zf_delay                                                           17/05/24  19:14:48  PAGE 1   
+C251 COMPILER V5.60.0,  zf_delay                                                           22/05/24  15:46:26  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE zf_delay
 OBJECT MODULE PLACED IN .\Out_File\zf_delay.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_delay.c XSMALL WARNINGLEVEL(3)
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\..\Libraries\seekfree_libraries\zf_delay.c XSMALL WARNINGLEVEL(3)
                     - OPTIMIZE(0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_p
                     -eripheral;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\zf_delay.lst) TABS(2
                     -) OBJECT(.\Out_File\zf_delay.obj) 
@@ -13,17 +13,17 @@ stmt  level    source
     1          /********************************************************************************************************
              -*************
     2           * COPYRIGHT NOTICE
-    3           * Copyright (c) 2020,Öğ·É¿Æ¼¼
+    3           * Copyright (c) 2020,é€é£ç§‘æŠ€
     4           * All rights reserved.
-    5           * ¼¼ÊõÌÖÂÛQQÈº£ºÒ»Èº£º179029047(ÒÑÂú)  ¶şÈº£º244861897(ÒÑÂú)  ÈıÈº£º824575535
+    5           * æŠ€æœ¯è®¨è®ºQQç¾¤ï¼šä¸€ç¾¤ï¼š179029047(å·²æ»¡)  äºŒç¾¤ï¼š244861897(å·²æ»¡)  ä¸‰ç¾¤ï¼š824575535
     6           *
-    7           * ÒÔÏÂËùÓĞÄÚÈİ°æÈ¨¾ùÊôÖğ·É¿Æ¼¼ËùÓĞ£¬Î´¾­ÔÊĞí²»µÃÓÃÓÚÉÌÒµÓÃÍ¾£¬
-    8           * »¶Ó­¸÷Î»Ê¹ÓÃ²¢´«²¥±¾³ÌĞò£¬ĞŞ¸ÄÄÚÈİÊ±±ØĞë±£ÁôÖğ·É¿Æ¼¼µÄ°æÈ¨ÉùÃ÷¡£
+    7           * ä»¥ä¸‹æ‰€æœ‰å†…å®¹ç‰ˆæƒå‡å±é€é£ç§‘æŠ€æ‰€æœ‰ï¼Œæœªç»å…è®¸ä¸å¾—ç”¨äºå•†ä¸šç”¨é€”ï¼Œ
+    8           * æ¬¢è¿å„ä½ä½¿ç”¨å¹¶ä¼ æ’­æœ¬ç¨‹åºï¼Œä¿®æ”¹å†…å®¹æ—¶å¿…é¡»ä¿ç•™é€é£ç§‘æŠ€çš„ç‰ˆæƒå£°æ˜ã€‚
     9           *
    10           * @file          delay
-   11           * @company       ³É¶¼Öğ·É¿Æ¼¼ÓĞÏŞ¹«Ë¾
-   12           * @author        Öğ·É¿Æ¼¼(QQ790875685)
-   13           * @version       ²é¿´docÄÚversionÎÄ¼ş °æ±¾ËµÃ÷
+   11           * @company       æˆéƒ½é€é£ç§‘æŠ€æœ‰é™å…¬å¸
+   12           * @author        é€é£ç§‘æŠ€(QQ790875685)
+   13           * @version       æŸ¥çœ‹docå†…versionæ–‡ä»¶ ç‰ˆæœ¬è¯´æ˜
    14           * @Software    MDK FOR C251 V5.60
    15           * @Target core   STC32F12K
    16           * @Taobao      https://seekfree.taobao.com/
@@ -41,10 +41,10 @@ stmt  level    source
    27          
    28          //-------------------------------------------------------------------------------------------------------
              -------------
-   29          //  @brief      Èí¼şÑÓÊ±º¯Êı³õÊ¼»¯
+   29          //  @brief      è½¯ä»¶å»¶æ—¶å‡½æ•°åˆå§‹åŒ–
    30          //  @param      NULL         
    31          //  @return     void
-   32          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+   32          //  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
    33          //-------------------------------------------------------------------------------------------------------
              -------------
    34          void delay_init(void)
@@ -55,10 +55,10 @@ stmt  level    source
    39          
    40          //-------------------------------------------------------------------------------------------------------
              -------------
-   41          //  @brief      Èí¼şÑÓÊ±º¯Êı(ÕâÊÇÒ»¸ö²»×¼È·µÄÑÓÊ±)
-   42          //  @param      x             ĞèÒªÑÓÊ±µÄÊ±¼ä£¨ms£©
+   41          //  @brief      è½¯ä»¶å»¶æ—¶å‡½æ•°(è¿™æ˜¯ä¸€ä¸ªä¸å‡†ç¡®çš„å»¶æ—¶)
+   42          //  @param      x             éœ€è¦å»¶æ—¶çš„æ—¶é—´ï¼ˆmsï¼‰
    43          //  @return     void
-   44          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+   44          //  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
    45          //-------------------------------------------------------------------------------------------------------
              -------------
    46          void delay_ms(uint16 ms)
@@ -66,7 +66,7 @@ stmt  level    source
    48   1        vuint16 i;
    49   1        do {
    50   2            i = zf_delay_ms;
-C251 COMPILER V5.60.0,  zf_delay                                                           17/05/24  19:14:48  PAGE 2   
+C251 COMPILER V5.60.0,  zf_delay                                                           22/05/24  15:46:26  PAGE 2   
 
    51   2            while(--i);
    52   2           }while(--ms);
@@ -74,10 +74,10 @@ stmt  level    source
    54          
    55          //-------------------------------------------------------------------------------------------------------
              -------------
-   56          //  @brief      Èí¼şÑÓÊ±º¯Êı(ÕâÊÇÒ»¸ö²»×¼È·µÄÑÓÊ±)
-   57          //  @param      x             ĞèÒªÑÓÊ±µÄÊ±¼ä£¨us£©
+   56          //  @brief      è½¯ä»¶å»¶æ—¶å‡½æ•°(è¿™æ˜¯ä¸€ä¸ªä¸å‡†ç¡®çš„å»¶æ—¶)
+   57          //  @param      x             éœ€è¦å»¶æ—¶çš„æ—¶é—´ï¼ˆusï¼‰
    58          //  @return     void
-   59          //  Sample usage:               ÎŞĞèÓÃ»§µ÷ÓÃ£¬ÓÃ»§ÇëÊ¹ÓÃhÎÄ¼şÖĞµÄºê¶¨Òå
+   59          //  Sample usage:               æ— éœ€ç”¨æˆ·è°ƒç”¨ï¼Œç”¨æˆ·è¯·ä½¿ç”¨hæ–‡ä»¶ä¸­çš„å®å®šä¹‰
    60          //-------------------------------------------------------------------------------------------------------
              -------------
    61          void delay_us(uint32 us)
@@ -92,7 +92,7 @@ stmt  level    source
    70          void delay_ns(unsigned int ns)
    71          {
 *** WARNING C57 IN LINE 71 OF ..\..\Libraries\seekfree_libraries\zf_delay.c: parameter 1: different from declaration
-   72   1        unsigned int cycles = ns * 56 / 10; // ¸ù¾İ 56MHz Ö÷Æµ¼ÆËãÑ­»·´ÎÊı
+   72   1        unsigned int cycles = ns * 56 / 10; // æ ¹æ® 56MHz ä¸»é¢‘è®¡ç®—å¾ªç¯æ¬¡æ•°
    73   1      }
 
 

@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  mpu6050                                                            18/05/24  18:41:18  PAGE 1   
+C251 COMPILER V5.60.0,  mpu6050                                                            22/05/24  15:46:29  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE mpu6050
 OBJECT MODULE PLACED IN .\Out_File\mpu6050.obj
-COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\mpu6050.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\mpu6050.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\mpu6050.lst) TABS(2) OBJECT(.\Out_File\
                     -mpu6050.obj) 
@@ -11,7 +11,7 @@ COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\mpu6050.c X
 stmt  level    source
 
     1          /*
-    2           * @Description: 
+    2           * @Description:
     3           * @Author: Yzhi
     4           * @Date: 2023-10-22 08:38:21
     5           * @LastEditTime: 2023-11-15 22:02:55
@@ -23,50 +23,54 @@ stmt  level    source
    11          #define WINDOW_SIZE 10
    12          #define LOW_PASS_ALPHA 0.4f
    13          
-   14          float gyro_zero_wander(void) {
-   15   1          static float sum = 0;
-   16   1          static int flag = 1;
-   17   1          int i=0;
-   18   1          if (flag == 1) {
-   19   2              for (i = 0; i < 100; i++) {
-   20   3                  mpu6050_get_gyro();
-   21   3                  sum = sum + mpu6050_gyro_z;
-   22   3              }
-   23   2              flag = 0;
-   24   2              return sum / 100;
-   25   2          }
-   26   1          return sum / 100;
-   27   1      }
-   28          
-   29          double Gyro_filter(double val)
-   30          {
-   31   1          int i = 0;
-   32   1          float sum = 0;
-   33   1          for (i = 0; i < 10; i++)
-   34   1          {
-   35   2              sum += val-Gyro_Diff;
-   36   2          }
-   37   1          sum = sum / 10;
-   38   1          return sum;
-   39   1      }
-   40          
-   41          double lowPassFilter(double current, double previous, float alpha)
-   42          {
-   43   1          // 低通滤波器
-   44   1          return alpha * current + (1 - alpha) * previous;
-   45   1      }
-   46          
-   47          double Get_Angle() {
-   48   1          // 假设 mpu6050_gyro_z 是一个全局变量，表示陀螺仪的 z 轴角速度
-   49   1          static int last_Val = 0;
-   50   1          double groy_z = 0;
-   51   1          groy_z = Gyro_filter(mpu6050_gyro_z);
-   52   1          // 返回经过低通滤波和中值滤波后的角度值
-   53   1          return groy_z;
-   54   1      }
+   14          float gyro_zero_wander(void)
+   15          {
+   16   1          static float sum = 0;
+   17   1          static int flag = 1;
+   18   1          int i = 0;
+   19   1          if (flag == 1)
+   20   1          {
+   21   2              for (i = 0; i < 2000; i++)
+   22   2              {
+   23   3                  imu660ra_get_gyro();
+   24   3                  sum = sum + imu660ra_gyro_z;
+   25   3              }
+   26   2              flag = 0;
+   27   2              return sum / 2000;
+   28   2          }
+   29   1          return sum / 2000;
+   30   1      }
+   31          
+   32          double Gyro_filter(double val)
+   33          {
+   34   1          int i = 0;
+   35   1          float sum = 0;
+   36   1          for (i = 0; i < 10; i++)
+   37   1          {
+   38   2              sum += val - Gyro_Diff;
+   39   2          }
+   40   1          sum = sum / 10;
+   41   1          return sum;
+   42   1      }
+   43          
+   44          double lowPassFilter(double current, double previous, float alpha)
+   45          {
+   46   1          // 低通滤波器
+   47   1          return alpha * current + (1 - alpha) * previous;
+   48   1      }
+   49          
+   50          double Get_Angle()
+   51          {
+   52   1          // 假设 mpu6050_gyro_z 是一个全局变量，表示陀螺仪的 z 轴角速度
+   53   1          static int last_Val = 0;
+   54   1          double groy_z = 0;
+   55   1          groy_z = Gyro_filter(mpu6050_gyro_z);
+   56   1          // 返回经过低通滤波和中值滤波后的角度值
+C251 COMPILER V5.60.0,  mpu6050                                                            22/05/24  15:46:29  PAGE 2   
 
+   57   1          return groy_z;
+   58   1      }
 
-C251 COMPILER V5.60.0,  mpu6050                                                            18/05/24  18:41:18  PAGE 2   
 
 Module Information          Static   Overlayable
 ------------------------------------------------

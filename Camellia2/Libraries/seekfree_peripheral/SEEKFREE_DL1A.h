@@ -1,31 +1,31 @@
 /*********************************************************************************************************************
  * COPYRIGHT NOTICE
- * Copyright (c) 2021,ÈÄêÈ£ûÁßëÊäÄ
+ * Copyright (c) 2021,÷∑…ø∆ºº
  * All rights reserved.
- * ÊäÄÊúØËÆ®ËÆ∫QQÁæ§Ôºö‰∏ÄÁæ§Ôºö179029047(Â∑≤Êª°)  ‰∫åÁæ§Ôºö244861897
+ * ºº ıÃ÷¬€QQ»∫£∫“ª»∫£∫179029047(“—¬˙)  ∂˛»∫£∫244861897
  *
- * ‰ª•‰∏ãÊâÄÊúâÂÜÖÂÆπÁâàÊùÉÂùáÂ±ûÈÄêÈ£ûÁßëÊäÄÊâÄÊúâÔºåÊú™ÁªèÂÖÅËÆ∏‰∏çÂæóÁî®‰∫éÂïÜ‰∏öÁî®ÈÄîÔºå
- * Ê¨¢ËøéÂêÑ‰Ωç‰ΩøÁî®Âπ∂‰º†Êí≠Êú¨Á®ãÂ∫èÔºå‰øÆÊîπÂÜÖÂÆπÊó∂ÂøÖÈ°ª‰øùÁïôÈÄêÈ£ûÁßëÊäÄÁöÑÁâàÊùÉÂ£∞Êòé„ÄÇ
+ * “‘œ¬À˘”–ƒ⁄»›∞Ê»®æ˘ Ù÷∑…ø∆ººÀ˘”–£¨Œ¥æ≠‘ –Ì≤ªµ√”√”⁄…Ã“µ”√Õæ£¨
+ * ª∂”≠∏˜Œª π”√≤¢¥´≤•±æ≥Ã–Ú£¨–ﬁ∏ƒƒ⁄»› ±±ÿ–Î±£¡Ù÷∑…ø∆ººµƒ∞Ê»®…˘√˜°£
  *
  * @file       		DL1A
- * @company	   		ÊàêÈÉΩÈÄêÈ£ûÁßëÊäÄÊúâÈôêÂÖ¨Âè∏
- * @author     		ÈÄêÈ£ûÁßëÊäÄ(QQ3184284598)
- * @version    		Êü•ÁúãdocÂÜÖversionÊñá‰ª∂ ÁâàÊú¨ËØ¥Êòé
+ * @company	   		≥…∂º÷∑…ø∆ºº”–œﬁπ´Àæ
+ * @author     		÷∑…ø∆ºº(QQ3184284598)
+ * @version    		≤Èø¥docƒ⁄versionŒƒº˛ ∞Ê±æÀµ√˜
  * @Software 		MDK FOR C251 V5.60
  * @Target core		STC32F12K
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2021-08-27
- * @note		
- * Êé•Á∫øÂÆö‰πâÔºö
+ * @note
+ * Ω”œﬂ∂®“Â£∫
  *                   ------------------------------------
- *                   Ê®°ÂùóÁÆ°ËÑö            ÂçïÁâáÊú∫ÁÆ°ËÑö
- *                   SCL                 Êü•Áúã SEEKFREE_DL1A.h ‰∏≠ DL1A_SCL_PIN   ÂÆèÂÆö‰πâ
- *                   SDA                 Êü•Áúã SEEKFREE_DL1A.h ‰∏≠ DL1A_SDA_PIN   ÂÆèÂÆö‰πâ
- *					 XS					 Êü•Áúã SEEKFREE_DL1A.h ‰∏≠ DL1A_XSHUT_PIN ÂÆèÂÆö‰πâ
- *                   VCC                 5V ÁîµÊ∫ê
- *                   GND                 ÁîµÊ∫êÂú∞
+ *                   ƒ£øÈπ‹Ω≈            µ•∆¨ª˙π‹Ω≈
+ *                   SCL                 ≤Èø¥ SEEKFREE_DL1A.h ÷– DL1A_SCL_PIN   ∫Í∂®“Â
+ *                   SDA                 ≤Èø¥ SEEKFREE_DL1A.h ÷– DL1A_SDA_PIN   ∫Í∂®“Â
+ *					 XS					 ≤Èø¥ SEEKFREE_DL1A.h ÷– DL1A_XSHUT_PIN ∫Í∂®“Â
+ *                   VCC                 5V µÁ‘¥
+ *                   GND                 µÁ‘¥µÿ
  *                   ------------------------------------
-********************************************************************************************************************/
+ ********************************************************************************************************************/
 
 #ifndef _ZF_DEVICE_DL1A_H_
 #define _ZF_DEVICE_DL1A_H_
@@ -33,118 +33,116 @@
 #include "common.h"
 #include "board.h"
 
-// ÈúÄË¶ÅÊ≥®ÊÑèÁöÑÊòØ DL1A ÊâãÂÜåÊúÄÈ´òÊîØÊåÅ 400KHz ÁöÑ IIC ÈÄö‰ø°ÈÄüÁéá
-// ÈúÄË¶ÅÊ≥®ÊÑèÁöÑÊòØ DL1A ÊâãÂÜåÊúÄÈ´òÊîØÊåÅ 400KHz ÁöÑ IIC ÈÄö‰ø°ÈÄüÁéá
-// ÈúÄË¶ÅÊ≥®ÊÑèÁöÑÊòØ DL1A ÊâãÂÜåÊúÄÈ´òÊîØÊåÅ 400KHz ÁöÑ IIC ÈÄö‰ø°ÈÄüÁéá
+// –Ë“™◊¢“‚µƒ « DL1A  ÷≤·◊Ó∏ﬂ÷ß≥÷ 400KHz µƒ IIC Õ®–≈ÀŸ¬ 
+// –Ë“™◊¢“‚µƒ « DL1A  ÷≤·◊Ó∏ﬂ÷ß≥÷ 400KHz µƒ IIC Õ®–≈ÀŸ¬ 
+// –Ë“™◊¢“‚µƒ « DL1A  ÷≤·◊Ó∏ﬂ÷ß≥÷ 400KHz µƒ IIC Õ®–≈ÀŸ¬ 
 
+//====================================================»Ìº˛ IIC «˝∂Ø====================================================
+#define DL1A_SOFT_IIC_DELAY (10) // »Ìº˛ IIC µƒ ±÷”—” ±÷‹∆⁄  ˝÷µ‘Ω–° IIC Õ®–≈ÀŸ¬ ‘ΩøÏ
+#define DL1A_SCL_PIN (P53)       // »Ìº˛ IIC SCL “˝Ω≈ ¡¨Ω” DL1A µƒ SCL “˝Ω≈
+#define DL1A_SDA_PIN (P07)       // »Ìº˛ IIC SDA “˝Ω≈ ¡¨Ω” DL1A µƒ SDA “˝Ω≈
+//====================================================»Ìº˛ IIC «˝∂Ø====================================================
 
-//====================================================ËΩØ‰ª∂ IIC È©±Âä®====================================================
-#define DL1A_SOFT_IIC_DELAY      (10 )                                        // ËΩØ‰ª∂ IIC ÁöÑÊó∂ÈíüÂª∂Êó∂Âë®Êúü Êï∞ÂÄºË∂äÂ∞è IIC ÈÄö‰ø°ÈÄüÁéáË∂äÂø´
-#define DL1A_SCL_PIN             (P15 )                                       // ËΩØ‰ª∂ IIC SCL ÂºïËÑö ËøûÊé• DL1A ÁöÑ SCL ÂºïËÑö
-#define DL1A_SDA_PIN             (P33 )                                       // ËΩØ‰ª∂ IIC SDA ÂºïËÑö ËøûÊé• DL1A ÁöÑ SDA ÂºïËÑö
-//====================================================ËΩØ‰ª∂ IIC È©±Âä®====================================================
+#define DL1A_XSHUT_PIN (P11)
+#define DL1A_TIMEOUT_COUNT (0x00FF) // DL1A ≥¨ ±º∆ ˝
 
+//================================================∂®“Â DL1A ƒ⁄≤øµÿ÷∑================================================
+#define DL1A_DEV_ADDR (0x52 >> 1) // 0b0101001
 
-#define DL1A_XSHUT_PIN           (P24)
-#define DL1A_TIMEOUT_COUNT       (0x00FF)                                    // DL1A Ë∂ÖÊó∂ËÆ°Êï∞
+#define DL1A_SYSRANGE_START (0x00)
 
-//================================================ÂÆö‰πâ DL1A ÂÜÖÈÉ®Âú∞ÂùÄ================================================
-#define DL1A_DEV_ADDR                                    (0x52 >> 1)         // 0b0101001
+#define DL1A_SYSTEM_SEQUENCE_CONFIG (0x01)
+#define DL1A_SYSTEM_INTERMEASUREMENT_PERIOD (0x04)
+#define DL1A_SYSTEM_RANGE_CONFIG (0x09)
+#define DL1A_SYSTEM_INTERRUPT_GPIO_CONFIG (0x0A)
+#define DL1A_SYSTEM_INTERRUPT_CLEAR (0x0B)
+#define DL1A_SYSTEM_THRESH_HIGH (0x0C)
+#define DL1A_SYSTEM_THRESH_LOW (0x0E)
+#define DL1A_SYSTEM_HISTOGRAM_BIN (0x81)
 
-#define DL1A_SYSRANGE_START                              (0x00)
+#define DL1A_RESULT_INTERRUPT_STATUS (0x13)
+#define DL1A_RESULT_RANGE_STATUS (0x14)
+#define DL1A_RESULT_PEAK_SIGNAL_RATE_REF (0xB6)
+#define DL1A_RESULT_CORE_AMBIENT_WINDOW_EVENTS_RTN (0xBC)
+#define DL1A_RESULT_CORE_RANGING_TOTAL_EVENTS_RTN (0xC0)
+#define DL1A_RESULT_CORE_AMBIENT_WINDOW_EVENTS_REF (0xD0)
+#define DL1A_RESULT_CORE_RANGING_TOTAL_EVENTS_REF (0xD4)
 
-#define DL1A_SYSTEM_SEQUENCE_CONFIG                      (0x01)
-#define DL1A_SYSTEM_INTERMEASUREMENT_PERIOD              (0x04)
-#define DL1A_SYSTEM_RANGE_CONFIG                         (0x09)
-#define DL1A_SYSTEM_INTERRUPT_GPIO_CONFIG                (0x0A)
-#define DL1A_SYSTEM_INTERRUPT_CLEAR                      (0x0B)
-#define DL1A_SYSTEM_THRESH_HIGH                          (0x0C)
-#define DL1A_SYSTEM_THRESH_LOW                           (0x0E)
-#define DL1A_SYSTEM_HISTOGRAM_BIN                        (0x81)
+#define DL1A_PRE_RANGE_CONFIG_MIN_SNR (0x27)
+#define DL1A_PRE_RANGE_CONFIG_VCSEL_PERIOD (0x50)
+#define DL1A_PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI (0x51)
+#define DL1A_PRE_RANGE_CONFIG_TIMEOUT_MACROP_LO (0x52)
+#define DL1A_PRE_RANGE_CONFIG_VALID_PHASE_LOW (0x56)
+#define DL1A_PRE_RANGE_CONFIG_VALID_PHASE_HIGH (0x57)
+#define DL1A_PRE_RANGE_CONFIG_SIGMA_THRESH_HI (0x61)
+#define DL1A_PRE_RANGE_CONFIG_SIGMA_THRESH_LO (0x62)
+#define DL1A_PRE_RANGE_MIN_COUNT_RATE_RTN_LIMIT (0x64)
 
-#define DL1A_RESULT_INTERRUPT_STATUS                     (0x13)
-#define DL1A_RESULT_RANGE_STATUS                         (0x14)
-#define DL1A_RESULT_PEAK_SIGNAL_RATE_REF                 (0xB6)
-#define DL1A_RESULT_CORE_AMBIENT_WINDOW_EVENTS_RTN       (0xBC)
-#define DL1A_RESULT_CORE_RANGING_TOTAL_EVENTS_RTN        (0xC0)
-#define DL1A_RESULT_CORE_AMBIENT_WINDOW_EVENTS_REF       (0xD0)
-#define DL1A_RESULT_CORE_RANGING_TOTAL_EVENTS_REF        (0xD4)
-
-#define DL1A_PRE_RANGE_CONFIG_MIN_SNR                    (0x27)
-#define DL1A_PRE_RANGE_CONFIG_VCSEL_PERIOD               (0x50)
-#define DL1A_PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI          (0x51)
-#define DL1A_PRE_RANGE_CONFIG_TIMEOUT_MACROP_LO          (0x52)
-#define DL1A_PRE_RANGE_CONFIG_VALID_PHASE_LOW            (0x56)
-#define DL1A_PRE_RANGE_CONFIG_VALID_PHASE_HIGH           (0x57)
-#define DL1A_PRE_RANGE_CONFIG_SIGMA_THRESH_HI            (0x61)
-#define DL1A_PRE_RANGE_CONFIG_SIGMA_THRESH_LO            (0x62)
-#define DL1A_PRE_RANGE_MIN_COUNT_RATE_RTN_LIMIT          (0x64)
-
-#define DL1A_FINAL_RANGE_CONFIG_VALID_PHASE_LOW          (0x47)
-#define DL1A_FINAL_RANGE_CONFIG_VALID_PHASE_HIGH         (0x48)
+#define DL1A_FINAL_RANGE_CONFIG_VALID_PHASE_LOW (0x47)
+#define DL1A_FINAL_RANGE_CONFIG_VALID_PHASE_HIGH (0x48)
 #define DL1A_FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT (0x44)
-#define DL1A_FINAL_RANGE_CONFIG_MIN_SNR                  (0x67)
-#define DL1A_FINAL_RANGE_CONFIG_VCSEL_PERIOD             (0x70)
-#define DL1A_FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI        (0x71)
-#define DL1A_FINAL_RANGE_CONFIG_TIMEOUT_MACROP_LO        (0x72)
+#define DL1A_FINAL_RANGE_CONFIG_MIN_SNR (0x67)
+#define DL1A_FINAL_RANGE_CONFIG_VCSEL_PERIOD (0x70)
+#define DL1A_FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI (0x71)
+#define DL1A_FINAL_RANGE_CONFIG_TIMEOUT_MACROP_LO (0x72)
 
-#define DL1A_GLOBAL_CONFIG_VCSEL_WIDTH                   (0x32)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_0            (0xB0)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_1            (0xB1)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_2            (0xB2)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_3            (0xB3)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_4            (0xB4)
-#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_5            (0xB5)
-#define DL1A_GLOBAL_CONFIG_REF_EN_START_SELECT           (0xB6)
+#define DL1A_GLOBAL_CONFIG_VCSEL_WIDTH (0x32)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_0 (0xB0)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_1 (0xB1)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_2 (0xB2)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_3 (0xB3)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_4 (0xB4)
+#define DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_5 (0xB5)
+#define DL1A_GLOBAL_CONFIG_REF_EN_START_SELECT (0xB6)
 
-#define DL1A_ALGO_PART_TO_PART_RANGE_OFFSET_MM           (0x28)
-#define DL1A_ALGO_PHASECAL_LIM                           (0x30)
-#define DL1A_ALGO_PHASECAL_CONFIG_TIMEOUT                (0x30)
+#define DL1A_ALGO_PART_TO_PART_RANGE_OFFSET_MM (0x28)
+#define DL1A_ALGO_PHASECAL_LIM (0x30)
+#define DL1A_ALGO_PHASECAL_CONFIG_TIMEOUT (0x30)
 
-#define DL1A_HISTOGRAM_CONFIG_INITIAL_PHASE_SELECT       (0x33)
-#define DL1A_HISTOGRAM_CONFIG_READOUT_CTRL               (0x55)
+#define DL1A_HISTOGRAM_CONFIG_INITIAL_PHASE_SELECT (0x33)
+#define DL1A_HISTOGRAM_CONFIG_READOUT_CTRL (0x55)
 
-#define DL1A_DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD         (0x4E)
-#define DL1A_DYNAMIC_SPAD_REF_EN_START_OFFSET            (0x4F)
+#define DL1A_DYNAMIC_SPAD_NUM_REQUESTED_REF_SPAD (0x4E)
+#define DL1A_DYNAMIC_SPAD_REF_EN_START_OFFSET (0x4F)
 
-#define DL1A_MSRC_CONFIG_TIMEOUT_MACROP                  (0x46)
-#define DL1A_MSRC_CONFIG                                 (0x60)
+#define DL1A_MSRC_CONFIG_TIMEOUT_MACROP (0x46)
+#define DL1A_MSRC_CONFIG (0x60)
 
-#define DL1A_IDENTIFICATION_MODEL_ID                     (0xC0)
-#define DL1A_IDENTIFICATION_REVISION_ID                  (0xC2)
+#define DL1A_IDENTIFICATION_MODEL_ID (0xC0)
+#define DL1A_IDENTIFICATION_REVISION_ID (0xC2)
 
-#define DL1A_CROSSTALK_COMPENSATION_PEAK_RATE_MCPS       (0x20)
+#define DL1A_CROSSTALK_COMPENSATION_PEAK_RATE_MCPS (0x20)
 
-#define DL1A_POWER_MANAGEMENT_GO1_POWER_FORCE            (0x80)
+#define DL1A_POWER_MANAGEMENT_GO1_POWER_FORCE (0x80)
 
-#define DL1A_GPIO_HV_MUX_ACTIVE_HIGH                     (0x84)
+#define DL1A_GPIO_HV_MUX_ACTIVE_HIGH (0x84)
 
-#define DL1A_I2C_SLAVE_DEVICE_ADDRESS                    (0x8A)
+#define DL1A_I2C_SLAVE_DEVICE_ADDRESS (0x8A)
 
-#define DL1A_SOFT_RESET_GO2_SOFT_RESET_N                 (0xBF)
+#define DL1A_SOFT_RESET_GO2_SOFT_RESET_N (0xBF)
 
-#define DL1A_OSC_CALIBRATE_VAL                           (0xF8)
+#define DL1A_OSC_CALIBRATE_VAL (0xF8)
 
-#define DL1A_IO_VOLTAGE_CONFIG                           (0x89)              // IO ÁîµÂéãËÆæÁΩÆÂØÑÂ≠òÂô®Âú∞ÂùÄ ÈªòËÆ§ 1V8 ‰ΩøÁî®‰øÆÊîπ‰∏∫ 2V8
+#define DL1A_IO_VOLTAGE_CONFIG (0x89) // IO µÁ—π…Ë÷√ºƒ¥Ê∆˜µÿ÷∑ ƒ¨»œ 1V8  π”√–ﬁ∏ƒŒ™ 2V8
 
-//================================================ÂÆö‰πâ DL1A ÂÜÖÈÉ®Âú∞ÂùÄ================================================
+//================================================∂®“Â DL1A ƒ⁄≤øµÿ÷∑================================================
 
-#define DL1A_MIN_TIMING_BUDGET                           (20000)
+#define DL1A_MIN_TIMING_BUDGET (20000)
 
-#define DL1A_GET_START_OVERHEAD                          (1910)
-#define DL1A_SET_START_OVERHEAD                          (1320)
-#define DL1A_END_OVERHEAD                                (960 )
-#define DL1A_TCC_OVERHEAD                                (590 )
-#define DL1A_DSS_OVERHEAD                                (690 )
-#define DL1A_MSRC_OVERHEAD                               (660 )
-#define DL1A_PRERANGE_OVERHEAD                           (660 )
-#define DL1A_FINALlRANGE_OVERHEAD                        (550 )
+#define DL1A_GET_START_OVERHEAD (1910)
+#define DL1A_SET_START_OVERHEAD (1320)
+#define DL1A_END_OVERHEAD (960)
+#define DL1A_TCC_OVERHEAD (590)
+#define DL1A_DSS_OVERHEAD (690)
+#define DL1A_MSRC_OVERHEAD (660)
+#define DL1A_PRERANGE_OVERHEAD (660)
+#define DL1A_FINALlRANGE_OVERHEAD (550)
 
 typedef enum
 {
     DL1A_VCSEL_PERIOD_PER_RANGE,
     DL1A_VCSEL_PERIOD_FINAL_RANGE,
-}dl1a_vcsel_period_type_enum;
+} dl1a_vcsel_period_type_enum;
 
 typedef struct
 {
@@ -153,7 +151,7 @@ typedef struct
     uint8 dss;
     uint8 pre_range;
     uint8 final_range;
-}dl1a_sequence_enables_step_struct;
+} dl1a_sequence_enables_step_struct;
 
 typedef struct
 {
@@ -166,14 +164,14 @@ typedef struct
     uint32 msrc_dss_tcc_us;
     uint32 pre_range_us;
     uint32 final_range_us;
-}dl1a_sequence_timeout_step_struct;
+} dl1a_sequence_timeout_step_struct;
 
 extern uint8 dl1a_finsh_flag;
 extern uint16 dl1a_distance_mm;
-void 	dl1a_get_distance (void);
+void dl1a_get_distance(void);
 
-uint8  dl1a_read_range   (void);
+uint8 dl1a_read_range(void);
 
-uint8  dl1a_init         (void);
+uint8 dl1a_init(void);
 
 #endif

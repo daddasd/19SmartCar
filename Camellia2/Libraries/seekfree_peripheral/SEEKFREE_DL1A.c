@@ -15,7 +15,7 @@
  * @Target core		STC32F12K
  * @Taobao   		https://seekfree.taobao.com/
  * @date       		2021-08-27
- * @note		
+ * @note
  * 接线定义：
  *                   ------------------------------------
  *                   模块管脚            单片机管脚
@@ -25,74 +25,72 @@
  *                   VCC                 5V 电源
  *                   GND                 电源地
  *                   ------------------------------------
-********************************************************************************************************************/
-
+ ********************************************************************************************************************/
 
 #include "zf_delay.h"
 #include "SEEKFREE_DL1A.h"
 
-
 #pragma warning disable = 183
-
 
 uint8 dl1a_finsh_flag;
 uint16 dl1a_distance_mm;
 
+#define GET_DL1A_SDA DL1A_SDA_PIN
+#define DL1A_SDA_LOW() DL1A_SDA_PIN = 0  // IO口输出低电平
+#define DL1A_SDA_HIGH() DL1A_SDA_PIN = 1 // IO口输出高电平
 
+#define DL1A_SCL_LOW() DL1A_SCL_PIN = 0  // IO口输出低电平
+#define DL1A_SCL_HIGH() DL1A_SCL_PIN = 1 // IO口输出高电平
 
-#define GET_DL1A_SDA   		 	DL1A_SDA_PIN
-#define DL1A_SDA_LOW()         	DL1A_SDA_PIN = 0		//IO口输出低电平
-#define DL1A_SDA_HIGH()        	DL1A_SDA_PIN = 1		//IO口输出高电平
-
-#define DL1A_SCL_LOW()          	DL1A_SCL_PIN = 0		//IO口输出低电平
-#define DL1A_SCL_HIGH()         	DL1A_SCL_PIN = 1		//IO口输出高电平
-
-#define ack 1      //主应答
-#define no_ack 0   //从应答	
+#define ack 1    // 主应答
+#define no_ack 0 // 从应答
 
 //-------------------------------------------------------------------------------------------------------------------
 //  @brief      模拟IIC延时
-//  @return     void						
+//  @return     void
 //  @since      v1.0
 //  Sample usage:				如果IIC通讯失败可以尝试增加j的值
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_simiic_delay(void)
 {
-    uint16 j=DL1A_SOFT_IIC_DELAY;   
-	while(j--);
+    uint16 j = DL1A_SOFT_IIC_DELAY;
+    while (j--)
+        ;
 }
 
-//内部使用，用户无需调用
+// 内部使用，用户无需调用
 static void dl1a_simiic_start(void)
 {
-	DL1A_SDA_HIGH();
-	DL1A_SCL_HIGH();
-	dl1a_simiic_delay();
-	DL1A_SDA_LOW();
-	dl1a_simiic_delay();
-	DL1A_SCL_LOW();
+    DL1A_SDA_HIGH();
+    DL1A_SCL_HIGH();
+    dl1a_simiic_delay();
+    DL1A_SDA_LOW();
+    dl1a_simiic_delay();
+    DL1A_SCL_LOW();
 }
 
-//内部使用，用户无需调用
+// 内部使用，用户无需调用
 static void dl1a_simiic_stop(void)
 {
-	DL1A_SDA_LOW();
-	DL1A_SCL_LOW();
-	dl1a_simiic_delay();
-	DL1A_SCL_HIGH();
-	dl1a_simiic_delay();
-	DL1A_SDA_HIGH();
-	dl1a_simiic_delay();
+    DL1A_SDA_LOW();
+    DL1A_SCL_LOW();
+    dl1a_simiic_delay();
+    DL1A_SCL_HIGH();
+    dl1a_simiic_delay();
+    DL1A_SDA_HIGH();
+    dl1a_simiic_delay();
 }
 
-//主应答(包含ack:SDA=0和no_ack:SDA=0)
-//内部使用，用户无需调用
+// 主应答(包含ack:SDA=0和no_ack:SDA=0)
+// 内部使用，用户无需调用
 static void dl1a_simiic_sendack(unsigned char ack_dat)
 {
     DL1A_SCL_LOW();
-	dl1a_simiic_delay();
-	if(ack_dat) DL1A_SDA_LOW();
-    else    	DL1A_SDA_HIGH();
+    dl1a_simiic_delay();
+    if (ack_dat)
+        DL1A_SDA_LOW();
+    else
+        DL1A_SDA_HIGH();
 
     DL1A_SCL_HIGH();
     dl1a_simiic_delay();
@@ -100,17 +98,16 @@ static void dl1a_simiic_sendack(unsigned char ack_dat)
     dl1a_simiic_delay();
 }
 
-
 static int dl1a_sccb_waitack(void)
 {
     DL1A_SCL_LOW();
 
-	dl1a_simiic_delay();
-	
-	DL1A_SCL_HIGH();
     dl1a_simiic_delay();
-	
-    if(GET_DL1A_SDA)           //应答为高电平，异常，通信失败
+
+    DL1A_SCL_HIGH();
+    dl1a_simiic_delay();
+
+    if (GET_DL1A_SDA) // 应答为高电平，异常，通信失败
     {
 
         DL1A_SCL_LOW();
@@ -118,104 +115,102 @@ static int dl1a_sccb_waitack(void)
     }
 
     DL1A_SCL_LOW();
-	dl1a_simiic_delay();
+    dl1a_simiic_delay();
     return 1;
 }
 
-//字节发送程序
-//发送c(可以是数据也可是地址)，送完后接收从应答
-//不考虑从应答位
-//内部使用，用户无需调用
+// 字节发送程序
+// 发送c(可以是数据也可是地址)，送完后接收从应答
+// 不考虑从应答位
+// 内部使用，用户无需调用
 static void dl1a_send_ch(uint8 c)
 {
-	uint8 i = 8;
-    while(i--)
+    uint8 i = 8;
+    while (i--)
     {
-        if(c & 0x80)	DL1A_SDA_HIGH();//SDA 输出数据
-        else			DL1A_SDA_LOW();
+        if (c & 0x80)
+            DL1A_SDA_HIGH(); // SDA 输出数据
+        else
+            DL1A_SDA_LOW();
         c <<= 1;
         dl1a_simiic_delay();
-        DL1A_SCL_HIGH();                //SCL 拉高，采集信号
+        DL1A_SCL_HIGH(); // SCL 拉高，采集信号
         dl1a_simiic_delay();
-        DL1A_SCL_LOW();                //SCL 时钟线拉低
+        DL1A_SCL_LOW(); // SCL 时钟线拉低
     }
-	dl1a_sccb_waitack();
+    dl1a_sccb_waitack();
 }
 
-
-//字节接收程序
-//接收器件传来的数据，此程序应配合|主应答函数|使用
-//内部使用，用户无需调用
+// 字节接收程序
+// 接收器件传来的数据，此程序应配合|主应答函数|使用
+// 内部使用，用户无需调用
 static uint8 dl1a_read_ch(uint8 ack_x)
 {
     uint8 i;
     uint8 c;
-    c=0;
+    c = 0;
     DL1A_SCL_LOW();
     dl1a_simiic_delay();
-    DL1A_SDA_HIGH();             
+    DL1A_SDA_HIGH();
 
-    for(i=0;i<8;i++)
+    for (i = 0; i < 8; i++)
     {
         dl1a_simiic_delay();
-        DL1A_SCL_LOW();         //置时钟线为低，准备接收数据位
+        DL1A_SCL_LOW(); // 置时钟线为低，准备接收数据位
         dl1a_simiic_delay();
-        DL1A_SCL_HIGH();         //置时钟线为高，使数据线上数据有效
+        DL1A_SCL_HIGH(); // 置时钟线为高，使数据线上数据有效
         dl1a_simiic_delay();
-        c<<=1;
-        if(GET_DL1A_SDA) 
+        c <<= 1;
+        if (GET_DL1A_SDA)
         {
-            c+=1;   //读数据位，将接收的数据存c
+            c += 1; // 读数据位，将接收的数据存c
         }
     }
 
-	DL1A_SCL_LOW();
-	dl1a_simiic_delay();
-	dl1a_simiic_sendack(ack_x);
-	
+    DL1A_SCL_LOW();
+    dl1a_simiic_delay();
+    dl1a_simiic_sendack(ack_x);
+
     return c;
 }
 
-
 //-------------------------------------------------------------------------------------------------------------------
 //  @brief      模拟IIC写数据到设备寄存器函数
 //  @param      dev_add			设备地址(低七位地址)
 //  @param      reg				寄存器地址
 //  @param      dat				写入的数据
-//  @return     void						
+//  @return     void
 //  @since      v1.0
-//  Sample usage:				
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_simiic_write_dats(uint8 dev_add, uint8 *dat, uint32 len)
 {
-	dl1a_simiic_start();
-    dl1a_send_ch( (dev_add<<1) | 0x00);   //发送器件地址加写位
-	while(len--)
-	{
-		dl1a_send_ch( *dat++ );   				 //发送需要写入的数据
-	}
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x00); // 发送器件地址加写位
+    while (len--)
+    {
+        dl1a_send_ch(*dat++); // 发送需要写入的数据
+    }
 
-	
-	dl1a_simiic_stop();
+    dl1a_simiic_stop();
 }
-
 
 //-------------------------------------------------------------------------------------------------------------------
 //  @brief      模拟IIC写数据到设备寄存器函数
 //  @param      dev_add			设备地址(低七位地址)
 //  @param      reg				寄存器地址
 //  @param      dat				写入的数据
-//  @return     void						
+//  @return     void
 //  @since      v1.0
-//  Sample usage:				
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_simiic_write_reg(uint8 dev_add, uint8 reg, uint8 dat)
 {
-	dl1a_simiic_start();
-    dl1a_send_ch( (dev_add<<1) | 0x00);   //发送器件地址加写位
-	dl1a_send_ch( reg );   				 //发送从机寄存器地址
-	dl1a_send_ch( dat );   				 //发送需要写入的数据
-	dl1a_simiic_stop();
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x00); // 发送器件地址加写位
+    dl1a_send_ch(reg);                   // 发送从机寄存器地址
+    dl1a_send_ch(dat);                   // 发送需要写入的数据
+    dl1a_simiic_stop();
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -223,24 +218,23 @@ static void dl1a_simiic_write_reg(uint8 dev_add, uint8 reg, uint8 dat)
 //  @param      dev_add			设备地址(低七位地址)
 //  @param      reg				寄存器地址
 //  @param      type			选择通信方式是IIC  还是 SCCB
-//  @return     uint8			返回寄存器的数据			
+//  @return     uint8			返回寄存器的数据
 //  @since      v1.0
-//  Sample usage:				
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 static uint8 dl1a_simiic_read_reg(uint8 dev_add, uint8 reg)
 {
-	uint8 dat;
-	dl1a_simiic_start();
-    dl1a_send_ch( (dev_add<<1) | 0x00);  //发送器件地址加写位
-	dl1a_send_ch( reg );   				//发送从机寄存器地址
+    uint8 dat;
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x00); // 发送器件地址加写位
+    dl1a_send_ch(reg);                   // 发送从机寄存器地址
 
-	
-	dl1a_simiic_start();
-	dl1a_send_ch( (dev_add<<1) | 0x01);  //发送器件地址加读位
-	dat = dl1a_read_ch(no_ack);   				//读取数据
-	dl1a_simiic_stop();
-	
-	return dat;
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x01); // 发送器件地址加读位
+    dat = dl1a_read_ch(no_ack);          // 读取数据
+    dl1a_simiic_stop();
+
+    return dat;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -250,26 +244,25 @@ static uint8 dl1a_simiic_read_reg(uint8 dev_add, uint8 reg)
 //  @param      dat_add			数据保存的地址指针
 //  @param      num				读取字节数量
 //  @param      type			选择通信方式是IIC  还是 SCCB
-//  @return     uint8			返回寄存器的数据			
+//  @return     uint8			返回寄存器的数据
 //  @since      v1.0
-//  Sample usage:				
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_simiic_read_regs(uint8 dev_add, uint8 reg, uint8 *dat_add, uint32 num)
 {
-	dl1a_simiic_start();
-    dl1a_send_ch( (dev_add<<1) | 0x00);  //发送器件地址加写位
-	dl1a_send_ch( reg );   				//发送从机寄存器地址
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x00); // 发送器件地址加写位
+    dl1a_send_ch(reg);                   // 发送从机寄存器地址
 
-	
-	dl1a_simiic_start();
-	dl1a_send_ch( (dev_add<<1) | 0x01);  //发送器件地址加读位
-    while(--num)
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x01); // 发送器件地址加读位
+    while (--num)
     {
-        *dat_add = dl1a_read_ch(ack); //读取数据
+        *dat_add = dl1a_read_ch(ack); // 读取数据
         dat_add++;
     }
-    *dat_add = dl1a_read_ch(no_ack); //读取数据
-	dl1a_simiic_stop();
+    *dat_add = dl1a_read_ch(no_ack); // 读取数据
+    dl1a_simiic_stop();
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -279,49 +272,47 @@ static void dl1a_simiic_read_regs(uint8 dev_add, uint8 reg, uint8 *dat_add, uint
 //  @param      dat_add			数据保存的地址指针
 //  @param      num				读取字节数量
 //  @param      type			选择通信方式是IIC  还是 SCCB
-//  @return     uint8			返回寄存器的数据			
+//  @return     uint8			返回寄存器的数据
 //  @since      v1.0
-//  Sample usage:				
+//  Sample usage:
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_simiic_read_regs_1(uint8 dev_add, uint8 reg, uint8 *dat_add, uint32 num)
 {
-	dl1a_simiic_start();
-    dl1a_send_ch( (dev_add<<1) | 0x00);  //发送器件地址加写位
-	dl1a_send_ch( reg );   				//发送从机寄存器地址
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x00); // 发送器件地址加写位
+    dl1a_send_ch(reg);                   // 发送从机寄存器地址
 
-	
-	dl1a_simiic_start();
-	dl1a_send_ch( (dev_add<<1) | 0x01);  //发送器件地址加读位
-    while(--num)
+    dl1a_simiic_start();
+    dl1a_send_ch((dev_add << 1) | 0x01); // 发送器件地址加读位
+    while (--num)
     {
-        *dat_add = dl1a_read_ch(ack); //读取数据
+        *dat_add = dl1a_read_ch(ack); // 读取数据
         dat_add++;
     }
-    *dat_add = dl1a_read_ch(no_ack); //读取数据
-	dl1a_simiic_stop();
+    *dat_add = dl1a_read_ch(no_ack); // 读取数据
+    dl1a_simiic_stop();
 }
 
-
-#define dl1a_write_array(dat, len)          (dl1a_simiic_write_dats(DL1A_DEV_ADDR, (dat), (len)))
-#define dl1a_write_register(reg, dat)       (dl1a_simiic_write_reg(DL1A_DEV_ADDR, (reg), (dat)))
-#define dl1a_read_register(reg)             (dl1a_simiic_read_reg (DL1A_DEV_ADDR, (reg)))
-#define dl1a_read_registers(reg, dat, len)  (dl1a_simiic_read_regs(DL1A_DEV_ADDR, (reg), (dat), (len)))
-#define dl1a_read_registers_1(reg, dat, len)  (dl1a_simiic_read_regs_1(DL1A_DEV_ADDR, (reg), (dat), (len)))
+#define dl1a_write_array(dat, len) (dl1a_simiic_write_dats(DL1A_DEV_ADDR, (dat), (len)))
+#define dl1a_write_register(reg, dat) (dl1a_simiic_write_reg(DL1A_DEV_ADDR, (reg), (dat)))
+#define dl1a_read_register(reg) (dl1a_simiic_read_reg(DL1A_DEV_ADDR, (reg)))
+#define dl1a_read_registers(reg, dat, len) (dl1a_simiic_read_regs(DL1A_DEV_ADDR, (reg), (dat), (len)))
+#define dl1a_read_registers_1(reg, dat, len) (dl1a_simiic_read_regs_1(DL1A_DEV_ADDR, (reg), (dat), (len)))
 
 // 这个速率表示从目标反射并被设备检测到的信号的振幅
 // 设置此限制可以确定传感器报告有效读数所需的最小测量值
 // 设置一个较低的限制可以增加传感器的测量范围
 // 但似乎也增加了 <由于来自目标以外的物体的不需要的反射导致> 得到不准确读数的可能性
 // 默认为 0.25 MCPS 可预设范围为 0 - 511.99
-#define DL1A_DEFAULT_RATE_LIMIT  (0.25)
+#define DL1A_DEFAULT_RATE_LIMIT (0.25)
 
 // 从寄存器数据解码 PCLKs 中 VCSEL (vertical cavity surface emitting laser) 的脉宽周期
-#define decode_vcsel_period(reg_val)            (((reg_val) + 1) << 1)
+#define decode_vcsel_period(reg_val) (((reg_val) + 1) << 1)
 
 // 从 PCLK 中的 VCSEL 周期计算宏周期 (以 *纳秒为单位)
 // PLL_period_ps = 1655
 // macro_period_vclks = 2304
-#define calc_macro_period(vcsel_period_pclks)   ((((uint32)2304 * (vcsel_period_pclks) * 1655) + 500) / 1000)
+#define calc_macro_period(vcsel_period_pclks) ((((uint32)2304 * (vcsel_period_pclks) * 1655) + 500) / 1000)
 
 //-------------------------------------------------------------------------------------------------------------------
 // 函数简介     获取设备 SPAD 信息
@@ -329,9 +320,9 @@ static void dl1a_simiic_read_regs_1(uint8 dev_add, uint8 reg, uint8 *dat_add, ui
 // 参数说明     type            类型值
 // 返回参数     uint8           是否成功 0-成功 1-失败
 // 使用示例     dl1a_get_spad_info(index, type_is_aperture);
-// 备注信息     
+// 备注信息
 //-------------------------------------------------------------------------------------------------------------------
-static uint8 dl1a_get_spad_info (uint8 *index, uint8 *type_is_aperture)
+static uint8 dl1a_get_spad_info(uint8 *index, uint8 *type_is_aperture)
 {
     uint8 tmp = 0;
     uint8 return_state = 0;
@@ -355,18 +346,18 @@ static uint8 dl1a_get_spad_info (uint8 *index, uint8 *type_is_aperture)
         dl1a_write_register(0x83, 0x00);
 
         tmp = 0x00;
-        while(tmp != 0x10)
+        while (tmp != 0x10)
         {
             dl1a_read_registers(0x83, &tmp, 1);
             loop_count++;
-            if(loop_count == DL1A_TIMEOUT_COUNT)
+            if (loop_count == DL1A_TIMEOUT_COUNT)
             {
                 return_state = 1;
                 break;
             }
         }
-		
-        if(return_state)
+
+        if (return_state)
         {
             break;
         }
@@ -385,7 +376,7 @@ static uint8 dl1a_get_spad_info (uint8 *index, uint8 *type_is_aperture)
 
         dl1a_write_register(0xFF, 0x00);
         dl1a_write_register(0x80, 0x00);
-    }while(0);
+    } while (0);
 
     return return_state;
 }
@@ -398,7 +389,7 @@ static uint8 dl1a_get_spad_info (uint8 *index, uint8 *type_is_aperture)
 // 使用示例     dl1a_timeout_mclks_to_microseconds(timeout_period_mclks, vcsel_period_pclks);
 // 备注信息     将序列步骤超时从具有给定 VCSEL 周期的 MCLK (以 PCLK 为单位)转换为微秒
 //-------------------------------------------------------------------------------------------------------------------
-static uint32 dl1a_timeout_mclks_to_microseconds (uint16 timeout_period_mclks, uint8 vcsel_period_pclks)
+static uint32 dl1a_timeout_mclks_to_microseconds(uint16 timeout_period_mclks, uint8 vcsel_period_pclks)
 {
     uint32 macro_period_ns = calc_macro_period(vcsel_period_pclks);
 
@@ -413,7 +404,7 @@ static uint32 dl1a_timeout_mclks_to_microseconds (uint16 timeout_period_mclks, u
 // 使用示例     dl1a_timeout_microseconds_to_mclks(timeout_period_us, vcsel_period_pclks);
 // 备注信息     将序列步骤超时从微秒转换为具有给定 VCSEL 周期的 MCLK (以 PCLK 为单位)
 //-------------------------------------------------------------------------------------------------------------------
-static uint32 dl1a_timeout_microseconds_to_mclks (uint32 timeout_period_us, uint8 vcsel_period_pclks)
+static uint32 dl1a_timeout_microseconds_to_mclks(uint32 timeout_period_us, uint8 vcsel_period_pclks)
 {
     uint32 macro_period_ns = calc_macro_period(vcsel_period_pclks);
 
@@ -425,13 +416,12 @@ static uint32 dl1a_timeout_microseconds_to_mclks (uint32 timeout_period_us, uint
 // 参数说明     reg_val         超时时长 寄存器值
 // 返回参数     uint16          返回超时数值
 // 使用示例     dl1a_decode_timeout(reg_val);
-// 备注信息     从寄存器值解码 MCLK 中的序列步骤超时   
+// 备注信息     从寄存器值解码 MCLK 中的序列步骤超时
 //-------------------------------------------------------------------------------------------------------------------
-static uint16 dl1a_decode_timeout (uint16 reg_val)
+static uint16 dl1a_decode_timeout(uint16 reg_val)
 {
-  // 格式: (LSByte * 2 ^ MSByte) + 1
-    return  (uint16)((reg_val & 0x00FF) <<
-            (uint16)((reg_val & 0xFF00) >> 8)) + 1;
+    // 格式: (LSByte * 2 ^ MSByte) + 1
+    return (uint16)((reg_val & 0x00FF) << (uint16)((reg_val & 0xFF00) >> 8)) + 1;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -441,7 +431,7 @@ static uint16 dl1a_decode_timeout (uint16 reg_val)
 // 使用示例     dl1a_encode_timeout(timeout_mclks);
 // 备注信息     在 MCLK 中对超时的序列步骤超时寄存器值进行编码
 //-------------------------------------------------------------------------------------------------------------------
-static uint16 dl1a_encode_timeout (uint16 timeout_mclks)
+static uint16 dl1a_encode_timeout(uint16 timeout_mclks)
 {
     uint32 ls_byte = 0;
     uint16 ms_byte = 0;
@@ -466,18 +456,18 @@ static uint16 dl1a_encode_timeout (uint16 timeout_mclks)
 // 参数说明     enables         序列使能步骤结构体
 // 返回参数     void
 // 使用示例     dl1a_get_sequence_step_enables(enables);
-// 备注信息     
+// 备注信息
 //-------------------------------------------------------------------------------------------------------------------
 static void dl1a_get_sequence_step_enables(dl1a_sequence_enables_step_struct *enables)
 {
     uint8 sequence_config = 0;
     dl1a_read_registers(DL1A_SYSTEM_SEQUENCE_CONFIG, &sequence_config, 1);
 
-    enables->tcc          = (sequence_config >> 4) & 0x1;
-    enables->dss          = (sequence_config >> 3) & 0x1;
-    enables->msrc         = (sequence_config >> 2) & 0x1;
-    enables->pre_range    = (sequence_config >> 6) & 0x1;
-    enables->final_range  = (sequence_config >> 7) & 0x1;
+    enables->tcc = (sequence_config >> 4) & 0x1;
+    enables->dss = (sequence_config >> 3) & 0x1;
+    enables->msrc = (sequence_config >> 2) & 0x1;
+    enables->pre_range = (sequence_config >> 6) & 0x1;
+    enables->final_range = (sequence_config >> 7) & 0x1;
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -487,7 +477,7 @@ static void dl1a_get_sequence_step_enables(dl1a_sequence_enables_step_struct *en
 // 使用示例     dl1a_get_vcsel_pulse_period(DL1A_VCSEL_PERIOD_PER_RANGE);
 // 备注信息     在 PCLKs 中获取给定周期类型的 VCSEL 脉冲周期
 //-------------------------------------------------------------------------------------------------------------------
-static uint8 dl1a_get_vcsel_pulse_period (dl1a_vcsel_period_type_enum type)
+static uint8 dl1a_get_vcsel_pulse_period(dl1a_vcsel_period_type_enum type)
 {
     uint8 data_buffer = 0;
     if (type == DL1A_VCSEL_PERIOD_PER_RANGE)
@@ -515,7 +505,7 @@ static uint8 dl1a_get_vcsel_pulse_period (dl1a_vcsel_period_type_enum type)
 // 使用示例     dl1a_get_sequence_step_timeouts(enables, timeouts);
 // 备注信息     获取所有超时而不仅仅是请求的超时 并且还存储中间值
 //-------------------------------------------------------------------------------------------------------------------
-static void dl1a_get_sequence_step_timeouts (dl1a_sequence_enables_step_struct const *enables, dl1a_sequence_timeout_step_struct *timeouts)
+static void dl1a_get_sequence_step_timeouts(dl1a_sequence_enables_step_struct const *enables, dl1a_sequence_timeout_step_struct *timeouts)
 {
     uint8 reg_buffer[2];
     uint16 reg16_buffer = 0;
@@ -527,14 +517,14 @@ static void dl1a_get_sequence_step_timeouts (dl1a_sequence_enables_step_struct c
     timeouts->msrc_dss_tcc_us = dl1a_timeout_mclks_to_microseconds(timeouts->msrc_dss_tcc_mclks, (uint8)timeouts->pre_range_vcsel_period_pclks);
 
     dl1a_read_registers(DL1A_PRE_RANGE_CONFIG_TIMEOUT_MACROP_HI, reg_buffer, 2);
-    reg16_buffer = ((uint16) reg_buffer[0] << 8) | reg_buffer[1];
+    reg16_buffer = ((uint16)reg_buffer[0] << 8) | reg_buffer[1];
     timeouts->pre_range_mclks = dl1a_decode_timeout(reg16_buffer);
     timeouts->pre_range_us = dl1a_timeout_mclks_to_microseconds(timeouts->pre_range_mclks, (uint8)timeouts->pre_range_vcsel_period_pclks);
 
     timeouts->final_range_vcsel_period_pclks = dl1a_get_vcsel_pulse_period(DL1A_VCSEL_PERIOD_FINAL_RANGE);
 
     dl1a_read_registers(DL1A_FINAL_RANGE_CONFIG_TIMEOUT_MACROP_HI, reg_buffer, 2);
-    reg16_buffer = ((uint16) reg_buffer[0] << 8) | reg_buffer[1];
+    reg16_buffer = ((uint16)reg_buffer[0] << 8) | reg_buffer[1];
     timeouts->final_range_mclks = dl1a_decode_timeout(reg16_buffer);
 
     if (enables->pre_range)
@@ -552,7 +542,7 @@ static void dl1a_get_sequence_step_timeouts (dl1a_sequence_enables_step_struct c
 // 使用示例     dl1a_get_vcsel_pulse_period(DL1A_VCSEL_PERIOD_PER_RANGE);
 // 备注信息     在 PCLKs 中获取给定周期类型的 VCSEL 脉冲周期
 //-------------------------------------------------------------------------------------------------------------------
-static uint8 dl1a_perform_single_ref_calibration (uint8 vhv_init_byte)
+static uint8 dl1a_perform_single_ref_calibration(uint8 vhv_init_byte)
 {
     uint8 return_state = 0;
     uint8 data_buffer = 0;
@@ -573,13 +563,13 @@ static uint8 dl1a_perform_single_ref_calibration (uint8 vhv_init_byte)
                 dl1a_read_registers(DL1A_MSRC_CONFIG_TIMEOUT_MACROP, &data_buffer, 1);
             }
         }
-        if(return_state)
+        if (return_state)
         {
             break;
         }
         dl1a_write_register(DL1A_SYSTEM_INTERRUPT_CLEAR, 0x01);
         dl1a_write_register(DL1A_SYSRANGE_START, 0x00);
-    }while(0);
+    } while (0);
 
     return return_state;
 }
@@ -595,15 +585,15 @@ static uint8 dl1a_perform_single_ref_calibration (uint8 vhv_init_byte)
 //              增加一个N倍的预算可以减少一个sqrt(N)倍的范围测量标准偏差
 //              默认为33毫秒 最小值为20 ms
 //-------------------------------------------------------------------------------------------------------------------
-static uint8 dl1a_set_measurement_timing_budget (uint32 budget_us)
+static uint8 dl1a_set_measurement_timing_budget(uint32 budget_us)
 {
     uint8 return_state = 0;
     uint8 data_buffer[3];
     uint16 dat = 0;
-	uint32 used_budget_us;
-	uint32 final_range_timeout_us;
-	uint16 final_range_timeout_mclks;
-	
+    uint32 used_budget_us;
+    uint32 final_range_timeout_us;
+    uint16 final_range_timeout_mclks;
+
     dl1a_sequence_enables_step_struct enables;
     dl1a_sequence_timeout_step_struct timeouts;
 
@@ -656,8 +646,8 @@ static uint8 dl1a_set_measurement_timing_budget (uint32 budget_us)
             // 因为它们具有不同的 VCSEL 周期
             final_range_timeout_us = budget_us - used_budget_us;
             final_range_timeout_mclks =
-            dl1a_timeout_microseconds_to_mclks(final_range_timeout_us,
-                     (uint8)timeouts.final_range_vcsel_period_pclks);
+                dl1a_timeout_microseconds_to_mclks(final_range_timeout_us,
+                                                   (uint8)timeouts.final_range_vcsel_period_pclks);
 
             if (enables.pre_range)
             {
@@ -670,7 +660,7 @@ static uint8 dl1a_set_measurement_timing_budget (uint32 budget_us)
             data_buffer[2] = (dat & 0xFF);
             dl1a_write_array(data_buffer, 3);
         }
-    }while(0);
+    } while (0);
     return return_state;
 }
 
@@ -679,9 +669,9 @@ static uint8 dl1a_set_measurement_timing_budget (uint32 budget_us)
 // 参数说明     void
 // 返回参数     uint32          已设定的测量允许的时间
 // 使用示例     dl1a_get_measurement_timing_budget();
-// 备注信息     
+// 备注信息
 //-------------------------------------------------------------------------------------------------------------------
-static uint32 dl1a_get_measurement_timing_budget (void)
+static uint32 dl1a_get_measurement_timing_budget(void)
 {
     dl1a_sequence_enables_step_struct enables;
     dl1a_sequence_timeout_step_struct timeouts;
@@ -730,12 +720,11 @@ static uint32 dl1a_get_measurement_timing_budget (void)
 //              但似乎也增加了 <由于来自目标以外的物体的不需要的反射导致> 得到不准确读数的可能性
 //              默认为 0.25 MCPS 可预设范围为 0 - 511.99
 //-------------------------------------------------------------------------------------------------------------------
-static void dl1a_set_signal_rate_limit (float limit_mcps)
+static void dl1a_set_signal_rate_limit(float limit_mcps)
 {
-	uint8 data_buffer[3];
+    uint8 data_buffer[3];
     uint16 limit_mcps_16bit = (limit_mcps * (1 << 7));
-    //zf_assert(limit_mcps >= 0 || limit_mcps <= 511.99);
-
+    // zf_assert(limit_mcps >= 0 || limit_mcps <= 511.99);
 
     data_buffer[0] = DL1A_FINAL_RANGE_CONFIG_MIN_COUNT_RATE_RTN_LIMIT;
     data_buffer[1] = ((limit_mcps_16bit >> 8) & 0xFF);
@@ -751,12 +740,12 @@ static void dl1a_set_signal_rate_limit (float limit_mcps)
 // 使用示例     dl1a_get_distance();
 // 备注信息     在开始单次射程测量后也调用此函数
 //-------------------------------------------------------------------------------------------------------------------
-void dl1a_get_distance (void)
+void dl1a_get_distance(void)
 {
     uint8 reg_databuffer[3];
 
     dl1a_read_registers_1(DL1A_RESULT_INTERRUPT_STATUS, reg_databuffer, 1);
-    if((reg_databuffer[0] & 0x07) == 0)
+    if ((reg_databuffer[0] & 0x07) == 0)
     {
         dl1a_finsh_flag = 0;
     }
@@ -777,9 +766,9 @@ void dl1a_get_distance (void)
 // 参数说明     void
 // 返回参数     uint8           1-初始化失败 0-初始化成功
 // 使用示例     dl1a_init();
-// 备注信息     
+// 备注信息
 //-------------------------------------------------------------------------------------------------------------------
-uint8 dl1a_init (void)
+uint8 dl1a_init(void)
 {
     uint32 measurement_timing_budget_us = 0;
     uint8 stop_variable = 0;
@@ -787,13 +776,10 @@ uint8 dl1a_init (void)
     uint8 reg_data_buffer = 0;
     uint8 ref_spad_map[6];
     uint8 data_buffer[7];
-	uint8 i = 0;
-	
+    uint8 i = 0;
+
     memset(ref_spad_map, 0, 6);
     memset(data_buffer, 0, 7);
-
-
-
     do
     {
         delay_ms(100);
@@ -803,16 +789,16 @@ uint8 dl1a_init (void)
         delay_ms(100);
 
         // -------------------------------- DL1A 启动初始化 --------------------------------
-        reg_data_buffer = dl1a_read_register(DL1A_IO_VOLTAGE_CONFIG);         // 传感器默认 IO 为 1.8V 模式
-        dl1a_write_register(DL1A_IO_VOLTAGE_CONFIG, reg_data_buffer | 0x01);  // 配置 IO 为 2.8V 模式
+        reg_data_buffer = dl1a_read_register(DL1A_IO_VOLTAGE_CONFIG);        // 传感器默认 IO 为 1.8V 模式
+        dl1a_write_register(DL1A_IO_VOLTAGE_CONFIG, reg_data_buffer | 0x01); // 配置 IO 为 2.8V 模式
 
-        dl1a_write_register(0x88, 0x00);                                         // 设置为标准 IIC 模式
+        dl1a_write_register(0x88, 0x00); // 设置为标准 IIC 模式
 
         dl1a_write_register(0x80, 0x01);
         dl1a_write_register(0xFF, 0x01);
         dl1a_write_register(0x00, 0x00);
 
-        dl1a_read_registers(0x91, &stop_variable , 1);
+        dl1a_read_registers(0x91, &stop_variable, 1);
 
         dl1a_write_register(0x00, 0x01);
         dl1a_write_register(0xFF, 0x00);
@@ -822,20 +808,20 @@ uint8 dl1a_init (void)
         reg_data_buffer = dl1a_read_register(DL1A_MSRC_CONFIG);
         dl1a_write_register(DL1A_MSRC_CONFIG, reg_data_buffer | 0x12);
 
-        dl1a_set_signal_rate_limit(DL1A_DEFAULT_RATE_LIMIT);                  // 设置信号速率限制
+        dl1a_set_signal_rate_limit(DL1A_DEFAULT_RATE_LIMIT); // 设置信号速率限制
         dl1a_write_register(DL1A_SYSTEM_SEQUENCE_CONFIG, 0xFF);
         // -------------------------------- DL1A 启动初始化 --------------------------------
 
         // -------------------------------- DL1A 配置初始化 --------------------------------
         if (dl1a_get_spad_info(&data_buffer[0], &data_buffer[1]))
         {
-			return_state = 1;
+            return_state = 1;
             // 如果程序在输出了断言信息 并且提示出错位置在这里
             // 那么就是 dl1a 自检出错并超时退出了
             // 检查一下接线有没有问题 如果没问题可能就是坏了
 
-			printf("dl1a init error.\r\n");
-			break;
+            printf("dl1a init error.\r\n");
+            break;
         }
 
         // 从 GLOBAL_CONFIG_SPAD_ENABLES_REF_[0-6] 获取 SPAD map (RefGoodSpadMap) 数据
@@ -864,9 +850,9 @@ uint8 dl1a_init (void)
         }
 
         data_buffer[0] = DL1A_GLOBAL_CONFIG_SPAD_ENABLES_REF_0;
-        for(i = 1; i < 7; i++)
+        for (i = 1; i < 7; i++)
         {
-            data_buffer[1] = ref_spad_map[i-1];
+            data_buffer[1] = ref_spad_map[i - 1];
         }
         dl1a_write_array(data_buffer, 7);
 
@@ -958,13 +944,13 @@ uint8 dl1a_init (void)
         dl1a_write_register(DL1A_GPIO_HV_MUX_ACTIVE_HIGH, reg_data_buffer & ~0x10);
         dl1a_write_register(DL1A_SYSTEM_INTERRUPT_CLEAR, 0x01);
 
-        measurement_timing_budget_us  = dl1a_get_measurement_timing_budget();
+        measurement_timing_budget_us = dl1a_get_measurement_timing_budget();
 
         // 默认情况下禁用 MSRC 和 TCC
         // MSRC = Minimum Signal Rate Check
         // TCC = Target CentreCheck
         dl1a_write_register(DL1A_SYSTEM_SEQUENCE_CONFIG, 0xE8);
-        dl1a_set_measurement_timing_budget(measurement_timing_budget_us);    // 重新计算时序预算
+        dl1a_set_measurement_timing_budget(measurement_timing_budget_us); // 重新计算时序预算
         // -------------------------------- DL1A 配置初始化 --------------------------------
 
         dl1a_write_register(DL1A_SYSTEM_SEQUENCE_CONFIG, 0x01);
@@ -979,7 +965,7 @@ uint8 dl1a_init (void)
             return_state = 1;
             break;
         }
-        dl1a_write_register(DL1A_SYSTEM_SEQUENCE_CONFIG, 0xE8);           // 恢复以前的序列配置
+        dl1a_write_register(DL1A_SYSTEM_SEQUENCE_CONFIG, 0xE8); // 恢复以前的序列配置
 
         delay_ms(100);
 
@@ -992,8 +978,7 @@ uint8 dl1a_init (void)
         dl1a_write_register(0x80, 0x00);
 
         dl1a_write_register(DL1A_SYSRANGE_START, 0x02);
-    }while(0);
+    } while (0);
 
     return return_state;
 }
-

@@ -2,10 +2,14 @@
 
 int dir_out = 0, nh_out = 0;
 int L_Pulse = 0, R_Pulse = 0, Sum_Pulse = 0;
+
+int L_Dis = 0;
+int R_Dis = 0;
+
 double angle1 = 0.0;
 int speed = 105;
 float Ang = 0;
-
+int PWM_Out = 0;
 
 float L = 0, R = 0;
 //--
@@ -40,6 +44,7 @@ int L_Encoder_Pulse(void)
 	{
 		L_Pulse = -ctimer_count_read(Encoder_L);
 	}
+	ctimer_count_clean(Encoder_L);
 	return L_Pulse;
 }
 
@@ -58,6 +63,7 @@ int R_Encoder_Pulse(void)
 	{
 		R_Pulse = -ctimer_count_read(Encoder_R);
 	}
+	ctimer_count_clean(Encoder_R);
 	return R_Pulse;
 }
 
@@ -112,36 +118,25 @@ int R_Enc_integral(int R_target)
 
 void TM4_Isr() interrupt 20
 {
-	static int count = 0, OUT1, OUT2, groy = 0;
+	static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0;
 	int nh = 0;
 	if (Car_Start_Flag)
 	{
-		mpu6050_get_gyro();
-		L_Pulse = L_Encoder_Pulse()*0.7;
-		R_Pulse = R_Encoder_Pulse()*0.7;
+		imu660ra_get_gyro();
+		dl1a_get_distance();
+		L_Pulse = L_Encoder_Pulse() * 0.7;
+		R_Pulse = R_Encoder_Pulse() * 0.7;
 		NORMALIZATION_TRACKING_ADC(1, 1);
-		// Roundabout();
-		// if(Track_flag)
-		// Right_Angle();
-		// Error_Speed();
-		// if(Angle_Ring(90, 25, 1))
-		// 	{
-				
-		// 	}
-		//Car_Distance(2024);
-		//Angle_Ring1(90, 180, 1080);
-
-		//Angle_Ring1(90, 1.65,5);	
-		//		L = L_Pulse;
-		//		R = R_Pulse;
-		//OUT1 = LSpeed_pid_Out(15, L_Pulse);
-		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
-		//Motor_PWM(OUT1, OUT2);
-		Tracking(10);
-		//OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-		//Motor_PWM(-OUT1, OUT1);
-		ctimer_count_clean(Encoder_L);
-		ctimer_count_clean(Encoder_R);
-		TIM4_CLEAR_FLAG; //????锟斤拷???
+		gyro_z3 += Get_Gyro_Z;
+		// LRoundabout();
+		//  Angle_Ring1(90, 0.85,0.28);  //这个参数可以 5/19
+		//  PWM_Out = LSpeed_pid_Out(15, L_Pulse);
+		//  OUT2 = RSpeed_pid_Out(15, R_Pulse);
+		//  Motor_PWM(0, 1500);
+		// Tracking(10);
+		//  OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+		// Buzzer_OFF;
+		//  Motor_PWM(PWM_Out, OUT2);
+		TIM4_CLEAR_FLAG;
 	}
 }
