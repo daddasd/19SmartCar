@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  23:22:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -66,7 +66,7 @@ stmt  level    source
    53          //  @brief      ??????????????
    54          //  @param      void
    55          //  @return     return : ?????
-C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  23:22:35  PAGE 2   
 
    56          //--
    57          int R_Encoder_Pulse(void)
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        return 1;
   119   1      }
   120          
-C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  23:22:35  PAGE 3   
 
   121          void TM4_Isr() interrupt 20
   122          {

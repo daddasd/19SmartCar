@@ -10,14 +10,14 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 245; // 0.5
-float Nh_D = 6.5; // 4.1
-float Wh_P = 0.19;
-float Wh_D = 0.06;
+float Nh_P = 335; // 0.5
+float Nh_D = 7.2; // 4.1
+float Wh_P = 0.3;
+float Wh_D = 0.05;
 float gyro_z3 = 0;
 
-float Angle_Speed_P = 385;
-float Angle_Speed_I = 8.7;
+float Angle_Speed_P = 415;
+float Angle_Speed_I = 9.2;
 
 
 
@@ -64,8 +64,8 @@ int nh_Turn_Out(int err, float dir_p, float dir_i)
   float error1 = 0;
   static float last_err = 0, P_out = 0, I_out = 0, out = 0;
   error1 = (err - Get_Gyro_Z * 20);
- // if(error1<0.05&&error1>0.05)
-   // error1 = 0;
+  if(error1<0.01&&error1>0.01)
+    error1 = 0;
   P_out = dir_p * (error1 - last_err);
   I_out = dir_i * error1;
   if (I_out >= 2000)
@@ -74,7 +74,6 @@ int nh_Turn_Out(int err, float dir_p, float dir_i)
     I_out = -2000;
   last_err = error1;
   out += P_out + I_out;
-  out = limit(out, 9500);
   return (int)out;
 }
 
@@ -110,14 +109,22 @@ int Angle_Ring(double target, float p, float d)
   float error;
   int Output, Angle_Speed;
   static float last_error, error2;
-  gyro_z3 += Get_Gyro_Z*0.57;
+  gyro_z3 += Get_Gyro_Z;
   error = target - gyro_z3;
   error2 = error - last_error;
   last_error = error;
   Output = (int)(error * p + error2 * d);
   Output = limit(Output, 1000);
   Angle_Speed_Ring(Output, Angle_Speed_P, Angle_Speed_I);
-  return 0;
+  if (abs(error) <= 2) // 如何小于指定角度，表示角度ok
+  {
+    gyro_z3 = 0; // 角度积分清零
+    last_error = 0;
+    error2 = 0;
+    return 1;
+  }
+  else
+    return 0;
 }
 
 /**
@@ -132,7 +139,7 @@ int Angle_Speed_Ring(int err, float dir_p, float dir_i)
 {
   int error1 = 0;
   static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = err - Get_Gyro_Z*20;
+  error1 = err - Get_Gyro_Z*10;
   P_out = dir_p * (error1 - last_err);
   I_out = dir_i * error1;
   if (I_out > 2000)
@@ -142,6 +149,7 @@ int Angle_Speed_Ring(int err, float dir_p, float dir_i)
   out = P_out + I_out;
   nh_out += out;
   last_err = error1;
+  nh_out = limit(nh_out, 9500);
   Motor_PWM(-nh_out, nh_out);
   return nh_out;
 }
