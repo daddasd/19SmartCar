@@ -6,7 +6,7 @@
 #define DIL P16
 #define DIR P50
 
-#define Get_Gyro_Z ((imu660ra_gyro_z - Gyro_Diff) * 0.000236 + 0.0000161) // 实际角速度 °/s
+#define Get_Gyro_Z ((imu660ra_gyro_z) * 0.000232 + 0.0000161) // 实际角速度 °/s
 
 extern L_Pulse;
 extern R_Pulse;

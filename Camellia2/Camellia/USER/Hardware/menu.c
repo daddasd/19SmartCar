@@ -56,93 +56,93 @@ int First_menu(void)
 	{
         if (key3 == 0) // 下一项
         {
-			delay_ms(10);
-			while(key3==0);
-			delay_ms(10);
-			flag++;
-			if(flag == 7) flag = 1;
-		}
-		if(key1==0) // 上一项
-		{
-			delay_ms(10);
-			while(key1==0);
-			delay_ms(10);
-			flag--;
-			if(flag == 0) flag = 6;
-		}
-		if(key2 == 0) //确定
-		{
-			delay_ms(10);
-			while(key2 ==0);
-			delay_ms(10);
-			oled_fill(0x00); //清屏
-			return flag; // 返回选择的选项
-		}
-		if(key4 == 0) //返回上级
-		{
-			delay_ms(10);
-			while(key4 ==0);
-			delay_ms(10);
-			oled_fill(0x00); //清屏
-			return 0; 
-		}
-		switch(flag) //光标移动
-		{
-			case 1:
-			{
-				oled_p6x8str(0,0,"-->"); 
-				oled_p6x8str(0,1,"   "); 
-				oled_p6x8str(0,2,"   ");
-				oled_p6x8str(0,3,"   ");
-				oled_p6x8str(0,4,"   ");
-				oled_p6x8str(0,5,"   ");
-			}break;
-			case 2:
-			{
-				oled_p6x8str(0,0,"   "); 
-				oled_p6x8str(0,1,"-->"); 
-				oled_p6x8str(0,2,"   ");
-				oled_p6x8str(0,3,"   ");
-				oled_p6x8str(0,4,"   ");
-				oled_p6x8str(0,5,"   ");
-			}break;
-			case 3:
-			{
-				oled_p6x8str(0,0,"   "); 
-				oled_p6x8str(0,1,"   "); 
-				oled_p6x8str(0,2,"-->");
-				oled_p6x8str(0,3,"   ");
-				oled_p6x8str(0,4,"   ");
-				oled_p6x8str(0,5,"   ");
-			}break;
-			case 4:
-			{
-				oled_p6x8str(0,0,"   "); 
-				oled_p6x8str(0,1,"   "); 
-				oled_p6x8str(0,2,"   ");
-				oled_p6x8str(0,3,"-->");
-				oled_p6x8str(0,4,"   ");
-				oled_p6x8str(0,5,"   ");
-			}break;
-			case 5:
-			{
-				oled_p6x8str(0,0,"   "); 
-				oled_p6x8str(0,1,"   "); 
-				oled_p6x8str(0,2,"   ");
-				oled_p6x8str(0,3,"   ");
-				oled_p6x8str(0,4,"-->");
-				oled_p6x8str(0,5,"   ");
-			}break;
-			case 6:
-			{
-				oled_p6x8str(0,0,"   "); 
-				oled_p6x8str(0,1,"   "); 
-				oled_p6x8str(0,2,"   ");
-				oled_p6x8str(0,3,"   ");
-				oled_p6x8str(0,4,"   ");
-				oled_p6x8str(0,5,"-->");
-			}break;
-		}
+            delay_ms(10);
+            while(key3==0);                                     
+            delay_ms(10);
+            flag++;
+            if(flag == 7) flag = 1;
+        }
+        if(key1==0) // 上一项
+        {
+            delay_ms(10);
+            while(key1==0);
+            delay_ms(10);
+            flag--;
+            if(flag == 0) flag = 6;
+        }
+        if(key2 == 0) //确定
+        {
+            delay_ms(10);
+            while(key2 ==0);
+            delay_ms(10);
+            oled_fill(0x00); //清屏
+            return flag; // 返回选择的选项
+        }
+        if(key4 == 0) //返回上级
+        {
+            delay_ms(10);
+            while(key4 ==0);
+            delay_ms(10);
+            oled_fill(0x00); //清屏
+            return 0; 
+        }
+        switch(flag) //光标移动
+        {
+            case 1:
+            {
+                oled_p6x8str(0,0,"-->"); 
+                oled_p6x8str(0,1,"   "); 
+                oled_p6x8str(0,2,"   ");
+                oled_p6x8str(0,3,"   ");
+                oled_p6x8str(0,4,"   ");
+                oled_p6x8str(0,5,"   ");
+            }break;
+            case 2:
+            {
+                oled_p6x8str(0,0,"   "); 
+                oled_p6x8str(0,1,"-->"); 
+                oled_p6x8str(0,2,"   ");
+                oled_p6x8str(0,3,"   ");
+                oled_p6x8str(0,4,"   ");
+                oled_p6x8str(0,5,"   ");
+            }break;
+            case 3:
+            {
+                oled_p6x8str(0,0,"   "); 
+                oled_p6x8str(0,1,"   "); 
+                oled_p6x8str(0,2,"-->");
+                oled_p6x8str(0,3,"   ");
+                oled_p6x8str(0,4,"   ");
+                oled_p6x8str(0,5,"   ");
+            }break;
+            case 4:
+            {
+                oled_p6x8str(0,0,"   "); 
+                oled_p6x8str(0,1,"   "); 
+                oled_p6x8str(0,2,"   ");
+                oled_p6x8str(0,3,"-->");
+                oled_p6x8str(0,4,"   ");
+                oled_p6x8str(0,5,"   ");
+            }break;
+            case 5:
+            {
+                oled_p6x8str(0,0,"   "); 
+                oled_p6x8str(0,1,"   "); 
+                oled_p6x8str(0,2,"   ");
+                oled_p6x8str(0,3,"   ");
+                oled_p6x8str(0,4,"-->");
+                oled_p6x8str(0,5,"   ");
+            }break;
+            case 6:
+            {
+                oled_p6x8str(0,0,"   "); 
+                oled_p6x8str(0,1,"   "); 
+                oled_p6x8str(0,2,"   ");
+                oled_p6x8str(0,3,"   ");
+                oled_p6x8str(0,4,"   ");
+                oled_p6x8str(0,5,"-->");
+            }break;
+        }
 	}
 }
 
@@ -355,7 +355,7 @@ int Second_Motor_menu(void)
 int Second__NWHuan_menu(void)
 {
     int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
-    float x =0.01,x1=0.005;
+    float x =0.01,x1=0.1;
     uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
 	  int page1 = 1;
@@ -403,9 +403,9 @@ int Second__NWHuan_menu(void)
                 oled_fill(0x00);
                 page1=2;
                 oled_p8x16str(22, 0, "N_P");  
-                oled_printf_float_px8(45, 0, Nh_P, 2, 3); // 内环P
+                oled_printf_float_px8(45, 0, Nh_P, 3, 1); // 内环P
                 oled_p8x16str(22, 2, "N_D");  
-                oled_printf_float_px8(45, 2, Nh_D, 2, 3); // 内环D
+                oled_printf_float_px8(45, 2, Nh_D, 3, 1); // 内环D
                 oled_p8x16str(22, 4, "W_P");  
                 oled_printf_float_px8(45, 4, Wh_P, 3, 2); // 外环P
                 oled_p8x16str(22, 6, "W_D");  
@@ -435,10 +435,10 @@ int Second__NWHuan_menu(void)
                 if (long_press_delay >= INTERVAL_TIME - pree_delay)
                 {
                     if (flag == 1) {
-                        oled_printf_float_px8(45, 0, Nh_P, 2, 3);
+                        oled_printf_float_px8(45, 0, Nh_P, 3, 1);
                         Nh_P = Nh_P + x1 * Val_add_lose;
                     } else if (flag == 2) {
-                        oled_printf_float_px8(45, 2, Nh_D, 2, 3);
+                        oled_printf_float_px8(45, 2, Nh_D, 3, 1);
                         Nh_D = Nh_D + x1 * Val_add_lose;
                     } else if (flag == 3) {
                         Wh_P = Wh_P + x* Val_add_lose;
@@ -460,12 +460,12 @@ int Second__NWHuan_menu(void)
                 {
                     case 1:
                     {
-                        oled_printf_float_px8(45, 0, Nh_P, 2, 3);
+                        oled_printf_float_px8(45, 0, Nh_P, 3, 1);
                         Nh_P = Nh_P + x1 * Val_add_lose;
                     }break;
                     case 2:
                     {
-                        oled_printf_float_px8(45, 2, Nh_D, 2, 3);
+                        oled_printf_float_px8(45, 2, Nh_D, 3, 1);
                         Nh_D = Nh_D + x1 * Val_add_lose;
                     }break;
                     case 3:
@@ -508,12 +508,12 @@ int Second__NWHuan_menu(void)
             }
             if (flag == 2)
             {
-                x = x + 0.5 * Val_add_lose;
+                x = x + 5 * Val_add_lose;
                 oled_printf_float_px8(50, 2, x, 3, 1);
             }
             if(flag==3)
             {
-                x1 = x1 + 0.005 * Val_add_lose;
+                x1 = x1 + 0.1 * Val_add_lose;
                 oled_printf_float_px8(50, 4, x1, 1, 3);                    
             }
         }

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              22/05/24  15:46:29  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -22,11 +22,11 @@ stmt  level    source
    10          
    11          #define MOTOR_MAX 8000
    12          
-   13          float Motor_P = 26.7;
-   14          float Motor_I = 1.5;
+   13          float Motor_P = 30;
+   14          float Motor_I = 1.15;
    15          
-   16          float Motor_RP = 28;
-   17          float Motor_RI = 1.5;
+   16          float Motor_RP = 35;
+   17          float Motor_RI = 1.25;
    18          float Speed_Ring = 0;
    19          
    20          Motor_PID_InitTypedef Motor_pid;
@@ -63,14 +63,14 @@ stmt  level    source
    51          {
    52   1        if (L_PWM < 0)
    53   1        {
-   54   2          MOTOR_L_DIR = 0;
+   54   2          MOTOR_L_DIR = 1;
    55   2          pwm_duty(MOTOR_L_PWM, abs(L_PWM));
    56   2        }
-C251 COMPILER V5.60.0,  Motor                                                              22/05/24  15:46:29  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 2   
 
    57   1        else
    58   1        {
-   59   2          MOTOR_L_DIR = 1;
+   59   2          MOTOR_L_DIR = 0;
    60   2          pwm_duty(MOTOR_L_PWM, L_PWM);
    61   2        }
    62   1        if (R_PWM < 0)
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        return ((char)result);
   121   1      }
   122          
-C251 COMPILER V5.60.0,  Motor                                                              22/05/24  15:46:29  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 3   
 
   123          //--
   124          //  @brief      速度环
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              22/05/24  15:46:29  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 4   
 
   const size           =    ------     ------
   hconst size          =       120     ------

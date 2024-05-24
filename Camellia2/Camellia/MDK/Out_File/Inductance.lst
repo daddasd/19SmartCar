@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         22/05/24  15:46:29  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         24/05/24  21:26:47  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    52   1      
    53   1        x = number * 0.5F;
    54   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         22/05/24  15:46:29  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         24/05/24  21:26:47  PAGE 2   
 
    55   1        i = *(long *)&y;
    56   1        i = 0x5f3759df - (i >> 1);
@@ -88,13 +88,13 @@ stmt  level    source
    72   1        uint16 ad_valu1[7] = {0};
    73   1        for (i = 0; i < 10; i++) // 读取十次电感
    74   1        {
-   75   2          ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
-   76   2          ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
-   77   2          ad_value[2][i] = adc_once(ADC_P06, ADC_12BIT);
-   78   2          ad_value[3][i] = adc_once(ADC_P00, ADC_12BIT);
-   79   2          ad_value[4][i] = adc_once(ADC_P01, ADC_12BIT);
-   80   2          ad_value[5][i] = adc_once(ADC_P02, ADC_12BIT);
-   81   2          ad_value[6][i] = adc_once(ADC_P03, ADC_12BIT);
+   75   2          ad_value[0][i] = adc_once(ADC_P05, ADC_12BIT);
+   76   2          ad_value[1][i] = adc_once(ADC_P06, ADC_12BIT);
+   77   2          ad_value[2][i] = adc_once(ADC_P10, ADC_12BIT);
+   78   2          ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
+   79   2          ad_value[4][i] = adc_once(ADC_P00, ADC_12BIT);
+   80   2          ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
+   81   2          ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
    82   2          bug = adc_once(ADC_P04, ADC_12BIT);
    83   2        }
    84   1      
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        R2 = ad_valu1[5];
   119   1        R1 = ad_valu1[6];
   120   1      
-C251 COMPILER V5.60.0,  Inductance                                                         22/05/24  15:46:29  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         24/05/24  21:26:47  PAGE 3   
 
   121   1        NOR_VAL[0] = (float)(L1 - ADC_MIN[0]) / (float)(ADC_MAX[0] - ADC_MIN[0]);
   122   1        NOR_VAL[1] = (float)(L2 - ADC_MIN[1]) / (float)(ADC_MAX[1] - ADC_MIN[1]);
@@ -202,7 +202,7 @@ stmt  level    source
   180   1        oled_uint16(85, 0, R1_NOR_ADC);
   181   1      
   182   1        oled_p6x8str(0, 1, "L2:");
-C251 COMPILER V5.60.0,  Inductance                                                         22/05/24  15:46:29  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         24/05/24  21:26:47  PAGE 4   
 
   183   1        oled_uint16(15, 1, L2_NOR_ADC);
   184   1      
@@ -218,16 +218,16 @@ stmt  level    source
   194   1        oled_p6x8str(0, 3, "Err:");
   195   1        oled_int16(20, 3, Inductance_Error);
   196   1      
-  197   1        oled_p6x8str(70, 3, "M1:");
+  197   1        oled_p6x8str(70, 3, "M1:"); 
   198   1        oled_uint16(85, 3, M1_NOR_ADC);
   199   1        ////-----------------陀螺仪角速度------------------------//
   200   1      
   201   1        oled_p6x8str(0, 4, "gyro_z:");
-  202   1        oled_printf_float(45, 4, gyro_z3, 5, 6);
-  203   1        oled_int16(0, 5, L_Dis);
-  204   1        oled_int16(60, 5, R_Dis);
+  202   1        oled_printf_float(45, 4, Get_Gyro_Z,5, 6);
+  203   1        oled_int16(0, 5, L_Pulse);
+  204   1        oled_int16(60, 5, R_Pulse);
   205   1        oled_int16(0, 6, dl1a_distance_mm);
-  206   1        oled_int16(60, 6, Speed_Ring);
+  206   1        oled_int16(60, 6, PWM_Out);
   207   1        //-----------------TOF距离------------------------//
   208   1        //  if(dl1a_finsh_flag)
   209   1        //  {
@@ -239,7 +239,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2103     ------
+  code size            =      2127     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

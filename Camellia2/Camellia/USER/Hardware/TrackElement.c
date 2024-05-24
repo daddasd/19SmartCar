@@ -161,7 +161,7 @@ void LRoundabout(void)
 			}
 			if (Distance_Flag == 1) // 到达指定距离 角度打死
 			{
-				if (Angle_Ring1(-40, 0.7, 0.17))
+				if (Angle_Ring(-40, 0.7, 0.17))
 				{
 					Chu_YuanHuan_Flag = 2; // 到达指定角度出圆环成功
 					Huan_Dao_Flag = 0;	   // 屏蔽圆环
@@ -246,7 +246,7 @@ void Tracking(int Set_speed)
 		Rpwm = RSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
 		count = 0;
 	}
-	Motor_PWM(Lpwm - dir_out, Rpwm + dir_out);
+	Motor_PWM(Rpwm - dir_out, Rpwm + dir_out);
 }
 /**
  * @brief 根据不同速度给标志位

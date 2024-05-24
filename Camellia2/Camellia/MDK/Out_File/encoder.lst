@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -48,128 +48,136 @@ stmt  level    source
    36          
    37          int L_Encoder_Pulse(void)
    38          {
-   39   1        if (DIL == 1)
-   40   1        {
-   41   2          L_Pulse = ctimer_count_read(Encoder_L);
-   42   2        }
-   43   1        else
-   44   1        {
-   45   2          L_Pulse = -ctimer_count_read(Encoder_L);
-*** WARNING C115 IN LINE 45 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
-   46   2        }
-   47   1        ctimer_count_clean(Encoder_L);
-   48   1        return L_Pulse;
-   49   1      }
-   50          
-   51          //--
-   52          //  @brief      ??????????????
-   53          //  @param      void
-   54          //  @return     return : ?????
-   55          //--
-C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 2   
+   39   1        int L = 0;
+   40   1        if (DIL == 1)
+   41   1        {
+   42   2          L = ctimer_count_read(Encoder_L);
+   43   2        }
+   44   1        else
+   45   1        {
+   46   2          L = -ctimer_count_read(Encoder_L);
+*** WARNING C115 IN LINE 46 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   47   2        }
+   48   1        ctimer_count_clean(Encoder_L);
+   49   1        return (int)L*0.7;
+   50   1      }
+   51          
+   52          //--
+   53          //  @brief      ??????????????
+   54          //  @param      void
+   55          //  @return     return : ?????
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 2   
 
-   56          int R_Encoder_Pulse(void)
-   57          {
-   58   1        if (DIR == 0)
-   59   1        {
-   60   2          R_Pulse = ctimer_count_read(Encoder_R);
-   61   2        }
-   62   1        else
-   63   1        {
-   64   2          R_Pulse = -ctimer_count_read(Encoder_R);
-*** WARNING C115 IN LINE 64 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
-   65   2        }
-   66   1        ctimer_count_clean(Encoder_R);
-   67   1        return R_Pulse;
-   68   1      }
-   69          
-   70          //--
-   71          //  @brief      ?????????
-   72          //  @param      void
-   73          //  @return     void
-   74          //--
-   75          void Encoder_Read_Pulse(void)
-   76          {
-   77   1        L_Encoder_Pulse();
-   78   1        R_Encoder_Pulse();
-   79   1      }
-   80          //--
-   81          //  @brief      ???????????
-   82          //  @param      L_cont??R_cont?????????
-   83          //  @return     void
-   84          //--
-   85          int L_Enc_integral(int L_target)
-   86          {
-   87   1        static int L = 0, L_flag;
-   88   1        L += L_Encoder_Pulse();
-   89   1        if (L > L_target)
-   90   1        {
-   91   2          L_flag = 1;
-   92   2        }
-   93   1        if (L_flag == 1)
-   94   1        {
-   95   2          L = 0;
-   96   2          L_flag = 0;
-   97   2          return 0;
-   98   2        }
-   99   1        return 1;
-  100   1      }
-  101          
-  102          int R_Enc_integral(int R_target)
-  103          {
-  104   1        static int R = 0, R_flag;
-  105   1        R += R_Encoder_Pulse();
-  106   1        if (R > R_target)
-  107   1        {
-  108   2          R_flag = 1;
-  109   2        }
-  110   1        if (R_flag == 1)
-  111   1        {
-  112   2          R_flag = 0;
-  113   2          R = 0;
-  114   2          return 0;
-  115   2        }
-  116   1        return 1;
-  117   1      }
-  118          
-  119          void TM4_Isr() interrupt 20
-  120          {
-C251 COMPILER V5.60.0,  encoder                                                            22/05/24  15:46:29  PAGE 3   
+   56          //--
+   57          int R_Encoder_Pulse(void)
+   58          {
+   59   1        int R = 0;
+   60   1        if (DIR == 0)
+   61   1        {
+   62   2          R = ctimer_count_read(Encoder_R);
+   63   2        }
+   64   1        else
+   65   1        {
+   66   2          R = -ctimer_count_read(Encoder_R);
+*** WARNING C115 IN LINE 66 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   67   2        }
+   68   1        ctimer_count_clean(Encoder_R);
+   69   1        return (int)R*0.7;
+   70   1      }
+   71          
+   72          //--
+   73          //  @brief      ?????????
+   74          //  @param      void
+   75          //  @return     void
+   76          //--
+   77          void Encoder_Read_Pulse(void)
+   78          {
+   79   1        L_Encoder_Pulse();
+   80   1        R_Encoder_Pulse();
+   81   1      }
+   82          //--
+   83          //  @brief      ???????????
+   84          //  @param      L_cont??R_cont?????????
+   85          //  @return     void
+   86          //--
+   87          int L_Enc_integral(int L_target)
+   88          {
+   89   1        static int L = 0, L_flag;
+   90   1        L += L_Encoder_Pulse();
+   91   1        if (L > L_target)
+   92   1        {
+   93   2          L_flag = 1;
+   94   2        }
+   95   1        if (L_flag == 1)
+   96   1        {
+   97   2          L = 0;
+   98   2          L_flag = 0;
+   99   2          return 0;
+  100   2        }
+  101   1        return 1;
+  102   1      }
+  103          
+  104          int R_Enc_integral(int R_target)
+  105          {
+  106   1        static int R = 0, R_flag;
+  107   1        R += R_Encoder_Pulse();
+  108   1        if (R > R_target)
+  109   1        {
+  110   2          R_flag = 1;
+  111   2        }
+  112   1        if (R_flag == 1)
+  113   1        {
+  114   2          R_flag = 0;
+  115   2          R = 0;
+  116   2          return 0;
+  117   2        }
+  118   1        return 1;
+  119   1      }
+  120          
+C251 COMPILER V5.60.0,  encoder                                                            24/05/24  22:14:16  PAGE 3   
 
-  121   1        static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0;
-  122   1        int nh = 0;
-  123   1        if (Car_Start_Flag)
-  124   1        {
-  125   2          imu660ra_get_gyro();
-  126   2          dl1a_get_distance();
-  127   2          L_Pulse = L_Encoder_Pulse() * 0.7;
-  128   2          R_Pulse = R_Encoder_Pulse() * 0.7;
-  129   2          NORMALIZATION_TRACKING_ADC(1, 1);
-  130   2          gyro_z3 += Get_Gyro_Z;
-  131   2          // LRoundabout();
-  132   2          //  Angle_Ring1(90, 0.85,0.28);  //这个参数可以 5/19
-  133   2          //  PWM_Out = LSpeed_pid_Out(15, L_Pulse);
-  134   2          //  OUT2 = RSpeed_pid_Out(15, R_Pulse);
-  135   2          //  Motor_PWM(0, 1500);
-  136   2          // Tracking(10);
-  137   2          //  OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-  138   2          // Buzzer_OFF;
-  139   2          //  Motor_PWM(PWM_Out, OUT2);
-  140   2          TIM4_CLEAR_FLAG;
-  141   2        }
-  142   1      }
+  121          void TM4_Isr() interrupt 20
+  122          {
+  123   1        static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0;
+  124   1        int nh = 0;
+  125   1        if (Car_Start_Flag)
+  126   1        {
+  127   2          //P15 = 1;
+  128   2          imu660ra_get_gyro();
+  129   2          dl1a_get_distance();
+  130   2          L_Pulse = L_Encoder_Pulse();
+  131   2          R_Pulse = R_Encoder_Pulse();
+  132   2          NORMALIZATION_TRACKING_ADC(1, 1);
+  133   2          //PWM_Out=nh_Turn_Out(0, Nh_P, Nh_D);
+  134   2          //PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
+  135   2          //gyro_z3 += Get_Gyro_Z*0.5;
+  136   2          //   LRoundabout();
+  137   2          //Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
+  138   2          //OUT1 = LSpeed_pid_Out(15, L_Pulse);
+  139   2          //OUT2 = RSpeed_pid_Out(15, R_Pulse);
+  140   2          //    OUT2 = RSpeed_pid_Out(15, R_Pulse);
+  141   2          //Motor_PWM(-PWM_Out,PWM_Out);
+  142   2          //Motor_PWM(OUT1, OUT2);
+  143   2          Tracking(25);
+  144   2          //    OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+  145   2          //   Buzzer_OFF;
+  146   2          //Motor_PWM(1500,-1500);
+  147   2          //  P15 = 0;
+  148   2          TIM4_CLEAR_FLAG;
+  149   2        }
+  150   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       488     ------
+  code size            =       449     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =        58     ------
+  edata size           =        62     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

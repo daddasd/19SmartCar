@@ -39,11 +39,11 @@
 
 //====================================================软件 IIC 驱动====================================================
 #define DL1A_SOFT_IIC_DELAY (10) // 软件 IIC 的时钟延时周期 数值越小 IIC 通信速率越快
-#define DL1A_SCL_PIN (P53)       // 软件 IIC SCL 引脚 连接 DL1A 的 SCL 引脚
-#define DL1A_SDA_PIN (P07)       // 软件 IIC SDA 引脚 连接 DL1A 的 SDA 引脚
+#define DL1A_SCL_PIN (P11)       // 软件 IIC SCL 引脚 连接 DL1A 的 SCL 引脚
+#define DL1A_SDA_PIN (P47)       // 软件 IIC SDA 引脚 连接 DL1A 的 SDA 引脚
 //====================================================软件 IIC 驱动====================================================
 
-#define DL1A_XSHUT_PIN (P11)
+#define DL1A_XSHUT_PIN (P53)
 #define DL1A_TIMEOUT_COUNT (0x00FF) // DL1A 超时计数
 
 //================================================定义 DL1A 内部地址================================================

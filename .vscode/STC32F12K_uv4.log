@@ -1,6 +1,6 @@
 Build target 'STC32F12K'
 linking...
-Program Size: data=8.1 edata+hdata=4089 xdata=0 const=1771 code=39379
+Program Size: data=8.1 edata+hdata=4099 xdata=0 const=1779 code=40798
 creating hex file from ".\Out_File\SEEKFREE"...
 ".\Out_File\SEEKFREE" - 0 Error(s), 0 Warning(s).
 Build Time Elapsed:  00:00:00

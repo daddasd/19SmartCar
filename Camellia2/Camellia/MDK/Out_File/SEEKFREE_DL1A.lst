@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 1   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE SEEKFREE_DL1A
@@ -66,7 +66,7 @@ stmt  level    source
    51          //  @since      v1.0
    52          //  Sample usage:       如果IIC通讯失败可以尝试增加j的值
    53          //-------------------------------------------------------------------------------------------------------
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 2   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 2   
 
              -------------
    54          static void dl1a_simiic_delay(void)
@@ -134,7 +134,7 @@ stmt  level    source
   116   1      
   117   1          DL1A_SCL_LOW();
   118   1          dl1a_simiic_delay();
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 3   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 3   
 
   119   1          return 1;
   120   1      }
@@ -202,7 +202,7 @@ stmt  level    source
   181          //  @param      dat       写入的数据
   182          //  @return     void
   183          //  @since      v1.0
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 4   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 4   
 
   184          //  Sample usage:
   185          //-------------------------------------------------------------------------------------------------------
@@ -270,7 +270,7 @@ stmt  level    source
   241          //  @brief      模拟IIC读取多字节数据
   242          //  @param      dev_add     设备地址(低七位地址)
   243          //  @param      reg       寄存器地址
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 5   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 5   
 
   244          //  @param      dat_add     数据保存的地址指针
   245          //  @param      num       读取字节数量
@@ -338,7 +338,7 @@ stmt  level    source
   303          // 设置此限制可以确定传感器报告有效读数所需的最小测量值
   304          // 设置一个较低的限制可以增加传感器的测量范围
   305          // 但似乎也增加了 <由于来自目标以外的物体的不需要的反射导致> 得到不准确�
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 6   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 6   
 
              -�数的可能性
   306          // 默认为 0.25 MCPS 可预设范围为 0 - 511.99
@@ -406,7 +406,7 @@ stmt  level    source
   365   2              dl1a_read_registers(0x92, &tmp, 1);
   366   2      
   367   2              *index = tmp & 0x7f;
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 7   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 7   
 
   368   2              *type_is_aperture = (tmp >> 7) & 0x01;
   369   2      
@@ -474,7 +474,7 @@ stmt  level    source
   423   1          // 格式: (LSByte * 2 ^ MSByte) + 1
   424   1          return (uint16)((reg_val & 0x00FF) << (uint16)((reg_val & 0xFF00) >> 8)) + 1;
   425   1      }
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 8   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 8   
 
   426          
   427          //-------------------------------------------------------------------------------------------------------
@@ -542,7 +542,7 @@ stmt  level    source
   483   1          if (type == DL1A_VCSEL_PERIOD_PER_RANGE)
   484   1          {
   485   2              dl1a_read_registers(DL1A_PRE_RANGE_CONFIG_VCSEL_PERIOD, &data_buffer, 1);
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 9   
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 9   
 
   486   2              data_buffer = decode_vcsel_period(data_buffer);
   487   2          }
@@ -610,7 +610,7 @@ stmt  level    source
   541          // 返回参数     uint8           操作是否成功 0-成功 1-失败
   542          // 使用示例     dl1a_get_vcsel_pulse_period(DL1A_VCSEL_PERIOD_PER_RANGE);
   543          // 备注信息     在 PCLKs 中获取给定周期类型的 VCSEL 脉冲周期
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 10  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 10  
 
   544          //-------------------------------------------------------------------------------------------------------
              -------------
@@ -678,7 +678,7 @@ stmt  level    source
   604   3                  return_state = 1;
   605   3                  break;
   606   3              }
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 11  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 11  
 
   607   2      
   608   2              used_budget_us = DL1A_SET_START_OVERHEAD + DL1A_END_OVERHEAD;
@@ -746,7 +746,7 @@ stmt  level    source
   669          // 参数说明     void
   670          // 返回参数     uint32          已设定的测量允许的时间
   671          // 使用示例     dl1a_get_measurement_timing_budget();
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 12  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 12  
 
   672          // 备注信息
   673          //-------------------------------------------------------------------------------------------------------
@@ -814,7 +814,7 @@ stmt  level    source
   731   1          data_buffer[2] = (limit_mcps_16bit & 0xFF);
   732   1      
   733   1          dl1a_write_array(data_buffer, 3);
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 13  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 13  
 
   734   1      }
   735          
@@ -882,7 +882,7 @@ stmt  level    source
              -8V 模式
   793   2              dl1a_write_register(DL1A_IO_VOLTAGE_CONFIG, reg_data_buffer | 0x01); // 配置 IO 为 2.8V 模式
   794   2      
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 14  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 14  
 
   795   2              dl1a_write_register(0x88, 0x00); // 设置为标准 IIC 模式
   796   2      
@@ -950,7 +950,7 @@ stmt  level    source
   858   2      
   859   2              // 默认转换设置 version 02/11/2015_v36
   860   2              dl1a_write_register(0xFF, 0x01);
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 15  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 15  
 
   861   2              dl1a_write_register(0x00, 0x00);
   862   2              dl1a_write_register(0xFF, 0x00);
@@ -1018,7 +1018,7 @@ stmt  level    source
   924   2              dl1a_write_register(0x67, 0x00);
   925   2              dl1a_write_register(0x70, 0x04);
   926   2              dl1a_write_register(0x71, 0x01);
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 16  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 16  
 
   927   2              dl1a_write_register(0x72, 0xFE);
   928   2              dl1a_write_register(0x76, 0x00);
@@ -1087,7 +1087,7 @@ Module Information          Static   Overlayable
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
-C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  15:46:28  PAGE 17  
+C251 COMPILER V5.60.0,  SEEKFREE_DL1A                                                      22/05/24  18:31:13  PAGE 17  
 
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------

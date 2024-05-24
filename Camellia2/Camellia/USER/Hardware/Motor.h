@@ -24,8 +24,8 @@
 
 
 
-#define Buzzer_ON    P44=1
-#define Buzzer_OFF   P44=0
+#define Buzzer_ON    P41=1
+#define Buzzer_OFF   P41=0
 
 
 typedef struct {

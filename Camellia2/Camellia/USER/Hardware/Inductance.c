@@ -72,13 +72,13 @@ int16 NORMALIZATION_TRACKING_ADC(float I1, float I2)
 	uint16 ad_valu1[7] = {0};
 	for (i = 0; i < 10; i++) // 读取十次电感
 	{
-		ad_value[0][i] = adc_once(ADC_P10, ADC_12BIT);
-		ad_value[1][i] = adc_once(ADC_P05, ADC_12BIT);
-		ad_value[2][i] = adc_once(ADC_P06, ADC_12BIT);
-		ad_value[3][i] = adc_once(ADC_P00, ADC_12BIT);
-		ad_value[4][i] = adc_once(ADC_P01, ADC_12BIT);
-		ad_value[5][i] = adc_once(ADC_P02, ADC_12BIT);
-		ad_value[6][i] = adc_once(ADC_P03, ADC_12BIT);
+		ad_value[0][i] = adc_once(ADC_P05, ADC_12BIT);
+		ad_value[1][i] = adc_once(ADC_P06, ADC_12BIT);
+		ad_value[2][i] = adc_once(ADC_P10, ADC_12BIT);
+		ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
+		ad_value[4][i] = adc_once(ADC_P00, ADC_12BIT);
+		ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
+		ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
 		bug = adc_once(ADC_P04, ADC_12BIT);
 	}
 
@@ -194,16 +194,16 @@ void show_val(void)
 	oled_p6x8str(0, 3, "Err:");
 	oled_int16(20, 3, Inductance_Error);
 
-	oled_p6x8str(70, 3, "M1:");
+	oled_p6x8str(70, 3, "M1:"); 
 	oled_uint16(85, 3, M1_NOR_ADC);
 	////-----------------陀螺仪角速度------------------------//
 
 	oled_p6x8str(0, 4, "gyro_z:");
-	oled_printf_float(45, 4, gyro_z3, 5, 6);
-	oled_int16(0, 5, L_Dis);
-	oled_int16(60, 5, R_Dis);
+	oled_printf_float(45, 4, Get_Gyro_Z,5, 6);
+	oled_int16(0, 5, L_Pulse);
+	oled_int16(60, 5, R_Pulse);
 	oled_int16(0, 6, dl1a_distance_mm);
-	oled_int16(60, 6, Speed_Ring);
+	oled_int16(60, 6, PWM_Out);
 	//-----------------TOF距离------------------------//
 	//	if(dl1a_finsh_flag)
 	//	{

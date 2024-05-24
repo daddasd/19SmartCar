@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               22/05/24  15:46:29  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               24/05/24  17:16:11  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -47,36 +47,37 @@ stmt  level    source
    36   1        int i = 0;
    37   1        int32 ns_delay = 0xffffffff;
    38   1        clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
-   39   1        board_init();         // 初始化寄存器,勿删除此句代码。
-   40   1                        // 此处编写用户代码 例如外设初始化代码等
-   41   1        GPIO_Init();
-   42   1        ALL_Peripheral_Init();
-   43   1        delay_ms(1500);         // 等待外设准备完毕
-   44   1        Gyro_Diff = gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
-   45   1        // RGB_Color(76, 0, 153);
-   46   1        while (1)
-   47   1        {
-   48   2          menu = First_menu();
-   49   2          if (menu == 1)
-   50   2            Second_Element_menu();
-   51   2          if (menu == 2)
-   52   2            Second_Motor_menu();
-*** WARNING C140 IN LINE 52 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
+   39   1        board_init();         // 初始化寄存器,勿删除此句代
+   40   1        
+   41   1         // 此处编写用户代码 例如外设初始化代码等
+   42   1        GPIO_Init();
+   43   1        ALL_Peripheral_Init();
+   44   1        delay_ms(1500);         // 等待外设准备完毕
+   45   1        Gyro_Diff = gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
+   46   1        // RGB_Color(76, 0, 153);
+   47   1        while (1)
+   48   1        {
+   49   2          menu = First_menu();
+   50   2          if (menu == 1)
+   51   2            Second_Element_menu();
+   52   2          if (menu == 2)
+   53   2            Second_Motor_menu();
+*** WARNING C140 IN LINE 53 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
-   53   2          if (menu == 3)
-   54   2            Second__NWHuan_menu();
-   55   2          if (menu == 4)
-C251 COMPILER V5.60.0,  main                                                               22/05/24  15:46:29  PAGE 2   
+   54   2          if (menu == 3)
+   55   2            Second__NWHuan_menu();
+C251 COMPILER V5.60.0,  main                                                               24/05/24  17:16:11  PAGE 2   
 
-   56   2            Second__Speed_menu();
-   57   2          if (menu == 5)
-   58   2            Show_Val_Menu();
-   59   2          if (menu == 6)
-   60   2          {
-   61   3            Car_Start_Flag = 1;
-   62   3          }
-   63   2        }
-   64   1      }
+   56   2          if (menu == 4)
+   57   2            Second__Speed_menu();
+   58   2          if (menu == 5)
+   59   2            Show_Val_Menu();
+   60   2          if (menu == 6)
+   61   2          {
+   62   3            Car_Start_Flag = 1;
+   63   3          }
+   64   2        }
+   65   1      }
 
 
 Module Information          Static   Overlayable

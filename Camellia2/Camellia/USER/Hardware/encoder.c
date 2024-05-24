@@ -36,16 +36,17 @@ void Encoder_Time_Init(void)
 
 int L_Encoder_Pulse(void)
 {
+	int L = 0;
 	if (DIL == 1)
 	{
-		L_Pulse = ctimer_count_read(Encoder_L);
+		L = ctimer_count_read(Encoder_L);
 	}
 	else
 	{
-		L_Pulse = -ctimer_count_read(Encoder_L);
+		L = -ctimer_count_read(Encoder_L);
 	}
 	ctimer_count_clean(Encoder_L);
-	return L_Pulse;
+	return (int)L*0.7;
 }
 
 //--
@@ -55,16 +56,17 @@ int L_Encoder_Pulse(void)
 //--
 int R_Encoder_Pulse(void)
 {
+	int R = 0;
 	if (DIR == 0)
 	{
-		R_Pulse = ctimer_count_read(Encoder_R);
+		R = ctimer_count_read(Encoder_R);
 	}
 	else
 	{
-		R_Pulse = -ctimer_count_read(Encoder_R);
+		R = -ctimer_count_read(Encoder_R);
 	}
 	ctimer_count_clean(Encoder_R);
-	return R_Pulse;
+	return (int)R*0.7;
 }
 
 //--
@@ -122,21 +124,27 @@ void TM4_Isr() interrupt 20
 	int nh = 0;
 	if (Car_Start_Flag)
 	{
+		//P15 = 1;
 		imu660ra_get_gyro();
 		dl1a_get_distance();
-		L_Pulse = L_Encoder_Pulse() * 0.7;
-		R_Pulse = R_Encoder_Pulse() * 0.7;
+		L_Pulse = L_Encoder_Pulse();
+		R_Pulse = R_Encoder_Pulse();
 		NORMALIZATION_TRACKING_ADC(1, 1);
-		gyro_z3 += Get_Gyro_Z;
-		// LRoundabout();
-		//  Angle_Ring1(90, 0.85,0.28);  //这个参数可以 5/19
-		//  PWM_Out = LSpeed_pid_Out(15, L_Pulse);
-		//  OUT2 = RSpeed_pid_Out(15, R_Pulse);
-		//  Motor_PWM(0, 1500);
-		// Tracking(10);
-		//  OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-		// Buzzer_OFF;
-		//  Motor_PWM(PWM_Out, OUT2);
+		//PWM_Out=nh_Turn_Out(0, Nh_P, Nh_D);
+		//PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
+		//gyro_z3 += Get_Gyro_Z*0.5;
+		//   LRoundabout();
+		//Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
+		//OUT1 = LSpeed_pid_Out(15, L_Pulse);
+		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
+		//    OUT2 = RSpeed_pid_Out(15, R_Pulse);
+		//Motor_PWM(-PWM_Out,PWM_Out);
+		//Motor_PWM(OUT1, OUT2);
+		Tracking(25);
+		//    OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+		//   Buzzer_OFF;
+		//Motor_PWM(1500,-1500);
+		//  P15 = 0;
 		TIM4_CLEAR_FLAG;
 	}
 }

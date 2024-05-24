@@ -10,10 +10,12 @@ void GPIO_Init(void)
     gpio_mode(P4_2, GPO_PP); // Lift
     gpio_mode(P5_2, GPO_PP); // Right
     //********RGB与Buzzer********//
-    gpio_mode(P4_1, GPO_PP); // RGB
-    gpio_mode(P4_4, GPO_PP); // Buzzer
-    P41 = 0;
-    P44 = 0;
+   gpio_mode(P1_3, GPO_PP); // RGB
+   gpio_mode(P1_5, GPO_PP); // RGB
+   gpio_mode(P4_1, GPO_PP); // Buzzer
+   P41 = 0;
+   P13 = 0;
+   P15 = 0;
 }
 
 /**

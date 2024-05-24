@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  TrackElement                                                       22/05/24  15:46:29  PAGE 1   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/05/24  17:16:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
@@ -66,7 +66,7 @@ stmt  level    source
    54          int Speed_Plan1 = 0;
    55          
    56          int Err_speed = 0;
-C251 COMPILER V5.60.0,  TrackElement                                                       22/05/24  15:46:29  PAGE 2   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/05/24  17:16:12  PAGE 2   
 
    57          
    58          void Distace(int flag)
@@ -134,7 +134,7 @@ stmt  level    source
   118   3            if (Distance_Flag == 0)
   119   3            {
   120   4              bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
-C251 COMPILER V5.60.0,  TrackElement                                                       22/05/24  15:46:29  PAGE 3   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/05/24  17:16:12  PAGE 3   
 
   121   4              Motor_PWM(Yu_Speed, Yu_Speed);      // 进环岛速度;
   122   4            }
@@ -180,7 +180,7 @@ stmt  level    source
   161   4            }
   162   3            if (Distance_Flag == 1) // 到达指定距离 角度打死
   163   3            {
-  164   4              if (Angle_Ring1(-40, 0.7, 0.17))
+  164   4              if (Angle_Ring(-40, 0.7, 0.17))
   165   4              {
   166   5                Chu_YuanHuan_Flag = 2; // 到达指定角度出圆环成功
   167   5                Huan_Dao_Flag = 0;     // 屏蔽圆环
@@ -202,7 +202,7 @@ stmt  level    source
   183   4              Distance_Flag = 1;
   184   4              YuanH_Flag = 3; // 环岛执行完毕
   185   4              Motor_PWM(0, 0);
-C251 COMPILER V5.60.0,  TrackElement                                                       22/05/24  15:46:29  PAGE 4   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/05/24  17:16:12  PAGE 4   
 
   186   4            }
   187   3          }
@@ -267,10 +267,10 @@ stmt  level    source
   246   2          Rpwm = RSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
   247   2          count = 0;
   248   2        }
-  249   1        Motor_PWM(Lpwm - dir_out, Rpwm + dir_out);
+  249   1        Motor_PWM(Rpwm - dir_out, Rpwm + dir_out);
   250   1      }
   251          /**
-C251 COMPILER V5.60.0,  TrackElement                                                       22/05/24  15:46:29  PAGE 5   
+C251 COMPILER V5.60.0,  TrackElement                                                       24/05/24  17:16:12  PAGE 5   
 
   252           * @brief 根据不同速度给标志位
   253           *

@@ -36,8 +36,9 @@ void main()
 	int i = 0;
 	int32 ns_delay = 0xffffffff;
 	clock_init(SYSTEM_CLOCK_56M); // 初始化系统频率,勿删除此句代码。
-	board_init();				  // 初始化寄存器,勿删除此句代码。
-								  // 此处编写用户代码 例如外设初始化代码等
+	board_init();				  // 初始化寄存器,勿删除此句代
+	
+	 // 此处编写用户代码 例如外设初始化代码等
 	GPIO_Init();
 	ALL_Peripheral_Init();
 	delay_ms(1500);					// 等待外设准备完毕
