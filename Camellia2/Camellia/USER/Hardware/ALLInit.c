@@ -25,7 +25,7 @@ void GPIO_Init(void)
 void ALL_Peripheral_Init(void)
 {
 
-    // mpu6050_init();
+    //mpu6050_init();
     imu660ra_init(); // 陀螺仪初始化
     uart_init(UART_1, UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2);
     oled_init();

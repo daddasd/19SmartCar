@@ -197,13 +197,13 @@ void show_val(void)
 	oled_p6x8str(70, 3, "M1:"); 
 	oled_uint16(85, 3, M1_NOR_ADC);
 	////-----------------陀螺仪角速度------------------------//
-
+ 
 	oled_p6x8str(0, 4, "gyro_z:");
 	oled_printf_float(45, 4, Get_Gyro_Z,5, 6);
 	oled_int16(0, 5, L_Pulse);
 	oled_int16(60, 5, R_Pulse);
 	oled_int16(0, 6, dl1a_distance_mm);
-	oled_int16(60, 6, PWM_Out);
+	oled_int16(60, 6, dir_out);
 	//-----------------TOF距离------------------------//
 	//	if(dl1a_finsh_flag)
 	//	{

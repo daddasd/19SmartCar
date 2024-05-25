@@ -236,17 +236,20 @@ void Sub_Pid(float error)
  **/
 void Tracking(int Set_speed)
 {
-	static int count = 0, Lpwm = 0, Rpwm = 0;
+	static int count = 0, pwm = 0,LALL_PWM=0,RALL_PWM=0;
 	Sum_Pulse = (L_Pulse + R_Pulse) / 2;
 	count++;
 	dir_out = DirControl();
 	if (count == 10)
 	{
-		Lpwm = LSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
-		Rpwm = RSpeed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
-		count = 0;
+		pwm = Speed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
 	}
-	Motor_PWM(Rpwm - dir_out, Rpwm + dir_out);
+	if(dir_out<0)
+		LALL_PWM = (pwm - dir_out * 0.8);
+	else if(dir_out>=0)
+		LALL_PWM = (pwm - dir_out * 1.3);
+	RALL_PWM = pwm + dir_out;
+	Motor_PWM(LALL_PWM, RALL_PWM);
 }
 /**
  * @brief 根据不同速度给标志位

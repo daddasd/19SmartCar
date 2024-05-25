@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            24/05/24  17:16:12  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            25/05/24  15:13:58  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -37,7 +37,7 @@ stmt  level    source
    25          void ALL_Peripheral_Init(void)
    26          {
    27   1      
-   28   1          // mpu6050_init();
+   28   1          //mpu6050_init();
    29   1          imu660ra_init(); // 陀螺仪初始化
    30   1          uart_init(UART_1, UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2);
    31   1          oled_init();
@@ -67,7 +67,7 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  ALLInit                                                            24/05/24  17:16:12  PAGE 2   
+C251 COMPILER V5.60.0,  ALLInit                                                            25/05/24  15:13:58  PAGE 2   
 
   const size           =    ------     ------
   hconst size          =    ------     ------

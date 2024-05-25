@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
@@ -22,8 +22,8 @@ stmt  level    source
    10          
    11          #define MOTOR_MAX 8000
    12          
-   13          float Motor_P = 30;
-   14          float Motor_I = 1.15;
+   13          float Motor_P = 18;
+   14          float Motor_I = 0.15;
    15          
    16          float Motor_RP = 35;
    17          float Motor_RI = 1.25;
@@ -64,14 +64,14 @@ stmt  level    source
    52   1        if (L_PWM < 0)
    53   1        {
    54   2          MOTOR_L_DIR = 1;
-   55   2          pwm_duty(MOTOR_L_PWM, abs(L_PWM));
+   55   2          pwm_duty(MOTOR_L_PWM, abs(L_PWM+300));
    56   2        }
-C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 2   
 
    57   1        else
    58   1        {
    59   2          MOTOR_L_DIR = 0;
-   60   2          pwm_duty(MOTOR_L_PWM, L_PWM);
+   60   2          pwm_duty(MOTOR_L_PWM, L_PWM+300);//弥补电机差异
    61   2        }
    62   1        if (R_PWM < 0)
    63   1        {
@@ -134,7 +134,7 @@ stmt  level    source
   120   1        return ((char)result);
   121   1      }
   122          
-C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 3   
+C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 3   
 
   123          //--
   124          //  @brief      速度环
@@ -143,21 +143,21 @@ stmt  level    source
   127          //  @return     速度环输出
   128          //--
   129          
-  130          int LSpeed_pid_Out(int Target_Value, int Actual_Value)
+  130          int Speed_pid_Out(int Target_Value, int Actual_Value)
   131          {
   132   1        int error = 0;
-  133   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  134   1        error = Target_Value - Actual_Value;
-  135   1        P_out = Motor_P * (error - last_err);
-  136   1        I_out = Motor_I * error;
-  137   1        if (I_out > 800)
-  138   1          I_out = 800;
-  139   1        if (I_out < -800)
-  140   1          I_out = -800;
-  141   1        out = P_out + I_out;
-  142   1        speed_out += out;
-  143   1        last_err = error;
-  144   1        speed_out = limit(speed_out, 7500);
+  133   1        static float speed_out = 0, P_out = 0, I_out = 0, out = 0, jifen = 0;
+  134   1        ;
+  135   1        error = Target_Value - Actual_Value;
+  136   1        P_out = Motor_P * error;
+  137   1        jifen += error;
+  138   1        if (jifen > 800)
+  139   1          jifen = 800;
+  140   1        if (jifen < -800)
+  141   1          jifen = -800;
+  142   1        out = P_out + jifen*Motor_I;
+  143   1        speed_out = out;
+  144   1        speed_out = limit(speed_out, 10000);
   145   1        return speed_out;
   146   1      }
   147          
@@ -189,7 +189,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       943     ------
+  code size            =       929     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -203,7 +203,7 @@ Module Information          Static   Overlayable
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              24/05/24  17:16:12  PAGE 4   
+C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 4   
 
   const size           =    ------     ------
   hconst size          =       120     ------

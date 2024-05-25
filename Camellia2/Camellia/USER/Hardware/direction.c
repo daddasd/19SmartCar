@@ -10,10 +10,12 @@
 #define out_max 20000
 #define Angle_MAX 3500
 
-float Nh_P = 335; // 0.5
-float Nh_D = 7.2; // 4.1
-float Wh_P = 0.3;
-float Wh_D = 0.05;
+
+
+float Nh_P = 120; // 0.5
+float Nh_D = 30; // 4.1
+float Wh_P = 1.25;
+float Wh_D = 2 ;
 float gyro_z3 = 0;
 
 float Angle_Speed_P = 415;
@@ -32,7 +34,7 @@ int Speed_Ring_Flag = 0;
  * @return int   外环返回值
  */
 
-int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 {
   float error;
   static float last_error = 0;
@@ -47,8 +49,7 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 
   last_error = error;
 
-  Output = limit(Output, out_max);
-  return (int)Output;
+  return Output;
 }
 
 /**
@@ -59,22 +60,22 @@ int wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
  * @param dir_i
  * @return int
  */
-int nh_Turn_Out(int err, float dir_p, float dir_i)
+int nh_Turn_Out(float err, float dir_p, float dir_d)
 {
-  float error1 = 0;
-  static float last_err = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = (err - Get_Gyro_Z * 20);
-  if(error1<0.01&&error1>0.01)
-    error1 = 0;
-  P_out = dir_p * (error1 - last_err);
-  I_out = dir_i * error1;
-  if (I_out >= 2000)
-    I_out = 2000;
-  else if (I_out <= -2000)
-    I_out = -2000;
-  last_err = error1;
-  out += P_out + I_out;
-  return (int)out;
+  float error;
+  static float last_error = 0;
+  float Output;
+  float error_derivative;
+
+  error = err-imu660ra_gyro_z/65.6;
+
+  error_derivative = error - last_error;
+
+  Output = error * dir_p + error_derivative * dir_d;
+
+  last_error = error;
+
+  return Output;
 }
 
 /**
@@ -87,7 +88,7 @@ int DirControl(void)
   static int count = 0;
   static int wh_out = 0;
   int nh_out = 0;
-  if (count == 3)
+  if(count==3)
   {
     wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
     count = 0;
@@ -187,7 +188,7 @@ int Car_Distance(int Distance)
   {
     // LSpeed_pid_Out(20, L_Pulse);
     // RSpeed_pid_Out(20, R_Pulse);
-    Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
+    //Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
   }
   else if (bmq_jifen > Distance)
   {

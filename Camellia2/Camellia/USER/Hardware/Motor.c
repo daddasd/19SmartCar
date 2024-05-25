@@ -10,8 +10,8 @@
 
 #define MOTOR_MAX 8000
 
-float Motor_P = 30;
-float Motor_I = 1.15;
+float Motor_P = 18;
+float Motor_I = 0.15;
 
 float Motor_RP = 35;
 float Motor_RI = 1.25;
@@ -52,12 +52,12 @@ void Motor_PWM(int L_PWM, int R_PWM)
 	if (L_PWM < 0)
 	{
 		MOTOR_L_DIR = 1;
-		pwm_duty(MOTOR_L_PWM, abs(L_PWM));
+		pwm_duty(MOTOR_L_PWM, abs(L_PWM+300));
 	}
 	else
 	{
 		MOTOR_L_DIR = 0;
-		pwm_duty(MOTOR_L_PWM, L_PWM);
+		pwm_duty(MOTOR_L_PWM, L_PWM+300);//弥补电机差异
 	}
 	if (R_PWM < 0)
 	{
@@ -127,21 +127,21 @@ char filter_1(char NEW_DATA, char OLD_DATA, char k)
 //  @return     速度环输出
 //--
 
-int LSpeed_pid_Out(int Target_Value, int Actual_Value)
+int Speed_pid_Out(int Target_Value, int Actual_Value)
 {
 	int error = 0;
-	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+	static float speed_out = 0, P_out = 0, I_out = 0, out = 0, jifen = 0;
+	;
 	error = Target_Value - Actual_Value;
-	P_out = Motor_P * (error - last_err);
-	I_out = Motor_I * error;
-	if (I_out > 800)
-		I_out = 800;
-	if (I_out < -800)
-		I_out = -800;
-	out = P_out + I_out;
-	speed_out += out;
-	last_err = error;
-	speed_out = limit(speed_out, 7500);
+	P_out = Motor_P * error;
+	jifen += error;
+	if (jifen > 800)
+		jifen = 800;
+	if (jifen < -800)
+		jifen = -800;
+	out = P_out + jifen*Motor_I;
+	speed_out = out;
+	speed_out = limit(speed_out, 10000);
 	return speed_out;
 }
 

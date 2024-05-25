@@ -51,7 +51,7 @@ void Motor_Init(void);
 void Motor_PWM(int L_PWM,int R_PWM);
 int16 limit(int16 In,int16 limit);
 void Motor_SET_PID(float Kp,float Ki,float Kd);
-int LSpeed_pid_Out(int Target_Value,int Actual_Value);
+int Speed_pid_Out(int Target_Value,int Actual_Value);
 int RSpeed_pid_Out(int Target_Value, int Actual_Value);
 void Buzzer(int time);
 #endif

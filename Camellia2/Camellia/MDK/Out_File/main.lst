@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               24/05/24  17:16:11  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               25/05/24  15:13:57  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -52,8 +52,8 @@ stmt  level    source
    41   1         // 此处编写用户代码 例如外设初始化代码等
    42   1        GPIO_Init();
    43   1        ALL_Peripheral_Init();
-   44   1        delay_ms(1500);         // 等待外设准备完毕
-   45   1        Gyro_Diff = gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
+   44   1        //delay_ms(1500);         // 等待外设准备完毕
+   45   1        //Gyro_Diff = gyro_zero_wander(); // 减去飘零 现在是MPU6050到时候要改成IMU66ORA
    46   1        // RGB_Color(76, 0, 153);
    47   1        while (1)
    48   1        {
@@ -66,7 +66,7 @@ stmt  level    source
              -()'
    54   2          if (menu == 3)
    55   2            Second__NWHuan_menu();
-C251 COMPILER V5.60.0,  main                                                               24/05/24  17:16:11  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               25/05/24  15:13:57  PAGE 2   
 
    56   2          if (menu == 4)
    57   2            Second__Speed_menu();
@@ -82,7 +82,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       153     ------
+  code size            =       139     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
