@@ -22,6 +22,7 @@ float KP1 = 35;
 float KP2 = 0.2;
 float KP3 = 0; 
 float KD1 = 0;
+float KD2 = 0;
 float Feedforward_gain = 0;
 
 
@@ -125,6 +126,7 @@ void Dir_PID_Init(void)
   Position.kP2 = KP3;
   Position.kP3 = KP2;
   Position.kD  = KD1;
+  Position.kD2 = KD2;
   Position.feedforward_gain = Feedforward_gain;
 }
 
@@ -136,9 +138,10 @@ int16 DirControl(int error)
   Position.err = error;
   Position.KP_Val = (int16)(Position.kP1 * Position.err + Position.kP2 * Position.err * Position.err * Position.err);
   Position.kD_Val = (int16)(Position.kD*mpu6050_gyro_z);
+  Position.kD2_Val = (int16)(Position.kD2 * (Position.err - Position.err_last));
   Position.err_last = Position.err;
   Position.feedforward_Val = Position.feedforward_gain * error;
-  Position.Out = Position.KP_Val + Position.kD_Val + Position.feedforward_Val;
+  Position.Out = Position.KP_Val + Position.kD_Val + Position.feedforward_Val + Position.kD2_Val;
   return (int16)Position.Out;
 }
 

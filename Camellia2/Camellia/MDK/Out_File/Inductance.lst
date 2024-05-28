@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:09:38  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:24:02  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    53   1        long i;
    54   1        float x, y;
    55   1        const float f = 1.5F;
-C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:09:38  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:24:02  PAGE 2   
 
    56   1      
    57   1        x = number * 0.5F;
@@ -134,7 +134,7 @@ stmt  level    source
   119   1        M1 = ad_valu1[2];
   120   1        R2 = ad_valu1[3];
   121   1        R1 = ad_valu1[4];
-C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:09:38  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:24:02  PAGE 3   
 
   122   1      
   123   1        NOR_VAL[0] = (float)(L1 - ADC_MIN[0]) / (float)(ADC_MAX[0] - ADC_MIN[0]);
@@ -202,7 +202,7 @@ stmt  level    source
   183   1        oled_p6x8str(70, 1, "R2:");
   184   1        oled_uint16(85, 1, R2_NOR_ADC);
   185   1      
-C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:09:38  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  12:24:02  PAGE 4   
 
   186   1        oled_p6x8str(0, 2, "M1:");
   187   1        oled_uint16(15, 2, M1_NOR_ADC);

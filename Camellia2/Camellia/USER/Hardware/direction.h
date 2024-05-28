@@ -11,12 +11,14 @@ typedef struct
     float kP3;        // 定义比例系数三次项
     float kI;        // 定义积分系数
     float kD;        // 定义比微分系数
+    float kD2;        // 定义比微分系数
     float Out;        // 输出变量
     float feedforward_gain;//前馈参数
     float feedforward_Val;//前馈值
     float KP_Val;        // 比例输出值
     float kI_Val;        // 积分输出值
     float kD_Val;        // 微分输出值
+    float kD2_Val;        // 微分输出值
     float integral;  // 定义积分值
 }Position_PID_InitTypedef;
 
