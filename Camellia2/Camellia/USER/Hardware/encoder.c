@@ -136,12 +136,12 @@ void TM4_Isr() interrupt 20
 		// gyro_z3 += Get_Gyro_Z*0.5;
 		//    LRoundabout();
 		//Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
-		//OUT1 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
+		OUT1 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
 		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
 		//     OUT2 = RSpeed_pid_Out(15, R_Pulse);
-		//Motor_PWM(-PWM_Out, PWM_Out);
-		//Motor_PWM(OUT1, OUT1);
-		Tracking(75);
+		//Motor_PWM(-PWM_Out,PWM_Out);
+		Motor_PWM(OUT1, OUT1);
+		//Tracking(75);
 		//     OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
 		//    Buzzer_OFF;
 		// Motor_PWM(1500,-1500);

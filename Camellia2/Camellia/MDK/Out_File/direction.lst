@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  direction                                                          25/05/24  17:08:17  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          26/05/24  19:45:43  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
 OBJECT MODULE PLACED IN .\Out_File\direction.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
                     -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
                     -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
                     -ile\direction.obj) 
@@ -22,218 +22,219 @@ stmt  level    source
    10          #define out_max 20000
    11          #define Angle_MAX 3500
    12          
-   13          float Nh_P = 120; // 0.5
-   14          float Nh_D = 30; // 4.1
-   15          float Wh_P = 1.25;
-   16          float Wh_D = 2 ;
-   17          float gyro_z3 = 0;
-   18          
-   19          float Angle_Speed_P = 415;
-   20          float Angle_Speed_I = 9.2;
-   21          
-   22          
+   13          
+   14          
+   15          float Nh_P = 95;  // 0.5
+   16          float Nh_D = 1.2; // 4.1
+   17          float Wh_P = 1.25;
+   18          float Wh_D = 2 ;
+   19          float gyro_z3 = 0;
+   20          
+   21          float Angle_Speed_P = 415;
+   22          float Angle_Speed_I = 9.2;
    23          
-   24          int Speed_Ring_Flag = 0;
+   24          
    25          
-   26          /**
-   27           * @brief 外环
-   28           *
-   29           * @param chazhi 电感差值PD控制
-   30           * @param dir_p  KP
-   31           * @param dir_d  KD
-   32           * @return int   外环返回值
-   33           */
-   34          
-   35          float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
-   36          {
-   37   1        float error;
-   38   1        static float last_error = 0;
-   39   1        float Output;
-   40   1        float error_derivative;
-   41   1      
-   42   1        error = chazhi;
+   26          int Speed_Ring_Flag = 0;
+   27          
+   28          /**
+   29           * @brief 外环
+   30           *
+   31           * @param chazhi 电感差值PD控制
+   32           * @param dir_p  KP
+   33           * @param dir_d  KD
+   34           * @return int   外环返回值
+   35           */
+   36          
+   37          float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+   38          {
+   39   1        float error;
+   40   1        static float last_error = 0;
+   41   1        float Output;
+   42   1        float error_derivative;
    43   1      
-   44   1        error_derivative = error - last_error;
+   44   1        error = chazhi;
    45   1      
-   46   1        Output = error * dir_p + error_derivative * dir_d;
+   46   1        error_derivative = error - last_error;
    47   1      
-   48   1        last_error = error;
+   48   1        Output = error * dir_p + error_derivative * dir_d;
    49   1      
-   50   1        return Output;
-   51   1      }
-   52          
-   53          /**
-   54           * @brief 内环角速度PI控制
-   55           *
-   56           * @param err   外环输入值
-C251 COMPILER V5.60.0,  direction                                                          25/05/24  17:08:17  PAGE 2   
+   50   1        last_error = error;
+   51   1      
+   52   1        return Output;
+   53   1      }
+   54          
+   55          /**
+   56           * @brief 内环角速度PI控制
+C251 COMPILER V5.60.0,  direction                                                          26/05/24  19:45:43  PAGE 2   
 
-   57           * @param dir_p
-   58           * @param dir_i
-   59           * @return int
-   60           */
-   61          int nh_Turn_Out(float err, float dir_p, float dir_d)
-   62          {
-   63   1        float error;
-   64   1        static float last_error = 0;
-   65   1        float Output;
-   66   1        float error_derivative;
-   67   1      
-   68   1        error = err-imu660ra_gyro_z/65.6;
-   69   1      
-   70   1        error_derivative = error - last_error;
-   71   1      
-   72   1        Output = error * dir_p + error_derivative * dir_d;
-   73   1      
-   74   1        last_error = error;
-   75   1      
-   76   1        return Output;
-   77   1      }
-   78          
-   79          /**
-   80           * @brief 方向环，串级PID给电机
-   81           *
-   82           * @return int
-   83           */
-   84          int DirControl(void)
-   85          {
-   86   1        static int count = 0;
-   87   1        static int wh_out = 0;
-   88   1        int nh_out = 0;
-   89   1        if(count==3)
-   90   1        {
-   91   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
-   92   2          count = 0;
-   93   2        }
-   94   1        count++;
-   95   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
-   96   1      }
-   97          
-   98          /**
-   99           * @brief 角度环
-  100           *
-  101           * @param target 目标角度
-  102           * @param p
-  103           * @param d
-  104           * @return int
-  105           */
-  106          int Angle_Ring(double target, float p, float d)
-  107          {
-  108   1        float error;
-  109   1        int Output, Angle_Speed;
-  110   1        static float last_error, error2;
-  111   1        gyro_z3 += Get_Gyro_Z;
-  112   1        error = target - gyro_z3;
-  113   1        error2 = error - last_error;
-  114   1        last_error = error;
-  115   1        Output = (int)(error * p + error2 * d);
-  116   1        Output = limit(Output, 1000);
-  117   1        Angle_Speed_Ring(Output, Angle_Speed_P, Angle_Speed_I);
-  118   1        if (abs(error) <= 2) // 如何小于指定角度，表示角度ok
-  119   1        {
-  120   2          gyro_z3 = 0; // 角度积分清零
-  121   2          last_error = 0;
-  122   2          error2 = 0;
-C251 COMPILER V5.60.0,  direction                                                          25/05/24  17:08:17  PAGE 3   
+   57           *
+   58           * @param err   外环输入值
+   59           * @param dir_p
+   60           * @param dir_i
+   61           * @return int
+   62           */
+   63          int nh_Turn_Out(float err, float dir_p, float dir_d)
+   64          {
+   65   1        int error1 = 0;
+   66   1        static int last_err = 0, P_out = 0, I_out = 0, out = 0;
+   67   1        error1 = (int)(err -imu660ra_gyro_z / 65.6);
+   68   1        P_out = dir_p * (error1 - last_err);
+   69   1        I_out = dir_d * error1;
+   70   1        if (I_out >= 2000)
+   71   1          I_out = 2000;
+   72   1        else if (I_out <= -2000)
+   73   1          I_out = -2000;
+   74   1        last_err = error1;
+   75   1        out += P_out + I_out;
+   76   1        out = limit(out, 25000);
+   77   1        return out;
+   78   1      }
+   79          
+   80          /**
+   81           * @brief 方向环，串级PID给电机
+   82           *
+   83           * @return int
+   84           */
+   85          int DirControl(void)
+   86          {
+   87   1        static int count = 0;
+   88   1        static int wh_out = 0;
+   89   1        int nh_out = 0;
+   90   1        if(count==3)
+   91   1        {
+   92   2          wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+   93   2          count = 0;
+   94   2        }
+   95   1        count++;
+   96   1        return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
+   97   1      }
+   98          
+   99          /**
+  100           * @brief 角度环
+  101           *
+  102           * @param target 目标角度
+  103           * @param p
+  104           * @param d
+  105           * @return int
+  106           */
+  107          int Angle_Ring(double target, float p, float d)
+  108          {
+  109   1        float error;
+  110   1        int Output, Angle_Speed;
+  111   1        static float last_error, error2;
+  112   1        gyro_z3 += Get_Gyro_Z;
+  113   1        error = target - gyro_z3;
+  114   1        error2 = error - last_error;
+  115   1        last_error = error;
+  116   1        Output = (int)(error * p + error2 * d);
+  117   1        Output = limit(Output, 1000);
+  118   1        Angle_Speed_Ring(Output, Angle_Speed_P, Angle_Speed_I);
+  119   1        if (abs(error) <= 2) // 如何小于指定角度，表示角度ok
+  120   1        {
+  121   2          gyro_z3 = 0; // 角度积分清零
+  122   2          last_error = 0;
+C251 COMPILER V5.60.0,  direction                                                          26/05/24  19:45:43  PAGE 3   
 
-  123   2          return 1;
-  124   2        }
-  125   1        else
-  126   1          return 0;
-  127   1      }
-*** WARNING C47 IN LINE 109 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
-  128          
-  129          /**
-  130           * @brief 角速度环
-  131           *
-  132           * @param err
-  133           * @param dir_p
-  134           * @param dir_i
-  135           * @return int
-  136           */
-  137          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
-  138          {
-  139   1        int error1 = 0;
-  140   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
-  141   1        error1 = err - Get_Gyro_Z*10;
-  142   1        P_out = dir_p * (error1 - last_err);
-  143   1        I_out = dir_i * error1;
-  144   1        if (I_out > 2000)
-  145   1          I_out = 2000;
-  146   1        if (I_out < -2000)
-  147   1          I_out = -2000;
-  148   1        out = P_out + I_out;
-  149   1        nh_out += out;
-  150   1        last_err = error1;
-  151   1        nh_out = limit(nh_out, 9500);
-  152   1        Motor_PWM(-nh_out, nh_out);
-  153   1        return nh_out;
-  154   1      }
-  155          
-  156          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
-  157          {
-*** WARNING C57 IN LINE 157 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
-  158   1        float error;
-  159   1        static float last_error = 0;
-  160   1        float Output;
-  161   1        float error_derivative;
-  162   1      
-  163   1        error = chazhi;
-  164   1      
-  165   1        error_derivative = error - last_error;
-  166   1      
-  167   1        Output = error * dir_p + error_derivative * dir_d + Get_Gyro_Z*10* dir_d2;
-  168   1      
-  169   1        last_error = error;
-  170   1      
-  171   1        Output = limit(Output, out_max);
-  172   1        return (int)Output;
-  173   1      }
-  174          
-  175          /**
-  176           * @brief 控制车行驶的距离
-  177           *
-  178           * @param L_Distanc
-  179           * @param R_Distance
-  180           */
-  181          int Car_Distance(int Distance)
-  182          {
-  183   1        static int bmq_jifen, flag = 1;
-  184   1        bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
-  185   1        if (bmq_jifen <= Distance)
-  186   1        {
-C251 COMPILER V5.60.0,  direction                                                          25/05/24  17:08:17  PAGE 4   
+  123   2          error2 = 0;
+  124   2          return 1;
+  125   2        }
+  126   1        else
+  127   1          return 0;
+  128   1      }
+*** WARNING C47 IN LINE 110 OF ..\USER\Hardware\direction.c: 'Angle_Speed': unreferenced local variable
+  129          
+  130          /**
+  131           * @brief 角速度环
+  132           *
+  133           * @param err
+  134           * @param dir_p
+  135           * @param dir_i
+  136           * @return int
+  137           */
+  138          int Angle_Speed_Ring(int err, float dir_p, float dir_i)
+  139          {
+  140   1        int error1 = 0;
+  141   1        static float last_err = 0, nh_out = 0, P_out = 0, I_out = 0, out = 0;
+  142   1        error1 = err - Get_Gyro_Z*10;
+  143   1        P_out = dir_p * (error1 - last_err);
+  144   1        I_out = dir_i * error1;
+  145   1        if (I_out > 2000)
+  146   1          I_out = 2000;
+  147   1        if (I_out < -2000)
+  148   1          I_out = -2000;
+  149   1        out = P_out + I_out;
+  150   1        nh_out += out;
+  151   1        last_err = error1;
+  152   1        nh_out = limit(nh_out, 9500);
+  153   1        Motor_PWM(-nh_out, nh_out);
+  154   1        return nh_out;
+  155   1      }
+  156          
+  157          int DirControl_2(int16 chazhi, float dir_p, float dir_d, float dir_d2)
+  158          {
+*** WARNING C57 IN LINE 158 OF ..\USER\Hardware\direction.c: parameter 1: different from declaration
+  159   1        float error;
+  160   1        static float last_error = 0;
+  161   1        float Output;
+  162   1        float error_derivative;
+  163   1      
+  164   1        error = chazhi;
+  165   1      
+  166   1        error_derivative = error - last_error;
+  167   1      
+  168   1        Output = error * dir_p + error_derivative * dir_d + Get_Gyro_Z*10* dir_d2;
+  169   1      
+  170   1        last_error = error;
+  171   1      
+  172   1        Output = limit(Output, out_max);
+  173   1        return (int)Output;
+  174   1      }
+  175          
+  176          /**
+  177           * @brief 控制车行驶的距离
+  178           *
+  179           * @param L_Distanc
+  180           * @param R_Distance
+  181           */
+  182          int Car_Distance(int Distance)
+  183          {
+  184   1        static int bmq_jifen, flag = 1;
+  185   1        bmq_jifen += (L_Pulse + R_Pulse) * 0.5;
+  186   1        if (bmq_jifen <= Distance)
+C251 COMPILER V5.60.0,  direction                                                          26/05/24  19:45:43  PAGE 4   
 
-  187   2          // LSpeed_pid_Out(20, L_Pulse);
-  188   2          // RSpeed_pid_Out(20, R_Pulse);
-  189   2          //Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
-  190   2        }
-  191   1        else if (bmq_jifen > Distance)
-  192   1        {
-  193   2          if (Angle_Ring(90, 25, 1) == 1)
-  194   2          {
-  195   3            bmq_jifen = 0;
-  196   3            L_Pulse = 0;
-  197   3            R_Pulse = 0;
-  198   3            gyro_z3 = 0;
-  199   3          }
-  200   2          return 1;
-  201   2        }
-  202   1      }
-*** WARNING C180 IN LINE 201 OF ..\USER\Hardware\direction.c: 'Car_Distance': not every path returns a value
-*** WARNING C180 IN LINE 201 OF ..\USER\Hardware\direction.c: 'Car_Distance': not every path returns a value
+  187   1        {
+  188   2          // LSpeed_pid_Out(20, L_Pulse);
+  189   2          // RSpeed_pid_Out(20, R_Pulse);
+  190   2          //Motor_PWM(LSpeed_pid_Out(20, L_Pulse), RSpeed_pid_Out(20, R_Pulse));
+  191   2        }
+  192   1        else if (bmq_jifen > Distance)
+  193   1        {
+  194   2          if (Angle_Ring(90, 25, 1) == 1)
+  195   2          {
+  196   3            bmq_jifen = 0;
+  197   3            L_Pulse = 0;
+  198   3            R_Pulse = 0;
+  199   3            gyro_z3 = 0;
+  200   3          }
+  201   2          return 1;
+  202   2        }
+  203   1      }
+*** WARNING C180 IN LINE 202 OF ..\USER\Hardware\direction.c: 'Car_Distance': not every path returns a value
+*** WARNING C180 IN LINE 202 OF ..\USER\Hardware\direction.c: 'Car_Distance': not every path returns a value
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1013     ------
+  code size            =      1096     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       184     ------
+  edata size           =       178     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -241,7 +242,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       144     ------
+  hconst size          =       160     ------
 End of Module Information.
 
 

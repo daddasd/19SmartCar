@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 1   
+C251 COMPILER V5.60.0,  Motor                                                              26/05/24  19:57:44  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
 OBJECT MODULE PLACED IN .\Out_File\Motor.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
                     -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
                     -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
                     -r.obj) 
@@ -23,7 +23,7 @@ stmt  level    source
    11          #define MOTOR_MAX 8000
    12          
    13          float Motor_P = 18;
-   14          float Motor_I = 0.15;
+   14          float Motor_I = 0.0015;
    15          
    16          float Motor_RP = 35;
    17          float Motor_RI = 1.25;
@@ -66,7 +66,7 @@ stmt  level    source
    54   2          MOTOR_L_DIR = 1;
    55   2          pwm_duty(MOTOR_L_PWM, abs(L_PWM+300));
    56   2        }
-C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 2   
+C251 COMPILER V5.60.0,  Motor                                                              26/05/24  19:57:44  PAGE 2   
 
    57   1        else
    58   1        {
@@ -98,12 +98,14 @@ stmt  level    source
    84   1        Motor_pid.Motor_err = 0;
    85   1        Motor_pid.Motor_err_last = 0;
    86   1        Motor_pid.Motor_err_last2 = 0;
-   87   1        Motor_pid.Motor_Kp = Kp;
-   88   1        Motor_pid.Motor_Ki = Ki;
+   87   1        Motor_pid.Motor_Kp = 20;
+   88   1        Motor_pid.Motor_Ki = 1.2;
    89   1        Motor_pid.Motor_Kd = Kd;
    90   1        Motor_pid.Motor_Out_Value = 0;
    91   1        Motor_pid.Motor_integral = 0;
    92   1      }
+*** WARNING C47 IN LINE 80 OF ..\USER\Hardware\Motor.c: 'Kp': unreferenced parameter
+*** WARNING C47 IN LINE 80 OF ..\USER\Hardware\Motor.c: 'Ki': unreferenced parameter
    93          
    94          /*入口：NEW_DATA 新采样值
    95               OLD_DATA 上次滤波结果
@@ -132,10 +134,10 @@ stmt  level    source
   118   1        else
   119   1          result = OLD_DATA;
   120   1        return ((char)result);
+C251 COMPILER V5.60.0,  Motor                                                              26/05/24  19:57:44  PAGE 3   
+
   121   1      }
   122          
-C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 3   
-
   123          //--
   124          //  @brief      速度环
   125          //  @param      Target_Value: 目标速度
@@ -143,71 +145,84 @@ stmt  level    source
   127          //  @return     速度环输出
   128          //--
   129          
-  130          int Speed_pid_Out(int Target_Value, int Actual_Value)
+  130          int LSpeed_pid_Out(int Target_Value, int Actual_Value)
   131          {
-  132   1        int error = 0;
-  133   1        static float speed_out = 0, P_out = 0, I_out = 0, out = 0, jifen = 0;
-  134   1        ;
-  135   1        error = Target_Value - Actual_Value;
-  136   1        P_out = Motor_P * error;
-  137   1        jifen += error;
-  138   1        if (jifen > 800)
-  139   1          jifen = 800;
-  140   1        if (jifen < -800)
-  141   1          jifen = -800;
-  142   1        out = P_out + jifen*Motor_I;
-  143   1        speed_out = out;
-  144   1        speed_out = limit(speed_out, 10000);
-  145   1        return speed_out;
-  146   1      }
-  147          
-  148          int RSpeed_pid_Out(int Target_Value, int Actual_Value)
-  149          {
-  150   1        int error = 0;
-  151   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-  152   1        error = Target_Value - Actual_Value;
-  153   1        P_out = Motor_RP * (error - last_err);
-  154   1        I_out = Motor_RI * error;
-  155   1        if (I_out > 800)
-  156   1          I_out = 800;
-  157   1        if (I_out < -800)
-  158   1          I_out = -800;
-  159   1        out = P_out + I_out;
-  160   1        speed_out += out;
-  161   1        last_err = error;
-  162   1        speed_out = limit(speed_out, 7500);
-  163   1        return (int)speed_out;
-  164   1      }
-  165          
-  166          void Buzzer(int time)
-  167          {
-  168   1        Buzzer_ON;
-  169   1        delay_ms(time);
-  170   1        Buzzer_OFF;
-  171   1      }
+  132   1        float Kp_Value = 0;
+  133   1      
+  134   1        static float Ki_Value = 0, Kd_Value = 0;
+  135   1        float MOTOR_PWM = 0;
+  136   1      
+  137   1        Motor_pid.Motor_err = Target_Value - Actual_Value;
+  138   1        if (abs(Motor_pid.Motor_err) < 3) 
+  139   1        {
+  140   2          Motor_pid.Motor_err = 0;
+  141   2          Motor_pid.Motor_err_last = 0;
+  142   2        }
+  143   1      
+  144   1        Kp_Value = Motor_pid.Motor_err_last * Motor_pid.Motor_Kp;
+  145   1      
+  146   1        Ki_Value += Motor_pid.Motor_err;
+  147   1        if (Ki_Value > 1000)
+  148   1          Ki_Value = 1000;
+  149   1        if (Ki_Value < -1000)
+  150   1          Ki_Value = -1000;
+  151   1      
+  152   1        Motor_pid.Motor_err_last2 = Motor_pid.Motor_err_last;
+  153   1        Motor_pid.Motor_err_last = Motor_pid.Motor_err;
+  154   1      
+  155   1        Motor_pid.Motor_Out_Value = (Kp_Value + Ki_Value * Motor_pid.Motor_Ki);
+  156   1        MOTOR_PWM += Motor_pid.Motor_Out_Value;
+  157   1        MOTOR_PWM = limit(MOTOR_PWM, MOTOR_MAX);
+  158   1        return (int)MOTOR_PWM;
+  159   1      }
+  160          
+  161          int Speed_pid_Out(int Target_Value, int Actual_Value)
+  162          {
+  163   1        int error = 0;
+  164   1        static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
+  165   1        error = Target_Value - Actual_Value;
+  166   1        P_out = Motor_P * (error - last_err);
+  167   1        I_out = error*Motor_I;
+  168   1        if (I_out > 2000)
+  169   1          I_out = 2000;
+  170   1        if (I_out < -2000)
+  171   1          I_out = -2000;
+  172   1        out = P_out + I_out;
+  173   1        speed_out += out;
+  174   1        last_err = error;
+  175   1        speed_out = limit(speed_out, 7500);
+  176   1        return (int)speed_out;
+  177   1      }
+  178          
+  179          void Buzzer(int time)
+  180          {
+  181   1        Buzzer_ON;
+  182   1        delay_ms(time);
+  183   1        Buzzer_OFF;
+  184   1      }
 
+
+C251 COMPILER V5.60.0,  Motor                                                              26/05/24  19:57:44  PAGE 4   
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       929     ------
+  code size            =       975     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       139     ------
+  edata size           =       125     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
   huge data size       =    ------     ------
-C251 COMPILER V5.60.0,  Motor                                                              25/05/24  16:27:26  PAGE 4   
-
   const size           =    ------     ------
-  hconst size          =       120     ------
+  hconst size          =        96     ------
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

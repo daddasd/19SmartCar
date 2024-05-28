@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  encoder                                                            25/05/24  16:51:32  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            26/05/24  19:46:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
 OBJECT MODULE PLACED IN .\Out_File\encoder.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
                     -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
                     -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
                     -encoder.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    53          //  @brief      ??????????????
    54          //  @param      void
    55          //  @return     return : ?????
-C251 COMPILER V5.60.0,  encoder                                                            25/05/24  16:51:32  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            26/05/24  19:46:35  PAGE 2   
 
    56          //--
    57          int R_Encoder_Pulse(void)
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        return 1;
   119   1      }
   120          
-C251 COMPILER V5.60.0,  encoder                                                            25/05/24  16:51:32  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            26/05/24  19:46:35  PAGE 3   
 
   121          void TM4_Isr() interrupt 20
   122          {
@@ -154,12 +154,12 @@ stmt  level    source
   136   2          // gyro_z3 += Get_Gyro_Z*0.5;
   137   2          //    LRoundabout();
   138   2          //Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
-  139   2          //OUT1 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
+  139   2          OUT1 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
   140   2          //OUT2 = RSpeed_pid_Out(15, R_Pulse);
   141   2          //     OUT2 = RSpeed_pid_Out(15, R_Pulse);
-  142   2          //Motor_PWM(-PWM_Out, PWM_Out);
-  143   2          //Motor_PWM(OUT1, OUT1);
-  144   2          Tracking(75);
+  142   2          //Motor_PWM(-PWM_Out,PWM_Out);
+  143   2          Motor_PWM(OUT1, OUT1);
+  144   2          //Tracking(75);
   145   2          //     OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
   146   2          //    Buzzer_OFF;
   147   2          // Motor_PWM(1500,-1500);
@@ -171,7 +171,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       449     ------
+  code size            =       493     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  Inductance                                                         25/05/24  15:57:57  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
 OBJECT MODULE PLACED IN .\Out_File\Inductance.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Inductance.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEE
                     -D) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\COD
                     -E;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Inductance.lst) TABS(2) OBJECT(.\Out
                     -_File\Inductance.obj) 
@@ -66,7 +66,7 @@ stmt  level    source
    52   1      
    53   1        x = number * 0.5F;
    54   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         25/05/24  15:57:57  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 2   
 
    55   1        i = *(long *)&y;
    56   1        i = 0x5f3759df - (i >> 1);
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        R2 = ad_valu1[5];
   119   1        R1 = ad_valu1[6];
   120   1      
-C251 COMPILER V5.60.0,  Inductance                                                         25/05/24  15:57:57  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 3   
 
   121   1        NOR_VAL[0] = (float)(L1 - ADC_MIN[0]) / (float)(ADC_MAX[0] - ADC_MIN[0]);
   122   1        NOR_VAL[1] = (float)(L2 - ADC_MIN[1]) / (float)(ADC_MAX[1] - ADC_MIN[1]);
@@ -202,7 +202,7 @@ stmt  level    source
   180   1        oled_uint16(85, 0, R1_NOR_ADC);
   181   1      
   182   1        oled_p6x8str(0, 1, "L2:");
-C251 COMPILER V5.60.0,  Inductance                                                         25/05/24  15:57:57  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 4   
 
   183   1        oled_uint16(15, 1, L2_NOR_ADC);
   184   1      

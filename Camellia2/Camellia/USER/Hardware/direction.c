@@ -12,8 +12,8 @@
 
 
 
-float Nh_P = 120; // 0.5
-float Nh_D = 30; // 4.1
+float Nh_P = 95;  // 0.5
+float Nh_D = 1.2; // 4.1
 float Wh_P = 1.25;
 float Wh_D = 2 ;
 float gyro_z3 = 0;
@@ -62,20 +62,19 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
  */
 int nh_Turn_Out(float err, float dir_p, float dir_d)
 {
-  float error;
-  static float last_error = 0;
-  float Output;
-  float error_derivative;
-
-  error = err-imu660ra_gyro_z/65.6;
-
-  error_derivative = error - last_error;
-
-  Output = error * dir_p + error_derivative * dir_d;
-
-  last_error = error;
-
-  return Output;
+  int error1 = 0;
+  static int last_err = 0, P_out = 0, I_out = 0, out = 0;
+  error1 = (int)(err -imu660ra_gyro_z / 65.6);
+  P_out = dir_p * (error1 - last_err);
+  I_out = dir_d * error1;
+  if (I_out >= 2000)
+    I_out = 2000;
+  else if (I_out <= -2000)
+    I_out = -2000;
+  last_err = error1;
+  out += P_out + I_out;
+  out = limit(out, 25000);
+  return out;
 }
 
 /**

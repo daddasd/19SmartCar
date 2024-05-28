@@ -1,9 +1,9 @@
-C251 COMPILER V5.60.0,  main                                                               25/05/24  15:13:57  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               26/05/24  17:09:18  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
 OBJECT MODULE PLACED IN .\Out_File\main.obj
-COMPILER INVOKED BY: E:\Keil5C251\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE I
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\src\main.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BROWSE I
                     -NCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\i
                     -nc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\main.lst) TABS(2) OBJECT(.\Out_File\main.obj) 
 
@@ -66,7 +66,7 @@ stmt  level    source
              -()'
    54   2          if (menu == 3)
    55   2            Second__NWHuan_menu();
-C251 COMPILER V5.60.0,  main                                                               25/05/24  15:13:57  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               26/05/24  17:09:18  PAGE 2   
 
    56   2          if (menu == 4)
    57   2            Second__Speed_menu();

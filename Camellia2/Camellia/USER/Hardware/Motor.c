@@ -11,7 +11,7 @@
 #define MOTOR_MAX 8000
 
 float Motor_P = 18;
-float Motor_I = 0.15;
+float Motor_I = 0.0015;
 
 float Motor_RP = 35;
 float Motor_RI = 1.25;
@@ -84,8 +84,8 @@ void Motor_SET_PID(float Kp, float Ki, float Kd)
 	Motor_pid.Motor_err = 0;
 	Motor_pid.Motor_err_last = 0;
 	Motor_pid.Motor_err_last2 = 0;
-	Motor_pid.Motor_Kp = Kp;
-	Motor_pid.Motor_Ki = Ki;
+	Motor_pid.Motor_Kp = 20;
+	Motor_pid.Motor_Ki = 1.2;
 	Motor_pid.Motor_Kd = Kd;
 	Motor_pid.Motor_Out_Value = 0;
 	Motor_pid.Motor_integral = 0;
@@ -127,35 +127,48 @@ char filter_1(char NEW_DATA, char OLD_DATA, char k)
 //  @return     速度环输出
 //--
 
-int Speed_pid_Out(int Target_Value, int Actual_Value)
+int LSpeed_pid_Out(int Target_Value, int Actual_Value)
 {
-	int error = 0;
-	static float speed_out = 0, P_out = 0, I_out = 0, out = 0, jifen = 0;
-	;
-	error = Target_Value - Actual_Value;
-	P_out = Motor_P * error;
-	jifen += error;
-	if (jifen > 800)
-		jifen = 800;
-	if (jifen < -800)
-		jifen = -800;
-	out = P_out + jifen*Motor_I;
-	speed_out = out;
-	speed_out = limit(speed_out, 10000);
-	return speed_out;
+	float Kp_Value = 0;
+
+	static float Ki_Value = 0, Kd_Value = 0;
+	float MOTOR_PWM = 0;
+
+	Motor_pid.Motor_err = Target_Value - Actual_Value;
+	if (abs(Motor_pid.Motor_err) < 3) 
+	{
+		Motor_pid.Motor_err = 0;
+		Motor_pid.Motor_err_last = 0;
+	}
+
+	Kp_Value = Motor_pid.Motor_err_last * Motor_pid.Motor_Kp;
+
+	Ki_Value += Motor_pid.Motor_err;
+	if (Ki_Value > 1000)
+		Ki_Value = 1000;
+	if (Ki_Value < -1000)
+		Ki_Value = -1000;
+
+	Motor_pid.Motor_err_last2 = Motor_pid.Motor_err_last;
+	Motor_pid.Motor_err_last = Motor_pid.Motor_err;
+
+	Motor_pid.Motor_Out_Value = (Kp_Value + Ki_Value * Motor_pid.Motor_Ki);
+	MOTOR_PWM += Motor_pid.Motor_Out_Value;
+	MOTOR_PWM = limit(MOTOR_PWM, MOTOR_MAX);
+	return (int)MOTOR_PWM;
 }
 
-int RSpeed_pid_Out(int Target_Value, int Actual_Value)
+int Speed_pid_Out(int Target_Value, int Actual_Value)
 {
 	int error = 0;
 	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
 	error = Target_Value - Actual_Value;
-	P_out = Motor_RP * (error - last_err);
-	I_out = Motor_RI * error;
-	if (I_out > 800)
-		I_out = 800;
-	if (I_out < -800)
-		I_out = -800;
+	P_out = Motor_P * (error - last_err);
+	I_out = error*Motor_I;
+	if (I_out > 2000)
+		I_out = 2000;
+	if (I_out < -2000)
+		I_out = -2000;
 	out = P_out + I_out;
 	speed_out += out;
 	last_err = error;
