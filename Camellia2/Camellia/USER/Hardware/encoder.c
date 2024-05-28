@@ -134,18 +134,19 @@ void TM4_Isr() interrupt 20
 		//dir_out=DirControl(0);
 		//PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
 		// gyro_z3 += Get_Gyro_Z*0.5;
-		//    LRoundabout();
+		LRoundabout();
 		//Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
 		//OUT1 = Speed_pid_Out(40, (L_Pulse+R_Pulse)*0.5);
 		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
 		//     OUT2 = RSpeed_pid_Out(15, R_Pulse);
+		//dir_out=nh_Turn_Out(50, Nh_P, Nh_D);
 		//Motor_PWM(-dir_out, dir_out);
-		//Motor_PWM(OUT1, OUT1);
+		// Motor_PWM(OUT1, OUT1);
 		Tracking(30);
-		//     OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
-		//    Buzzer_OFF;
-		// Motor_PWM(1500,-1500);
-		//   P15 = 0;
+		//      OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
+		//     Buzzer_OFF;
+		//  Motor_PWM(1500,-1500);
+		//    P15 = 0;
 		TIM4_CLEAR_FLAG;
 	}
 }

@@ -99,6 +99,8 @@ void LRoundabout(void)
 	static int Yu_Chu_YuanHuan_Flag = 0; // 预出圆环
 	static int Chu_YuanHuan_Flag = 0;	 // 出圆环
 	static int time = 0;
+	uint8 YuanHuan = 0;
+	
 	if (YuanH_Flag != 3)
 	{
 		if ((L1_NOR_ADC >= 70 && R1_NOR_ADC >= 50) && (L2_NOR_ADC >= 10 && R2_NOR_ADC <= 5) && PanDuan_Flag == 1)

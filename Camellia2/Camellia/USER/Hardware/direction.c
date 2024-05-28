@@ -12,14 +12,14 @@
 
 
 
-float Nh_P = 120;  // 0.5
-float Nh_D = 40; // 4.1
-float Wh_P = 1.7;
-float Wh_D = 2 ;
+float Nh_P = 80;  // 0.5
+float Nh_D = 2.5; // 4.1
+float Wh_P = 1.3;
+float KP2 =  0.2;
+float Wh_D = 0;
 float gyro_z3 = 0;
 
 float KP1 = 35;
-float KP2 = 0.2;
 float KP3 = 0; 
 float KD1 = 0;
 float KD2 = 0;
@@ -54,7 +54,7 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 
   error_derivative = error - last_error;
 
-  Output = error * dir_p + error_derivative * dir_d;
+  Output = error * dir_p+error*(error)*KP2 + error_derivative * dir_d;
 
   last_error = error;
 
@@ -77,17 +77,21 @@ int16 nh_Turn_Out(float err, float dir_p, float dir_d)
   static float last_error = 0;
   float Output;
   float error_derivative;
-
-  error = err + mpu6050_gyro_z*1.3;
-
+  static float I = 0;
+  error = err + mpu6050_gyro_z/65.6;
+  I += error * dir_d;
+  if(I>2500)
+    I = 2500;
+  else if(I<-2500)
+    I = -2500;
   error_derivative = error - last_error;
 
-  Output = (int)(error * dir_p + error_derivative * dir_d);
+  Output = (int)(error * dir_p + I);
 
   last_error = error;
 
   Output = limit(Output, out_max);
-  return (int)Output;
+  return (int)Output+mpu6050_gyro_z*1.3;
 }
 
 /**
