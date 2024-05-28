@@ -8,13 +8,12 @@
 
 #include "myconfig.h"
 
-#define MOTOR_MAX 8000
+#define MOTOR_MAX 9500
+#define MOTOR_I_MAX 2500
 
-float Motor_P = 18;
-float Motor_I = 0.15;
+float Motor_P = 30;
+float Motor_I = 0.11;
 
-float Motor_RP = 35;
-float Motor_RI = 1.25;
 float Speed_Ring = 0;
 
 Motor_PID_InitTypedef Motor_pid;
@@ -70,13 +69,11 @@ void Motor_PWM(int L_PWM, int R_PWM)
 		pwm_duty(MOTOR_R_PWM, R_PWM);
 	}
 }
-
 //--
 //  @brief      电机pid调节
 //  @param      kp,ki.kd
 //  @return     void
 //--
-
 void Motor_SET_PID(float Kp, float Ki, float Kd)
 {
 	Motor_pid.Motor_Target_Value = 0;
@@ -91,76 +88,21 @@ void Motor_SET_PID(float Kp, float Ki, float Kd)
 	Motor_pid.Motor_integral = 0;
 }
 
-/*入口：NEW_DATA 新采样值
-	   OLD_DATA 上次滤波结果
-	   k        滤波系数(0~255)(代表在滤波结果中的权重)
-  出口：         本次滤波结果
- */
-char filter_1(char NEW_DATA, char OLD_DATA, char k)
-{
-	int result;
-	if (NEW_DATA < OLD_DATA)
-	{
-		result = OLD_DATA - NEW_DATA;
-		result = result * k;
-		result = result + 128; //+128是为了四色五入
-		result = result / 256;
-		result = OLD_DATA - result;
-	}
-	else if (NEW_DATA > OLD_DATA)
-	{
-		result = NEW_DATA - OLD_DATA;
-		result = result * k;
-		result = result + 128; //+128是为了四色五入
-		result = result / 256;
-		result = OLD_DATA - result;
-	}
-	else
-		result = OLD_DATA;
-	return ((char)result);
-}
-
 //--
 //  @brief      速度环
 //  @param      Target_Value: 目标速度
 //  @param      Actual_Value: 实际速度
 //  @return     速度环输出
 //--
-
 int Speed_pid_Out(int Target_Value, int Actual_Value)
 {
-	int error = 0;
-	static float speed_out = 0, P_out = 0, I_out = 0, out = 0, jifen = 0;
-	;
-	error = Target_Value - Actual_Value;
-	P_out = Motor_P * error;
-	jifen += error;
-	if (jifen > 800)
-		jifen = 800;
-	if (jifen < -800)
-		jifen = -800;
-	out = P_out + jifen*Motor_I;
-	speed_out = out;
-	speed_out = limit(speed_out, 10000);
-	return speed_out;
-}
-
-int RSpeed_pid_Out(int Target_Value, int Actual_Value)
-{
-	int error = 0;
-	static float last_err = 0, speed_out = 0, P_out = 0, I_out = 0, out = 0;
-	error = Target_Value - Actual_Value;
-	P_out = Motor_RP * (error - last_err);
-	I_out = Motor_RI * error;
-	if (I_out > 800)
-		I_out = 800;
-	if (I_out < -800)
-		I_out = -800;
-	out = P_out + I_out;
-	speed_out += out;
-	last_err = error;
-	speed_out = limit(speed_out, 7500);
-	return (int)speed_out;
+	Motor_pid.Motor_err = Target_Value - Actual_Value;
+	Motor_pid.Motor_KP_Val = Motor_pid.Motor_err * Motor_P;
+	Motor_pid.Motor_KI_Val += Motor_pid.Motor_err * Motor_I;
+	Motor_pid.Motor_KI_Val = limit(Motor_pid.Motor_KI_Val, MOTOR_I_MAX);
+	Motor_pid.Motor_Out_Value=Motor_pid.Motor_KI_Val+Motor_pid.Motor_KP_Val;
+	Motor_pid.Motor_Out_Value = limit(Motor_pid.Motor_Out_Value, MOTOR_MAX);
+	return (int)Motor_pid.Motor_Out_Value;
 }
 
 void Buzzer(int time)

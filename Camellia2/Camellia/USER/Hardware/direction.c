@@ -18,12 +18,20 @@ float Wh_P = 1.25;
 float Wh_D = 2 ;
 float gyro_z3 = 0;
 
+float KP1 = 35;
+float KP2 = 0.2;
+float KP3 = 0; 
+float KD1 = 0;
+float Feedforward_gain = 0;
+
+
 float Angle_Speed_P = 415;
 float Angle_Speed_I = 9.2;
 
-
-
+float Target_Vel_Z_pre = 0;
 int Speed_Ring_Flag = 0;
+
+Position_PID_InitTypedef Position;
 
 /**
  * @brief 外环
@@ -49,6 +57,8 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 
   last_error = error;
 
+  Target_Vel_Z_pre = Output;
+
   return Output;
 }
 
@@ -60,22 +70,47 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
  * @param dir_i
  * @return int
  */
-int nh_Turn_Out(float err, float dir_p, float dir_d)
+int16 nh_Turn_Out(float err, float dir_p, float dir_d)
 {
-  float error;
-  static float last_error = 0;
-  float Output;
-  float error_derivative;
+  float error,KP,KD;
 
-  error = err-imu660ra_gyro_z/65.6;
+  static float last_error;
 
-  error_derivative = error - last_error;
+  float price_Differention;
 
-  Output = error * dir_p + error_derivative * dir_d;
+  float price_Proportion;
+
+  static float Pre1_Error[4];
+
+  float Direct_Parameter;
+
+
+  KP=dir_p ; // 不要调
+
+  KD=dir_d; // 不要调
+
+
+  error = err * 8.5 - imu660ra_gyro_z * 1.2; // 转向内环参数，一般不用改，改变后面的参数，改变阻尼大小
+  // 转向PD控制
+  price_Proportion = dir_p * error;
+
+  price_Differention = dir_d * (error - last_error);
+
+  Direct_Parameter = price_Proportion + price_Differention; //(1+error*error*0.000000001f)
 
   last_error = error;
 
-  return Output;
+  Pre1_Error[3] = Pre1_Error[2];
+
+  Pre1_Error[2] = Pre1_Error[1];
+
+  Pre1_Error[1] = Pre1_Error[0];
+
+  Pre1_Error[0] = Direct_Parameter;
+
+  Direct_Parameter = Pre1_Error[0] * 0.8 + Pre1_Error[1] * 0.1 + Pre1_Error[2] * 0.06 + Pre1_Error[3] * 0.04;
+
+  return  (int16)(Direct_Parameter);
 }
 
 /**
@@ -83,19 +118,42 @@ int nh_Turn_Out(float err, float dir_p, float dir_d)
  *
  * @return int
  */
-int DirControl(void)
+
+void Dir_PID_Init(void)
 {
-  static int count = 0;
-  static int wh_out = 0;
-  int nh_out = 0;
-  if(count==3)
-  {
-    wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
-    count = 0;
-  }
-  count++;
-  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
+  Position.kP1 = KP1;
+  Position.kP2 = KP3;
+  Position.kP3 = KP2;
+  Position.kD  = KD1;
+  Position.feedforward_gain = Feedforward_gain;
 }
+
+
+
+//K1 适合直道   K2适合弯中的姿态(内切)
+int16 DirControl(int error)
+{
+  Position.err = error;
+  Position.KP_Val = (int16)(Position.kP1 * Position.err + Position.kP2 * Position.err * Position.err * Position.err);
+  Position.kD_Val = (int16)(Position.kD*mpu6050_gyro_z);
+  Position.err_last = Position.err;
+  Position.feedforward_Val = Position.feedforward_gain * error;
+  Position.Out = Position.KP_Val + Position.kD_Val + Position.feedforward_Val;
+  return (int16)Position.Out;
+}
+
+
+
+// int DirControl(void)
+// {
+//   int error = 0;
+//   static int last_error;
+//   int out = 0;
+//   error = Inductance_Error;
+//   out = error * KP1 + error * asb(error) * KP2 + (error - last_error) * KD1 - imu660ra_gyro_z / 65.6 * KD1;
+//   last_error = error;
+//   return out;
+// }
 
 /**
  * @brief 角度环

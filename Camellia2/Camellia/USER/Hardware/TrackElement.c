@@ -239,15 +239,12 @@ void Tracking(int Set_speed)
 	static int count = 0, pwm = 0,LALL_PWM=0,RALL_PWM=0;
 	Sum_Pulse = (L_Pulse + R_Pulse) / 2;
 	count++;
-	dir_out = DirControl();
+	dir_out = DirControl(Inductance_Error);
 	if (count == 10)
 	{
 		pwm = Speed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
 	}
-	if(dir_out<0)
-		LALL_PWM = (pwm - dir_out * 0.8);
-	else if(dir_out>=0)
-		LALL_PWM = (pwm - dir_out * 1.3);
+	LALL_PWM = pwm - dir_out;
 	RALL_PWM = pwm + dir_out;
 	Motor_PWM(LALL_PWM, RALL_PWM);
 }
