@@ -18,8 +18,6 @@ extern uint16 L1_NOR_ADC,R1_NOR_ADC,L2_NOR_ADC,R2_NOR_ADC,L3_NOR_ADC,R3_NOR_ADC,
 void Inductance_Init(void);
 float sq(float number);
 void show_val(void);
-int16 NORMALIZATION_TRACKING_ADC(float I1,float I2);
-
-
+int16 NORMALIZATION_TRACKING_ADC(void);
 
 #endif

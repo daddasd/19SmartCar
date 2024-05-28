@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  18:41:43  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -24,127 +24,126 @@ stmt  level    source
    12          uint16 Left_Val = 0, Right_Val = 0;
    13          int16 ad_sum = 0;
    14          int16 ad_diff = 0;
-   15          uint16 ad_value[7][10] = {0};    // 原始数据
+   15          uint16 ad_value[5][10] = {0};    // 原始数据
    16          uint16 R1, R2, R3, L1, L2, L3, M1; // 滤波之后的电感值
    17          uint16 L1_NOR_ADC = 0, R1_NOR_ADC = 0, L2_NOR_ADC = 0, R2_NOR_ADC = 0, L3_NOR_ADC = 0, R3_NOR_ADC = 0, M1
              -_NOR_ADC = 0;
-   18          float NOR_VAL[7] = {0};
-   19          float AD_NOR_VAL[7] = {0};  // 归一化值
+   18          float NOR_VAL[5] = {0};
+   19          float AD_NOR_VAL[5] = {0};  // 归一化值
    20          int16 Inductance_Error = 0; // 电感误差
-   21          uint16 ADC_MIN[7] = {156, 252, 160, 150, 153, 180, 149};
-   22          uint16 ADC_MAX[7] = {3020, 2620, 2620, 2620, 2600, 2600, 2600}; // 测出的电感最大，与最小值�
-             -�左到右
-   23          int bug = 0;
-   24          /**
-   25           *  @brief      ADC采集初始化
-   26           *  @param      void
-   27           *  @return     void
-   28           **/
-   29          
-   30          void Inductance_Init(void)
-   31          {
-   32   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
-   33   1        adc_init(ADC_P05, ADC_SYSclk_DIV_2);
-   34   1        adc_init(ADC_P06, ADC_SYSclk_DIV_2);
-   35   1        adc_init(ADC_P00, ADC_SYSclk_DIV_2);
-   36   1        adc_init(ADC_P01, ADC_SYSclk_DIV_2);
-   37   1        adc_init(ADC_P02, ADC_SYSclk_DIV_2);
-   38   1        adc_init(ADC_P03, ADC_SYSclk_DIV_2);
-   39   1        adc_init(ADC_P04, ADC_SYSclk_DIV_2);
-   40   1      }
-   41          /**
-   42           * @brief 快速开方
-   43           *
-   44           * @param f 被开方数
-   45           * @return float
-   46           */
-   47          float sq(float number)
-   48          {
-   49   1        long i;
-   50   1        float x, y;
-   51   1        const float f = 1.5F;
-   52   1      
-   53   1        x = number * 0.5F;
-   54   1        y = number;
-C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 2   
+   21          uint16 ADC_MIN[5] = {156, 252,150,180, 149};
+   22          uint16 ADC_MAX[5] = {3020, 3520,  3520,  3520, 3020}; // 测出的电感最大，与最小值从左到右
+   23          
+   24          int bug = 0;
+   25          
+   26          float I1 = 1.7;
+   27          float I2 = 1.7;  //电感权值
+   28          /**
+   29           *  @brief      ADC采集初始化
+   30           *  @param      void
+   31           *  @return     void
+   32           **/
+   33          
+   34          void Inductance_Init(void)
+   35          {
+   36   1        adc_init(ADC_P10, ADC_SYSclk_DIV_2);
+   37   1        adc_init(ADC_P05, ADC_SYSclk_DIV_2);
+   38   1        adc_init(ADC_P06, ADC_SYSclk_DIV_2);
+   39   1        adc_init(ADC_P00, ADC_SYSclk_DIV_2);
+   40   1        adc_init(ADC_P01, ADC_SYSclk_DIV_2);
+   41   1        adc_init(ADC_P02, ADC_SYSclk_DIV_2);
+   42   1        adc_init(ADC_P03, ADC_SYSclk_DIV_2);
+   43   1        adc_init(ADC_P04, ADC_SYSclk_DIV_2);
+   44   1      }
+   45          /**
+   46           * @brief 快速开方
+   47           *
+   48           * @param f 被开方数
+   49           * @return float
+   50           */
+   51          float sq(float number)
+   52          {
+   53   1        long i;
+   54   1        float x, y;
+   55   1        const float f = 1.5F;
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  18:41:43  PAGE 2   
 
-   55   1        i = *(long *)&y;
-   56   1        i = 0x5f3759df - (i >> 1);
-   57   1        y = *(float *)&i;
-   58   1        y = y * (f - (x * y * y));
-   59   1        y = y * (f - (x * y * y));
-   60   1        return number * y;
-   61   1      }
-   62          
-   63          /**
-   64           *  @brief      归一化处理电感值并循迹控制
-   65           *  @param      I1,I2,加权系数,
-   66           *  @return     void
-   67           **/
-   68          int16 NORMALIZATION_TRACKING_ADC(float I1, float I2)
-   69          {
-   70   1        int i = 0, j = 0, k = 0, temp = 0;
-   71   1        int ad_sum1[7] = {0};
-   72   1        uint16 ad_valu1[7] = {0};
-   73   1        for (i = 0; i < 10; i++) // 读取十次电感
-   74   1        {
-   75   2          ad_value[0][i] = adc_once(ADC_P05, ADC_12BIT);
-   76   2          ad_value[1][i] = adc_once(ADC_P06, ADC_12BIT);
-   77   2          ad_value[2][i] = adc_once(ADC_P10, ADC_12BIT);
-   78   2          ad_value[3][i] = adc_once(ADC_P01, ADC_12BIT);
-   79   2          ad_value[4][i] = adc_once(ADC_P00, ADC_12BIT);
-   80   2          ad_value[5][i] = adc_once(ADC_P03, ADC_12BIT);
-   81   2          ad_value[6][i] = adc_once(ADC_P02, ADC_12BIT);
-   82   2          bug = adc_once(ADC_P04, ADC_12BIT);
-   83   2        }
-   84   1      
-   85   1        /*=========================冒泡排序升序==========================*/
-   86   1        for (i = 0; i < 7; i++)
-   87   1        {
-   88   2          for (j = 0; j < 10 - 1; j++)
-   89   2          {
-   90   3            for (k = 0; k < 10 - 1 - j; k++)
-   91   3            {
-   92   4              if (ad_value[i][k] > ad_value[i][k + 1]) // 前面的比后面的大，则进行交换
-   93   4              {
-   94   5                temp = ad_value[i][k + 1];
-   95   5                ad_value[i][k + 1] = ad_value[i][k];
-   96   5                ad_value[i][k] = temp;
-   97   5              }
-   98   4            }
-   99   3          }
-  100   2        }
-  101   1      
-  102   1        /*===========================中值滤波=================================*/
-  103   1        for (i = 0; i < 7; i++) // 求中间八项的和
-  104   1        {
-  105   2          for (k = 0; k < 9; k++) // 舍弃最大值和最小值，只取中间8项
-  106   2          {
-  107   3            ad_sum1[i] += ad_value[i][k];
-  108   3          }
-  109   2          ad_valu1[i] = ad_sum1[i] / 8;
-  110   2        }
-  111   1      
-  112   1        /*=========================赋值各个电感==============================*/
-  113   1        L1 = ad_valu1[0];
-  114   1        L2 = ad_valu1[1];
-  115   1        L3 = ad_valu1[2];
-  116   1        M1 = ad_valu1[3];
-  117   1        R3 = ad_valu1[4];
-  118   1        R2 = ad_valu1[5];
-  119   1        R1 = ad_valu1[6];
-  120   1      
-C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 3   
+   56   1      
+   57   1        x = number * 0.5F;
+   58   1        y = number;
+   59   1        i = *(long *)&y;
+   60   1        i = 0x5f3759df - (i >> 1);
+   61   1        y = *(float *)&i;
+   62   1        y = y * (f - (x * y * y));
+   63   1        y = y * (f - (x * y * y));
+   64   1        return number * y;
+   65   1      }
+   66          
+   67          
+   68          //5电感循迹
+   69          /**
+   70           *  @brief      归一化处理电感值并循迹控制
+   71           *  @param      I1,I2,加权系数,
+   72           *  @return     void
+   73           **/
+   74          int16 NORMALIZATION_TRACKING_ADC(void)
+   75          {
+   76   1        int i = 0, j = 0, k = 0, temp = 0;
+   77   1        int ad_sum1[5] = {0};
+   78   1        uint16 ad_valu1[5] = {0};
+   79   1        for (i = 0; i < 10; i++) // 读取十次电感
+   80   1        {
+   81   2          ad_value[0][i] = adc_once(ADC_P05, ADC_12BIT);
+   82   2          ad_value[1][i] = adc_once(ADC_P06, ADC_12BIT);
+   83   2          ad_value[2][i] = adc_once(ADC_P01, ADC_12BIT);
+   84   2          ad_value[3][i] = adc_once(ADC_P03, ADC_12BIT);
+   85   2          ad_value[4][i] = adc_once(ADC_P02, ADC_12BIT);
+   86   2          bug = adc_once(ADC_P04, ADC_12BIT);
+   87   2        }
+   88   1      
+   89   1        /*=========================冒泡排序升序==========================*/
+   90   1        for (i = 0; i < 5; i++)
+   91   1        {
+   92   2          for (j = 0; j < 10 - 1; j++)
+   93   2          {
+   94   3            for (k = 0; k < 10 - 1 - j; k++)
+   95   3            {
+   96   4              if (ad_value[i][k] > ad_value[i][k + 1]) // 前面的比后面的大，则进行交换
+   97   4              {
+   98   5                temp = ad_value[i][k + 1];
+   99   5                ad_value[i][k + 1] = ad_value[i][k];
+  100   5                ad_value[i][k] = temp;
+  101   5              }
+  102   4            }
+  103   3          }
+  104   2        }
+  105   1      
+  106   1        /*===========================中值滤波=================================*/
+  107   1        for (i = 0; i < 5; i++) // 求中间八项的和
+  108   1        {
+  109   2          for (k = 0; k < 9; k++) // 舍弃最大值和最小值，只取中间8项
+  110   2          {
+  111   3            ad_sum1[i] += ad_value[i][k];
+  112   3          }
+  113   2          ad_valu1[i] = ad_sum1[i] / 8;
+  114   2        }
+  115   1      
+  116   1        /*=========================赋值各个电感==============================*/
+  117   1        L1 = ad_valu1[0];
+  118   1        L2 = ad_valu1[1];
+  119   1        M1 = ad_valu1[2];
+  120   1        R2 = ad_valu1[3];
+  121   1        R1 = ad_valu1[4];
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  18:41:43  PAGE 3   
 
-  121   1        NOR_VAL[0] = (float)(L1 - ADC_MIN[0]) / (float)(ADC_MAX[0] - ADC_MIN[0]);
-  122   1        NOR_VAL[1] = (float)(L2 - ADC_MIN[1]) / (float)(ADC_MAX[1] - ADC_MIN[1]);
-  123   1        NOR_VAL[2] = (float)(L3 - ADC_MIN[2]) / (float)(ADC_MAX[2] - ADC_MIN[2]);
-  124   1        NOR_VAL[3] = (float)(M1 - ADC_MIN[3]) / (float)(ADC_MAX[3] - ADC_MIN[3]);
-  125   1        NOR_VAL[4] = (float)(R3 - ADC_MIN[4]) / (float)(ADC_MAX[4] - ADC_MIN[4]);
-  126   1        NOR_VAL[5] = (float)(R2 - ADC_MIN[5]) / (float)(ADC_MAX[5] - ADC_MIN[5]);
-  127   1        NOR_VAL[6] = (float)(R1 - ADC_MIN[6]) / (float)(ADC_MAX[6] - ADC_MIN[6]);
+  122   1      
+  123   1        NOR_VAL[0] = (float)(L1 - ADC_MIN[0]) / (float)(ADC_MAX[0] - ADC_MIN[0]);
+  124   1        NOR_VAL[1] = (float)(L2 - ADC_MIN[1]) / (float)(ADC_MAX[1] - ADC_MIN[1]);
+  125   1        NOR_VAL[2] = (float)(M1 - ADC_MIN[2]) / (float)(ADC_MAX[2] - ADC_MIN[2]);
+  126   1        NOR_VAL[3] = (float)(R2 - ADC_MIN[3]) / (float)(ADC_MAX[3] - ADC_MIN[3]);
+  127   1        NOR_VAL[4] = (float)(R1 - ADC_MIN[4]) / (float)(ADC_MAX[4] - ADC_MIN[4]);
   128   1      
-  129   1        for (i = 0; i < 7; i++)
+  129   1        for (i = 0; i < 5; i++)
   130   1        {
   131   2          if (NOR_VAL[i] <= 0.0)
   132   2          {
@@ -159,94 +158,88 @@ stmt  level    source
   141   1      
   142   1        L1_NOR_ADC = AD_NOR_VAL[0];
   143   1        L2_NOR_ADC = AD_NOR_VAL[1];
-  144   1        L3_NOR_ADC = AD_NOR_VAL[2];
-  145   1        M1_NOR_ADC = AD_NOR_VAL[3];
-  146   1        R3_NOR_ADC = AD_NOR_VAL[4];
-  147   1        R2_NOR_ADC = AD_NOR_VAL[5];
-  148   1        R1_NOR_ADC = AD_NOR_VAL[6];
-  149   1      
-  150   1        L1_NOR_ADC = L1_NOR_ADC;
+  144   1        M1_NOR_ADC = AD_NOR_VAL[2];
+  145   1        R2_NOR_ADC = AD_NOR_VAL[3];
+  146   1        R1_NOR_ADC = AD_NOR_VAL[4];
+  147   1      
+  148   1        L1_NOR_ADC = L1_NOR_ADC;
+*** WARNING C138 IN LINE 148 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
+  149   1        L2_NOR_ADC = L2_NOR_ADC*I1;
+  150   1        R1_NOR_ADC = R1_NOR_ADC;
 *** WARNING C138 IN LINE 150 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
-  151   1        R1_NOR_ADC = I1 * R1_NOR_ADC;
-  152   1        L2_NOR_ADC = L2_NOR_ADC;
-*** WARNING C138 IN LINE 152 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
-  153   1        R2_NOR_ADC = R2_NOR_ADC;
-*** WARNING C138 IN LINE 153 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
-  154   1      
-  155   1        Left_Val = sq(L1_NOR_ADC * L1_NOR_ADC + L2_NOR_ADC * L2_NOR_ADC);
-  156   1        Right_Val = sq(R1_NOR_ADC * R1_NOR_ADC + R2_NOR_ADC * R2_NOR_ADC);
-  157   1        ad_sum = Left_Val + Right_Val;
-  158   1        ad_diff = Left_Val - Right_Val;
-  159   1        if (ad_sum > 35)
-  160   1        {
-  161   2          Inductance_Error = (ad_diff << 7) / (ad_sum + 1);
-  162   2        }
-  163   1        // Inductance_Error=ad_diff;
-  164   1        return Inductance_Error; // 放大128倍
-  165   1      }
-*** WARNING C47 IN LINE 68 OF ..\USER\Hardware\Inductance.c: 'I2': unreferenced parameter
-  166          
-  167          /**
-  168           *  @brief      显示测量值
-  169           *  @param      void
-  170           *  @return     void
-  171           **/
-  172          
-  173          void show_val(void)
-  174          {
-  175   1        //-----------------oled显示电感值----------------------//
-  176   1        oled_p6x8str(0, 0, "L1:");
-  177   1        oled_uint16(15, 0, L1_NOR_ADC);
-  178   1      
-  179   1        oled_p6x8str(70, 0, "R1:");
-  180   1        oled_uint16(85, 0, R1_NOR_ADC);
-  181   1      
-  182   1        oled_p6x8str(0, 1, "L2:");
-C251 COMPILER V5.60.0,  Inductance                                                         26/05/24  17:09:18  PAGE 4   
+  151   1        R2_NOR_ADC = R2_NOR_ADC*I2;
+  152   1        //动态权重
+  153   1        Left_Val = sq(L1_NOR_ADC * L1_NOR_ADC + L2_NOR_ADC * L2_NOR_ADC);
+  154   1        Right_Val = sq(R1_NOR_ADC * R1_NOR_ADC + R2_NOR_ADC * R2_NOR_ADC);
+  155   1        ad_sum = Left_Val + Right_Val;
+  156   1        ad_diff = Left_Val - Right_Val;
+  157   1        if (ad_sum > 35)
+  158   1        {
+  159   2          Inductance_Error = (ad_diff << 7) / ((ad_sum + 1));
+  160   2        }
+  161   1        // Inductance_Error=ad_diff;
+  162   1        return Inductance_Error; // 放大128倍
+  163   1      }
+  164          
+  165          /**
+  166           *  @brief      显示测量值
+  167           *  @param      void
+  168           *  @return     void
+  169           **/
+  170          
+  171          void show_val(void)
+  172          {
+  173   1        //-----------------oled显示电感值----------------------//
+  174   1        oled_p6x8str(0, 0, "L1:");
+  175   1        oled_uint16(15, 0, L1_NOR_ADC);
+  176   1      
+  177   1        oled_p6x8str(70, 0, "R1:");
+  178   1        oled_uint16(85, 0, R1_NOR_ADC);
+  179   1      
+  180   1        oled_p6x8str(0, 1, "L2:");
+  181   1        oled_uint16(15, 1, L2_NOR_ADC);
+  182   1      
+  183   1        oled_p6x8str(70, 1, "R2:");
+  184   1        oled_uint16(85, 1, R2_NOR_ADC);
+  185   1      
+C251 COMPILER V5.60.0,  Inductance                                                         28/05/24  18:41:43  PAGE 4   
 
-  183   1        oled_uint16(15, 1, L2_NOR_ADC);
-  184   1      
-  185   1        oled_p6x8str(70, 1, "R2:");
-  186   1        oled_uint16(85, 1, R2_NOR_ADC);
-  187   1      
-  188   1        oled_p6x8str(0, 2, "L3:");
-  189   1        oled_uint16(15, 2, L3_NOR_ADC);
-  190   1      
-  191   1        oled_p6x8str(70, 2, "R3:");
-  192   1        oled_uint16(85, 2, R3_NOR_ADC);
-  193   1      
-  194   1        oled_p6x8str(0, 3, "Err:");
-  195   1        oled_int16(20, 3, Inductance_Error);
-  196   1      
-  197   1        oled_p6x8str(70, 3, "M1:"); 
-  198   1        oled_uint16(85, 3, M1_NOR_ADC);
-  199   1        ////-----------------陀螺仪角速度------------------------//
-  200   1       
-  201   1        oled_p6x8str(0, 4, "gyro_z:");
-  202   1        oled_printf_float(45, 4, Get_Gyro_Z,5, 6);
-  203   1        oled_int16(0, 5, L_Pulse);
-  204   1        oled_int16(60, 5, R_Pulse);
-  205   1        oled_int16(0, 6, dl1a_distance_mm);
-  206   1        oled_int16(60, 6, dir_out);
-  207   1        //-----------------TOF距离------------------------//
-  208   1        //  if(dl1a_finsh_flag)
-  209   1        //  {
-  210   1        //    dl1a_finsh_flag = 0;
-  211   1        //    oled_int16(60,6,dl1a_distance_mm);
-  212   1        //  }
-  213   1      }
+  186   1        oled_p6x8str(0, 2, "M1:");
+  187   1        oled_uint16(15, 2, M1_NOR_ADC);
+  188   1      
+  189   1        oled_p6x8str(55, 2, "Err:");
+  190   1        oled_int16(80, 2, Inductance_Error);
+  191   1      
+  192   1        ////-----------------陀螺仪角速度------------------------//
+  193   1        oled_p6x8str(0, 3, "G_z");
+  194   1        oled_int16(20, 3,mpu6050_gyro_z);
+  195   1        oled_p6x8str(60, 3, "Dis");
+  196   1        oled_int16(80, 3, dl1a_distance_mm);
+  197   1        oled_int16(0, 4, L_Pulse);
+  198   1        oled_int16(60, 4, R_Pulse);
+  199   1        oled_p6x8str(0,5, "Dir:");
+  200   1        oled_int16(30, 5, dir_out);
+  201   1        oled_p6x8str(0,6, "PWM:");
+  202   1        oled_int16(30, 6, Motor_pid.Motor_Out_Value);
+  203   1        //-----------------TOF距离------------------------//
+  204   1        //  if(dl1a_finsh_flag)
+  205   1        //  {
+  206   1        //    dl1a_finsh_flag = 0;
+  207   1        //    oled_int16(60,6,dl1a_distance_mm);
+  208   1        //  }
+  209   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2116     ------
+  code size            =      1950     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       324     ------
+  edata size           =       256     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -254,8 +247,8 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       391     ------
+  hconst size          =       337     ------
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  4 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

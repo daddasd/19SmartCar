@@ -38,7 +38,9 @@ typedef struct {
     float Motor_Ki;            //定义积分系数
     float Motor_Kd;            //定义比微分系数
     float Motor_Out_Value;     //输出变量
-    float Motor_integral;            //定义积分值
+    float Motor_KP_Val;        //比例输出值
+    float Motor_KI_Val;        //积分输出值
+    float Motor_integral;      //定义积分值
 }Motor_PID_InitTypedef;
 
 
@@ -52,6 +54,5 @@ void Motor_PWM(int L_PWM,int R_PWM);
 int16 limit(int16 In,int16 limit);
 void Motor_SET_PID(float Kp,float Ki,float Kd);
 int Speed_pid_Out(int Target_Value,int Actual_Value);
-int RSpeed_pid_Out(int Target_Value, int Actual_Value);
 void Buzzer(int time);
 #endif

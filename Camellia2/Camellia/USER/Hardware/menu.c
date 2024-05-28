@@ -21,9 +21,7 @@ int Show_AllVal(int flag1)
     int flag = flag1;
     while (flag == 0)
     {
-        NORMALIZATION_TRACKING_ADC(1,1);
         show_val();  // 显示测得数据 
-        
         if (key2 == 0) // 按下跳转到一级菜单
         {
             delay_ms(10);
@@ -355,13 +353,13 @@ int Second_Motor_menu(void)
 int Second__NWHuan_menu(void)
 {
     int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
-    float x =0.01,x1=0.1;
+    float x =0.5,x1=0.01;
     uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
 	  int page1 = 1;
     if(page == 1)
     {
-            oled_fill(0x00);
+        oled_fill(0x00);
     }
     while (1)
     {
@@ -402,12 +400,12 @@ int Second__NWHuan_menu(void)
             {
                 oled_fill(0x00);
                 page1=2;
-                oled_p8x16str(22, 0, "N_P");  
-                oled_printf_float_px8(45, 0, Nh_P, 3, 1); // 内环P
+                oled_p8x16str(22, 0, "KP1");  
+                oled_printf_float_px8(45, 0, KP1, 3, 1); // 内环P
                 oled_p8x16str(22, 2, "N_D");  
-                oled_printf_float_px8(45, 2, Nh_D, 3, 1); // 内环D
-                oled_p8x16str(22, 4, "W_P");  
-                oled_printf_float_px8(45, 4, Wh_P, 3, 2); // 外环P
+                oled_printf_float_px8(45, 2, 0, 3, 1); // 内环D
+                oled_p8x16str(22, 4, "KP2");
+                oled_printf_float_px8(45, 4, KP2, 3, 2); // 外环P
                 oled_p8x16str(22, 6, "W_D");  
                 oled_printf_float_px8(45, 6, Wh_D, 3, 2); // 外环D
             }
@@ -435,14 +433,14 @@ int Second__NWHuan_menu(void)
                 if (long_press_delay >= INTERVAL_TIME - pree_delay)
                 {
                     if (flag == 1) {
-                        oled_printf_float_px8(45, 0, Nh_P, 3, 1);
-                        Nh_P = Nh_P + x1 * Val_add_lose;
+                        oled_printf_float_px8(45, 0, KP1, 3, 1);
+                        KP1 = KP1 + x1 * Val_add_lose;
                     } else if (flag == 2) {
                         oled_printf_float_px8(45, 2, Nh_D, 3, 1);
                         Nh_D = Nh_D + x1 * Val_add_lose;
                     } else if (flag == 3) {
-                        Wh_P = Wh_P + x* Val_add_lose;
-                        oled_printf_float_px8(45, 4, Wh_P, 3, 2);
+                        KP2 = KP2 + x* Val_add_lose;
+                        oled_printf_float_px8(45, 4, KP2, 3, 2);
                     } else if (flag == 4) {
                         Wh_D = Wh_D + x * Val_add_lose;
                         oled_printf_float_px8(45, 6, Wh_D, 3, 2);
@@ -460,8 +458,8 @@ int Second__NWHuan_menu(void)
                 {
                     case 1:
                     {
-                        oled_printf_float_px8(45, 0, Nh_P, 3, 1);
-                        Nh_P = Nh_P + x1 * Val_add_lose;
+                        oled_printf_float_px8(45, 0, KP1, 3, 1);
+                        KP1 = KP1 + x1 * Val_add_lose;
                     }break;
                     case 2:
                     {
@@ -470,8 +468,8 @@ int Second__NWHuan_menu(void)
                     }break;
                     case 3:
                     {
-                        Wh_P = Wh_P + x * Val_add_lose;
-                        oled_printf_float_px8(45, 4, Wh_P, 3, 2);
+                        KP2 = KP2 + x * Val_add_lose;
+                        oled_printf_float_px8(45, 4, KP2, 3, 2);
                     }break;
                     case 4:
                     {
@@ -589,7 +587,7 @@ int Show_Val_Menu(void)
     while(1)
     {
 	    //NORMALIZATION_TRACKING_ADC(1,1);
-		show_val();
+        show_val();
         if (key4 == 0)  // 返回
         {
             delay_ms(10);

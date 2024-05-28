@@ -125,23 +125,23 @@ void TM4_Isr() interrupt 20
 	if (Car_Start_Flag)
 	{
 		// P15 = 1;
-		// mpu6050_get_gyro();
-		imu660ra_get_gyro();
+		mpu6050_get_gyro();
+		//imu660ra_get_gyro();
 		dl1a_get_distance();
 		L_Pulse = L_Encoder_Pulse();
 		R_Pulse = R_Encoder_Pulse();
-		NORMALIZATION_TRACKING_ADC(1, 1);
-		//PWM_Out = nh_Turn_Out(0, Nh_P, Nh_D);
-		// PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
+		NORMALIZATION_TRACKING_ADC();
+		//dir_out=DirControl(0);
+		//PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
 		// gyro_z3 += Get_Gyro_Z*0.5;
 		//    LRoundabout();
 		//Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19
-		OUT1 = Speed_pid_Out(15, (L_Pulse+R_Pulse)*0.5);
+		//OUT1 = Speed_pid_Out(40, (L_Pulse+R_Pulse)*0.5);
 		//OUT2 = RSpeed_pid_Out(15, R_Pulse);
 		//     OUT2 = RSpeed_pid_Out(15, R_Pulse);
-		//Motor_PWM(-PWM_Out,PWM_Out);
-		Motor_PWM(OUT1, OUT1);
-		//Tracking(75);
+		//Motor_PWM(-dir_out, dir_out);
+		//Motor_PWM(OUT1, OUT1);
+		Tracking(30);
 		//     OUT1=nh_Turn_Out(0, Nh_P, Nh_D);
 		//    Buzzer_OFF;
 		// Motor_PWM(1500,-1500);

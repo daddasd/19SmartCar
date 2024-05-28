@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////
 #include <intrins.h>
 
-//������ͷ�ļ���,���������ٰ���"REG51.H"
+//包含本头文件后,不用另外再包含"REG51.H"
 
 sfr         P0          =           0x80;
 sbit        P00         =           P0^0;
@@ -417,10 +417,10 @@ sfr         RSTCFG      =           0xff;
 sbit        ENLVR       =           RSTCFG^6;
 sbit        P54RST      =           RSTCFG^4;
 
-//�������⹦�ܼĴ���λ����չRAM����
-//������Щ�Ĵ���,���Ƚ�EAXFR����Ϊ1,�ſ�������д
+//如下特殊功能寄存器位于扩展RAM区域
+//访问这些寄存器,需先将EAXFR设置为1,才可正常读写
 //    EAXFR = 1;
-//����
+//或者
 //    P_SW2 |= 0x80;
 
 /////////////////////////////////////////////////
@@ -852,14 +852,14 @@ typedef struct TAG_PWM_STRUCT
 #define     HSSPI_CFG2              (*(unsigned char volatile far *)0x7efbf9)
 #define     HSSPI_STA               (*(unsigned char volatile far *)0x7efbfa)
 
-//ʹ������ĺ�,���Ƚ�EAXFR����Ϊ1
-//ʹ�÷���:
+//使用下面的宏,需先将EAXFR设置为1
+//使用方法:
 //      char val;
 //
-//      EAXFR = 1;                      //ʹ�ܷ���XFR
-//      READ_HSPWMA(PWMA_CR1, val);     //�첽��PWMA��Ĵ���
+//      EAXFR = 1;                      //使能访问XFR
+//      READ_HSPWMA(PWMA_CR1, val);     //异步读PWMA组寄存器
 //      val |= 0x01;
-//      WRITE_HSPWMA(PWMA_CR1, val);    //�첽дPWMA��Ĵ���
+//      WRITE_HSPWMA(PWMA_CR1, val);    //异步写PWMA组寄存器
 
 #define     READ_HSPWMA(reg, dat)           \
             {                               \
@@ -1071,13 +1071,13 @@ typedef struct TAG_PWM_STRUCT
 //#define   CANAR                   (*(unsigned char volatile far *)0x7efebb)
 //#define   CANDR                   (*(unsigned char volatile far *)0x7efebc)
 
-//ʹ������ĺ�,���Ƚ�EAXFR����Ϊ1
-//ʹ�÷���:
+//使用下面的宏,需先将EAXFR设置为1
+//使用方法:
 //      char dat;
 //
-//      EAXFR = 1;                  //ʹ�ܷ���XFR
-//      dat = READ_CAN(RX_BUF0);    //��CAN�Ĵ���
-//      WRITE_CAN(TX_BUF0, 0x55);   //дCAN�Ĵ���
+//      EAXFR = 1;                  //使能访问XFR
+//      dat = READ_CAN(RX_BUF0);    //读CAN寄存器
+//      WRITE_CAN(TX_BUF0, 0x55);   //写CAN寄存器
 
 #define     READ_CAN(reg)           (CANAR = (reg), CANDR)
 #define     WRITE_CAN(reg, dat)     (CANAR = (reg), CANDR = (dat))
@@ -1121,11 +1121,11 @@ typedef struct TAG_PWM_STRUCT
 //sfr       LINAR       =           0xfa;
 //sfr       LINDR       =           0xfb;
 
-//ʹ�÷���:
+//使用方法:
 //      char dat;
 //
-//      dat = READ_LIN(LBUF);       //��CAN�Ĵ���
-//      WRITE_LIN(LBUF, 0x55);      //дCAN�Ĵ���
+//      dat = READ_LIN(LBUF);       //读CAN寄存器
+//      WRITE_LIN(LBUF, 0x55);      //写CAN寄存器
 
 #define     READ_LIN(reg)           (LINAR = (reg), LINDR)
 #define     WRITE_LIN(reg, dat)     (LINAR = (reg), LINDR = (dat))
@@ -1152,11 +1152,11 @@ typedef struct TAG_PWM_STRUCT
 //sfr       USBCON      =           0xf4;
 //sfr       USBADR      =           0xfc;
 
-//ʹ�÷���:
+//使用方法:
 //      char dat;
 //
-//      READ_USB(CSR0, dat);        //��USB�Ĵ���
-//      WRITE_USB(FADDR, 0x00);     //дUSB�Ĵ���
+//      READ_USB(CSR0, dat);        //读USB寄存器
+//      WRITE_USB(FADDR, 0x00);     //写USB寄存器
 
 #define     READ_USB(reg, dat)          \
             {                           \
@@ -1338,8 +1338,8 @@ typedef struct TAG_PWM_STRUCT
 #define     DMA_I2SR_VECTOR         64      //0203H
 
 /////////////////////////////////////////////////
-#define	EAXSFR()		EAXFR = 1		/* MOVX A,@DPTR/MOVX @DPTR,Aָ��Ĳ�������Ϊ��չSFR(XSFR) */
-#define	EAXRAM()		EAXFR = 0		/* MOVX A,@DPTR/MOVX @DPTR,Aָ��Ĳ�������Ϊ��չRAM(XRAM) */
+#define	EAXSFR()		EAXFR = 1		/* MOVX A,@DPTR/MOVX @DPTR,A指令的操作对象为扩展SFR(XSFR) */
+#define	EAXRAM()		EAXFR = 0		/* MOVX A,@DPTR/MOVX @DPTR,A指令的操作对象为扩展RAM(XRAM) */
 
 
 /////////////////////////////////////////////////

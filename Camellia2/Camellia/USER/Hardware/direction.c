@@ -12,18 +12,27 @@
 
 
 
-float Nh_P = 95;  // 0.5
-float Nh_D = 1.2; // 4.1
-float Wh_P = 1.25;
+float Nh_P = 120;  // 0.5
+float Nh_D = 40; // 4.1
+float Wh_P = 1.7;
 float Wh_D = 2 ;
 float gyro_z3 = 0;
+
+float KP1 = 35;
+float KP2 = 0.2;
+float KP3 = 0; 
+float KD1 = 0;
+float KD2 = 0;
+float Feedforward_gain = 0;
+
 
 float Angle_Speed_P = 415;
 float Angle_Speed_I = 9.2;
 
-
-
+float Target_Vel_Z_pre = 0;
 int Speed_Ring_Flag = 0;
+
+Position_PID_InitTypedef Position;
 
 /**
  * @brief 外环
@@ -49,6 +58,8 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 
   last_error = error;
 
+  Target_Vel_Z_pre = Output;
+
   return Output;
 }
 
@@ -60,21 +71,23 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
  * @param dir_i
  * @return int
  */
-int nh_Turn_Out(float err, float dir_p, float dir_d)
+int16 nh_Turn_Out(float err, float dir_p, float dir_d)
 {
-  int error1 = 0;
-  static int last_err = 0, P_out = 0, I_out = 0, out = 0;
-  error1 = (int)(err -imu660ra_gyro_z / 65.6);
-  P_out = dir_p * (error1 - last_err);
-  I_out = dir_d * error1;
-  if (I_out >= 2000)
-    I_out = 2000;
-  else if (I_out <= -2000)
-    I_out = -2000;
-  last_err = error1;
-  out += P_out + I_out;
-  out = limit(out, 25000);
-  return out;
+  float error;
+  static float last_error = 0;
+  float Output;
+  float error_derivative;
+
+  error = err + mpu6050_gyro_z*1.3;
+
+  error_derivative = error - last_error;
+
+  Output = (int)(error * dir_p + error_derivative * dir_d);
+
+  last_error = error;
+
+  Output = limit(Output, out_max);
+  return (int)Output;
 }
 
 /**
@@ -82,19 +95,55 @@ int nh_Turn_Out(float err, float dir_p, float dir_d)
  *
  * @return int
  */
-int DirControl(void)
+
+void Dir_PID_Init(void)
+{
+  Position.kP1 = KP1;
+  Position.kP2 = KP3;
+  Position.kP3 = KP2;
+  Position.kD  = KD1;
+  Position.kD2 = KD2;
+  Position.feedforward_gain = Feedforward_gain;
+}
+
+int16 DirControl(int err)
 {
   static int count = 0;
   static int wh_out = 0;
-  int nh_out = 0;
-  if(count==3)
+  if (count == 3)
   {
-    wh_out = wh_Turn_Out(Inductance_Error, Wh_P, Wh_D);
+    wh_out = wh_Turn_Out(err, Wh_P, Wh_D);
     count = 0;
   }
   count++;
-  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D);
+  return (int)nh_Turn_Out(wh_out, Nh_P, Nh_D) * count / 3;
 }
+
+//K1 适合直道   K2适合弯中的姿态(内切)
+// int16 DirControl(int error)
+// {
+//   Position.err = error;
+//   Position.KP_Val = (int16)(Position.kP1 * Position.err + Position.kP2 * Position.err * Position.err * Position.err);
+//   Position.kD_Val = (int16)(Position.kD*mpu6050_gyro_z);
+//   Position.kD2_Val = (int16)(Position.kD2 * (Position.err - Position.err_last));
+//   Position.err_last = Position.err;
+//   Position.feedforward_Val = Position.feedforward_gain * error;
+//   Position.Out = Position.KP_Val + Position.kD_Val + Position.feedforward_Val + Position.kD2_Val;
+//   return (int16)Position.Out;
+// }
+
+
+
+// int DirControl(void)
+// {
+//   int error = 0;
+//   static int last_error;
+//   int out = 0;
+//   error = Inductance_Error;
+//   out = error * KP1 + error * asb(error) * KP2 + (error - last_error) * KD1 - imu660ra_gyro_z / 65.6 * KD1;
+//   last_error = error;
+//   return out;
+// }
 
 /**
  * @brief 角度环
