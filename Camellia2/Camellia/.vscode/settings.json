@@ -1,7 +1,0 @@
-{
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.associations": {
-        "myconfig.h": "c",
-        "inductance.h": "c"
-    }
-}
