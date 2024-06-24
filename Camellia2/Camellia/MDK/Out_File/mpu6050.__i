@@ -1,0 +1,1 @@
+"..\USER\Hardware\mpu6050.c" XSMALL WARNINGLEVEL (3) OPTIMIZE (0,SPEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\mpu6050.lst) TABS (2) OBJECT(.\Out_File\mpu6050.obj)

@@ -1,0 +1,467 @@
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE TrackElement
+OBJECT MODULE PLACED IN .\Out_File\TrackElement.obj
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\TrackElement.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SP
+                    -EED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\C
+                    -ODE;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\TrackElement.lst) TABS(2) OBJECT(.
+                    -\Out_File\TrackElement.obj) 
+
+stmt  level    source
+
+    1          /*
+    2           * @Description:
+    3           * @Author: Yzhi
+    4           * @Date: 2024-01-10 09:24:18
+    5           * @LastEditTime: 2024-01-10 09:32:32
+    6           * @LastEditors: Yzhi
+    7           */
+    8          #include "myconfig.h"
+    9          
+   10          int Element_Order[4] = {0};
+   11          
+   12          int shizi_flag = 0;
+   13          int ring_flag = -1;
+   14          long bmq_jifen = 0;
+   15          double angle_jifen = 0;
+   16          int Track_flag = 0; // 正常循迹
+   17          int set_speed = 0;  // 在赛道上不断更改速度
+   18          //*******************避障*****************//
+   19          uint8 Obstacle_State = 0;    // 避障状态
+   20          int Distance_Jifen = 0;
+   21          int Obstacle_Distance1 = 3448; // 第一次直行的距离
+   22          int Obstacle_Distance2 = 3048; // 第二次直行的距离
+   23          int Obstacle_Distance3 = 2848; // 第三次直行的距离
+   24          //*******************环岛*****************//
+   25          uint8 Ring_state = 0;
+   26          
+   27          int Yuan_TrackSpeed = 0; // 环内循迹速度
+   28          
+   29          int Yu_Speed = 1200;   // 预进环岛速度
+   30          int Yu_Distance = 2200;  // 预进环岛距离
+   31          int Yu_Speed_Diff = 800; // 打角的速度差异
+   32          
+   33          int Chu_Speed = 1000;   // 预出环岛速度
+   34          int Chu_Distance = 6000;  // 预出环岛距离
+   35          int Chu_Speed_Diff = 800; // 打角的速度差异
+   36          
+   37          int In_Huan_Flag = 0;
+   38          
+   39          #define Judgment_loop 1;
+   40          
+   41          int End_Chu_Distance = 4024; // 出环岛距离
+   42          
+   43          int Huan_Dao_Flag = 0;
+   44          
+   45          int ANGLE_FLAG = 0;    // 角度积分标志
+   46          double Angle4 = 0;     // 角度积分
+   47          int DISTANCE_FLAG = 0; // 距离积分标志
+   48          long Distance = 0;     // 距离积分
+   49          
+   50          int RAngle_Flag = 0; // 90度标志位
+   51          
+   52          /*外环与电机pid与速度改变的参数*/
+   53          
+   54          double Sub_wh_p = 20;
+   55          double Sub_wh_d = 10;
+   56          double Sub_motor_p = 0;
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 2   
+
+   57          double Sub_motor_i = 0;
+   58          int Sub_speed = -10;
+   59          
+   60          
+   61          /*不同元素速度控制*/
+   62          int Speed_Plan1 = 0;
+   63          
+   64          int Err_speed = 0;
+   65          
+   66          
+   67          
+   68          /**
+   69           *  @brief      十字路口
+   70           *  @param      void
+   71           *  @return     void
+   72           **/
+   73          void Crossroad(void)
+   74          {
+   75   1        if (L1_NOR_ADC > 40 && L2_NOR_ADC > 40 && R2_NOR_ADC > 40 && R1_NOR_ADC > 40 || shizi_flag == -1) // 十
+             -字路口
+   76   1        {
+   77   2          shizi_flag = -1;
+   78   2          Track_flag = 0;
+   79   2          bmq_jifen += (R_Pulse + L_Pulse) / 2;
+   80   2          if (bmq_jifen > 524)
+   81   2          {
+   82   3            bmq_jifen = 0;
+   83   3            shizi_flag = 1;
+   84   3          }
+   85   2          Motor_PWM(2000, 2000);
+   86   2        }
+   87   1        else
+   88   1          Track_flag = 1; // 正常循迹
+   89   1      }
+   90          
+   91          /**
+   92           * @brief 向左避障
+   93           *
+   94           */
+   95          void LObstacle(void)
+   96          {
+   97   1        int dir_out = 0,pwm=0;
+   98   1        static int groy = 0,time=0;
+   99   1        switch (Obstacle_State)
+  100   1        {
+  101   2        case NO_LObstacle:
+  102   2          if (dl1a_distance_mm < 1100&&dl1a_distance_mm>=850)
+  103   2          {
+  104   3            time++;
+  105   3            if (time > 100)
+  106   3            {
+  107   4              Obstacle_State = Find_LObstacle;
+  108   4            }
+  109   3            pwm = Speed_pid_Out(10, (L_Pulse + R_Pulse) / 2);
+  110   3            Motor_PWM(pwm, pwm);
+  111   3          }
+  112   2          if (dl1a_distance_mm <850)
+  113   2          {
+  114   3            time++;
+  115   3            if(time>500)
+  116   3            {
+  117   4              Obstacle_State = Find_LObstacle;
+  118   4              time = 0;
+  119   4            }
+  120   3            pwm = Speed_pid_Out(0, (L_Pulse + R_Pulse) / 2);
+  121   3            Motor_PWM(pwm, pwm);
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 3   
+
+  122   3          }
+  123   2          else
+  124   2            Tracking(55);
+  125   2          break;
+  126   2        case Find_LObstacle:
+  127   2          gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+  128   2          time++;
+  129   2          if (time < 350)
+  130   2          {
+  131   3            pwm=Angle_Ring(-70, gyro_z3);
+  132   3            Motor_PWM(pwm, -pwm);
+  133   3          }
+  134   2          else
+  135   2          {
+  136   3            gyro_z3 = 0;
+  137   3            time = 0;
+  138   3            Obstacle_State = LObstacle_straight;
+  139   3          }
+  140   2          break;
+  141   2        case LObstacle_straight:
+  142   2          if (Distance_Jifen < Obstacle_Distance1)
+  143   2          {
+  144   3            Distance_Jifen+=((R_Pulse + L_Pulse)/2);
+  145   3            Motor_PWM(2200,2200);
+  146   3          }
+  147   2          else
+  148   2          {
+  149   3            Distance_Jifen = 0;
+  150   3            Obstacle_State = LObstacle_Angle1;
+  151   3          }
+  152   2          break;
+  153   2        case LObstacle_Angle1:
+  154   2          gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+  155   2          time++;
+  156   2          if (time < 350)
+  157   2          {
+  158   3            pwm = Angle_Ring(55, gyro_z3);
+  159   3            Motor_PWM(pwm, -pwm);
+  160   3          }
+  161   2          else
+  162   2          {
+  163   3            gyro_z3 = 0;
+  164   3            time = 0;
+  165   3            Obstacle_State = LObstacle_straight1;
+  166   3          }
+  167   2          break;
+  168   2        case LObstacle_straight1:
+  169   2          Distance_Jifen += (R_Pulse + L_Pulse) / 2;
+  170   2          Motor_PWM(1500, 1500);
+  171   2          if (Distance_Jifen > Obstacle_Distance2)
+  172   2          {
+  173   3            Obstacle_State = LObstacle_Angle12;
+  174   3            Distance_Jifen = 0;
+  175   3            gyro_z3 = 0;
+  176   3          }
+  177   2          break;
+  178   2        case LObstacle_Angle12:
+  179   2          gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+  180   2          time++;
+  181   2          if (time < 250)
+  182   2          {
+  183   3            pwm = Angle_Ring(30, gyro_z3);
+  184   3            Motor_PWM(pwm, -pwm);
+  185   3          }
+  186   2          else
+  187   2          {
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 4   
+
+  188   3            gyro_z3 = 0;
+  189   3            time = 0;
+  190   3            Obstacle_State = LObstacle_straight2;
+  191   3          }
+  192   2          break;
+  193   2        case LObstacle_straight2:
+  194   2          if (Distance_Jifen < Obstacle_Distance3)
+  195   2          {
+  196   3            Distance_Jifen += (R_Pulse + L_Pulse) / 2;
+  197   3            Motor_PWM(1500, 1500);
+  198   3          }
+  199   2          else
+  200   2            Obstacle_State = LObstacle_Angle13;
+  201   2          break;
+  202   2        case LObstacle_Angle13:
+  203   2          gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+  204   2          time++;
+  205   2          if (time < 250)
+  206   2          {
+  207   3            pwm = Angle_Ring(-55, gyro_z3);
+  208   3            Motor_PWM(pwm, -pwm);
+  209   3          }
+  210   2          else
+  211   2          {
+  212   3            gyro_z3 = 0;
+  213   3            time = 0;
+  214   3            Obstacle_State = LObstacle_Over;
+  215   3          }
+  216   2          break;
+  217   2        case LObstacle_Over:
+  218   2          speed = 60;
+  219   2          Obstacle_State = 0; // 防止误判
+  220   2          break;
+  221   2        }
+  222   1      }
+  223          /**
+  224           *  @brief      左六边环岛
+  225           *  @param      圆环程序是否执行 1：执行 0 不执行
+  226           *  @return     3：执行成功
+  227           **/
+  228          void LRoundabout(void)
+  229          {
+  230   1        static int YuanH_Flag = 1;
+  231   1        static int Yu_YuanHuan_Flag = 0; // 预进圆环
+  232   1        static int PanDuan_Flag = 1;   // 判断圆环
+  233   1        static int Distance_Flag = 0;
+  234   1        static int Yu_Chu_YuanHuan_Flag = 0; // 预出圆环
+  235   1        static int Chu_YuanHuan_Flag = 0;  // 出圆环
+  236   1        static int time = 0;
+  237   1        static char Yuhuan;
+  238   1        static char NO_Ring_Flag = 0;
+  239   1        int pwm = 0;
+  240   1        switch (Ring_state)
+  241   1        {
+  242   2        case NO_Ring:
+  243   2          if ((L3_NOR_ADC+R3_NOR_ADC)>130&&M1_NOR_ADC>85)
+  244   2          {
+  245   3            In_Huan_Flag = 1;
+  246   3            Ring_state = Fing_Ring; // 发现圆环
+  247   3          }
+  248   2          break;
+  249   2        case Fing_Ring:       // 发现环
+  250   2          Inductance_Error = 0; // 误差清零
+  251   2          if (Distance_Flag == 0)
+  252   2          {
+  253   3            bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 5   
+
+  254   3            speed = 50;
+  255   3            //Tracking(40);
+  256   3          }
+  257   2          if (bmq_jifen >= Yu_Distance)
+  258   2          {
+  259   3            bmq_jifen = 0;
+  260   3            Distance_Flag = 1;
+  261   3            gyro_z3 = 0;
+  262   3          }
+  263   2          if (Distance_Flag == 1) // 到达指定距离 角度打死
+  264   2          {
+  265   3            Inductance_Error = 105;
+  266   3            speed = 50;
+  267   3            //Tracking(40);
+  268   3            time++;
+  269   3            if (time>150)
+  270   3            {
+  271   4              Buzzer_ON;
+  272   4              gyro_z3 = 0;
+  273   4              Ring_state = In_Ring;
+  274   4              Distance_Flag = 0;
+  275   4              time = 0;
+  276   4            }
+  277   3          }
+  278   2          break;
+  279   2        case In_Ring:
+  280   2          if ((L3_NOR_ADC+R3_NOR_ADC)==120||M1_NOR_ADC>85)
+  281   2          {
+  282   3      
+  283   3            Ring_state = Ready_Out_Ring;
+  284   3          }
+  285   2          else
+  286   2            speed = 50;
+  287   2          break;
+  288   2        case Ready_Out_Ring:
+  289   2          if (Distance_Flag == 0)
+  290   2          {
+  291   3            bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
+  292   3            speed = 50;
+  293   3            //Tracking(40);
+  294   3          }
+  295   2          if (bmq_jifen >= Chu_Distance)
+  296   2          {
+  297   3            bmq_jifen = 0;
+  298   3            Distance_Flag = 1;
+  299   3            // Motor_PWM(0, 0); // 速度清零
+  300   3            time = 0;
+  301   3          }
+  302   2          if (Distance_Flag == 1) // 到达指定距离 角度打死
+  303   2          {
+  304   3              gyro_z3 = 0;
+  305   3              Ring_state = Out_Ring;
+  306   3              Distance_Flag = 0;
+  307   3              time = 0;
+  308   3          }
+  309   2          break;
+  310   2        case Out_Ring:
+  311   2          if (Distance_Flag == 0)
+  312   2          {
+  313   3            bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
+  314   3            Inductance_Error = 0;
+  315   3            speed = 50;
+  316   3            //Tracking(45);
+  317   3          }
+  318   2          if (bmq_jifen > End_Chu_Distance)
+  319   2          {
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 6   
+
+  320   3            Ring_state = Ready_No_Ring;
+  321   3            //Buzzer_OFF;
+  322   3          }
+  323   2          break;
+  324   2        case Ready_No_Ring: // 出圆环结束清除标志位
+  325   2          Ring_state = Already_Out_Ring;
+  326   2          Buzzer_OFF;
+  327   2          In_Huan_Flag = 0; // 正常速度循迹
+  328   2          break;
+  329   2        case Already_Out_Ring:
+  330   2          speed = 65;
+  331   2          Buzzer_OFF;
+  332   2          break;
+  333   2        }
+  334   1      }
+  335          /**
+  336           * @brief 障碍
+  337           *
+  338           */
+  339          
+  340          // void Obstacle(void)
+  341          // {
+  342          
+  343          // }
+  344          /**
+  345           * @brief 根据标志位给不同速度
+  346           *
+  347           * @param speed_flag
+  348           */
+  349          void Speed_Plan(int speed_flag)
+  350          {
+  351   1        switch (speed_flag)
+  352   1        {
+  353   2        case 1:
+  354   2          Speed_Plan1 = 0; // 正常循迹速度
+  355   2          break;
+  356   2        case 2:
+  357   2          Speed_Plan1 = -speed; // 直角后速度清零
+  358   2          break;
+  359   2        case 3:
+  360   2          Speed_Plan1 = -speed * 0.30; // 环岛内速度，为正常速度的百分之70
+  361   2          break;
+  362   2        case 4:
+  363   2          Speed_Plan1 = -speed * 0.5; // 预进圆环，为正常速度的百分之50;
+  364   2          break;
+  365   2        case 5:
+  366   2          Speed_Plan1 = speed * 0.4; // 直道加速 ，大于正常速度的百分之40;
+  367   2          break;
+  368   2        default:
+  369   2          break;
+  370   2        }
+  371   1      }
+  372          
+  373          void Sub_Pid(float error)
+  374          {
+  375   1        float err = error;
+  376   1        if (err > 20) // 偏离赛道最大
+  377   1        {
+  378   2          Sub_wh_p = 20;
+  379   2          Sub_wh_d = 10;
+  380   2          Sub_motor_p = 0;
+  381   2          Sub_motor_i = 0;
+  382   2          Sub_speed = -10;
+  383   2        }
+  384   1      }
+  385          
+C251 COMPILER V5.60.0,  TrackElement                                                       24/06/24  22:20:58  PAGE 7   
+
+  386          /**
+  387           *  @brief      基础循迹
+  388           *  @param      void
+  389           *  @return     void
+  390           **/
+  391          void Tracking(int Set_speed)
+  392          {
+  393   1        static int count = 0, pwm = 0, LALL_PWM = 0, RALL_PWM = 0;
+  394   1        Sum_Pulse = (L_Pulse + R_Pulse) / 2;
+  395   1        count++;
+  396   1        dir_out = DirControl(-Inductance_Error);
+  397   1        if (count == 10)
+  398   1        {
+  399   2          pwm = Speed_pid_Out(Set_speed, Sum_Pulse); // 减或加一个方向环的输出
+  400   2        }
+  401   1        LALL_PWM = pwm + dir_out;
+  402   1        RALL_PWM = pwm - dir_out;
+  403   1        Motor_PWM(LALL_PWM, RALL_PWM);
+  404   1      }
+  405          
+  406          /**
+  407           * @brief 根据不同速度给标志位
+  408           *
+  409           */
+  410          void Error_Speed(void)
+  411          {
+  412   1        if (L2_NOR_ADC > 50 && R2_NOR_ADC < 10)
+  413   1          Err_speed = -30;
+  414   1        if (Inductance_Error < 20 && Inductance_Error > -20)
+  415   1          Err_speed = 10;
+  416   1        else
+  417   1          Err_speed = 0;
+  418   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =      2099     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =       136     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       313     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,242 @@
+C251 COMPILER V5.60.0,  encoder                                                            24/06/24  22:26:43  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
+OBJECT MODULE PLACED IN .\Out_File\encoder.obj
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\encoder.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) 
+                    -BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;.
+                    -.\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\encoder.lst) TABS(2) OBJECT(.\Out_File\
+                    -encoder.obj) 
+
+stmt  level    source
+
+    1          #include "myconfig.h"
+    2          
+    3          int dir_out = 0, nh_out = 0;
+    4          int L_Pulse = 0, R_Pulse = 0, Sum_Pulse = 0;
+    5          
+    6          int L_Dis = 0;
+    7          int R_Dis = 0;
+    8          
+    9          double angle1 = 0.0;
+   10          int speed = 35;
+   11          float Ang = 0;
+   12          int PWM_Out = 0;
+   13          
+   14          float L = 0, R = 0;
+   15          //--
+   16          //  @brief      ???????????
+   17          //  @param      void
+   18          //  @return     void
+   19          //--
+   20          
+   21          void Encoder_Time_Init(void)
+   22          {
+   23   1        pit_timer_ms(TIM_4, 2);
+   24   1        gpio_mode(Encoder_L, GPI_IMPEDANCE);
+   25   1        gpio_mode(Encoder_R, GPI_IMPEDANCE);
+   26   1        ctimer_count_init(Encoder_L);
+   27   1        ctimer_count_init(Encoder_R);
+   28   1        EnableGlobalIRQ(); //???????锟斤拷?
+   29   1      }
+   30          
+   31          //--
+   32          //  @brief      ??????????????
+   33          //  @param      void
+   34          //  @return     return : ?????
+   35          //--
+   36          
+   37          int L_Encoder_Pulse(void)
+   38          {
+   39   1        static int L = 0;
+   40   1        static int16 last_L;
+   41   1        if (DIL == 1)
+   42   1        {
+   43   2          L = ctimer_count_read(Encoder_L);
+   44   2        }
+   45   1        else
+   46   1        {
+   47   2          L = -ctimer_count_read(Encoder_L);
+*** WARNING C115 IN LINE 47 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   48   2        }
+   49   1        ctimer_count_clean(Encoder_L);
+   50   1        last_L = L;
+   51   1        L *= 0.8;
+   52   1        L += last_L * 0.2; // 一阶低通滤波
+   53   1        return L;
+   54   1      }
+   55          
+C251 COMPILER V5.60.0,  encoder                                                            24/06/24  22:26:43  PAGE 2   
+
+   56          //--
+   57          //  @brief      ??????????????
+   58          //  @param      void
+   59          //  @return     return : ?????
+   60          //--
+   61          int R_Encoder_Pulse(void)
+   62          {
+   63   1        static int R = 0;
+   64   1        static int16 last_R;
+   65   1        if (DIR == 0)
+   66   1        {
+   67   2          R = ctimer_count_read(Encoder_R);
+   68   2        }
+   69   1        else
+   70   1        {
+   71   2          R = -ctimer_count_read(Encoder_R);
+*** WARNING C115 IN LINE 71 OF ..\USER\Hardware\encoder.c: '-' applied to unsigned type, result still unsigned
+   72   2        }
+   73   1        ctimer_count_clean(Encoder_R);
+   74   1        last_R = R;
+   75   1        R *= 0.8;
+   76   1        R += last_R * 0.2; //一阶低通滤波
+   77   1        return R;
+   78   1      }
+   79          
+   80          //--
+   81          //  @brief      ?????????
+   82          //  @param      void
+   83          //  @return     void
+   84          //--
+   85          void Encoder_Read_Pulse(void)
+   86          {
+   87   1        L_Encoder_Pulse();
+   88   1        R_Encoder_Pulse();
+   89   1      }
+   90          //--
+   91          //  @brief      ???????????
+   92          //  @param      L_cont??R_cont?????????
+   93          //  @return     void
+   94          //--
+   95          int L_Enc_integral(int L_target)
+   96          {
+   97   1        static int L = 0, L_flag;
+   98   1        L += L_Encoder_Pulse();
+   99   1        if (L > L_target)
+  100   1        {
+  101   2          L_flag = 1;
+  102   2        }
+  103   1        if (L_flag == 1)
+  104   1        {
+  105   2          L = 0;
+  106   2          L_flag = 0;
+  107   2          return 0;
+  108   2        }
+  109   1        return 1;
+  110   1      }
+  111          
+  112          int R_Enc_integral(int R_target)
+  113          {
+  114   1        static int R = 0, R_flag;
+  115   1        R += R_Encoder_Pulse();
+  116   1        if (R > R_target)
+  117   1        {
+  118   2          R_flag = 1;
+  119   2        }
+  120   1        if (R_flag == 1)
+C251 COMPILER V5.60.0,  encoder                                                            24/06/24  22:26:43  PAGE 3   
+
+  121   1        {
+  122   2          R_flag = 0;
+  123   2          R = 0;
+  124   2          return 0;
+  125   2        }
+  126   1        return 1;
+  127   1      }
+  128          /**
+  129           * @brief 行驶一段距离停止
+  130           *
+  131           * @param Distance 距离
+  132           * @param Speed    速度
+  133           */
+  134          int Car_Star_Stop(int Distance,int speed)
+  135          {
+  136   1        static int Distance1=0;
+  137   1        Distance1 += (L_Pulse + R_Pulse) / 2;
+  138   1        Motor_PWM(speed, speed);
+  139   1        if (Distance1>Distance)
+  140   1        {
+  141   2          Distance1 = 0;
+  142   2          Motor_PWM(0, 0);
+  143   2          return 1;
+  144   2        }
+  145   1        return 0;
+  146   1      }
+  147          
+  148          void TM4_Isr() interrupt 20
+  149          {
+  150   1        static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0,jifen=0,time=0;
+  151   1        int flag = 0;
+  152   1        int nh = 0;
+  153   1        if (Car_Start_Flag)
+  154   1        {
+  155   2          mpu6050_get_gyro();
+  156   2          dl1a_get_distance();
+  157   2          L_Pulse = L_Encoder_Pulse();
+  158   2          R_Pulse = R_Encoder_Pulse();
+  159   2          NORMALIZATION_TRACKING_ADC();
+  160   2          //Sum_Pulse += (L_Pulse + R_Pulse) * 0.5;
+  161   2          // gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+  162   2          //  dir_out += L_Pulse;
+  163   2          //  if (dir_out > 2048)
+  164   2          //    Motor_PWM(0, 0);
+  165   2          //  else
+  166   2          //    Motor_PWM(1500, 1500);
+  167   2          // LObstacle();
+  168   2          //dir_out = nh_Turn_Out(0, Nh_P, Nh_D);
+  169   2          //Motor_PWM(dir_out,-dir_out);
+  170   2          //   Angle_Ring(90, 10, 0);
+  171   2          //  dir_out=DirControl(5);
+  172   2          // PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
+  173   2          //   LRoundabout();
+  174   2          //    Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19、
+  175   2          //    if (In_Huan_Flag==0)
+  176   2          //   Error_Speed();
+  177   2      
+  178   2          //if ((L1_NOR_ADC + R1_NOR_ADC + L2_NOR_ADC + R2_NOR_ADC < 5)) // 超过1秒
+  179   2        //  {
+  180   2           // time++;
+  181   2          //    if(time>700)
+  182   2          //  {
+  183   2          //    time = 0;
+  184   2            //}
+  185   2          //}
+  186   2          //else
+C251 COMPILER V5.60.0,  encoder                                                            24/06/24  22:26:43  PAGE 4   
+
+  187   2          //{
+  188   2            //LRoundabout();
+  189   2          Tracking(40); // 72速度为2m/s
+  190   2          //}
+  191   2          //       Buzzer_OFF;
+  192   2          //Motor_PWM(1500,2500);
+  193   2          //      P15 = 0;
+  194   2          //Rotary_Plug(500);//一秒转堵，就停。
+  195   2          //Rotary_Plug(500);
+  196   2          TIM4_CLEAR_FLAG;
+  197   2        }
+  198   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       619     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        78     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       146     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

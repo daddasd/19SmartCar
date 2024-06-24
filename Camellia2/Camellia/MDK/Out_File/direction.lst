@@ -1,0 +1,206 @@
+C251 COMPILER V5.60.0,  direction                                                          24/06/24  22:31:48  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
+OBJECT MODULE PLACED IN .\Out_File\direction.obj
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\direction.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED
+                    -) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE
+                    -;..\USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\direction.lst) TABS(2) OBJECT(.\Out_F
+                    -ile\direction.obj) 
+
+stmt  level    source
+
+    1          /*
+    2           * @Description:
+    3           * @Author: Yzhi
+    4           * @Date: 2023-11-17 21:24:19
+    5           * @LastEditTime: 2024-01-19 11:52:20
+    6           * @LastEditors: Yzhi
+    7           */
+    8          #include "myconfig.h"
+    9          
+   10          #define out_max 5000
+   11          #define Angle_MAX 3500
+   12          
+   13          // float Nh_P = 400; //位置式参数 角速度
+   14          // float Nh_D = 10.5;
+   15          
+   16          float Nh_P = 120; //增量式参数
+   17          float Nh_D = 1;
+   18          
+   19          float Wh_P = 1.9;
+   20          float Wh_D = 1.5;
+   21          float KP1 = 0;
+   22          float KP2 = 0;
+   23          float gyro_z3 = 0;
+   24          
+   25          float KP3 = 0;
+   26          float KD1 = 0;
+   27          float KD2 = 0;
+   28          float Feedforward_gain = 0;
+   29          
+   30          float Angle_Speed_P = 400;
+   31          float Angle_Speed_I = 10.5;
+   32          
+   33          
+   34          
+   35          float Angle_P = 0.40;
+   36          float Angle_D = 0.1;
+   37          
+   38          float Target_Vel_Z_pre = 0;
+   39          int Speed_Ring_Flag = 0;
+   40          
+   41          Position_PID_InitTypedef Position;
+   42          
+   43          /**
+   44           * @brief 外环
+   45           *
+   46           * @param chazhi 电感差值PD控制
+   47           * @param dir_p  KP
+   48           * @param dir_d  KD
+   49           * @return int   外环返回值
+   50           */
+   51          
+   52          float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+   53          {
+   54   1        float error, p;
+   55   1        static float last_error = 0,Angle_speed=0;
+   56   1        float Output, KP2_OUT;
+C251 COMPILER V5.60.0,  direction                                                          24/06/24  22:31:48  PAGE 2   
+
+   57   1        float error_derivative;
+   58   1      
+   59   1        error = chazhi;
+   60   1      
+   61   1        p = dir_p + abs(error) * KP1;
+   62   1        error_derivative = error - last_error;
+   63   1        Output = error * p + error_derivative * dir_d;
+   64   1        last_error = error;
+   65   1        Output = limit(Output, out_max);
+   66   1      
+   67   1      
+   68   1        return Output;
+   69   1      }
+*** WARNING C47 IN LINE 56 OF ..\USER\Hardware\direction.c: 'KP2_OUT': unreferenced local variable
+   70          
+   71          /**
+   72           * @brief 内环角速度PI控制
+   73           *
+   74           * @param err   外环输入值
+   75           * @param dir_p
+   76           * @param dir_i
+   77           * @return int
+   78           */
+   79          int16 nh_Turn_Out(float err, float dir_p, float dir_d)
+   80          {
+   81   1        double error1 = 0;
+   82   1        static double last_err = 0, P_out = 0, I_out = 0, out = 0,last_GRYO_Z;
+   83   1      
+   84   1        if (mpu6050_gyro_z < 20 && mpu6050_gyro_z > -20)
+   85   1          mpu6050_gyro_z = 0;
+   86   1        error1 = (err - mpu6050_gyro_z * 0.06);
+   87   1        P_out += dir_p * (error1-last_err);
+   88   1        I_out += dir_d * error1;
+   89   1        if (I_out > 2500)
+   90   1          I_out = 2500;
+   91   1        else if (I_out < -2500)
+   92   1          I_out = -2500;
+   93   1        out =(P_out + I_out);
+   94   1        last_err = error1;
+   95   1        if(out>10000)
+   96   1          out = 10000;
+   97   1        else if(out<-10000)
+   98   1          out = -10000;
+   99   1        //out = limit(out, 10000);
+  100   1        return (int16)out;
+  101   1      }
+  102          
+  103          /**
+  104           * @brief 方向环，串级PID给电机
+  105           *
+  106           * @return int
+  107           */
+  108          
+  109          void Dir_PID_Init(void)
+  110          {
+  111   1        Position.kP1 = KP1;
+  112   1        Position.kP2 = KP3;
+  113   1        Position.kP3 = KP2;
+  114   1        Position.kD = KD1;
+  115   1        Position.kD2 = KD2;
+  116   1        Position.feedforward_gain = Feedforward_gain;
+  117   1      }
+  118          
+  119          int16 DirControl(int err)
+  120          {
+  121   1        static int count = 0;
+C251 COMPILER V5.60.0,  direction                                                          24/06/24  22:31:48  PAGE 3   
+
+  122   1        static int wh_out = 0;
+  123   1        if (count == 3)
+  124   1        {
+  125   2          wh_out = wh_Turn_Out(err, Wh_P, Wh_D);
+  126   2          count = 0;
+  127   2        }
+  128   1        count++;
+  129   1        return (int16)nh_Turn_Out(wh_out, Nh_P, Nh_D);
+  130   1      }
+  131          
+  132          int Angle_Ring(float Angle, float Actual)
+  133          {
+  134   1        float error = 0;
+  135   1        float out,out1;
+  136   1        static float last_error;
+  137   1        static int count = 0;
+  138   1        error = Angle - Actual;
+  139   1      
+  140   1        out1 = error * Angle_P + (error-last_error) * Angle_D;
+  141   1      
+  142   1        last_error = error;
+  143   1      
+  144   1        out = Angle_Speed_Ring(out1);
+  145   1        out = limit(out, 7500);
+  146   1        return out;
+  147   1      }
+  148          
+  149          int Angle_Speed_Ring(float Angle_Speed)
+  150          {
+  151   1        float error1 = 0;
+  152   1        static int last_err = 0, P_out = 0, I_out = 0, out = 0, error_integral = 0;
+  153   1        if (mpu6050_gyro_z < 20 && mpu6050_gyro_z > -20)
+  154   1          mpu6050_gyro_z = 0;
+  155   1        error1 = (Angle_Speed - mpu6050_gyro_z * 0.001064);
+  156   1        P_out = Angle_Speed_P * error1;
+  157   1        I_out += Angle_Speed_I * error1;
+  158   1        if (I_out > 4500)
+  159   1          I_out = 4500;
+  160   1        else if (I_out < -4500)
+  161   1          I_out = -4500;
+  162   1        out = P_out + I_out;
+  163   1        out = limit(out, 8000);
+  164   1        return (int)out;
+  165   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       868     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =       254     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =       230     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

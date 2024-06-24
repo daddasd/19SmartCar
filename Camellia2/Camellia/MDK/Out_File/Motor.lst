@@ -1,0 +1,190 @@
+C251 COMPILER V5.60.0,  Motor                                                              24/06/24  19:24:57  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE Motor
+OBJECT MODULE PLACED IN .\Out_File\Motor.obj
+COMPILER INVOKED BY: F:\Keil_c251\C251\BIN\C251.EXE ..\USER\Hardware\Motor.c XSMALL WARNINGLEVEL(3) OPTIMIZE(0,SPEED) BR
+                    -OWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\CODE;..\
+                    -USER\inc;..\USER\src;..\USER\Hardware;..\USER\Hardware) DEBUG PRINT(.\Out_File\Motor.lst) TABS(2) OBJECT(.\Out_File\Moto
+                    -r.obj) 
+
+stmt  level    source
+
+    1          /*
+    2           * @Description:
+    3           * @Author: Yzhi
+    4           * @Date: 2023-11-17 20:39:06
+    5           * @LastEditTime: 2023-11-17 20:42:20
+    6           * @LastEditors: Yzhi
+    7           */
+    8          
+    9          #include "myconfig.h"
+   10          
+   11          #define MOTOR_MAX 8500
+   12          #define MOTOR_I_MAX 2500
+   13          
+   14          float Motor_P = 50;
+   15          float Motor_I = 2;
+   16          
+   17          float Speed_Ring = 0;
+   18          
+   19          Motor_PID_InitTypedef Motor_pid;
+   20          
+   21          int16 limit(int16 In, int16 limit)
+   22          {
+   23   1        if (In > limit && In > 0)
+   24   1          In = limit;
+   25   1        else if (In < -limit && In < 0)
+   26   1          In = -limit;
+   27   1        return In;
+   28   1      }
+   29          
+   30          //--
+   31          //  @brief      电机PWM初始化
+   32          //  @param      void
+   33          //  @return     void
+   34          //--
+   35          
+   36          void Motor_Init(void)
+   37          {
+   38   1        pwm_init(MOTOR_L_PWM, 17000, 0);
+   39   1        pwm_init(MOTOR_R_PWM, 17000, 0);
+   40   1      }
+   41          
+   42          //--
+   43          //  @brief      输出pwm
+   44          //  @param      L_PWM:左电机pwm
+   45          //  @param      R_PWM:右电机pwm
+   46          //  @return     void
+   47          //--
+   48          
+   49          void Motor_PWM(int L_PWM, int R_PWM)
+   50          {
+   51   1        // if(L_PWM>0&&R_PWM<0)
+   52   1        // {  L_PWM = L_PWM *;
+   53   1        //  R_PWM = R_PWM ;
+   54   1        // }
+   55   1        // if (R_PWM > 0 && L_PWM < 0)
+   56   1        // {
+C251 COMPILER V5.60.0,  Motor                                                              24/06/24  19:24:57  PAGE 2   
+
+   57   1        //  L_PWM = L_PWM * 1.5;
+   58   1        //  R_PWM = R_PWM * 1.5;
+   59   1        // }
+   60   1        if (L_PWM < 0)
+   61   1        {
+   62   2          MOTOR_L_DIR = 0;
+   63   2          pwm_duty(MOTOR_L_PWM, abs(L_PWM));
+   64   2        }
+   65   1        else
+   66   1        {
+   67   2          MOTOR_L_DIR = 1;
+   68   2          pwm_duty(MOTOR_L_PWM, L_PWM);//弥补电机差异
+   69   2        }
+   70   1        if (R_PWM < 0)
+   71   1        {
+   72   2          MOTOR_R_DIR = 0;
+   73   2          pwm_duty(MOTOR_R_PWM, abs(R_PWM));
+   74   2        }
+   75   1        else
+   76   1        {
+   77   2          MOTOR_R_DIR = 1;
+   78   2          pwm_duty(MOTOR_R_PWM, R_PWM);
+   79   2        }
+   80   1      }
+   81          //--
+   82          //  @brief      电机pid调节
+   83          //  @param      kp,ki.kd
+   84          //  @return     void
+   85          //--
+   86          void Motor_SET_PID(float Kp, float Ki, float Kd)
+   87          {
+   88   1        Motor_pid.Motor_Target_Value = 0;
+   89   1        Motor_pid.Motor_Actual_Value = 0;
+   90   1        Motor_pid.Motor_err = 0;
+   91   1        Motor_pid.Motor_err_last = 0;
+   92   1        Motor_pid.Motor_err_last2 = 0;
+   93   1        Motor_pid.Motor_Kp = 20;
+   94   1        Motor_pid.Motor_Ki = 1.2;
+   95   1        Motor_pid.Motor_Kd = Kd;
+   96   1        Motor_pid.Motor_Out_Value = 0;
+   97   1        Motor_pid.Motor_integral = 0;
+   98   1      }
+*** WARNING C47 IN LINE 86 OF ..\USER\Hardware\Motor.c: 'Kp': unreferenced parameter
+*** WARNING C47 IN LINE 86 OF ..\USER\Hardware\Motor.c: 'Ki': unreferenced parameter
+   99          
+  100          //--
+  101          //  @brief      速度环
+  102          //  @param      Target_Value: 目标速度
+  103          //  @param      Actual_Value: 实际速度
+  104          //  @return     速度环输出
+  105          //--
+  106          int Speed_pid_Out(int Target_Value, int Actual_Value)
+  107          {
+  108   1        Motor_pid.Motor_err = Target_Value - Actual_Value;
+  109   1        Motor_pid.Motor_KP_Val = Motor_pid.Motor_err*Motor_P;
+  110   1        Motor_pid.Motor_KI_Val += Motor_pid.Motor_err;
+  111   1        if (Motor_pid.Motor_KI_Val>1000)
+  112   1          Motor_pid.Motor_KI_Val = 1000;
+  113   1        else if(Motor_pid.Motor_KI_Val<-1000)
+  114   1          Motor_pid.Motor_KI_Val = -1000;
+  115   1        Motor_pid.Motor_Out_Value = Motor_pid.Motor_KI_Val*Motor_pid.Motor_Ki + Motor_pid.Motor_KP_Val;
+  116   1        Motor_pid.Motor_Out_Value = limit(Motor_pid.Motor_Out_Value, MOTOR_MAX);
+  117   1        return (int)Motor_pid.Motor_Out_Value;
+  118   1      }
+  119          
+  120          
+C251 COMPILER V5.60.0,  Motor                                                              24/06/24  19:24:57  PAGE 3   
+
+  121          void Motor_Control(int L_Speed , int R_Speed)
+  122          {
+  123   1        int L_PWM, R_PWM;
+  124   1        L_PWM = Speed_pid_Out(L_Speed, L_Pulse);
+  125   1        R_PWM = Speed_pid_Out(R_Speed, R_Pulse);
+  126   1        Motor_PWM(L_PWM, R_PWM);
+  127   1      }
+  128          /**
+  129           * @brief 转堵保护
+  130           * 
+  131           */
+  132          void Rotary_Plug(T)
+  133          {
+*** WARNING C35 IN LINE 133 OF ..\USER\Hardware\Motor.c: 'Rotary_Plug': uses old-style declarator
+  134   1        static int time = 0;
+  135   1        int Car_Stop = 0;
+  136   1        if ((L_Pulse + R_Pulse < 4) || Car_Stop == 1)
+  137   1        {
+  138   2          time++;
+  139   2          if(time>T)
+  140   2          {
+  141   3            Motor_PWM(0, 0);
+  142   3            Car_Stop = 1;
+  143   3          }
+  144   2        }
+  145   1        else
+  146   1          time = 0;
+  147   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       600     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =        90     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =        30     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)
