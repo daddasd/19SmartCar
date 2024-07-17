@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            24/06/24  19:24:59  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            17/07/24  20:32:46  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -24,8 +24,8 @@ stmt  level    source
    12   1          //********RGB与Buzzer********//
    13   1         gpio_mode(P1_3, GPO_PP); // RGB IO口
    14   1         gpio_mode(P1_5, GPO_PP); // RGB PWM控制电压
-   15   1         gpio_mode(P4_1, GPO_PP); // Buzzer
-   16   1         P41 = 0;
+   15   1         gpio_mode(P2_2, GPO_PP); // Buzzer
+   16   1         P22 = 0;
    17   1         P13 = 0;
    18   1         P15 = 1;
    19   1      }
@@ -36,29 +36,30 @@ stmt  level    source
    24           */
    25          void ALL_Peripheral_Init(void)
    26          {
-   27   1      
+   27   1          delay_init();
    28   1          mpu6050_init();
    29   1          delay_ms(500);
    30   1          //imu660ra_init(); // 陀螺仪初始化
    31   1          uart_init(UART_1, UART1_RX_P30, UART1_TX_P31, 1000000, TIM_2);
    32   1          oled_init();
    33   1          oled_fill(0x00);
-   34   1          delay_init();
-   35   1          Inductance_Init(); // adc采集初始化
-   36   1          Motor_Init();      // 电机初始化
-   37   1          Motor_SET_PID(Motor_P, Motor_I, 0);
-   38   1          dl1a_init();
-   39   1          Dir_PID_Init();
-   40   1          Encoder_Time_Init();
-   41   1          //pwm_init(PWMA_CH3N_P15, 100, 10000);
-   42   1          //RGB_Color(255, 0, 78);
-   43   1         
-   44   1      }
+   34   1          Inductance_Init(); // adc采集初始化
+   35   1          Motor_Init();      // 电机初始化
+   36   1          Motor_SET_PID(Motor_P, Motor_I, 0);
+   37   1          dl1a_init();
+   38   1          Dir_PID_Init();
+   39   1          Encoder_Time_Init();
+   40   1          GPIO_Init();
+   41   1      
+   42   1          //pwm_init(PWMA_CH3N_P15, 100, 10000);
+   43   1          //RGB_Color(255, 0, 78);
+   44   1         
+   45   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       145     ------
+  code size            =       148     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -66,9 +67,9 @@ Module Information          Static   Overlayable
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
-  bit size             =    ------     ------
-C251 COMPILER V5.60.0,  ALLInit                                                            24/06/24  19:24:59  PAGE 2   
+C251 COMPILER V5.60.0,  ALLInit                                                            17/07/24  20:32:46  PAGE 2   
 
+  bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------

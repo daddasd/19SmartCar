@@ -156,19 +156,23 @@ int16 NORMALIZATION_TRACKING_ADC(void)
 	R1_NOR_ADC = AD_NOR_VAL[6];
 
 	L1_NOR_ADC = L1_NOR_ADC;
-	L2_NOR_ADC = L2_NOR_ADC*I1;
+	L2_NOR_ADC = L2_NOR_ADC * I1;
 	R1_NOR_ADC = R1_NOR_ADC;
 	R2_NOR_ADC = R2_NOR_ADC*I2;
 
 	//动态权重
 	Left_Val = sq(L1_NOR_ADC * L1_NOR_ADC + L2_NOR_ADC * L2_NOR_ADC);
 	Right_Val = sq(R1_NOR_ADC * R1_NOR_ADC + R2_NOR_ADC * R2_NOR_ADC);
-	ad_sum = Left_Val + Right_Val;
+	ad_sum = Left_Val + Right_Val+ M1_NOR_ADC;
 	ad_diff = Left_Val - Right_Val;
-	if(L2_NOR_ADC>50&&R2_NOR_ADC<10)
+	if(L2_NOR_ADC>20&&R2_NOR_ADC<10)
 		err = 20;
 	if (R2_NOR_ADC>50 && L2_NOR_ADC < 10)
 		err = -20;
+	if (L2_NOR_ADC > 10 && R2_NOR_ADC < 5)
+		err = 30;
+	if (R2_NOR_ADC > 10 && L2_NOR_ADC < 5)
+		err = -30;
 	if (ad_sum > 35)
 	{
 		Inductance_Error = ((ad_diff << 7) / ((ad_sum + 1)))+err;
@@ -219,7 +223,7 @@ void show_val(void)
 	oled_p6x8str(60, 6, "Dis");
 	oled_int16(80, 6, dl1a_distance_mm);
 	oled_p6x8str(0, 7, "G_z");
-	oled_int16(20, 7, mpu6050_gyro_z * 0.06);
+	oled_int16(20, 7, mpu6050_gyro_z);
 	//oled_int16(20, 7, Sum_Pulse);
 	//-----------------TOF距离------------------------//
 	//	if(dl1a_finsh_flag)

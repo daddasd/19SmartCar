@@ -42,5 +42,6 @@ int16 nh_Turn_Out(float err, float dir_p, float dir_d);
 int16 DirControl(int error);
 void Dir_PID_Init(void);
 int Angle_Ring(float Angle, float Actual);
-int Angle_Speed_Ring(float Angle_Speed);
+int16 Angle_Speed_Ring(float err);
+int Turn_Angle(float Angle, float Actual);
 #endif

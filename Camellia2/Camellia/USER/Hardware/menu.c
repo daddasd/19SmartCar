@@ -157,10 +157,10 @@ int Second_Element_menu(void)
     int flag = 1,i = 0,Order = 0,k =0;
     int menu_order[MENU_SIZE] = {0}; // 用于存储菜单项的顺序
     
-    oled_p8x16str(25, 0, "L_YuanH");  // 左圆环
-    oled_p8x16str(25, 2, "R_YuanH");  // 右圆环
-    oled_p8x16str(25, 4, "PoDao");    // 坡道
-    oled_p8x16str(25, 6, "LuZhang");      // 路障
+    oled_p6x8str(20, 0, "L_YuanH");  // 左圆环
+    oled_p6x8str(20, 1, "R_YuanH");  // 右圆环
+    oled_p6x8str(20, 2, "PoDao");    // 坡道
+    oled_p6x8str(20, 3, "LuZhang");      // 路障
     
     while (1)
     {
@@ -185,37 +185,42 @@ int Second_Element_menu(void)
             delay_ms(10);
             while (key2 == 0);
             delay_ms(10);
-						Order++;
-						if(Order == 5){
-							for(k=0;k<4;k++)
-							{
-								Element_Order[k]=menu_order[k];
-							}
-							oled_fill(0x00); //清屏
-							return 0;  //返回上一级
-						}
-						menu_order[flag-1] = Order;
-				} 
-			  if(key4 == 0) //返回上级
-				{
-					delay_ms(10);
-					while(key4 ==0);
-					delay_ms(10);
-					oled_fill(0x00); //清屏
-					return 0; // 返回选择的选项
-				}
+            Order++;
+            if(Order == 5){
+                for(k=0;k<4;k++)
+                {
+                    Element_Order[k]=menu_order[k];
+                }
+                oled_fill(0x00); //清屏
+                return 0;  //返回上一级
+            }
+			menu_order[flag-1] = Order;
+		} 
+        if(key4 == 0) //返回上级
+        {
+            delay_ms(10);
+            while(key4 ==0);
+            delay_ms(10);
+            oled_fill(0x00); //清屏
+            return 0; // 返回选择的选项
+        }
         // 更新光标位置和显示顺序
         for (i = 0; i < MENU_SIZE; i++)
         {
             if (i + 1 == flag)
-                oled_p8x16str(0, i*2, "-->");  // 光标指示当前选中项
+                oled_p6x8str(0, i*2, "-->");  // 光标指示当前选中项
             else
-                oled_p8x16str(0, i*2, "   ");
+                oled_p6x8str(0, i*2, "   ");
                 
             // 在菜单项后显示顺序
-            oled_uint16_px8(80, i*2, menu_order[i]);
-        } 
-	}
+            oled_uint16(80, i * 2, menu_order[i]);
+        }
+        oled_p6x8str(20, 4, "Element_Order"); // 路障
+        oled_uint16(20,5, menu_order[0]);
+        oled_uint16(30, 5, menu_order[1]);
+        oled_uint16(40, 5, menu_order[2]);
+        oled_uint16(50, 5, menu_order[3]);
+    }
 }
 
 //--

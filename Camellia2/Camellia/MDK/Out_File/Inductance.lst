@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         24/06/24  21:12:19  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    52          {
    53   1        long i;
    54   1        float x, y;
-C251 COMPILER V5.60.0,  Inductance                                                         24/06/24  21:12:19  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 2   
 
    55   1        const float f = 1.5F;
    56   1      
@@ -134,7 +134,7 @@ stmt  level    source
   118   2        }
   119   1      
   120   1        /*=========================赋值各个电感==============================*/
-C251 COMPILER V5.60.0,  Inductance                                                         24/06/24  21:12:19  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 3   
 
   121   1        L1 = ad_valu1[0];
   122   1        L2 = ad_valu1[1];
@@ -175,7 +175,7 @@ stmt  level    source
   157   1      
   158   1        L1_NOR_ADC = L1_NOR_ADC;
 *** WARNING C138 IN LINE 158 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
-  159   1        L2_NOR_ADC = L2_NOR_ADC*I1;
+  159   1        L2_NOR_ADC = L2_NOR_ADC * I1;
   160   1        R1_NOR_ADC = R1_NOR_ADC;
 *** WARNING C138 IN LINE 160 OF ..\USER\Hardware\Inductance.c: expression with possibly no effect
   161   1        R2_NOR_ADC = R2_NOR_ADC*I2;
@@ -183,78 +183,82 @@ stmt  level    source
   163   1        //动态权重
   164   1        Left_Val = sq(L1_NOR_ADC * L1_NOR_ADC + L2_NOR_ADC * L2_NOR_ADC);
   165   1        Right_Val = sq(R1_NOR_ADC * R1_NOR_ADC + R2_NOR_ADC * R2_NOR_ADC);
-  166   1        ad_sum = Left_Val + Right_Val;
+  166   1        ad_sum = Left_Val + Right_Val+ M1_NOR_ADC;
   167   1        ad_diff = Left_Val - Right_Val;
-  168   1        if(L2_NOR_ADC>50&&R2_NOR_ADC<10)
+  168   1        if(L2_NOR_ADC>20&&R2_NOR_ADC<10)
   169   1          err = 20;
   170   1        if (R2_NOR_ADC>50 && L2_NOR_ADC < 10)
   171   1          err = -20;
-  172   1        if (ad_sum > 35)
-  173   1        {
-  174   2          Inductance_Error = ((ad_diff << 7) / ((ad_sum + 1)))+err;
-  175   2        }
-  176   1        return Inductance_Error; // 放大128倍
-  177   1      }
-  178          
-  179          /**
-  180           *  @brief      显示测量值
-  181           *  @param      void
-  182           *  @return     void
-  183           **/
-  184          
-C251 COMPILER V5.60.0,  Inductance                                                         24/06/24  21:12:19  PAGE 4   
+  172   1        if (L2_NOR_ADC > 10 && R2_NOR_ADC < 5)
+  173   1          err = 30;
+  174   1        if (R2_NOR_ADC > 10 && L2_NOR_ADC < 5)
+  175   1          err = -30;
+  176   1        if (ad_sum > 35)
+  177   1        {
+  178   2          Inductance_Error = ((ad_diff << 7) / ((ad_sum + 1)))+err;
+  179   2        }
+  180   1        return Inductance_Error; // 放大128倍
+  181   1      }
+  182          
+  183          /**
+  184           *  @brief      显示测量值
+C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 4   
 
-  185          void show_val(void)
-  186          {
-  187   1        //-----------------oled显示电感值----------------------//
-  188   1        oled_p6x8str(0, 0, "L1:");
-  189   1        oled_uint16(15, 0, L1_NOR_ADC);
-  190   1      
-  191   1        oled_p6x8str(70, 0, "R1:");
-  192   1        oled_uint16(85, 0, R1_NOR_ADC);
-  193   1      
-  194   1        oled_p6x8str(0, 1, "L2:");
-  195   1        oled_uint16(15, 1, L2_NOR_ADC);
-  196   1      
-  197   1        oled_p6x8str(70, 1, "R2:");
-  198   1        oled_uint16(85, 1, R2_NOR_ADC);
-  199   1      
-  200   1        oled_p6x8str(0, 2, "L3:");
-  201   1        oled_uint16(15, 2, L3_NOR_ADC);
-  202   1      
-  203   1        oled_p6x8str(70,2, "R3:");
-  204   1        oled_uint16(85, 2, R3_NOR_ADC);
-  205   1      
-  206   1        oled_p6x8str(0, 3, "M1:");
-  207   1        oled_uint16(15, 3, M1_NOR_ADC);
-  208   1      
-  209   1        oled_p6x8str(55, 3, "Err:");
-  210   1        oled_int16(80, 3,Inductance_Error);
-  211   1      
-  212   1        ////-----------------陀螺仪角速度------------------------//
-  213   1        oled_int16(0, 4, L_Pulse);
-  214   1        oled_int16(60, 4, R_Pulse);
-  215   1        oled_p6x8str(0,5, "Dir:");
-  216   1        oled_int16(30, 5, dir_out);
-  217   1        oled_p6x8str(0,6, "PWM:");
-  218   1        oled_int16(30, 6, Motor_pid.Motor_Out_Value);
-  219   1        oled_p6x8str(60, 6, "Dis");
-  220   1        oled_int16(80, 6, dl1a_distance_mm);
-  221   1        oled_p6x8str(0, 7, "G_z");
-  222   1        oled_int16(20, 7, mpu6050_gyro_z * 0.06);
-  223   1        //oled_int16(20, 7, Sum_Pulse);
-  224   1        //-----------------TOF距离------------------------//
-  225   1        //  if(dl1a_finsh_flag)
-  226   1        //  {
-  227   1        //    dl1a_finsh_flag = 0;
-  228   1        //    oled_int16(60,6,dl1a_distance_mm);
-  229   1        //  }
-  230   1      }
+  185           *  @param      void
+  186           *  @return     void
+  187           **/
+  188          
+  189          void show_val(void)
+  190          {
+  191   1        //-----------------oled显示电感值----------------------//
+  192   1        oled_p6x8str(0, 0, "L1:");
+  193   1        oled_uint16(15, 0, L1_NOR_ADC);
+  194   1      
+  195   1        oled_p6x8str(70, 0, "R1:");
+  196   1        oled_uint16(85, 0, R1_NOR_ADC);
+  197   1      
+  198   1        oled_p6x8str(0, 1, "L2:");
+  199   1        oled_uint16(15, 1, L2_NOR_ADC);
+  200   1      
+  201   1        oled_p6x8str(70, 1, "R2:");
+  202   1        oled_uint16(85, 1, R2_NOR_ADC);
+  203   1      
+  204   1        oled_p6x8str(0, 2, "L3:");
+  205   1        oled_uint16(15, 2, L3_NOR_ADC);
+  206   1      
+  207   1        oled_p6x8str(70,2, "R3:");
+  208   1        oled_uint16(85, 2, R3_NOR_ADC);
+  209   1      
+  210   1        oled_p6x8str(0, 3, "M1:");
+  211   1        oled_uint16(15, 3, M1_NOR_ADC);
+  212   1      
+  213   1        oled_p6x8str(55, 3, "Err:");
+  214   1        oled_int16(80, 3,Inductance_Error);
+  215   1      
+  216   1        ////-----------------陀螺仪角速度------------------------//
+  217   1        oled_int16(0, 4, L_Pulse);
+  218   1        oled_int16(60, 4, R_Pulse);
+  219   1        oled_p6x8str(0,5, "Dir:");
+  220   1        oled_int16(30, 5, dir_out);
+  221   1        oled_p6x8str(0,6, "PWM:");
+  222   1        oled_int16(30, 6, Motor_pid.Motor_Out_Value);
+  223   1        oled_p6x8str(60, 6, "Dis");
+  224   1        oled_int16(80, 6, dl1a_distance_mm);
+  225   1        oled_p6x8str(0, 7, "G_z");
+  226   1        oled_int16(20, 7, mpu6050_gyro_z);
+  227   1        //oled_int16(20, 7, Sum_Pulse);
+  228   1        //-----------------TOF距离------------------------//
+  229   1        //  if(dl1a_finsh_flag)
+  230   1        //  {
+  231   1        //    dl1a_finsh_flag = 0;
+  232   1        //    oled_int16(60,6,dl1a_distance_mm);
+  233   1        //  }
+  234   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2278     ------
+  code size            =      2315     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -267,12 +271,12 @@ Module Information          Static   Overlayable
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
+C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 5   
+
   huge data size       =    ------     ------
   const size           =    ------     ------
   hconst size          =       417     ------
 End of Module Information.
-
-C251 COMPILER V5.60.0,  Inductance                                                         24/06/24  21:12:19  PAGE 5   
 
 
 C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

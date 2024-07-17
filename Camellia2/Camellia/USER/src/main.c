@@ -1,29 +1,29 @@
 
 #include "headfile.h"
-// Äã²»ÍæÔ­Éñ£¬Ð¡³µÔõÃ´Æô¶¯°¡ ! ! !
+// ï¿½ã²»ï¿½ï¿½Ô­ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ! ! !
 
 /**
  *@Pin Motor:42,14(pwm),52,17(pwm)
- *@Pin ADC: P03,02,01,11,10,06,02,10;P05(¸ø²É¼¯µç³ØµçÑ¹)
+ *@Pin ADC: P03,02,01,11,10,06,02,10;P05(ï¿½ï¿½ï¿½É¼ï¿½ï¿½ï¿½Øµï¿½Ñ¹)
  *@Pin TFT: P25,23,20,21,22,27
- *@Pin Encoder : P34-L P35-R  ÓëGNDÉÏ   ¼Æ¸ßµÍµçÆ½ P16-L P50-R TIM4 ÓëVCCÏÂ
- *@Pin KEY_Pin 	P37£¨ÉÏ£¬¼Ó£©,36£¨È·¶¨£©,45£¨ÏÂ£¬¼õ£©,43£¨·µ»Ø£©
+ *@Pin Encoder : P34-L P35-R  ï¿½ï¿½GNDï¿½ï¿½   ï¿½Æ¸ßµÍµï¿½Æ½ P16-L P50-R TIM4 ï¿½ï¿½VCCï¿½ï¿½
+ *@Pin KEY_Pin 	P37ï¿½ï¿½ï¿½Ï£ï¿½ï¿½Ó£ï¿½,36ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½,45ï¿½ï¿½ï¿½Â£ï¿½ï¿½ï¿½ï¿½ï¿½,43ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½
  *@Pin TOF  IIC SDA: P15 SCL 33 24 51
  *@Pin mpu6050 SCL P40 SDA P41
- *@Pin ÏÂÔØ: UART1_RX_P30, UART1_TX_P31
+ *@Pin ï¿½ï¿½ï¿½ï¿½: UART1_RX_P30, UART1_TX_P31
  *@Pin Buzzer: P13
  *@Pin RGB: P26
  **/
 
 #include "myconfig.h"
 
-// ×¢Òâ10000ÊÇ×î´óÕ¼¿Õ±È PWM
+// ×¢ï¿½ï¿½10000ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½Õ±ï¿½ PWM
 
-// Ê¥¾­£ºÐ¡³µ²»»áÒòÎªÄã°ÑËûÅªµÃÌ«³ó£¬ËûÖ»»áÏÓÆú×Ô¼ºÈÃÄãÔÚÖÕµãµÈµÄÌ«¾Ã
+// Ê¥ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½Åªï¿½ï¿½Ì«ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½Èµï¿½Ì«ï¿½ï¿½
 
-// ¹ØÓÚÄÚºËÆµÂÊµÄÉè¶¨£¬¿ÉÒÔ²é¿´board.hÎÄ¼þ
-// ÔÚboard_initÖÐ,ÒÑ¾­½«P54Òý½ÅÉèÖÃÎª¸´Î»
-// Èç¹ûÐèÒªÊ¹ÓÃP54Òý½Å,¿ÉÒÔÔÚboard.cÎÄ¼þÖÐµÄboard_init()º¯ÊýÖÐÉ¾³ýSET_P54_RESRT¼´¿É
+// ï¿½ï¿½ï¿½ï¿½ï¿½Úºï¿½Æµï¿½Êµï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½Ô²é¿´board.hï¿½Ä¼ï¿½
+// ï¿½ï¿½board_initï¿½ï¿½,ï¿½Ñ¾ï¿½ï¿½ï¿½P54ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Î»
+// ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ï¿½P54ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½board.cï¿½Ä¼ï¿½ï¿½Ðµï¿½board_init()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½SET_P54_RESRTï¿½ï¿½ï¿½ï¿½
 
 int flag = 0;
 int menu = 0;
@@ -33,14 +33,14 @@ int Car_Stop_Flag = 0;
 float Gyro_Diff = 0;
 void main()
 {
-	clock_init(SYSTEM_CLOCK_60M); // ³õÊ¼»¯ÏµÍ³ÆµÂÊ,ÎðÉ¾³ý´Ë¾ä´úÂë¡£
-	board_init();				  // ³õÊ¼»¯¼Ä´æÆ÷,ÎðÉ¾³ý´Ë¾ä´ú
-	 // ´Ë´¦±àÐ´ÓÃ»§´úÂë ÀýÈçÍâÉè³õÊ¼»¯´úÂëµÈ
+	clock_init(SYSTEM_CLOCK_60M); // ï¿½ï¿½Ê¼ï¿½ï¿½ÏµÍ³Æµï¿½ï¿½,ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ë¡£
+	board_init();				  // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½,ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ë¾ï¿½ï¿½
+	 // ï¿½Ë´ï¿½ï¿½ï¿½Ð´ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GPIO_Init();
 	ALL_Peripheral_Init();
-	delay_ms(500);					// µÈ´ýÍâÉè×¼±¸Íê±Ï
-	//Gyro_Diff = gyro_zero_wander(); // ¼õÈ¥Æ®Áã ÏÖÔÚÊÇMPU6050µ½Ê±ºòÒª¸Ä³ÉIMU66ORA
-	// RGB_Color(76, 0, 153);
+	delay_ms(500);					// ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Gyro_Diff = gyro_zero_wander(); // ï¿½ï¿½È¥Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MPU6050ï¿½ï¿½Ê±ï¿½ï¿½Òªï¿½Ä³ï¿½IMU66ORA
+	RGB_Color(76, 0, 153);
 	while (1)
 	{
 		menu = First_menu();

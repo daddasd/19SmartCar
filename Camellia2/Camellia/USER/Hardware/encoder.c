@@ -7,11 +7,15 @@ int L_Dis = 0;
 int R_Dis = 0;
 
 double angle1 = 0.0;
-int speed = 35;
+int speed = 85;
 float Ang = 0;
 int PWM_Out = 0;
 
 float L = 0, R = 0;
+
+
+//30cm 编码器1688值
+
 //--
 //  @brief    	???????????
 //  @param      void
@@ -147,7 +151,7 @@ int Car_Star_Stop(int Distance,int speed)
 
 void TM4_Isr() interrupt 20
 {
-	static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0,jifen=0,time=0;
+	static int count = 0, OUT1, OUT2, groy = 0, Huan_Flag = 0,jifen=0,time2=0,pwm;
 	int flag = 0;
 	int nh = 0;
 	if (Car_Start_Flag)
@@ -157,42 +161,74 @@ void TM4_Isr() interrupt 20
 		L_Pulse = L_Encoder_Pulse();
 		R_Pulse = R_Encoder_Pulse();
 		NORMALIZATION_TRACKING_ADC();
-		//Sum_Pulse += (L_Pulse + R_Pulse) * 0.5;
-		// gyro_z3 += (mpu6050_gyro_z - 7) * 0.000115;
+		//Buzzer_ON;
+		Sum_Pulse = (L_Pulse + R_Pulse) * 0.5;
+		gyro_z3 += (mpu6050_gyro_z - 7) * 0.000135;
 		//  dir_out += L_Pulse;
 		//  if (dir_out > 2048)
 		//  	Motor_PWM(0, 0);
 		//  else
-		//  	Motor_PWM(1500, 1500);
+		//Motor_PWM(5500, 5500);
 		// LObstacle();
-		//dir_out = nh_Turn_Out(0, Nh_P, Nh_D);
+		//dir_out = nh_Turn_Out(500, Nh_P, Nh_D);
 		//Motor_PWM(dir_out,-dir_out);
 		//   Angle_Ring(90, 10, 0);
 		//  dir_out=DirControl(5);
 		// PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
-		//   LRoundabout();
+		//LRoundabout();
 		//    Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19、
 		//    if (In_Huan_Flag==0)
 		//   Error_Speed();
-
-		//if ((L1_NOR_ADC + R1_NOR_ADC + L2_NOR_ADC + R2_NOR_ADC < 5)) // 超过1秒
-	//	{
-		 //	time++;
-		//  	if(time>700)
-		//	{
-		//		time = 0;
-			//}
-		//}
-		//else
-		//{
-			//LRoundabout();
-		Tracking(40); // 72速度为2m/s
-		//}
-		//       Buzzer_OFF;
-		//Motor_PWM(1500,2500);
-		//      P15 = 0;
-		//Rotary_Plug(500);//一秒转堵，就停。
-		//Rotary_Plug(500);
+		// if ((L1_NOR_ADC + R1_NOR_ADC + L2_NOR_ADC + R2_NOR_ADC < 5)) // 超过1秒
+		// {
+		//  	time2++;
+		//   	if(time2>700)
+		// 	{
+	 	// 		Motor_PWM(0,0);
+		//  	}
+			
+		// }
+		// else
+		// {
+		//元素顺序定死
+		switch (Elements_Num)
+		{
+		case 0:
+			RObstacle();
+			break;
+		case 1:
+			Ramp();
+			break;
+		case 2:
+			RRoundabout();
+			break;
+		}
+		Tracking(speed); // 72速度为2m/s
+		//dir_out=Angle_Ring(90, gyro_z3);
+		//dir_out = Angle_Speed_Ring(0);
+		//Motor_PWM(dir_out, -dir_out);
+		//  Motor_PWM(6500,3500);
+		//  }
+		//         Buzzer_OFF;
+		//
+		//        P15 = 0;
+		//   Rotary_Plug(500);//一秒转堵，就停。
+		//   Rotary_Plug(500);
 		TIM4_CLEAR_FLAG;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//*********十九届的故事就到这结束了END**************/

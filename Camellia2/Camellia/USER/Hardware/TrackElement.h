@@ -33,9 +33,13 @@ extern In_Huan_Flag;
 extern int Speed_Plan1;
 extern Err_speed;
 extern Distance_Jifen;
+extern Obstacle_Flag;
+extern Elements_Num;
 
-void Sub_Pid(float error);
-void Crossroad(void);
+void RRoundabout(void);
 void LRoundabout(void);
+void RObstacle(void);
+void LObstacle(void);
+void Ramp(void);
 void Tracking(int Ser_speed);
 #endif
