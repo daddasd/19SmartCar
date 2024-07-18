@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               17/07/24  20:32:45  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               18/07/24  15:58:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -66,7 +66,7 @@ stmt  level    source
 *** WARNING C140 IN LINE 50 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
    51   2          if (menu == 3)
-C251 COMPILER V5.60.0,  main                                                               17/07/24  20:32:45  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               18/07/24  15:58:35  PAGE 2   
 
    52   2            Second__NWHuan_menu();
    53   2          if (menu == 4)

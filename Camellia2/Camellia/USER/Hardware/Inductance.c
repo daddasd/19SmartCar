@@ -216,11 +216,11 @@ void show_val(void)
 	////-----------------陀螺仪角速度------------------------//
 	oled_int16(0, 4, L_Pulse);
 	oled_int16(60, 4, R_Pulse);
-	oled_p6x8str(0,5, "Dir:");
-	oled_int16(30, 5, dir_out);
-	oled_p6x8str(0,6, "PWM:");
-	oled_int16(30, 6, Motor_pid.Motor_Out_Value);
-	oled_p6x8str(60, 6, "Dis");
+	oled_p6x8str(0, 5, "LPWM:");
+	oled_int16(25, 5, LMotor_PWM);
+	oled_p6x8str(0,6, "RPWM:");
+	oled_int16(25, 6, RMotor_PWM);
+	oled_p6x8str(65, 6, "Dis");
 	oled_int16(80, 6, dl1a_distance_mm);
 	oled_p6x8str(0, 7, "G_z");
 	oled_int16(20, 7, mpu6050_gyro_z);

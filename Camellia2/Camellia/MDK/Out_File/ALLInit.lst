@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            17/07/24  20:32:46  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            18/07/24  15:58:37  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -67,7 +67,7 @@ Module Information          Static   Overlayable
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
-C251 COMPILER V5.60.0,  ALLInit                                                            17/07/24  20:32:46  PAGE 2   
+C251 COMPILER V5.60.0,  ALLInit                                                            18/07/24  15:58:37  PAGE 2   
 
   bit size             =    ------     ------
   ebit size            =    ------     ------

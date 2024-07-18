@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  encoder                                                            17/07/24  20:32:45  PAGE 1   
+C251 COMPILER V5.60.0,  encoder                                                            18/07/24  15:58:36  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE encoder
@@ -19,7 +19,7 @@ stmt  level    source
     7          int R_Dis = 0;
     8          
     9          double angle1 = 0.0;
-   10          int speed = 85;
+   10          int speed = 90;
    11          float Ang = 0;
    12          int PWM_Out = 0;
    13          
@@ -66,7 +66,7 @@ stmt  level    source
    53   1        ctimer_count_clean(Encoder_L);
    54   1        last_L = L;
    55   1        L *= 0.8;
-C251 COMPILER V5.60.0,  encoder                                                            17/07/24  20:32:45  PAGE 2   
+C251 COMPILER V5.60.0,  encoder                                                            18/07/24  15:58:36  PAGE 2   
 
    56   1        L += last_L * 0.2; // 一阶低通滤波
    57   1        return L;
@@ -134,7 +134,7 @@ stmt  level    source
   118   1        static int R = 0, R_flag;
   119   1        R += R_Encoder_Pulse();
   120   1        if (R > R_target)
-C251 COMPILER V5.60.0,  encoder                                                            17/07/24  20:32:45  PAGE 3   
+C251 COMPILER V5.60.0,  encoder                                                            18/07/24  15:58:36  PAGE 3   
 
   121   1        {
   122   2          R_flag = 1;
@@ -174,89 +174,74 @@ stmt  level    source
   156   1        int nh = 0;
   157   1        if (Car_Start_Flag)
   158   1        {
-  159   2          mpu6050_get_gyro();
-  160   2          dl1a_get_distance();
+  159   2          dl1a_get_distance();
+  160   2          mpu6050_get_gyro();
   161   2          L_Pulse = L_Encoder_Pulse();
   162   2          R_Pulse = R_Encoder_Pulse();
   163   2          NORMALIZATION_TRACKING_ADC();
   164   2          //Buzzer_ON;
   165   2          Sum_Pulse = (L_Pulse + R_Pulse) * 0.5;
   166   2          gyro_z3 += (mpu6050_gyro_z - 7) * 0.000135;
-  167   2          //  dir_out += L_Pulse;
-  168   2          //  if (dir_out > 2048)
-  169   2          //    Motor_PWM(0, 0);
-  170   2          //  else
-  171   2          //Motor_PWM(5500, 5500);
-  172   2          // LObstacle();
-  173   2          //dir_out = nh_Turn_Out(500, Nh_P, Nh_D);
-  174   2          //Motor_PWM(dir_out,-dir_out);
-  175   2          //   Angle_Ring(90, 10, 0);
-  176   2          //  dir_out=DirControl(5);
-  177   2          // PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
-  178   2          //LRoundabout();
-  179   2          //    Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19、
-  180   2          //    if (In_Huan_Flag==0)
-  181   2          //   Error_Speed();
-  182   2          // if ((L1_NOR_ADC + R1_NOR_ADC + L2_NOR_ADC + R2_NOR_ADC < 5)) // 超过1秒
-  183   2          // {
-  184   2          //    time2++;
-  185   2          //    if(time2>700)
-  186   2          //  {
-C251 COMPILER V5.60.0,  encoder                                                            17/07/24  20:32:45  PAGE 4   
+  167   2          //元素顺序定死
+  168   2          switch (Elements_Num)
+  169   2          {
+  170   3          case 0:
+  171   3            RObstacle();
+  172   3            break;
+  173   3          case 1:
+  174   3            Ramp();
+  175   3            break;
+  176   3          case 2:
+  177   3            RRoundabout();
+  178   3            break;
+  179   3          default:
+  180   3            Error_Speed();
+*** WARNING C140 IN LINE 180 OF ..\USER\Hardware\encoder.c: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
+  181   3            break;
+  182   3          }
+  183   2          Tracking(speed + Err_speed); // 72速度为2m/s
+  184   2          //dir_out=Angle_Ring(90, gyro_z3);
+  185   2          //dir_out = Angle_Speed_Ring(0);
+C251 COMPILER V5.60.0,  encoder                                                            18/07/24  15:58:36  PAGE 4   
 
-  187   2          //    Motor_PWM(0,0);
-  188   2          //    }
-  189   2            
-  190   2          // }
-  191   2          // else
-  192   2          // {
-  193   2          //元素顺序定死
-  194   2          switch (Elements_Num)
-  195   2          {
-  196   3          case 0:
-  197   3            RObstacle();
-  198   3            break;
-  199   3          case 1:
-  200   3            Ramp();
-  201   3            break;
-  202   3          case 2:
-  203   3            RRoundabout();
-  204   3            break;
-  205   3          }
-  206   2          Tracking(speed); // 72速度为2m/s
-  207   2          //dir_out=Angle_Ring(90, gyro_z3);
-  208   2          //dir_out = Angle_Speed_Ring(0);
-  209   2          //Motor_PWM(dir_out, -dir_out);
-  210   2          //  Motor_PWM(6500,3500);
-  211   2          //  }
-  212   2          //         Buzzer_OFF;
-  213   2          //
-  214   2          //        P15 = 0;
-  215   2          //   Rotary_Plug(500);//一秒转堵，就停。
-  216   2          //   Rotary_Plug(500);
-  217   2          TIM4_CLEAR_FLAG;
-  218   2        }
-  219   1      }
-  220          
-  221          
-  222          
-  223          
-  224          
-  225          
-  226          
-  227          
-  228          
-  229          
-  230          
-  231          
-  232          
-  233          
-  234          //*********十九届的故事就到这结束了END**************/
+  186   2          //Motor_PWM(dir_out, -dir_out);
+  187   2          //  Motor_PWM(6500,3500);
+  188   2          //  }
+  189   2          //         Buzzer_OFF;
+  190   2          //
+  191   2          //        P15 = 0;
+  192   2          //   Rotary_Plug(500);//一秒转堵，就停。
+  193   2          //   Rotary_Plug(500);
+  194   2          TIM4_CLEAR_FLAG;
+  195   2        }
+  196   1      }
+  197          
+  198          
+  199          
+  200          
+  201          
+  202          
+  203          
+  204          
+  205          
+  206          
+  207          
+  208          
+  209          
+  210          
+  211          
+  212          
+  213          
+  214          
+  215          
+  216          
+  217          
+  218          //*********十九届的故事就到这结束了END**************/
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       721     ------
+  code size            =       732     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -271,10 +256,8 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-C251 COMPILER V5.60.0,  encoder                                                            17/07/24  20:32:45  PAGE 5   
-
   hconst size          =       146     ------
 End of Module Information.
 
 
-C251 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C251 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

@@ -7,7 +7,7 @@ int L_Dis = 0;
 int R_Dis = 0;
 
 double angle1 = 0.0;
-int speed = 85;
+int speed = 90;
 float Ang = 0;
 int PWM_Out = 0;
 
@@ -156,40 +156,14 @@ void TM4_Isr() interrupt 20
 	int nh = 0;
 	if (Car_Start_Flag)
 	{
-		mpu6050_get_gyro();
 		dl1a_get_distance();
+		mpu6050_get_gyro();
 		L_Pulse = L_Encoder_Pulse();
 		R_Pulse = R_Encoder_Pulse();
 		NORMALIZATION_TRACKING_ADC();
 		//Buzzer_ON;
 		Sum_Pulse = (L_Pulse + R_Pulse) * 0.5;
 		gyro_z3 += (mpu6050_gyro_z - 7) * 0.000135;
-		//  dir_out += L_Pulse;
-		//  if (dir_out > 2048)
-		//  	Motor_PWM(0, 0);
-		//  else
-		//Motor_PWM(5500, 5500);
-		// LObstacle();
-		//dir_out = nh_Turn_Out(500, Nh_P, Nh_D);
-		//Motor_PWM(dir_out,-dir_out);
-		//   Angle_Ring(90, 10, 0);
-		//  dir_out=DirControl(5);
-		// PWM_Out=Angle_Speed_Ring(0, Nh_P, Nh_D);
-		//LRoundabout();
-		//    Angle_Ring(90, Wh_P, Wh_D); // 这个参数可以 5/19、
-		//    if (In_Huan_Flag==0)
-		//   Error_Speed();
-		// if ((L1_NOR_ADC + R1_NOR_ADC + L2_NOR_ADC + R2_NOR_ADC < 5)) // 超过1秒
-		// {
-		//  	time2++;
-		//   	if(time2>700)
-		// 	{
-	 	// 		Motor_PWM(0,0);
-		//  	}
-			
-		// }
-		// else
-		// {
 		//元素顺序定死
 		switch (Elements_Num)
 		{
@@ -202,8 +176,11 @@ void TM4_Isr() interrupt 20
 		case 2:
 			RRoundabout();
 			break;
+		default:
+			Error_Speed();
+			break;
 		}
-		Tracking(speed); // 72速度为2m/s
+		Tracking(speed + Err_speed); // 72速度为2m/s
 		//dir_out=Angle_Ring(90, gyro_z3);
 		//dir_out = Angle_Speed_Ring(0);
 		//Motor_PWM(dir_out, -dir_out);
@@ -217,6 +194,13 @@ void TM4_Isr() interrupt 20
 		TIM4_CLEAR_FLAG;
 	}
 }
+
+
+
+
+
+
+
 
 
 

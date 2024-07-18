@@ -34,8 +34,8 @@ float Angle_Speed_D = 7;
 
 
 
-float Angle_P = 180;
-float Angle_D = 80;
+float Angle_P = 250;
+float Angle_D = 120;
 
 float Target_Vel_Z_pre = 0;
 int Speed_Ring_Flag = 0;
@@ -168,7 +168,7 @@ int Angle_Ring(float Angle, float Actual)
   last_error = error;
 
   out = Angle_Speed_Ring(out1);
-  out = limit(out, 7500);
+  out = limit(out, 8500);
 
   if(error<0.1&&error>-0.1)
     out = 0;

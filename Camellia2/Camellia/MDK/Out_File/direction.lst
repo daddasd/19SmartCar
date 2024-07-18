@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  00:00:06  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -46,8 +46,8 @@ stmt  level    source
    34          
    35          
    36          
-   37          float Angle_P = 180;
-   38          float Angle_D = 80;
+   37          float Angle_P = 250;
+   38          float Angle_D = 120;
    39          
    40          float Target_Vel_Z_pre = 0;
    41          int Speed_Ring_Flag = 0;
@@ -66,7 +66,7 @@ stmt  level    source
    54          float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
    55          {
    56   1        float error, p;
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  00:00:06  PAGE 2   
+C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 2   
 
    57   1        static float last_error = 0,Angle_speed=0;
    58   1        float Output, KP2_OUT;
@@ -134,7 +134,7 @@ stmt  level    source
   119           * @return int
   120           */
   121          
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  00:00:06  PAGE 3   
+C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 3   
 
   122          void Dir_PID_Init(void)
   123          {
@@ -185,7 +185,7 @@ stmt  level    source
   168   1        last_error = error;
   169   1      
   170   1        out = Angle_Speed_Ring(out1);
-  171   1        out = limit(out, 7500);
+  171   1        out = limit(out, 8500);
   172   1      
   173   1        if(error<0.1&&error>-0.1)
   174   1          out = 0;
@@ -202,7 +202,7 @@ stmt  level    source
   185   1        mpu6050_gyro_z += last_GRYO_Z * 0.2;
   186   1      
   187   1        error1 = err - mpu6050_gyro_z;
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  00:00:06  PAGE 4   
+C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 4   
 
   188   1      
   189   1        P_out = error1 * Angle_Speed_P;

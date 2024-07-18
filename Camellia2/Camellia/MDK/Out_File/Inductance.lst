@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 1   
+C251 COMPILER V5.60.0,  Inductance                                                         18/07/24  15:58:35  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE Inductance
@@ -66,7 +66,7 @@ stmt  level    source
    52          {
    53   1        long i;
    54   1        float x, y;
-C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 2   
+C251 COMPILER V5.60.0,  Inductance                                                         18/07/24  15:58:35  PAGE 2   
 
    55   1        const float f = 1.5F;
    56   1      
@@ -134,7 +134,7 @@ stmt  level    source
   118   2        }
   119   1      
   120   1        /*=========================赋值各个电感==============================*/
-C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 3   
+C251 COMPILER V5.60.0,  Inductance                                                         18/07/24  15:58:35  PAGE 3   
 
   121   1        L1 = ad_valu1[0];
   122   1        L2 = ad_valu1[1];
@@ -202,7 +202,7 @@ stmt  level    source
   182          
   183          /**
   184           *  @brief      显示测量值
-C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 4   
+C251 COMPILER V5.60.0,  Inductance                                                         18/07/24  15:58:35  PAGE 4   
 
   185           *  @param      void
   186           *  @return     void
@@ -238,11 +238,11 @@ stmt  level    source
   216   1        ////-----------------陀螺仪角速度------------------------//
   217   1        oled_int16(0, 4, L_Pulse);
   218   1        oled_int16(60, 4, R_Pulse);
-  219   1        oled_p6x8str(0,5, "Dir:");
-  220   1        oled_int16(30, 5, dir_out);
-  221   1        oled_p6x8str(0,6, "PWM:");
-  222   1        oled_int16(30, 6, Motor_pid.Motor_Out_Value);
-  223   1        oled_p6x8str(60, 6, "Dis");
+  219   1        oled_p6x8str(0, 5, "LPWM:");
+  220   1        oled_int16(25, 5, LMotor_PWM);
+  221   1        oled_p6x8str(0,6, "RPWM:");
+  222   1        oled_int16(25, 6, RMotor_PWM);
+  223   1        oled_p6x8str(65, 6, "Dis");
   224   1        oled_int16(80, 6, dl1a_distance_mm);
   225   1        oled_p6x8str(0, 7, "G_z");
   226   1        oled_int16(20, 7, mpu6050_gyro_z);
@@ -258,7 +258,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      2315     ------
+  code size            =      2302     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
@@ -271,11 +271,11 @@ Module Information          Static   Overlayable
   bitaddressable size  =    ------     ------
   ebitaddressable size =    ------     ------
   far data size        =    ------     ------
-C251 COMPILER V5.60.0,  Inductance                                                         17/07/24  20:32:45  PAGE 5   
+C251 COMPILER V5.60.0,  Inductance                                                         18/07/24  15:58:35  PAGE 5   
 
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       417     ------
+  hconst size          =       419     ------
 End of Module Information.
 
 

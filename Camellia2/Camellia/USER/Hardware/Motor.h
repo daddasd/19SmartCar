@@ -48,6 +48,8 @@ extern Motor_PID_InitTypedef Motor_pid;
 extern  float Motor_P;
 extern  float Motor_I;
 extern  float Speed_Ring;
+extern int LMotor_PWM;
+extern int RMotor_PWM;
 
 void Motor_Init(void);
 void Motor_PWM(int L_PWM,int R_PWM);

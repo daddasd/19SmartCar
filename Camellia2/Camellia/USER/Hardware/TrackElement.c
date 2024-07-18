@@ -22,7 +22,7 @@ int Elements_Num = 0;
 //*******************避障*****************//
 uint8 Obstacle_State = 0; // 避障状态
 int Distance_Jifen = 0;
-int Obstacle_Distance1 = 2248; // 第一次直行的距离
+int Obstacle_Distance1 = 2048; // 第一次直行的距离
 int Obstacle_Distance2 = 3548; // 第二次直行的距离
 
 int Obstacle_Flag = 0;
@@ -33,11 +33,11 @@ uint8 Ring_state = 0;
 int Yuan_TrackSpeed = 0; // 环内循迹速度
 
 int Yu_Speed = 1200;	 // 预进环岛速度
-int Yu_Distance = 3000;	 // 预进环岛距离
+int Yu_Distance = 3300;	 // 预进环岛距离
 int Yu_Speed_Diff = 800; // 打角的速度差异
 
 int Chu_Speed = 1000;	  // 预出环岛速度
-int Chu_Distance = 4000;  // 预出环岛距离
+int Chu_Distance = 3400;  // 预出环岛距离
 int Chu_Speed_Diff = 800; // 打角的速度差异
 
 int In_Huan_Flag = 0;
@@ -82,7 +82,7 @@ void RObstacle(void)
 	switch (Obstacle_State)
 	{
 	case NO_LObstacle:
-		if (dl1a_distance_mm < 1200)
+		if (dl1a_distance_mm < 1750)
 		{
 			// speed = 60;//降速
 			Obstacle_State = Find_LObstacle;
@@ -94,9 +94,9 @@ void RObstacle(void)
 		break;
 	case Find_LObstacle: // 拐角
 		time++;
-		pwm = Angle_Ring(52, gyro_z3);
+		pwm = Angle_Ring(60, gyro_z3);
 		Motor_PWM(pwm, -pwm);
-		if (time > 300)
+		if (time > 250)
 		{
 			time = 0;
 			gyro_z3 = 0;
@@ -108,7 +108,7 @@ void RObstacle(void)
 		{
 			Distance_Jifen += (R_Pulse + L_Pulse) / 2;
 			diff_pwm = Angle_Ring(0, gyro_z3) * 0.6;
-			pwm = Speed_pid_Out(55, Sum_Pulse);
+			pwm = Speed_pid_Out(70, Sum_Pulse);
 			Motor_PWM(pwm + diff_pwm, pwm - diff_pwm);
 		}
 		else
@@ -122,9 +122,9 @@ void RObstacle(void)
 		break;
 	case LObstacle_Angle1: // 拐角
 		time++;
-		pwm = Angle_Ring(-120, gyro_z3);
+		pwm = Angle_Ring(-100, gyro_z3);
 		Motor_PWM(pwm, -pwm);
-		if (time > 250)
+		if (time > 200)
 		{
 			time = 0;
 			gyro_z3 = 0;
@@ -137,7 +137,7 @@ void RObstacle(void)
 		{
 			Distance_Jifen += (R_Pulse + L_Pulse) / 2;
 			diff_pwm = Angle_Ring(0, gyro_z3) * 0.6;
-			pwm = Speed_pid_Out(55, Sum_Pulse);
+			pwm = Speed_pid_Out(70, Sum_Pulse);
 			Motor_PWM(pwm + diff_pwm, pwm - diff_pwm);
 		}
 		else
@@ -297,7 +297,7 @@ void RRoundabout(void)
 		if (Distance_Flag == 0)
 		{
 			bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
-			speed = -80;
+			speed = 80;
 			// Tracking(40);
 		}
 		if (bmq_jifen >= Yu_Distance)
@@ -309,7 +309,7 @@ void RRoundabout(void)
 		if (Distance_Flag == 1) // 到达指定距离 角度打死
 		{
 			Inductance_Error = -45;
-			speed = 80;
+			speed = 80;      //圆内速度
 			// Tracking(40);
 			time++;
 			if (time > 150)
@@ -333,7 +333,7 @@ void RRoundabout(void)
 		{
 			Wh_P = 80;
 			Wh_D = 160; // 圆环内PID
-			speed = 85;
+			speed = 95;
 		}
 		break;
 	case Ready_Out_Ring:
@@ -367,7 +367,7 @@ void RRoundabout(void)
 			{
 				bmq_jifen += (R_Pulse + L_Pulse) / 2; // 编码器积分距离
 				// Inductance_Error = 0;
-				speed = 85;
+				speed = 90;
 				// Tracking(45);
 			}
 			if (bmq_jifen > End_Chu_Distance)
@@ -378,7 +378,7 @@ void RRoundabout(void)
 		}
 		else
 		{
-			Inductance_Error = 30; // 小打角
+			Inductance_Error = -30; // 小打角
 		}
 		break;
 	case Ready_No_Ring: // 出圆环结束清除标志位
@@ -561,6 +561,8 @@ void Tracking(int Set_speed)
 		}
 		LALL_PWM = pwm + dir_out;
 		RALL_PWM = pwm - dir_out;
+		LMotor_PWM = LALL_PWM;
+		RMotor_PWM = RALL_PWM;
 		Motor_PWM(LALL_PWM, RALL_PWM);
 	}
 }
@@ -572,9 +574,9 @@ void Tracking(int Set_speed)
 void Error_Speed(void)
 {
 	if(abs(Inductance_Error)<30)
-		Err_speed = speed*0.2;
+		Err_speed = speed*0.15;
 	else if (abs(Inductance_Error) >45&&abs(Inductance_Error)<=30)
-		Err_speed = speed * 0.1;
+		Err_speed = speed * 0.05;
 	else if	(L2_NOR_ADC > 10 || R1_NOR_ADC > 10)
 			Err_speed = speed * -0.2;
 	else 

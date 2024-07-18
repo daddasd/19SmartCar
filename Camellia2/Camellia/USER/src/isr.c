@@ -140,11 +140,7 @@ void TM2_Isr() interrupt 12
 	TIM2_CLEAR_FLAG;  //清除中断标志
 	
 }
-void TM3_Isr() interrupt 19
-{
-	TIM3_CLEAR_FLAG; //清除中断标志
-	
-}
+
 extern void pit_callback(void);
 
 //void  INT0_Isr()  interrupt 0;

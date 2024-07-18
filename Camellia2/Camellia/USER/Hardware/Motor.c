@@ -16,6 +16,9 @@ float Motor_I = 2.5;
 
 float Speed_Ring = 0;
 
+int LMotor_PWM = 0;
+int RMotor_PWM = 0;
+
 Motor_PID_InitTypedef Motor_pid;
 
 
