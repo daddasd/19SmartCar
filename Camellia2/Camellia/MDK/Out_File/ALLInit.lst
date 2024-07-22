@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  ALLInit                                                            18/07/24  15:58:37  PAGE 1   
+C251 COMPILER V5.60.0,  ALLInit                                                            22/07/24  20:32:13  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE ALLInit
@@ -22,12 +22,12 @@ stmt  level    source
    10   1          gpio_mode(P4_2, GPO_PP); // Lift
    11   1          gpio_mode(P5_2, GPO_PP); // Right
    12   1          //********RGB与Buzzer********//
-   13   1         gpio_mode(P1_3, GPO_PP); // RGB IO口
-   14   1         gpio_mode(P1_5, GPO_PP); // RGB PWM控制电压
+   13   1         gpio_mode(P3_6, GPO_PP); // RGB IO口
+   14   1         gpio_mode(P5_1, GPO_PP); // RGB PWM控制电压
    15   1         gpio_mode(P2_2, GPO_PP); // Buzzer
    16   1         P22 = 0;
-   17   1         P13 = 0;
-   18   1         P15 = 1;
+   17   1         P36 = 0;
+   18   1         P51 = 1;
    19   1      }
    20          
    21          /**
@@ -52,9 +52,13 @@ stmt  level    source
    40   1          GPIO_Init();
    41   1      
    42   1          //pwm_init(PWMA_CH3N_P15, 100, 10000);
-   43   1          //RGB_Color(255, 0, 78);
-   44   1         
-   45   1      }
+   43   1          // RGB_Color(9, 217, 52);
+   44   1          // delay_ms(1000);
+   45   1          // RGB_Color(5, 117, 241);
+   46   1          // delay_ms(1000);
+   47   1          // RGB_Color(24, 6, 13);
+   48   1          // delay_ms(2400);
+   49   1      }
 
 
 Module Information          Static   Overlayable
@@ -63,12 +67,12 @@ Module Information          Static   Overlayable
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
+C251 COMPILER V5.60.0,  ALLInit                                                            22/07/24  20:32:13  PAGE 2   
+
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
   edata size           =    ------     ------
-C251 COMPILER V5.60.0,  ALLInit                                                            18/07/24  15:58:37  PAGE 2   
-
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------

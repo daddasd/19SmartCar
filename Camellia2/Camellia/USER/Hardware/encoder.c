@@ -7,14 +7,15 @@ int L_Dis = 0;
 int R_Dis = 0;
 
 double angle1 = 0.0;
-int speed = 90;
+int speed = 75;
 float Ang = 0;
 int PWM_Out = 0;
 
 float L = 0, R = 0;
 
+int Elements_Flag = 1;
 
-//30cm ±àÂëÆ÷1688Öµ
+// 30cm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1688Öµ
 
 //--
 //  @brief    	???????????
@@ -53,7 +54,7 @@ int L_Encoder_Pulse(void)
 	ctimer_count_clean(Encoder_L);
 	last_L = L;
 	L *= 0.8;
-	L += last_L * 0.2; // Ò»½×µÍÍ¨ÂË²¨
+	L += last_L * 0.2; // Ò»ï¿½×µï¿½Í¨ï¿½Ë²ï¿½
 	return L;
 }
 
@@ -77,7 +78,7 @@ int R_Encoder_Pulse(void)
 	ctimer_count_clean(Encoder_R);
 	last_R = R;
 	R *= 0.8;
-	R += last_R * 0.2; //Ò»½×µÍÍ¨ÂË²¨
+	R += last_R * 0.2; //Ò»ï¿½×µï¿½Í¨ï¿½Ë²ï¿½
 	return R;
 }
 
@@ -130,10 +131,10 @@ int R_Enc_integral(int R_target)
 	return 1;
 }
 /**
- * @brief ÐÐÊ»Ò»¶Î¾àÀëÍ£Ö¹
+ * @brief ï¿½ï¿½Ê»Ò»ï¿½Î¾ï¿½ï¿½ï¿½Í£Ö¹
  *
- * @param Distance ¾àÀë
- * @param Speed    ËÙ¶È
+ * @param Distance ï¿½ï¿½ï¿½ï¿½
+ * @param Speed    ï¿½Ù¶ï¿½
  */
 int Car_Star_Stop(int Distance,int speed)
 {
@@ -164,32 +165,37 @@ void TM4_Isr() interrupt 20
 		//Buzzer_ON;
 		Sum_Pulse = (L_Pulse + R_Pulse) * 0.5;
 		gyro_z3 += (mpu6050_gyro_z - 7) * 0.000135;
-		//ÔªËØË³Ðò¶¨ËÀ
-		switch (Elements_Num)
+		//Ôªï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½
+		Elements_Flag = Elements_List[Elements_Num];
+		switch (Elements_Flag)
 		{
-		case 0:
-			RObstacle();
-			break;
 		case 1:
-			Ramp();
+			LRoundabout();
 			break;
 		case 2:
 			RRoundabout();
+			break;
+		case 3:
+			Ramp();
+			Error_Speed();
+			break;
+		case 4:
+			RObstacle();
+			Error_Speed();
 			break;
 		default:
 			Error_Speed();
 			break;
 		}
-		Tracking(speed + Err_speed); // 72ËÙ¶ÈÎª2m/s
-		//dir_out=Angle_Ring(90, gyro_z3);
-		//dir_out = Angle_Speed_Ring(0);
-		//Motor_PWM(dir_out, -dir_out);
-		//  Motor_PWM(6500,3500);
+		Tracking(speed+Err_speed); // 72ï¿½Ù¶ï¿½Îª2m/s
+		// dir_out = Angle_Ring(90, gyro_z3);
+		// Motor_PWM(dir_out, -dir_out);
+		// Motor_PWM(6500,3500);
 		//  }
 		//         Buzzer_OFF;
 		//
 		//        P15 = 0;
-		//   Rotary_Plug(500);//Ò»Ãë×ª¶Â£¬¾ÍÍ£¡£
+		//   Rotary_Plug(500);//Ò»ï¿½ï¿½×ªï¿½Â£ï¿½ï¿½ï¿½Í£ï¿½ï¿½
 		//   Rotary_Plug(500);
 		TIM4_CLEAR_FLAG;
 	}
@@ -215,4 +221,4 @@ void TM4_Isr() interrupt 20
 
 
 
-//*********Ê®¾Å½ìµÄ¹ÊÊÂ¾Íµ½Õâ½áÊøÁËEND**************/
+//*********Ê®ï¿½Å½ï¿½Ä¹ï¿½ï¿½Â¾Íµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½END**************/

@@ -1,6 +1,8 @@
 Build target 'STC32F12K'
-compiling direction.c...
-..\USER\Hardware\direction.c(58): warning C47: 'KP2_OUT': unreferenced local variable
+compiling encoder.c...
+..\USER\Hardware\encoder.c(52): warning C115: '-' applied to unsigned type, result still unsigned
+..\USER\Hardware\encoder.c(76): warning C115: '-' applied to unsigned type, result still unsigned
+..\USER\Hardware\encoder.c(180): warning C140: 'Error_Speed' undefined; assuming 'extern int Error_Speed()'
 compiling TrackElement.c...
 linking...
 *** WARNING L25: DATA TYPES DIFFERENT
@@ -8,7 +10,7 @@ linking...
     MODULE:  .\Out_File\encoder.obj (encoder)
    DEFINED:  .\Out_File\TrackElement.obj (TrackElement)
 
-Program Size: data=8.1 edata+hdata=4224 xdata=0 const=1966 code=43168
+Program Size: data=8.1 edata+hdata=4240 xdata=0 const=1960 code=43039
 creating hex file from ".\Out_File\SEEKFREE"...
-".\Out_File\SEEKFREE" - 0 Error(s), 2 Warning(s).
+".\Out_File\SEEKFREE" - 0 Error(s), 4 Warning(s).
 Build Time Elapsed:  00:00:01

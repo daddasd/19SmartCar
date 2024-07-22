@@ -29,13 +29,14 @@ extern shizi_flag;
 extern ring_flag;
 extern Track_flag;
 extern Element_Order[4];
+extern Elements_List[8];
 extern In_Huan_Flag;
 extern int Speed_Plan1;
 extern Err_speed;
 extern Distance_Jifen;
 extern Obstacle_Flag;
 extern Elements_Num;
-
+extern Dowm_Ramp_Flag;
 void RRoundabout(void);
 void LRoundabout(void);
 void RObstacle(void);

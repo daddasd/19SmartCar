@@ -37,7 +37,7 @@ extern float Feedforward_gain;
 
 extern int Speed_Ring_Flag;
 extern float gyro_z3;
-float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d);
+int32 wh_Turn_Out(int16 chazhi, float dir_p, float dir_d);
 int16 nh_Turn_Out(float err, float dir_p, float dir_d);
 int16 DirControl(int error);
 void Dir_PID_Init(void);

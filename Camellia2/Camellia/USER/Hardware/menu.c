@@ -8,6 +8,8 @@
 #define INTERVAL_TIME 500
 
 
+
+
 //位置环外环
 
 
@@ -150,79 +152,79 @@ int First_menu(void)
 //  @return     0 退出二级菜单    
 //--
 
-
-
 int Second_Element_menu(void)
 {
-    int flag = 1,i = 0,Order = 0,k =0;
+    int flag = 1, i = 0, Order = 0, k = 0;
     int menu_order[MENU_SIZE] = {0}; // 用于存储菜单项的顺序
-    
-    oled_p6x8str(20, 0, "L_YuanH");  // 左圆环
-    oled_p6x8str(20, 1, "R_YuanH");  // 右圆环
-    oled_p6x8str(20, 2, "PoDao");    // 坡道
-    oled_p6x8str(20, 3, "LuZhang");      // 路障
-    
+
+    oled_p8x16str(25, 0, "L_YuanH"); // 左圆环
+    oled_p8x16str(25, 2, "R_YuanH"); // 右圆环
+    oled_p8x16str(25, 4, "PoDao");   // 坡道
+    oled_p8x16str(25, 6, "LuZhang"); // 路障
+
     while (1)
     {
         if (key3 == 0) // 下一项
         {
             delay_ms(10);
-            while (key3 == 0);
+            while (key3 == 0)
+                ;
             delay_ms(10);
             flag++;
-            if (flag == MENU_SIZE + 1) flag = 1;
+            if (flag == MENU_SIZE + 1)
+                flag = 1;
         }
         if (key1 == 0) // 上一项
         {
             delay_ms(10);
-            while (key1 == 0);
+            while (key1 == 0)
+                ;
             delay_ms(10);
             flag--;
-            if (flag == 0) flag = MENU_SIZE;
+            if (flag == 0)
+                flag = MENU_SIZE;
         }
         if (key2 == 0) // 确定
         {
             delay_ms(10);
-            while (key2 == 0);
+            while (key2 == 0)
+                ;
             delay_ms(10);
             Order++;
-            if(Order == 5){
-                for(k=0;k<4;k++)
+            Elements_List[Order] = flag;
+            if (Order == 5)
+            {
+                for (k = 0; k < 4; k++)
                 {
-                    Element_Order[k]=menu_order[k];
+                    Element_Order[k] = menu_order[k];
                 }
-                oled_fill(0x00); //清屏
-                return 0;  //返回上一级
+                oled_fill(0x00); // 清屏
+                return 0;        // 返回上一级
             }
-			menu_order[flag-1] = Order;
-		} 
-        if(key4 == 0) //返回上级
+            menu_order[flag - 1] = Order;
+        }
+        if (key4 == 0) // 返回上级
         {
             delay_ms(10);
-            while(key4 ==0);
+            while (key4 == 0)
+                ;
             delay_ms(10);
-            oled_fill(0x00); //清屏
-            return 0; // 返回选择的选项
+            oled_fill(0x00); // 清屏
+            return 0;        // 返回选择的选项
         }
         // 更新光标位置和显示顺序
         for (i = 0; i < MENU_SIZE; i++)
         {
             if (i + 1 == flag)
-                oled_p6x8str(0, i*2, "-->");  // 光标指示当前选中项
+                oled_p8x16str(0, i * 2, "-->"); // 光标指示当前选中项
             else
-                oled_p6x8str(0, i*2, "   ");
-                
+                oled_p8x16str(0, i * 2, "   ");
+
             // 在菜单项后显示顺序
-            oled_uint16(80, i * 2, menu_order[i]);
+            oled_uint16_px8(80, i * 2, menu_order[i]);
         }
-        oled_p6x8str(20, 4, "Element_Order"); // 路障
-        oled_uint16(20,5, menu_order[0]);
-        oled_uint16(30, 5, menu_order[1]);
-        oled_uint16(40, 5, menu_order[2]);
-        oled_uint16(50, 5, menu_order[3]);
     }
 }
-
 //--
 //  @brief      二级调节电机PI菜单
 //  @param      void    
@@ -358,7 +360,7 @@ int Second_Motor_menu(void)
 int Second__NWHuan_menu(void)
 {
     int flag = 1, i = 0,Val_add_lose=1,count=-1,flag1=-1;
-    float x =0.01,x1=1; //X1内环，X2外环
+    float x1 =0.1,x=1; //X1内环，X2外环
     uint16 long_press_delay=0,pree_delay=0;
     int page = 1; // 用于跟踪当前所在页面
 	  int page1 = 1;

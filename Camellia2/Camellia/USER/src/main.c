@@ -33,14 +33,14 @@ int Car_Stop_Flag = 0;
 float Gyro_Diff = 0;
 void main()
 {
-	clock_init(SYSTEM_CLOCK_60M); // ��ʼ��ϵͳƵ��,��ɾ���˾���롣
+	clock_init(SYSTEM_CLOCK_56M); // ��ʼ��ϵͳƵ��,��ɾ���˾���롣
 	board_init();				  // ��ʼ���Ĵ���,��ɾ���˾��
 	 // �˴���д�û����� ���������ʼ�������
 	GPIO_Init();
 	ALL_Peripheral_Init();
 	delay_ms(500);					// �ȴ�����׼�����
 	//Gyro_Diff = gyro_zero_wander(); // ��ȥƮ�� ������MPU6050��ʱ��Ҫ�ĳ�IMU66ORA
-	RGB_Color(76, 0, 153);
+	//RGB_Color(76, 0, 153);
 	while (1)
 	{
 		menu = First_menu();

@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  main                                                               18/07/24  15:58:35  PAGE 1   
+C251 COMPILER V5.60.0,  main                                                               22/07/24  20:32:12  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE main
@@ -47,7 +47,7 @@ stmt  level    source
    33          float Gyro_Diff = 0;
    34          void main()
    35          {
-   36   1        clock_init(SYSTEM_CLOCK_60M); // ��ʼ��ϵͳƵ��,��ɾ���˾���롣
+   36   1        clock_init(SYSTEM_CLOCK_56M); // ��ʼ��ϵͳƵ��,��ɾ���˾���롣
    37   1        board_init();         // ��ʼ���Ĵ���,��ɾ���˾��
    38   1         // �˴���д�û����� ���������ʼ�������
    39   1        GPIO_Init();
@@ -55,7 +55,7 @@ stmt  level    source
    41   1        delay_ms(500);          // �ȴ�����׼�����
    42   1        //Gyro_Diff = gyro_zero_wander(); // ��ȥƮ�� ������MPU6050��ʱ��Ҫ�ĳ�I
              -MU66ORA
-   43   1        RGB_Color(76, 0, 153);
+   43   1        //RGB_Color(76, 0, 153);
    44   1        while (1)
    45   1        {
    46   2          menu = First_menu();
@@ -66,7 +66,7 @@ stmt  level    source
 *** WARNING C140 IN LINE 50 OF ..\USER\src\main.c: 'Second_Motor_menu' undefined; assuming 'extern int Second_Motor_menu
              -()'
    51   2          if (menu == 3)
-C251 COMPILER V5.60.0,  main                                                               18/07/24  15:58:35  PAGE 2   
+C251 COMPILER V5.60.0,  main                                                               22/07/24  20:32:12  PAGE 2   
 
    52   2            Second__NWHuan_menu();
    53   2          if (menu == 4)
@@ -83,7 +83,7 @@ stmt  level    source
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =       142     ------
+  code size            =       132     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------

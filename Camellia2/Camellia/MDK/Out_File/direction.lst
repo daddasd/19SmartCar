@@ -1,4 +1,4 @@
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 1   
+C251 COMPILER V5.60.0,  direction                                                          22/07/24  21:09:22  PAGE 1   
 
 
 C251 COMPILER V5.60.0, COMPILATION OF MODULE direction
@@ -27,11 +27,11 @@ stmt  level    source
    15          // float Nh_P = 9000; //增量式参数
    16          // float Nh_D = 800;
    17          
-   18          float Nh_P = 11.5; //位置式参数
-   19          float Nh_D = 7.5;
+   18          float Nh_P = 280; //位置式参数
+   19          float Nh_D = 180;
    20          
-   21          float Wh_P = 160;
-   22          float Wh_D = 240;
+   21          float Wh_P = 0.85;
+   22          float Wh_D = 1.2;
    23          float KP1 = 0;
    24          float KP2 = 0;
    25          float gyro_z3 = 0;
@@ -41,13 +41,13 @@ stmt  level    source
    29          float KD2 = 0;
    30          float Feedforward_gain = 0;
    31          
-   32          float Angle_Speed_P = 11.5;
-   33          float Angle_Speed_D = 7;
+   32          float Angle_Speed_P = 3;
+   33          float Angle_Speed_D = 2.5;
    34          
    35          
    36          
-   37          float Angle_P = 250;
-   38          float Angle_D = 120;
+   37          float Angle_P = 180;
+   38          float Angle_D = 90;
    39          
    40          float Target_Vel_Z_pre = 0;
    41          int Speed_Ring_Flag = 0;
@@ -63,173 +63,170 @@ stmt  level    source
    51           * @return int   外环返回值
    52           */
    53          
-   54          float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+   54          int32 wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
    55          {
-   56   1        float error, p;
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 2   
+   56   1        float error;
+C251 COMPILER V5.60.0,  direction                                                          22/07/24  21:09:22  PAGE 2   
 
    57   1        static float last_error = 0,Angle_speed=0;
    58   1        float Output, KP2_OUT;
    59   1        float error_derivative;
    60   1      
-   61   1        if(chazhi<20&&chazhi>-20)
-   62   1          chazhi = chazhi * 0.3;
-   63   1        error = chazhi;
-   64   1      
-   65   1        p = dir_p + abs(error) * KP1;
-   66   1        error_derivative = error - last_error;
-   67   1        Output = error * p + error_derivative * dir_d;
-   68   1        last_error = error;
-   69   1        Output = limit(Output, out_max);
-   70   1      
-   71   1      
-   72   1        return Output;
-   73   1      }
+   61   1        error = chazhi;
+   62   1      
+   63   1        error_derivative = error - last_error;
+   64   1        Output = error *dir_p + error_derivative * dir_d;
+   65   1        last_error = error;
+   66   1        //Output = limit(Output, out_max);
+   67   1      
+   68   1      
+   69   1        return Output;
+   70   1      }
 *** WARNING C47 IN LINE 58 OF ..\USER\Hardware\direction.c: 'KP2_OUT': unreferenced local variable
-   74          
-   75          /**
-   76           * @brief 内环角速度PI控制
-   77           *
-   78           * @param err   外环输入值
-   79           * @param dir_p
-   80           * @param dir_i
-   81           * @return int
-   82           */
-   83          int16 nh_Turn_Out(float err, float dir_p, float dir_d)
-   84          {
-   85   1        double error1 = 0;
-   86   1        static double last_err = 0, P_out = 0, I_out = 0, out = 0,last_GRYO_Z,D_out;
-   87   1      
-   88   1        last_GRYO_Z = mpu6050_gyro_z;
-   89   1        mpu6050_gyro_z *= 0.8;
-   90   1        mpu6050_gyro_z += last_GRYO_Z * 0.2;
+   71          
+   72          /**
+   73           * @brief 内环角速度PI控制
+   74           *
+   75           * @param err   外环输入值
+   76           * @param dir_p
+   77           * @param dir_i
+   78           * @return int
+   79           */
+   80          int16 nh_Turn_Out(float err, float dir_p, float dir_d)
+   81          {
+   82   1        double error1 = 0;
+   83   1        static double last_err = 0, P_out = 0, I_out = 0, out = 0,D_out;
+   84   1      
+   85   1        error1 = err - mpu6050_gyro_z/65.6;
+   86   1      
+   87   1        P_out = error1 * dir_p;
+   88   1        D_out = (error1 - last_err) * dir_d;
+   89   1      
+   90   1        last_err = error1;
    91   1      
-   92   1        error1 = err - mpu6050_gyro_z;
+   92   1        out = P_out + D_out;
    93   1      
-   94   1        P_out = error1 * dir_p;
-   95   1        D_out = (error1 - last_err) * dir_d;
-   96   1      
-   97   1        last_err = error1;
-   98   1      
-   99   1        out = P_out + D_out;
-  100   1      
-  101   1        if(out>10000)
-  102   1          out = 10000;
-  103   1        else if(out<-10000)
-  104   1          out = -10000;
-  105   1      
-  106   1        if(Inductance_Error<50&&Inductance_Error>-50&&L2_NOR_ADC<10&&R2_NOR_ADC<10)
-  107   1        {
-  108   2          if (out > 3000)
-  109   2            out = 3000;
-  110   2          else if (out < -3000)
-  111   2            out = -3000;
-  112   2        }
-  113   1          return (int16)out;
-  114   1      }
-  115          
-  116          /**
-  117           * @brief 方向环，串级PID给电机
-  118           *
-  119           * @return int
-  120           */
-  121          
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 3   
+   94   1       out = limit(out, 10000);
+   95   1      
+   96   1        // if(Inductance_Error<50&&Inductance_Error>-50&&L2_NOR_ADC<10&&R2_NOR_ADC<10)
+   97   1        // {
+   98   1        //   if (out > 2000)
+   99   1        //     out = 2000;
+  100   1        //   else if (out < -2000)
+  101   1        //     out = -2000;
+  102   1        // }
+  103   1        // if (abs(Inductance_Error) < 80 &&abs(Inductance_Error)>=60 && L2_NOR_ADC < 10 && R2_NOR_ADC < 10)
+  104   1        // {
+  105   1        //   if (out > 4500)
+  106   1        //     out = 2500;
+  107   1        //   else if (out < -4500)
+  108   1        //     out = -4500;
+  109   1        // }
+  110   1          return (int16)out;
+  111   1      }
+  112          
+  113          /**
+  114           * @brief 方向环，串级PID给电机
+  115           *
+  116           * @return int
+  117           */
+  118          
+  119          void Dir_PID_Init(void)
+  120          {
+  121   1        Position.kP1 = KP1;
+C251 COMPILER V5.60.0,  direction                                                          22/07/24  21:09:22  PAGE 3   
 
-  122          void Dir_PID_Init(void)
-  123          {
-  124   1        Position.kP1 = KP1;
-  125   1        Position.kP2 = KP3;
-  126   1        Position.kP3 = KP2;
-  127   1        Position.kD = KD1;
-  128   1        Position.kD2 = KD2;
-  129   1        Position.feedforward_gain = Feedforward_gain;
-  130   1      }
-  131          
-  132          int16 DirControl(int err)
-  133          {
-  134   1        static int count = 0;
-  135   1        static int wh_out = 0;
-  136   1        if (count == 3)
-  137   1        {
-  138   2          wh_out = wh_Turn_Out(err, Wh_P, Wh_D);
-  139   2          count = 0;
-  140   2        }
-  141   1        count++;
-  142   1        return (int16)nh_Turn_Out(wh_out, Nh_P, Nh_D);
-  143   1      }
-  144          
-  145          int Turn_Angle(float Angle, float Actual)
-  146          {
-  147   1        static int count = 0;
-  148   1        static int whout = 0;
-  149   1        count++;
-  150   1        if (count == 3)
-  151   1        {
-  152   2          whout = Angle_Ring(Angle, Actual);
-  153   2          count = 0;
-  154   2        }
-  155   1        return (int16)Angle_Speed_Ring(whout);
-  156   1      }
-  157          
-  158          int Angle_Ring(float Angle, float Actual)
-  159          {
-  160   1        float error = 0;
-  161   1        float out, out1;
-  162   1        static float last_error;
-  163   1        static int count = 0;
-  164   1        error = Angle - Actual;
-  165   1      
-  166   1        out1 = error * Angle_P + (error - last_error) * Angle_D;
-  167   1      
-  168   1        last_error = error;
+  122   1        Position.kP2 = KP3;
+  123   1        Position.kP3 = KP2;
+  124   1        Position.kD = KD1;
+  125   1        Position.kD2 = KD2;
+  126   1        Position.feedforward_gain = Feedforward_gain;
+  127   1      }
+  128          
+  129          int16 DirControl(int err)
+  130          {
+  131   1        static int count = 0;
+  132   1        static int32 wh_out = 0;
+  133   1        if (count == 3)
+  134   1        {
+  135   2          wh_out = wh_Turn_Out(err, Wh_P, Wh_D);
+  136   2          count = 0;
+  137   2        }
+  138   1        count++;
+  139   1        return (int16)nh_Turn_Out(wh_out, Nh_P, Nh_D);
+  140   1      }
+  141          
+  142          int Turn_Angle(float Angle, float Actual)
+  143          {
+  144   1        static int count = 0;
+  145   1        static int whout = 0;
+  146   1        count++;
+  147   1        if (count == 3)
+  148   1        {
+  149   2          whout = Angle_Ring(Angle, Actual);
+  150   2          count = 0;
+  151   2        }
+  152   1        return (int16)Angle_Speed_Ring(whout);
+  153   1      }
+  154          
+  155          int Angle_Ring(float Angle, float Actual)
+  156          {
+  157   1        float error = 0;
+  158   1        float out, out1;
+  159   1        static float last_error;
+  160   1        static int count = 0;
+  161   1        error = Angle - Actual;
+  162   1      
+  163   1        out1 = error * Angle_P + (error - last_error) * Angle_D;
+  164   1      
+  165   1        last_error = error;
+  166   1      
+  167   1        out = Angle_Speed_Ring(out1);
+  168   1        out = limit(out, 8500);
   169   1      
-  170   1        out = Angle_Speed_Ring(out1);
-  171   1        out = limit(out, 8500);
-  172   1      
-  173   1        if(error<0.1&&error>-0.1)
-  174   1          out = 0;
-  175   1        return out;
-  176   1      }
-  177          
-  178          int16 Angle_Speed_Ring(float err)
-  179          {
-  180   1        double error1 = 0;
-  181   1        static double last_err = 0, P_out = 0, I_out = 0, out = 0, last_GRYO_Z, D_out;
-  182   1      
-  183   1        last_GRYO_Z = mpu6050_gyro_z;
-  184   1        mpu6050_gyro_z *= 0.8;
-  185   1        mpu6050_gyro_z += last_GRYO_Z * 0.2;
-  186   1      
-  187   1        error1 = err - mpu6050_gyro_z;
-C251 COMPILER V5.60.0,  direction                                                          18/07/24  16:15:50  PAGE 4   
+  170   1        if(error<0.1&&error>-0.1)
+  171   1          out = 0;
+  172   1        return out;
+  173   1      }
+  174          
+  175          int16 Angle_Speed_Ring(float err)
+  176          {
+  177   1        double error1 = 0;
+  178   1        static double last_err = 0, P_out = 0, I_out = 0, out = 0, last_GRYO_Z, D_out;
+  179   1      
+  180   1        last_GRYO_Z = mpu6050_gyro_z;
+  181   1        mpu6050_gyro_z *= 0.8;
+  182   1        mpu6050_gyro_z += last_GRYO_Z * 0.2;
+  183   1      
+  184   1        error1 = err - mpu6050_gyro_z;
+  185   1      
+  186   1        P_out = error1 * Angle_Speed_P;
+  187   1        D_out = (error1 - last_err) * Angle_Speed_D;
+C251 COMPILER V5.60.0,  direction                                                          22/07/24  21:09:22  PAGE 4   
 
   188   1      
-  189   1        P_out = error1 * Angle_Speed_P;
-  190   1        D_out = (error1 - last_err) * Angle_Speed_D;
-  191   1      
-  192   1        last_err = error1;
-  193   1      
-  194   1        out = P_out + D_out;
-  195   1      
-  196   1        if (out > 10000)
-  197   1          out = 10000;
-  198   1        else if (out < -10000)
-  199   1          out = -10000;
-  200   1        return (int16)out;
-  201   1      }
+  189   1        last_err = error1;
+  190   1      
+  191   1        out = P_out + D_out;
+  192   1      
+  193   1        if (out > 10000)
+  194   1          out = 10000;
+  195   1        else if (out < -10000)
+  196   1          out = -10000;
+  197   1        return (int16)out;
+  198   1      }
 
 
 Module Information          Static   Overlayable
 ------------------------------------------------
-  code size            =      1139     ------
+  code size            =       814     ------
   ecode size           =    ------     ------
   data size            =    ------     ------
   idata size           =    ------     ------
   pdata size           =    ------     ------
   xdata size           =    ------     ------
   xdata-const size     =    ------     ------
-  edata size           =       284     ------
+  edata size           =       278     ------
   bit size             =    ------     ------
   ebit size            =    ------     ------
   bitaddressable size  =    ------     ------
@@ -237,7 +234,7 @@ Module Information          Static   Overlayable
   far data size        =    ------     ------
   huge data size       =    ------     ------
   const size           =    ------     ------
-  hconst size          =       244     ------
+  hconst size          =       246     ------
 End of Module Information.
 
 

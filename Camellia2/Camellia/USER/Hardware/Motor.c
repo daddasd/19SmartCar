@@ -11,7 +11,7 @@
 #define MOTOR_MAX 8500
 #define MOTOR_I_MAX 2500
 
-float Motor_P = 55;
+float Motor_P = 65;
 float Motor_I = 2.5;
 
 float Speed_Ring = 0;
@@ -25,7 +25,7 @@ Motor_PID_InitTypedef Motor_pid;
 
 
 
-int16 limit(int16 In, int16 limit)
+int32 limit(int32 In, int32 limit)
 {
 	if (In > limit && In > 0)
 		In = limit;
@@ -55,6 +55,7 @@ void Motor_Init(void)
 
 void Motor_PWM(int L_PWM, int R_PWM)
 {
+	
 	// if(L_PWM>3000&&R_PWM<-3000)
 	// {	L_PWM = L_PWM *1.2;
 	// 	R_PWM = R_PWM *1.2;
@@ -66,12 +67,12 @@ void Motor_PWM(int L_PWM, int R_PWM)
 	// }
 	if (L_PWM < 0)
 	{
-		MOTOR_L_DIR = 1;
+		MOTOR_L_DIR = 0;
 		pwm_duty(MOTOR_L_PWM, abs(L_PWM));
 	}
 	else
 	{
-		MOTOR_L_DIR = 0;
+		MOTOR_L_DIR = 1;
 		pwm_duty(MOTOR_L_PWM, L_PWM);//弥补电机差异
 	}
 	if (R_PWM < 0)

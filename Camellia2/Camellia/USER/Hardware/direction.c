@@ -15,11 +15,11 @@
 // float Nh_P = 9000; //增量式参数
 // float Nh_D = 800;
 
-float Nh_P = 11.5; //位置式参数
-float Nh_D = 7.5;
+float Nh_P = 280; //位置式参数
+float Nh_D = 180;
 
-float Wh_P = 160;
-float Wh_D = 240;
+float Wh_P = 0.85;
+float Wh_D = 1.2;
 float KP1 = 0;
 float KP2 = 0;
 float gyro_z3 = 0;
@@ -29,13 +29,13 @@ float KD1 = 0;
 float KD2 = 0;
 float Feedforward_gain = 0;
 
-float Angle_Speed_P = 11.5;
-float Angle_Speed_D = 7;
+float Angle_Speed_P = 3;
+float Angle_Speed_D = 2.5;
 
 
 
-float Angle_P = 250;
-float Angle_D = 120;
+float Angle_P = 180;
+float Angle_D = 90;
 
 float Target_Vel_Z_pre = 0;
 int Speed_Ring_Flag = 0;
@@ -51,22 +51,19 @@ Position_PID_InitTypedef Position;
  * @return int   外环返回值
  */
 
-float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
+int32 wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 {
-  float error, p;
+  float error;
   static float last_error = 0,Angle_speed=0;
   float Output, KP2_OUT;
   float error_derivative;
 
-  if(chazhi<20&&chazhi>-20)
-    chazhi = chazhi * 0.3;
   error = chazhi;
 
-  p = dir_p + abs(error) * KP1;
   error_derivative = error - last_error;
-  Output = error * p + error_derivative * dir_d;
+  Output = error *dir_p + error_derivative * dir_d;
   last_error = error;
-  Output = limit(Output, out_max);
+  //Output = limit(Output, out_max);
 
 
   return Output;
@@ -83,13 +80,9 @@ float wh_Turn_Out(int16 chazhi, float dir_p, float dir_d)
 int16 nh_Turn_Out(float err, float dir_p, float dir_d)
 {
   double error1 = 0;
-  static double last_err = 0, P_out = 0, I_out = 0, out = 0,last_GRYO_Z,D_out;
+  static double last_err = 0, P_out = 0, I_out = 0, out = 0,D_out;
 
-  last_GRYO_Z = mpu6050_gyro_z;
-  mpu6050_gyro_z *= 0.8;
-  mpu6050_gyro_z += last_GRYO_Z * 0.2;
-
-  error1 = err - mpu6050_gyro_z;
+  error1 = err - mpu6050_gyro_z/65.6;
 
   P_out = error1 * dir_p;
   D_out = (error1 - last_err) * dir_d;
@@ -98,18 +91,22 @@ int16 nh_Turn_Out(float err, float dir_p, float dir_d)
 
   out = P_out + D_out;
 
-  if(out>10000)
-    out = 10000;
-  else if(out<-10000)
-    out = -10000;
+ out = limit(out, 10000);
 
-  if(Inductance_Error<50&&Inductance_Error>-50&&L2_NOR_ADC<10&&R2_NOR_ADC<10)
-  {
-    if (out > 3000)
-      out = 3000;
-    else if (out < -3000)
-      out = -3000;
-  }
+  // if(Inductance_Error<50&&Inductance_Error>-50&&L2_NOR_ADC<10&&R2_NOR_ADC<10)
+  // {
+  //   if (out > 2000)
+  //     out = 2000;
+  //   else if (out < -2000)
+  //     out = -2000;
+  // }
+  // if (abs(Inductance_Error) < 80 &&abs(Inductance_Error)>=60 && L2_NOR_ADC < 10 && R2_NOR_ADC < 10)
+  // {
+  //   if (out > 4500)
+  //     out = 2500;
+  //   else if (out < -4500)
+  //     out = -4500;
+  // }
     return (int16)out;
 }
 
@@ -132,7 +129,7 @@ void Dir_PID_Init(void)
 int16 DirControl(int err)
 {
   static int count = 0;
-  static int wh_out = 0;
+  static int32 wh_out = 0;
   if (count == 3)
   {
     wh_out = wh_Turn_Out(err, Wh_P, Wh_D);

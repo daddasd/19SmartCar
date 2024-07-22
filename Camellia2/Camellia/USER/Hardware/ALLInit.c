@@ -10,12 +10,12 @@ void GPIO_Init(void)
     gpio_mode(P4_2, GPO_PP); // Lift
     gpio_mode(P5_2, GPO_PP); // Right
     //********RGB与Buzzer********//
-   gpio_mode(P1_3, GPO_PP); // RGB IO口
-   gpio_mode(P1_5, GPO_PP); // RGB PWM控制电压
+   gpio_mode(P3_6, GPO_PP); // RGB IO口
+   gpio_mode(P5_1, GPO_PP); // RGB PWM控制电压
    gpio_mode(P2_2, GPO_PP); // Buzzer
    P22 = 0;
-   P13 = 0;
-   P15 = 1;
+   P36 = 0;
+   P51 = 1;
 }
 
 /**
@@ -40,6 +40,10 @@ void ALL_Peripheral_Init(void)
     GPIO_Init();
 
     //pwm_init(PWMA_CH3N_P15, 100, 10000);
-    //RGB_Color(255, 0, 78);
-   
+    // RGB_Color(9, 217, 52);
+    // delay_ms(1000);
+    // RGB_Color(5, 117, 241);
+    // delay_ms(1000);
+    // RGB_Color(24, 6, 13);
+    // delay_ms(2400);
 }
